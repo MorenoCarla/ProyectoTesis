@@ -1,0 +1,479 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background:  rgb(158, 158, 158); 
+}
+
+.main {
+  background-color: rgb(158, 158, 158);
+  margin-top: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.home {   
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  position: relative;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 5%;
+  background-color: rgb(255, 12, 12);     
+  color: #fff;
+  font-size: 70px;
+  font-weight: bold;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+.lineas {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.separacion{
+  text-align: center;
+  font-weight: bold;
+  color: #b30000;
+}
+.home:hover {
+  transform: translateY(-6px);
+  transition: transform 0.25s ease;
+}
+
+.phome {
+  text-align: center;
+  font-size: 30px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color:  #b30000;
+  padding-top:5% ;
+}
+
+header {
+  background-color: rgb(255, 12, 12);
+  text-align: center;
+  top: 0;
+  z-index: 1000;
+  margin: 0;
+  padding: 0;
+}
+
+.logo img {
+  height: 150px; 
+  margin: 5px;
+}
+
+.navbar {
+  background-color:rgb(255, 12, 12) ;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  justify-content: center; 
+  gap: 90px;
+  padding: 20px;
+}
+
+.menu li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.menu li a:hover {
+  color: #ffd700; 
+}
+
+.menu li a i {
+  font-size: 22px;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.swiper {
+  width: 100%;
+  height: 500px;
+  margin: 0;
+  padding: 0;
+}
+
+.swiper-slide {
+  position: relative;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 120%;
+  object-fit: cover;
+   display: block; 
+}
+
+.img1 {
+  width: 150%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.texto1 {
+  position: absolute;
+  top: 50%;               
+  left: 50%;              
+  transform: translate(-50%, -50%); 
+  text-align: center;     
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+
+.texto2 {
+  position: absolute;
+  top: 50%;               
+  left: 50%;              
+  transform: translate(-50%, -50%); 
+  text-align: center;     
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.texto3 {
+  position: absolute;
+  top: 50%;               
+  left: 50%;              
+  transform: translate(-50%, -50%); 
+  text-align: center;     
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.texto  {
+  background: transparent;        
+  border: 1px solid white;        
+  color: white;                   
+  font-size: 18px;               
+  font-family: inherit;           
+  padding: 12px 24px;             
+  border-radius: 6px;             
+  cursor: pointer;                
+  transition: all 0.3s ease;      
+}
+
+.texto:hover {
+  background: white;              
+  color: black;                   
+}
+
+.tituloswiper {
+  font-size: 75px;   
+  margin: 0 0 10px;  
+}
+
+.textopswiper {
+  font-size: 25px;   
+  margin: 0 0 15px;
+}
+
+.textocatalogo {
+  font-size: 25px;  
+  margin: 0 0 15px;
+}
+
+.seccion {
+  width: 80%;                 
+  max-width: 1200px;          
+  min-height: 400px;          
+  margin: 50px auto;          
+  padding: 40px 20px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   
+  align-items: center;      
+  text-align: center;
+  
+  color: white;             
+  position: relative;
+  
+  border-radius: 12px;        
+  overflow: hidden;           
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.seccion:hover {
+  transform: translateY(-200px) scale(3.05);
+  transform: translateX(-200) scale(3.05); 
+  box-shadow: 0 60px 160px rgba(0,0,0,0.6);  
+  cursor: pointer; 
+}
+
+.seccion::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4); 
+  z-index: 1;
+}
+
+.seccion h2, 
+.seccion p, 
+.seccion .btn {
+  position: relative;
+  z-index: 2;  
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.seccion:hover h2 {
+  transform: scale(1.1);
+  color:  #ffd700; 
+}
+
+.seccion:hover p {
+  transform: scale(1.05);
+}
+
+.seccion:hover .btn {
+  background: white;
+  color: black;
+  border-color: white;
+}
+
+.seccion h2 {
+  font-size: 60px;
+  margin-bottom: 15px;
+}
+
+.quienesomos {
+  font-family: serif;
+}
+
+.pquienessomos {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.seccion p {
+  font-size: 18px;
+  max-width: 600px;
+}
+
+.explora {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  text-align: center;
+  color: #b30000;
+  font-size: 50px;
+}
+
+.h2productos {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  color:#b30000;
+  font-size: 25px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.seccion-conocenos {
+  background: url("conocenos.jpg") no-repeat center center/cover;
+}
+
+.seccion-contacto {
+  background: url("contacto.jpg") no-repeat center center/cover;
+}
+
+.seccion {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+.seccion.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.seccion .seccion-productos {
+  inline-size: block;
+}
+
+.seccion .seccion-catalogo {
+  inline-size: block
+;
+}
+
+.secciones-dobles {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 50px auto;
+  max-width: 1200px;
+}
+
+.caja {
+  flex: 1;
+  height: 300px; 
+  border-radius: 12px;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 200px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.titulo-seccion {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 70px;
+  color: #b30000;
+}
+
+.pcaja {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 19px;
+}
+
+.caja::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  border-radius: 12px;
+  transition: background 0.3s;
+}
+
+.caja h2, .caja p {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+
+.caja:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+}
+
+.caja:hover::before {
+  background: rgba(0,0,0,0.6);
+}
+
+.caja:hover h2, 
+.caja:hover p {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+.productos {
+  background-image: url("img/productos.jpg");
+}
+
+.catalogo {
+  background-image: url("img/catalogo.jpg");
+}
+
+@media (max-width: 768px) {
+  .secciones-dobles {
+    flex-direction: column;
+  }
+
+  .caja {
+    height: 200px;
+  }
+}
+
+.video-fondo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.ubicacion {
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  font-weight: bold;
+  font-size: 60px;
+}
+
+.pubicacion {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  color:white;
+  font-size: 30px;
+}
+.sucursales {
+  display: flex;
+  justify-content: center;
+  gap: 40px; 
+  margin: 40px auto;
+  max-width: 1200px;
+}
+
+.sucursal {
+  flex: 1;
+  text-align: center;
+  max-width: 480px; 
+}
+
+.sucursal h2 {
+  font-size: 25px;
+  margin-bottom: 15px;
+  color:#b30000;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sucursal video,
+.sucursal img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.metodos-de-pago {
+  display: flex;
+  justify-content: center;   
+  gap: 30px;                 
+  margin: 30px auto;
+  text-align: center;
+}
+
+.metodos-de-pago div {
+  flex: 1;
+  max-width: 400px;          
+}
+
+.metodos-de-pago img {
+  width: 300px;             
+  height: auto;
+}
+
+.metodos-de-pago h3 {
+  margin-top: 0;
+  font-size: 20px;
+  color: #333;
+}

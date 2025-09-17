@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Página</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="LOGO.png" alt="Logo Empresa">
+    </div>
+    <nav class="navbar">
+      <ul class="menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#conocenos">Conócenos</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#catalogo">Catálogo</a></li>
+        <li><a href="#registrarse">Registrarse</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li>
+          <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img class="img1" src="img1.jpg" alt="Imagen 1">
+                <div class="texto1">
+                <h2 class="tituloswiper">CONÓCENOS</h2>
+                <p class="textopswiper"><i>"Más de 50 años iluminando proyectos, obras y sueños"</i></p>
+                <br>
+                <button class="texto">Ver más</button>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <img src="img2.png" alt="Imagen 2">
+                <div class="texto2">
+                <h2 class="tituloswiper">PRODUCTOS</h2>
+                <p class="textopswiper">¡Entrá y mira todos nuestros productos!</p>
+                <br>
+                <button class="texto">Ver más</button>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <img src="img3.png" alt="Imagen 3">
+                <div class="texto3">
+                <h2 class="tituloswiper">CATÁLOGO 2025</h2>
+                <p class="textocatalogo">Te invitamos a ver nuestro catálogo online <br> o podes descargarlo en pdf.</p>
+                <br>
+                <button class="texto">Ver catálogo</button>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <br>
+    <main class="main">
+      <h1 class="home"><i class="lineas">-----</i>  HOME  <i class="lineas">-----</i></h1>
+      <H2 class="phome"><i>Un poco sobre nuestra empresa y nuestra historia.</i></H2>
+      <section id="conocenos" class="seccion seccion-conocenos">
+        <h2 class="quienesomos"><strong>¿QUIENES SOMOS?</strong></h2>
+      </section>
+      <h2 class="separacion">_____________</h2>
+      <br>
+      <br>
+      <br>
+      <br>
+      <h1 class="explora">EXPLORÁ</h1>
+      <h2 class="h2productos">una colección de luminarias pensadas para realzar la belleza de cada espacio, con la garantía de trayectoria y confianza que nos respalda.</h2>
+      <br>
+      <br>
+      <section id="productos-catalogo" class="secciones-dobles">
+        <div class="caja productos">
+          <video autoplay loop muted playsinline class="video-fondo">
+            <source src="productos.mp4" type="video/mp4">
+          </video>
+          <h2 class="titulo-seccion">PRODUCTOS</h2>
+          <p class="pcaja">Colgantes, apliques, plafones, farolas, ventiladores y muchísimo más!</p>
+        </div>
+
+        <div class="caja catalogo">
+          <h2 class="titulo-seccion">CATÁLOGO</h2>
+          <p><a href="catalogo.pdf" target="_blank">Descargar catálogo</a></p>
+        </div>
+      </section>
+      <h2 class="separacion">_____________</h2>
+      <br>
+      <br>
+      <br>
+      <br>
+      <h1 class="ubicacion"><i>¿DONDE PODÉS ENCONTRARNOS?</i></h1>
+      <br>
+      <br>
+      <p class="pubicacion">Contamos con dos sucursales.</p>
+      <br>
+      <br>
+      <br>
+      <section class="sucursales">
+        <div class="sucursal">
+          <h2><strong>Concepción - Tucumán<br>Gral. San Martín 721</strong></h2>
+          <br>
+          <video autoplay loop muted playsinline>
+            <source src="ubicConcep.mp4" type="video/mp4">
+          </video>
+          <img src="maps.jpg" alt="Sucursal Concepción">
+        </div>
+        <div class="sucursal">
+          <h2><strong>Juan Bautista Alberdi - Tucumán<br>Rivadavia 518</strong></h2>
+          <br>
+          <video autoplay loop muted playsinline>
+            <source src="ubicAlberdi.mp4" type="video/mp4">
+          </video>
+          <img src="maps2.jpg" alt="Sucursal Alberdi">
+        </div>
+      </section>
+      <h2 class="separacion">_____________</h2>
+      <br>
+      <br>
+      <br>
+      <h1><strong>TODOS LOS MEDIOS DE PAGO:</strong></h1>
+      <section class="metodos-de-pago">
+        <div class="efectivo">
+          <img src="efectivo.png" alt="EFECTIVO">
+          <h3>EFECTIVO</h3>
+        </div>
+        <div class="transferencia">
+          <img src="transferencia.png" alt="TRANSFERENCIA">
+          <h3>TRANSFERENCIA</h3>
+        </div>
+        <div class="tarjetas">
+          <img src="tarjetas.png" alt="TARJETAS">
+          <h3>TARJETAS DE CRÉDITO <br>Y DÉBITO</h3>
+        </div>
+      </section>
+      <section id="contacto" class="seccion seccion-contacto">
+        <h2>Contacto</h2>
+        <form>
+          <input type="text" placeholder="Tu nombre" required>
+          <input type="email" placeholder="Tu correo" required>
+          <textarea placeholder="Tu mensaje"></textarea>
+          <button type="submit">Enviar</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
+
