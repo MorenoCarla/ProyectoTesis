@@ -454,26 +454,39 @@ body {
   margin-bottom: 15px;
 }
 
+.pagos{
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  font-size: 40px;
+}
+
 .metodos-de-pago {
   display: flex;
   justify-content: center;   
-  gap: 30px;                 
-  margin: 30px auto;
+  gap: 20px;                 
   text-align: center;
 }
 
 .metodos-de-pago div {
   flex: 1;
-  max-width: 400px;          
+  max-width: 290px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  margin-right: 50px;
 }
 
 .metodos-de-pago img {
-  width: 300px;             
-  height: auto;
+  width: 300px;
+  height: auto;         
+  padding-bottom: 0;          
+  display: block;
 }
 
-.metodos-de-pago h3 {
-  margin-top: 0;
-  font-size: 20px;
-  color: #333;
+.metodos-de-pago h3 {         
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-top: 0px;    
+  font-size: 25px;
+  color:#b30000;
 }
