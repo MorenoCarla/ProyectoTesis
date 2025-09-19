@@ -269,6 +269,11 @@ body {
   max-width: 600px;
 }
 
+.contacto {
+  color: #b30000;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .explora {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   text-align: center;
@@ -495,7 +500,7 @@ body {
 .consultas {
   text-align: center;
   font-size: 60px;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: white;
 }
 
