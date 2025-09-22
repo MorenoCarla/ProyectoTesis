@@ -1,0 +1,56 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background:  rgb(158, 158, 158); 
+}
+
+.main {
+  background-color: rgb(158, 158, 158);
+  margin-top: 0;
+}
+
+header {
+  background-color: rgb(255, 12, 12);
+  text-align: center;
+  top: 0;
+  z-index: 1000;
+  margin: 0;
+  padding: 0;
+}
+
+.logo img {
+  height: 150px; 
+  margin: 5px;
+}
+
+.navbar {
+  background-color:rgb(255, 12, 12) ;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  justify-content: center; 
+  gap: 90px;
+  padding: 20px;
+}
+
+.menu li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.menu li a:hover {
+  color: #ffd700; 
+}
+
+.menu li a i {
+  font-size: 22px;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
