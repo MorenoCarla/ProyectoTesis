@@ -120,7 +120,7 @@ body {
   width: 100%;
   height: 120%;
   object-fit: cover;
-   display: block; 
+  display: block; 
 }
 
 .img1 {
@@ -193,6 +193,24 @@ body {
 .textocatalogo {
   font-size: 25px;  
   margin: 0 0 15px;
+}
+
+.btn-slider {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 18px;
+  color: white;
+  border: 2px solid white;
+  border-radius: 6px;
+  background: transparent;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+.btn-slider:hover {
+  background: white;
+  color: black;
 }
 
 .seccion {
@@ -271,6 +289,12 @@ body {
 .seccion p {
   font-size: 18px;
   max-width: 600px;
+}
+
+.link-seccion {
+  text-decoration: none;
+  color: inherit;
+  display: block; 
 }
 
 .contacto {
