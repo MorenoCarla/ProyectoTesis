@@ -91,3 +91,85 @@ body {
   font-family: 'Work Sans';
   font-weight: 400;
 }
+
+.proposito {
+  background-color: rgb(255, 12, 12);
+  font-family: 'Work Sans';
+  font-weight: 400;
+  text-align: center;
+  padding: 40px;
+  color: white;
+}
+
+.titulo-proposito {
+  font-size: 60px;
+}
+
+.existimos {
+  display: inline-flex;            /* para que se ajuste al contenido */
+  align-items: center;          /* centra verticalmente imagen y texto */
+  justify-content: center;
+  background-color: whitesmoke;
+  border-radius: 20px;             /* ojo: tenías "20" sin "px" */
+  padding: 20px 40px;              /* menos padding para que no se estire tanto */
+  gap: 0px;                       /* pequeño espacio entre imagen y texto */
+  margin: 0 auto;                  /* centra el bloque en la sección */
+}
+
+.existimos img {
+  width: 90px;                     /* más chico que antes */
+  height: auto;
+  margin-bottom: 30px;                      /* saco los márgenes */
+  padding: 0;                  /* saco el padding */
+}
+
+.pexistimos {
+  color: rgb(255, 12, 12);
+  font-size: 38px;
+  margin: 0;                       /* saco margen extra */
+  padding: 0;                      /* saco padding extra */
+}
+
+.acompañamos {
+  font-size: 30px;
+}
+
+.titulo-quehacemos {
+  margin-left: 140px;
+  font-family: 'Work Sans';
+  font-weight: 400;
+  color: white;
+  font-size: 70px;
+}
+.quehacemos {
+  display: flex;
+  justify-content: center;
+  font-family: 'Work Sans';
+  font-weight: 400;
+}
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas fijas */
+  gap: 30px; 
+  max-width: 1000px;
+}
+
+.minidiv {
+  display: flex;
+  align-items: center;
+  gap: 20px;              /* 👈 reducí el espacio entre img y texto */
+  padding: 20px;         /* espacio interno del recuadro */
+  border: 2px solid white;
+  border-radius: 15px;
+  background-color: rgba(255,255,255,0.1);
+  color: white;
+  font-size: 23px;
+}
+
+.minidiv img {
+  width: 90px;
+  height: auto;
+  margin: 0;   /* 👈 elimina márgenes de la imagen */
+}
+
