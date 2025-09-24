@@ -106,28 +106,28 @@ body {
 }
 
 .existimos {
-  display: inline-flex;            /* para que se ajuste al contenido */
-  align-items: center;          /* centra verticalmente imagen y texto */
+  display: inline-flex;            
+  align-items: center;          
   justify-content: center;
   background-color: whitesmoke;
-  border-radius: 20px;             /* ojo: tenías "20" sin "px" */
-  padding: 20px 40px;              /* menos padding para que no se estire tanto */
-  gap: 0px;                       /* pequeño espacio entre imagen y texto */
-  margin: 0 auto;                  /* centra el bloque en la sección */
+  border-radius: 20px;             
+  padding: 20px 40px;              
+  gap: 10px;                       
+  margin: 0 auto;                  
 }
 
 .existimos img {
-  width: 90px;                     /* más chico que antes */
+  width: 60px;                     
   height: auto;
-  margin-bottom: 30px;                      /* saco los márgenes */
-  padding: 0;                  /* saco el padding */
+  margin-bottom: 40px;                      
+  padding: 0;                  
 }
 
 .pexistimos {
   color: rgb(255, 12, 12);
   font-size: 38px;
-  margin: 0;                       /* saco margen extra */
-  padding: 0;                      /* saco padding extra */
+  margin: 0;                       
+  padding: 0;                      
 }
 
 .acompañamos {
@@ -150,7 +150,7 @@ body {
 
 .items {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columnas fijas */
+  grid-template-columns: repeat(2, 1fr); 
   gap: 30px; 
   max-width: 1000px;
 }
@@ -158,8 +158,8 @@ body {
 .minidiv {
   display: flex;
   align-items: center;
-  gap: 20px;              /* 👈 reducí el espacio entre img y texto */
-  padding: 20px;         /* espacio interno del recuadro */
+  gap: 20px;              
+  padding: 20px;         
   border: 2px solid white;
   border-radius: 15px;
   background-color: rgba(255,255,255,0.1);
@@ -170,6 +170,93 @@ body {
 .minidiv img {
   width: 90px;
   height: auto;
-  margin: 0;   /* 👈 elimina márgenes de la imagen */
+  margin: 0;   
+}
+
+.mision {
+  display: inline-flex;            
+  align-items: center;          
+  justify-content: center;
+  background-color: whitesmoke;
+  border-radius: 20px;             
+  padding: 30px 50px;              
+  gap: 15px;                       
+  margin: 0 auto;    
+  width: 900px;
+}
+
+.pmision {
+  color: rgb(255, 12, 12);
+  font-size: 35px;
+  margin: 0;                       
+  padding: 0; 
+  text-align: left;
+}
+
+.mision img {
+  width: 60px;                     
+  height: auto;
+  margin-bottom: 80px;                      
+  padding: 0;
+}
+
+.compromiso {
+  display: flex;
+  justify-content: center;
+  gap: 25px; 
+  padding: 40px;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.columna1 .minidiv2 {
+  background-color: white;
+  color:rgb(255, 12, 12) ;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid white;
+  border-radius: 15px;
+  padding: 15px 20px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 26px;
+}
+
+.minidiv2 img {
+  width: 50px;
+  height: auto;
+}
+
+.columna2 .minidiv2 {
+  display: block;
+  align-items: center;
+  text-align: center;
+  gap: 0px;
+  border: 2px solid rgb(255, 12, 12);
+  border-radius: 15px;
+  padding: 15px 20px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 25px; 
+  background-color: rgb(255, 12, 12);
+  color: white;
+  margin-top: 0%;
+}
+
+.columna2 img {
+  margin-top: 5px;
+  margin-bottom: 0%;
+}
+
+.nuestro {
+  color: white;
+  font-family: 'Work Sans';
+  font-weight: 400;
+  font-size: 70px;
+  margin-left: 160px;
 }
 
