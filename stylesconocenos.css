@@ -260,3 +260,202 @@ body {
   margin-left: 160px;
 }
 
+.clientes {
+  background-color: rgb(255, 12, 12);
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.quedicen {
+  display: flex;
+  align-items: center;      /* 👈 centra verticalmente texto y slider */
+  justify-content: center;  /* 👈 centra todo en el medio */
+  gap: 0px;                /* 👈 menos espacio entre texto y slider */
+  flex-wrap: wrap;
+  max-width: 1000px;
+  width: 100%;
+  margin-left: 90px;
+}
+
+.pquedicen {
+  font-family: 'Work Sans';
+  font-weight: 400;
+  font-size: 55px;
+  color: white;
+  max-width: 350px;
+  text-align: left;
+}
+
+.swiper {
+  width: 500px;             /* 👈 ajusta el ancho del slider */
+  height: auto;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;  
+  margin: 0;
+  padding: 0;  /* 👈 necesario para posicionar flechas */
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 20px;
+}
+
+/* flechas personalizadas */
+.swiper-button-next,
+.swiper-button-prev {
+  color: white;             /* 👈 flechas blancas */
+  font-weight: bold;
+  transform: scale(0.8);    /* 👈 un poco más chicas */
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: #ddd;              /* 👈 aclarado al pasar el mouse */
+}
+
+.confianza {
+  font-family: 'Work Sans';
+  font-weight: 400;
+  font-size: 30px;
+  color: white;
+  max-width: 350px;
+  text-align: left;
+}
+
+.donde {
+  display: flex;
+  justify-content: center;
+  gap: 40px; 
+  margin: 40px auto;
+  max-width: 1200px;
+}
+
+.concep {
+  flex: 1;
+  text-align: center;
+  max-width: 480px;
+  gap: 5px;
+}
+
+.alberdi {
+  flex: 1;
+  text-align: center;
+  max-width: 480px;
+  gap: 5px;
+}
+
+.concep img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.alberdi img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.pconcep {
+  font-family: 'Work Sans';
+  font-weight: 400;
+  font-size: 28px;
+  text-align: center;
+  background-color:rgb(255, 12, 12);
+  color: white;
+  border-radius: 10px;
+  padding: 20px;
+  padding-bottom: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-bottom: 0px;
+}
+
+.palberdi {
+  font-family: 'Work Sans';
+  font-weight: 400;
+  font-size: 28px;
+  text-align: center;
+  background-color:rgb(255, 12, 12);
+  color: white;
+  border-radius: 10px;
+  padding: 20px;
+  padding-bottom: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-bottom: 0px;
+}
+
+.pdonde {
+  font-family: 'Work Sans';
+  font-weight: 400;
+  font-size: 60px;
+  color: white;
+  margin-left: 140px;
+}
+
+.pseguimos {
+  font-family: 'Work Sans';
+  font-weight: 400;
+  font-size: 30px;
+  color: white;
+  margin-left: 140px;
+}
+
+footer {
+  background-color: rgb(255, 12, 12); /* mismo color que el header */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 40px;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-left p {
+  margin: 0;
+  font-weight: bold;
+  font-size: 25px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.footer-left a {
+  color: white;
+  font-size: 35px;
+  transition: color 0.3s;
+}
+
+.footer-left a:hover {
+  color: #ffd700; /* dorado al pasar el mouse */
+}
+
+.footer-right ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-right ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+  font-size: 18px;
+}
+
+.footer-right ul li a:hover {
+  color: #ffd700;
+}
