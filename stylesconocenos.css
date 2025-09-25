@@ -459,3 +459,25 @@ footer {
 .footer-right ul li a:hover {
   color: #ffd700;
 }
+
+.confiar {
+  display: flex;
+  flex-direction: column; /* 👈 uno debajo del otro */
+  align-items: center;    /* 👈 centrado horizontal */
+  justify-content: center;/* 👈 centrado vertical */
+  text-align: center;
+}
+
+.confiar img {
+  width: 300px;  /* ajustá el tamaño que quieras */
+  height: auto;
+  margin-bottom: 70px; /* 👈 espacio chiquito entre imagen y texto */
+}
+
+.confiar h1 {
+  font-family: 'Work Sans';
+  font-weight: 700;
+  font-size: 50px;
+  margin: 0; 
+  color: white;
+}
