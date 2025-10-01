@@ -28,25 +28,26 @@ body.fondo-principal {
 }
 
 
+
 .home {   
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
-  position: relative;
-  padding-top: 1%;
-  padding-bottom: 1%;
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-top: 5%;
-  background-color: rgb(255, 12, 12);     
-  color: #fff;
-  font-size: 70px;
-  font-weight: bold;
-  border-radius: 4px;
-  z-index: 2;
+font-family: 'Work Sans';
+text-align: center;
+justify-content: center;
+padding: 40px 10%;     
+margin: 0 30%;          
+background-color: rgb(255, 12, 12);     
+color: #fff;
+font-size: 75px;
+font-weight: bold;
+border-radius: 10px;
+z-index: 2;
+box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
 }
 
+
+
 .lineas {
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+  font-family:'Work Sans'
 }
 
 .separacion{
@@ -62,7 +63,6 @@ body.fondo-principal {
 .phome {
   text-align: center;
   font-size: 30px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   color:  #b30000;
   padding-top:5% ;
 }
@@ -291,9 +291,11 @@ body {
   font-family: serif;
 }
 
-.pquienessomos {
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.phome {
+  font-family:'Work Sans';
+  font-weight: 700;
 }
+
 .seccion p {
   font-size: 18px;
   max-width: 600px;
@@ -318,10 +320,10 @@ body {
 }
 
 .h2productos {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Work Sans';
   text-align: center;
   color:#b30000;
-  font-size: 25px;
+  font-size: 23px;
   margin-left: 10%;
   margin-right: 10%;
 }
@@ -389,8 +391,9 @@ body {
 }
 
 .pcaja {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 19px;
+  font-family: 'Work Sans';
+  font-weight: 700;
+  font-size: 17px;
 }
 
 .caja::before {
@@ -429,7 +432,7 @@ body {
 }
 
 .catalogo {
-  background-image: url("img/catalogo.jpg");
+  background-image: url("img/catalogo.png");
 }
 
 @media (max-width: 768px) {
@@ -454,14 +457,15 @@ body {
 
 .ubicacion {
   text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Work Sans';
   color: white;
   font-weight: bold;
   font-size: 60px;
 }
 
 .pubicacion {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Work Sans';
+  font-weight: 400;
   text-align: center;
   color:white;
   font-size: 30px;
@@ -484,7 +488,7 @@ body {
   font-size: 25px;
   margin-bottom: 15px;
   color:#b30000;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Work Sans';
 }
 
 .sucursal video,
@@ -497,7 +501,7 @@ body {
 
 .pagos{
   text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Work Sans';
   color: #333;
   font-size: 40px;
 }
@@ -527,7 +531,8 @@ body {
 }
 
 .metodos-de-pago h3 {         
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Work Sans';
+  font-weight: 700;
   padding-top: 0px;    
   font-size: 25px;
   color:#b30000;
@@ -536,13 +541,14 @@ body {
 .consultas {
   text-align: center;
   font-size: 60px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Work Sans';
+  font-weight: 700;
   color: white;
 }
 
 .pconsultas {
   text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Work Sans';
   color: white;
 }
 
