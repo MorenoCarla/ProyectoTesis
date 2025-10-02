@@ -299,8 +299,15 @@ body {
 .link-seccion {
   text-decoration: none;
   color: inherit;
-  display: block; 
+  display: block;
 }
+
+.link-catalogo {
+  display: block;   
+  text-decoration: none;   
+  color: inherit;          
+}
+
 
 .contacto {
   color: #b30000;
@@ -362,6 +369,7 @@ body {
 .caja {
   flex: 1;
   height: 300px; 
+  width: 575px;
   border-radius: 12px;
   color: white;
   text-align: center;
