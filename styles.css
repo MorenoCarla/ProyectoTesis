@@ -41,13 +41,8 @@ font-size: 75px;
 font-weight: bold;
 border-radius: 10px;
 z-index: 2;
-box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
-}
-
-
-
-.lineas {
-  font-family:'Work Sans'
+box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+margin-top: 50px; 
 }
 
 .separacion{
@@ -432,7 +427,7 @@ body {
 }
 
 .catalogo {
-  background-image: url("img/catalogo.png");
+  background-image: url(catalogo.png);
 }
 
 @media (max-width: 768px) {
@@ -625,4 +620,17 @@ footer {
 .whatsapp-float:hover {
   transform: scale(1.1);
   background-color: #20b954;
+}
+
+/* Estado inicial oculto */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+/* Estado visible */
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
 }

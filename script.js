@@ -41,3 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// script.js
+function revealOnScroll() {
+  const elements = document.querySelectorAll('.reveal');
+
+  elements.forEach(el => {
+    const windowHeight = window.innerHeight;
+    const elementTop = el.getBoundingClientRect().top;
+    const elementVisible = 100; // margen antes de aparecer
+
+    if (elementTop < windowHeight - elementVisible) {
+      el.classList.add("active");
+    } else {
+      el.classList.remove("active"); // si querés que desaparezcan al salir
+    }
+  });
+}
+
+window.addEventListener("scroll", revealOnScroll);

@@ -113,7 +113,13 @@ body {
   border-radius: 20px;             
   padding: 20px 40px;              
   gap: 10px;                       
-  margin: 0 auto;                  
+  margin: 0 auto; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);                 
+}
+
+.existimos:hover {
+  transform: translateY(-6px);
+  transition: transform 0.25s ease;
 }
 
 .existimos img {
@@ -165,6 +171,12 @@ body {
   background-color: rgba(255,255,255,0.1);
   color: white;
   font-size: 23px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.minidiv:hover {
+  transform: translateY(-20px);
+  transition: transform 0.50s ease;
 }
 
 .minidiv img {
@@ -183,8 +195,13 @@ body {
   gap: 15px;                       
   margin: 0 auto;    
   width: 900px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
+.mision:hover {
+  transform: translateY(-10px);
+  transition: transform 0.25s ease;
+}
 .pmision {
   color: rgb(255, 12, 12);
   font-size: 35px;
@@ -225,6 +242,12 @@ body {
   padding: 15px 20px;
   font-family: 'Work Sans', sans-serif;
   font-size: 26px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.minidiv2:hover {
+  transform: translateY(-15px);
+  transition: transform 0.25s ease;
 }
 
 .minidiv2 img {
@@ -245,6 +268,7 @@ body {
   background-color: rgb(255, 12, 12);
   color: white;
   margin-top: 0%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .columna2 img {
@@ -269,9 +293,9 @@ body {
 
 .quedicen {
   display: flex;
-  align-items: center;      /* 👈 centra verticalmente texto y slider */
-  justify-content: center;  /* 👈 centra todo en el medio */
-  gap: 0px;                /* 👈 menos espacio entre texto y slider */
+  align-items: center;      
+  justify-content: center; 
+  gap: 0px;                
   flex-wrap: wrap;
   max-width: 1000px;
   width: 100%;
@@ -288,13 +312,14 @@ body {
 }
 
 .swiper {
-  width: 500px;             /* 👈 ajusta el ancho del slider */
+  width: 500px;             
   height: auto;
   border-radius: 20px;
   overflow: hidden;
   position: relative;  
   margin: 0;
-  padding: 0;  /* 👈 necesario para posicionar flechas */
+  padding: 0;  
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .swiper-slide img {
@@ -304,17 +329,16 @@ body {
   border-radius: 20px;
 }
 
-/* flechas personalizadas */
 .swiper-button-next,
 .swiper-button-prev {
-  color: white;             /* 👈 flechas blancas */
+  color: white;             
   font-weight: bold;
-  transform: scale(0.8);    /* 👈 un poco más chicas */
+  transform: scale(0.8);    
 }
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  color: #ddd;              /* 👈 aclarado al pasar el mouse */
+  color: #ddd;              
 }
 
 .confianza {
@@ -353,6 +377,17 @@ body {
   height: auto;
   border-radius: 10px;
   margin-bottom: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.concep img:hover {
+  transform: translateY(-15px);
+  transition: transform 0.25s ease;
+}
+
+.alberdi img:hover{
+  transform: translateY(-15px);
+  transition: transform 0.25s ease;
 }
 
 .alberdi img {
@@ -360,6 +395,7 @@ body {
   height: auto;
   border-radius: 10px;
   margin-bottom: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .pconcep {
@@ -375,6 +411,7 @@ body {
   padding-left: 25px;
   padding-right: 25px;
   margin-bottom: 0px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .palberdi {
@@ -390,6 +427,7 @@ body {
   padding-left: 25px;
   padding-right: 25px;
   margin-bottom: 0px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .pdonde {
@@ -409,7 +447,7 @@ body {
 }
 
 footer {
-  background-color: rgb(255, 12, 12); /* mismo color que el header */
+  background-color: rgb(255, 12, 12); 
   color: white;
   display: flex;
   justify-content: space-between;
@@ -437,7 +475,7 @@ footer {
 }
 
 .footer-left a:hover {
-  color: #ffd700; /* dorado al pasar el mouse */
+  color: #ffd700; 
 }
 
 .footer-right ul {
@@ -462,16 +500,21 @@ footer {
 
 .confiar {
   display: flex;
-  flex-direction: column; /* 👈 uno debajo del otro */
-  align-items: center;    /* 👈 centrado horizontal */
-  justify-content: center;/* 👈 centrado vertical */
+  flex-direction: column; 
+  align-items: center;    
+  justify-content: center;
   text-align: center;
 }
 
 .confiar img {
-  width: 300px;  /* ajustá el tamaño que quieras */
+  width: 300px;  
   height: auto;
-  margin-bottom: 70px; /* 👈 espacio chiquito entre imagen y texto */
+  margin-bottom: 70px; 
+  transition: transform 0.3s ease;
+}
+
+.confiar img:hover {
+  transform: scale(1.1);
 }
 
 .confiar h1 {
@@ -481,3 +524,17 @@ footer {
   margin: 0; 
   color: white;
 }
+
+/* Estado inicial oculto */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+/* Estado visible */
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
