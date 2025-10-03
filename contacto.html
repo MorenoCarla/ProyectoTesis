@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ELECTRICIDAD ITUARTE</title>
+        <link rel="stylesheet" href="stylescontacto.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script src="scriptcontacto.js" defer></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
+    </head>
+    <body class="fondo-principal">
+        <header>
+            <div class="logo">
+                <img src="LOGO.png" alt="Logo Empresa">
+            </div>
+            <nav class="navbar">
+                <ul class="menu" id="home">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#conocenos">Conócenos</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#catalogo">Catálogo</a></li>
+                    <li><a href="#registrarse">Registrarse</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                    <li>
+                        <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <h1 class="titulo">Dudas, consultas, sugerencias? <p class="Escribinos"><strong>Escribinos!</strong></p></h1>
+            <br>
+            <br>
+            <br>
+            <br>
+            <section class="contacto">
+                <h2>Contacto</h2>
+                <br>
+                <br>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="tecnico">Consultas Técnicas</button>
+                    <button class="tab-btn" data-tab="comercial">Consultas Comerciales</button>
+                    <button class="tab-btn" data-tab="garantia">Proceso de Garantía</button>
+                </div>
+                <br>
+                <br>
+                <br>
+                <div class="tab-content active" id="tecnico">
+                    <p class="consultas">Consultas Técnicas</p>
+                    <br>
+                    <br>
+                    <form>
+                        <p class="pform">Nombre Completo:</p>    
+                        <input type="text" required>
+                        <p class="pform">Ciudad:</p>
+                        <input type="text" required>
+                        <p class="pform">Email:</p>
+                        <input type="email" required>
+                        <p class="pform">Teléfono:</p>
+                        <input type="number" required>
+                        <p class="pform">Comentario:</p>
+                        <textarea required></textarea>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+                <div class="tab-content" id="comercial">
+                    <p class="consultas">Consultas Comerciales</p>
+                    <br>
+                    <br>
+                    <form>
+                        <p class="pform">Nombre Completo:</p>    
+                        <input type="text" required>
+                        <p class="pform">Ciudad:</p>
+                        <input type="text" required>
+                        <p class="pform">Email:</p>
+                        <input type="email" required>
+                        <p class="pform">Teléfono:</p>
+                        <input type="number" required>
+                        <p class="pform">Comentario:</p>
+                        <textarea required></textarea>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+                <div class="tab-content" id="garantia">
+                    <form>
+                        <p class="pform">Nombre Completo:</p>
+                        <input type="text" required>
+                        <p class="pform">Sucursal donde adquirió el producto:</p>
+                        <select name="opciones" id="sucursales" required>
+                            <option value="" disabled selected hidden>Seleccioná una opción...</option>
+                            <option value="sucursales">Sucursal Concepción (Casa Central)</option>
+                            <option value="sucursales">Sucursal Alberdi</option>
+                        </select>
+                        <p class="pform">Email:</p>
+                        <input type="email" required>
+                        <p class="pform">Número de Teléfono:</p>
+                        <input type="number" required>
+                        <p class="pform">Comentario:</p>
+                        <textarea name="comentario" id="comentario" required></textarea>
+                        <div class="file-upload">
+                            <label for="archivo">
+                                <i class="fas fa-upload"></i> Subir Ticket o Factura
+                            </label>
+                            <input type="file" id="archivo" name="archivo" accept="image/*">
+                        </div>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </body>    
+</html>

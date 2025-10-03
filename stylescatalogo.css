@@ -135,9 +135,9 @@ body {
 }
 
 .links button:hover {
-    color: #fff;
-    text-shadow: 0 0 10px rgba(255,255,255,0.8);
-    transform: scale(1.1);
+  color: #fff;
+  text-shadow: 0 0 10px  rgba(255,255,255,0.8);
+  transform: scale(1.1);
 }
 
 .pseguimos {

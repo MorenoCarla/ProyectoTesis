@@ -1,0 +1,255 @@
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body.fondo-principal {
+  background-image: url(fondo1.png);  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
+
+.main {
+  margin-top: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  background-color: rgb(255, 12, 12);
+  text-align: center;
+  top: 0;
+  z-index: 1000;
+  margin: 0;
+  padding: 0;
+}
+
+.logo img {
+  height: 150px; 
+  margin: 5px;
+}
+
+.navbar {
+  background-color:rgb(255, 12, 12) ;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  justify-content: center; 
+  gap: 90px;
+  padding: 20px;
+}
+
+.menu li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.menu li a:hover {
+  color: #ffd700; 
+}
+
+.menu li a i {
+  font-size: 22px;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.titulo {
+  text-align: center;
+  font-size: 50px;
+  font-family: 'Work Sans';
+  font-weight: 400;
+  margin-top: 150px;
+  color: rgb(71, 71, 71);
+}
+
+.Escribinos {
+  color: rgb(160, 0, 0);
+}
+
+.contacto {
+  text-align: center;
+  position: relative;
+}
+
+.contacto h2 {
+  margin-bottom: 20px;
+  font-family: 'Work Sans';
+  font-size: 40px;
+  color: #333;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  border: 2px solid #ff0c0c;
+  border-radius: 15px;
+  background: none;
+  color: #ff0c0c;
+  font-family: 'Work Sans';
+  cursor: pointer;
+  transition: 0.3s;
+  width: 300px;
+  height: auto;
+  font-size: 25px;
+}
+
+.tab-btn.active {
+  background-color: #ff0c0c;
+  color: white;
+}
+
+.tab-content {
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px); 
+  transition: all 0.4s ease;   
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 20px);
+  width: 100%;
+  max-width: 800px;
+}
+
+.tab-content.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0); /* sube a su lugar */
+  position: relative;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+form input,
+form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+form button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: #ff0c0c;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: 'Work Sans';
+  font-size: 20px;
+}
+
+form button:hover {
+  background: #cc0a0a;
+}
+
+.pform {
+  text-align:start;
+  font-family: 'Work Sans';
+  font-weight: 700;
+  font-size: 20px;
+  margin: 0;
+  padding-bottom: 0;
+  color: white;
+}
+
+.consultas {
+  text-align: center;
+  font-family: 'Work Sans';
+  font-weight: 400;
+  font-size: 35px;
+  color: #ff0c0c;
+}
+
+#sucursales {
+  width: 100%;
+  max-width: 800px;
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+  color: #333;
+  font-family: 'Work Sans', sans-serif;
+  appearance: none; 
+  outline: none;
+  transition: border-color 0.3s ease;
+
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23333' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+#sucursales:focus {
+  border-color: rgb(255, 12, 12);
+  box-shadow: 0 0 6px rgba(255, 12, 12, 0.4);
+}
+
+#sucursales option[disabled] {
+  color: #999; 
+}
+
+.file-upload {
+  margin-top: 15px;
+  text-align: left;  /* mueve el contenido del div a la izquierda */
+  margin: 0; 
+}
+
+.file-upload label {
+  display: inline-flex;      /* permite alinear icono y texto */
+  align-items: center;       /* centra verticalmente */
+  gap: 8px;  
+  padding: 12px 20px;
+  background-color: transparent;
+  color:rgb(255, 12, 12);
+  font-weight: bold;
+  border-radius: 10px;
+  border: 6px solid rgb(255, 12, 12);
+  cursor: pointer;
+  transition: color 0.3s, text-shadow 0.3s;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.file-upload label:hover {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+  transform: scale(1.1);
+}
+
+.file-upload input[type="file"] {
+  display: none;
+}
