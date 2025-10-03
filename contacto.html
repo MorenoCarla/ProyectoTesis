@@ -39,14 +39,14 @@
             <br>
             <br>
             <br>
-            <section class="contacto">
+            <section class="contacto reveal">
                 <h2>Contacto</h2>
                 <br>
                 <br>
                 <div class="tabs">
                     <button class="tab-btn active" data-tab="tecnico">Consultas Técnicas</button>
                     <button class="tab-btn" data-tab="comercial">Consultas Comerciales</button>
-                    <button class="tab-btn" data-tab="garantia">Proceso de Garantía</button>
+                    <button class="tab-btn" data-tab="asesoramiento">Asesoramiento Lumínico</button>
                 </div>
                 <br>
                 <br>
@@ -87,11 +87,16 @@
                         <button type="submit">Enviar</button>
                     </form>
                 </div>
-                <div class="tab-content" id="garantia">
+                <div class="tab-content" id="asesoramiento">
+                    <p class="consultas">Asesoramiento</p>
+                    <br>
+                    <br>
                     <form>
                         <p class="pform">Nombre Completo:</p>
                         <input type="text" required>
-                        <p class="pform">Sucursal donde adquirió el producto:</p>
+                        <p class="pform">Ciudad:</p>
+                        <input type="text" required>
+                        <p class="pform">Tipo de producto:</p>
                         <select name="opciones" id="sucursales" required>
                             <option value="" disabled selected hidden>Seleccioná una opción...</option>
                             <option value="sucursales">Sucursal Concepción (Casa Central)</option>
@@ -105,7 +110,7 @@
                         <textarea name="comentario" id="comentario" required></textarea>
                         <div class="file-upload">
                             <label for="archivo">
-                                <i class="fas fa-upload"></i> Subir Ticket o Factura
+                                <i class="fas fa-upload"></i> Subir Imagen
                             </label>
                             <input type="file" id="archivo" name="archivo" accept="image/*">
                         </div>
@@ -113,6 +118,41 @@
                     </form>
                 </div>
             </section>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="confiar reveal">
+                <img src="lamparita.png" alt="lamparita">
+                <h1><strong>¡GRACIAS POR CONFIAR!</strong></h1>
+            </div>
         </main>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <footer>
+            <div class="footer-left">
+                <p>SEGUINOS!</p>
+                <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/19tbHw23mm/?" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@ituarte.electricidad?" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="footer-right">
+                <p><strong>Horarios de Atención:</strong></p>
+                <ul>
+                <li>Lunes a viernes: 8:30 a 12:30hs/ 16:30 a 20:30hs</li>
+                <li>Sábados: 8:30 a 13:00hs</li>
+                </ul>
+            </div>
+        </footer>
+        <a href="https://wa.me/5493865601388" class="whatsapp-float" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+        </a>
     </body>    
 </html>

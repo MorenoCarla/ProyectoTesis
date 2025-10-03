@@ -253,3 +253,116 @@ form button:hover {
 .file-upload input[type="file"] {
   display: none;
 }
+
+.whatsapp-float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  background-color: #20b954;
+}
+
+.confiar {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;    
+  justify-content: center;
+  text-align: center;
+}
+
+.confiar img {
+  width: 300px;  
+  height: auto;
+  margin-bottom: 70px; 
+  transition: transform 0.3s ease;
+}
+
+.confiar img:hover {
+  transform: scale(1.1);
+}
+
+.confiar h1 {
+  font-family: 'Work Sans';
+  font-weight: 700;
+  font-size: 50px;
+  margin: 0; 
+  color: white;
+}
+
+
+footer {
+  background-color: rgb(255, 12, 12); 
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 40px;
+  gap: 0;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: 70px;
+}
+
+.footer-left p {
+  margin: 0;
+  font-weight: bold;
+  font-size: 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.footer-left a {
+  color: white;
+  font-size: 50px;
+  transition: color 0.3s;
+}
+
+.footer-left a:hover {
+  color: #ffd700; 
+}
+
+.footer-right {
+  display: block;
+  margin: 0;
+  padding: 0;
+  color: white;
+  text-decoration: none;
+  font-weight: 400;
+  transition: color 0.3s;
+  font-size: 20px;
+  margin-right: 70px;
+  font-family: 'Work Sans';
+}
+
+.footer-right:hover {
+  color: #ffd700;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
