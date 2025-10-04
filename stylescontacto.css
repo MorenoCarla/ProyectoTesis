@@ -16,7 +16,6 @@ body.fondo-principal {
   padding: 0;
 }
 
-
 .main {
   margin-top: 0;
 }
@@ -87,8 +86,8 @@ body {
 }
 
 .contacto {
-  text-align: center;
-  position: relative;
+  margin-bottom: 40px; /* espacio razonable */
+  padding-bottom: 0; 
 }
 
 .contacto h2 {
@@ -102,7 +101,6 @@ body {
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-bottom: 20px;
 }
 
 .tab-btn {
@@ -124,24 +122,25 @@ body {
   color: white;
 }
 
+.titulo-contacto {
+  text-align: center;
+}
 .tab-content {
-  align-items: center;
+  display: none;              
   opacity: 0;
-  visibility: hidden;
-  transform: translateY(20px); 
-  transition: all 0.4s ease;   
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 20px);
+  transform: translateY(20px);
+  transition: all 0.4s ease;
   width: 100%;
   max-width: 800px;
+  margin: 0 auto;             
+  text-align: left;            
+  position: relative;          
 }
 
 .tab-content.active {
+  display: block;              
   opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0); /* sube a su lugar */
-  position: relative;
+  transform: translateY(0);    
 }
 
 form {
@@ -313,6 +312,7 @@ footer {
   align-items: center;
   padding: 60px 40px;
   gap: 0;
+  margin: 0;
 }
 
 .footer-left {
