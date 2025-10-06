@@ -694,3 +694,176 @@ footer {
   bottom: 10px;
 }
 
+/* 🔸 Ajustes para tablets (pantallas medianas) */
+@media (max-width: 1024px) {
+  .menu {
+    gap: 40px;
+  }
+
+  .home {
+    font-size: 50px;
+    margin: 20px 10%;
+    padding: 30px 5%;
+  }
+
+  .tituloswiper {
+    font-size: 50px;
+  }
+
+  .textopswiper {
+    font-size: 20px;
+  }
+
+  .titulo-seccion {
+    font-size: 50px;
+  }
+
+  .caja {
+    padding: 120px;
+    height: 250px;
+  }
+
+  footer {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .footer-right ul {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+/* 🔸 Ajustes para celulares (pantallas pequeñas) */
+@media (max-width: 768px) {
+  header .logo img {
+    height: 90px;
+  }
+
+  .menu {
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+  }
+
+  .home {
+    font-size: 35px;
+    margin: 20px 5%;
+    padding: 20px;
+  }
+
+  .phome {
+    font-size: 20px;
+    padding: 15px;
+  }
+
+  .swiper {
+    height: 250px;
+  }
+
+  .tituloswiper {
+    font-size: 35px;
+  }
+
+  .textopswiper {
+    font-size: 18px;
+  }
+
+  .btn-slider {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  .secciones-dobles {
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 10px;
+  }
+
+  .caja {
+    width: 100%;
+    height: 200px;
+    padding: 80px 20px;
+  }
+
+  .titulo-seccion {
+    font-size: 40px;
+  }
+
+  .metodos-de-pago {
+    flex-direction: column;
+    gap: 40px;
+    padding: 0 20px;
+  }
+
+  .metodos-de-pago img {
+    width: 100px;
+  }
+
+  .ubicacion, .pagos, .consultas {
+    font-size: 35px;
+  }
+
+  .pubicacion, .pconsultas {
+    font-size: 18px;
+  }
+
+  footer {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+    padding: 40px 20px;
+  }
+
+  .footer-left p {
+    font-size: 20px;
+  }
+
+  .footer-left a {
+    font-size: 25px;
+  }
+
+  .footer-right ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* 🔸 Ajustes para pantallas muy pequeñas (celulares viejos o modo compacto) */
+@media (max-width: 480px) {
+  .home {
+    font-size: 28px;
+    padding: 15px;
+  }
+
+  .phome {
+    font-size: 16px;
+  }
+
+  .titulo-seccion {
+    font-size: 32px;
+  }
+
+  .caja {
+    height: 160px;
+    padding: 60px 15px;
+  }
+
+  .swiper {
+    height: 200px;
+  }
+
+  .tituloswiper {
+    font-size: 28px;
+  }
+
+  .textopswiper {
+    font-size: 16px;
+  }
+
+  .metodos-de-pago h3 {
+    font-size: 18px;
+  }
+}
+
