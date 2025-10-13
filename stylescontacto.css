@@ -100,7 +100,7 @@ body {
 .tabs {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 25px;
 }
 
 .tab-btn {
@@ -112,9 +112,9 @@ body {
   font-family: 'Work Sans';
   cursor: pointer;
   transition: 0.3s;
-  width: 300px;
+  width: 200px;
   height: auto;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .tab-btn.active {
@@ -223,13 +223,13 @@ form button:hover {
 
 .file-upload {
   margin-top: 15px;
-  text-align: left;  /* mueve el contenido del div a la izquierda */
+  text-align: left;  
   margin: 0; 
 }
 
 .file-upload label {
-  display: inline-flex;      /* permite alinear icono y texto */
-  align-items: center;       /* centra verticalmente */
+  display: inline-flex;    
+  align-items: center;       
   gap: 8px;  
   padding: 12px 20px;
   background-color: transparent;
@@ -285,7 +285,7 @@ form button:hover {
 }
 
 .confiar img {
-  width: 300px;  
+  width: 150px;  
   height: auto;
   margin-bottom: 70px; 
   transition: transform 0.3s ease;
@@ -298,7 +298,7 @@ form button:hover {
 .confiar h1 {
   font-family: 'Work Sans';
   font-weight: 700;
-  font-size: 50px;
+  font-size: 40px;
   margin: 0; 
   color: white;
 }

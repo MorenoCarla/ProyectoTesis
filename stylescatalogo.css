@@ -208,7 +208,7 @@ footer {
 }
 
 .confiar img {
-  width: 300px;  
+  width: 150px;  
   height: auto;
   margin-bottom: 70px; 
   transition: transform 0.3s ease;
@@ -221,7 +221,7 @@ footer {
 .confiar h1 {
   font-family: 'Work Sans';
   font-weight: 700;
-  font-size: 50px;
+  font-size: 40px;
   margin: 0; 
   color: white;
 }

@@ -77,21 +77,21 @@ body {
 
 .texto-video {
   max-width: 500px;
-  font-size: 30px;
+  font-size: 20px;
   color: white;
   font-family: 'Work Sans';
   font-weight: 200;
 }
 
 .video video {
-  width: 400px;               
+  width: 300px;               
   height: auto;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .ptitulo {
-  font-size: 40px;
+  font-size: 30px;
   font-family: 'Work Sans';
   font-weight: 400;
 }
@@ -106,7 +106,7 @@ body {
 }
 
 .titulo-proposito {
-  font-size: 60px;
+  font-size: 50px;
 }
 
 .existimos {
@@ -127,7 +127,7 @@ body {
 }
 
 .existimos img {
-  width: 60px;                     
+  width: 50px;                     
   height: auto;
   margin-bottom: 40px;                      
   padding: 0;                  
@@ -135,13 +135,13 @@ body {
 
 .pexistimos {
   color: rgb(255, 12, 12);
-  font-size: 38px;
+  font-size: 28px;
   margin: 0;                       
   padding: 0;                      
 }
 
 .acompañamos {
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .titulo-quehacemos {
@@ -149,7 +149,7 @@ body {
   font-family: 'Work Sans';
   font-weight: 400;
   color: white;
-  font-size: 70px;
+  font-size: 50px;
 }
 .quehacemos {
   display: flex;
@@ -169,12 +169,12 @@ body {
   display: flex;
   align-items: center;
   gap: 20px;              
-  padding: 20px;         
+  padding: 15px;         
   border: 2px solid white;
   border-radius: 15px;
   background-color: rgba(255,255,255,0.1);
   color: white;
-  font-size: 23px;
+  font-size: 18px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
@@ -184,7 +184,7 @@ body {
 }
 
 .minidiv img {
-  width: 90px;
+  width: 80px;
   height: auto;
   margin: 0;   
 }
@@ -195,10 +195,10 @@ body {
   justify-content: center;
   background-color: whitesmoke;
   border-radius: 20px;             
-  padding: 30px 50px;              
-  gap: 15px;                       
+  padding: 30px 30px;              
+  gap: 0px;                       
   margin: 0 auto;    
-  width: 900px;
+  width: 800px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
@@ -208,17 +208,18 @@ body {
 }
 .pmision {
   color: rgb(255, 12, 12);
-  font-size: 35px;
+  font-size: 25px;
   margin: 0;                       
   padding: 0; 
   text-align: left;
 }
 
 .mision img {
-  width: 60px;                     
+  width: 40px;                     
   height: auto;
-  margin-bottom: 80px;                      
+  margin-bottom: 55px;                      
   padding: 0;
+  margin-right: 15px;
 }
 
 .compromiso {
@@ -245,7 +246,7 @@ body {
   border-radius: 15px;
   padding: 15px 20px;
   font-family: 'Work Sans', sans-serif;
-  font-size: 26px;
+  font-size: 22px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
@@ -268,7 +269,7 @@ body {
   border-radius: 15px;
   padding: 15px 20px;
   font-family: 'Work Sans', sans-serif;
-  font-size: 25px; 
+  font-size: 20px; 
   background-color: rgb(255, 12, 12);
   color: white;
   margin-top: 0%;
@@ -284,7 +285,7 @@ body {
   color: white;
   font-family: 'Work Sans';
   font-weight: 400;
-  font-size: 70px;
+  font-size: 60px;
   margin-left: 160px;
 }
 
@@ -303,20 +304,20 @@ body {
   flex-wrap: wrap;
   max-width: 1000px;
   width: 100%;
-  margin-left: 90px;
+  margin-left: 100px;
 }
 
 .pquedicen {
   font-family: 'Work Sans';
   font-weight: 400;
-  font-size: 55px;
+  font-size: 45px;
   color: white;
   max-width: 350px;
   text-align: left;
 }
 
 .swiper {
-  width: 500px;             
+  width: 440px;             
   height: auto;
   border-radius: 20px;
   overflow: hidden;
@@ -348,7 +349,7 @@ body {
 .confianza {
   font-family: 'Work Sans';
   font-weight: 400;
-  font-size: 30px;
+  font-size: 25px;
   color: white;
   max-width: 350px;
   text-align: left;
@@ -377,7 +378,7 @@ body {
 }
 
 .concep img {
-  width: 100%;
+  width: 90%;
   height: auto;
   border-radius: 10px;
   margin-bottom: 15px;
@@ -395,7 +396,7 @@ body {
 }
 
 .alberdi img {
-  width: 100%;
+  width: 90%;
   height: auto;
   border-radius: 10px;
   margin-bottom: 15px;
@@ -405,15 +406,13 @@ body {
 .pconcep {
   font-family: 'Work Sans';
   font-weight: 400;
-  font-size: 28px;
+  font-size: 23px;
   text-align: center;
   background-color:rgb(255, 12, 12);
   color: white;
   border-radius: 10px;
   padding: 20px;
   padding-bottom: 25px;
-  padding-left: 25px;
-  padding-right: 25px;
   margin-bottom: 0px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
@@ -421,15 +420,13 @@ body {
 .palberdi {
   font-family: 'Work Sans';
   font-weight: 400;
-  font-size: 28px;
+  font-size: 23px;
   text-align: center;
   background-color:rgb(255, 12, 12);
   color: white;
   border-radius: 10px;
   padding: 20px;
   padding-bottom: 25px;
-  padding-left: 25px;
-  padding-right: 25px;
   margin-bottom: 0px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
