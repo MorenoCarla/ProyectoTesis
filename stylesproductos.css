@@ -1,0 +1,807 @@
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.body {
+  background-color: white;
+}
+
+
+.main {
+  margin-top: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  display: flex;
+  background-color: rgb(253, 17, 17);
+  text-align: center;
+  top: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.logo img {
+  height: 90px; 
+  margin: 5px;
+  margin-left: 20px;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgb(255, 12, 12);
+  padding: 10px 40px;
+  position: relative;
+  z-index: 100;
+  gap: 40px;
+}
+
+/* Logo */
+.logo img {
+  height: 120px;
+}
+
+/* Link "Contacto" visible */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+  margin-left: 700px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: white;
+  font-family: 'Work Sans';
+  font-weight: bold;
+  transition: color 0.3s;
+  font-size: 18px;
+}
+
+.nav-links li a:hover {
+  color: #ffd700;
+}
+
+/* Icono del menú */
+.menu-icon {
+  font-size: 28px;
+  cursor: pointer;
+  color: white;
+  transition: transform 0.3s;
+}
+
+.menu-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Menú desplegable */
+.menu {
+  list-style: none;
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  right: 40px;
+  background: rgba(0, 0, 0, 0.9);
+  padding: 20px 30px;
+  border-radius: 10px;
+  text-align: right;
+  transform: translateX(100%);  /* fuera de pantalla */
+  transition: transform 0.5s ease; 
+}
+
+.menu.active {
+  display: flex;
+  transform: translateX(0); 
+}
+
+.menu li {
+  margin: 10px 0;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: white;
+  font-family: 'Work Sans';
+  transition: color 0.3s;
+  font-size: 18px;
+}
+
+.menu li a:hover {
+  color: #ffd700;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .logo img {
+    height: 90px;
+  }
+
+  .nav-links {
+    display: none; /* ocultamos el contacto si querés solo el icono en móvil */
+  }
+}
+
+.interior {
+  background-image: url('fondointeriores.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 100%;
+  min-height: 500px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
+  padding-bottom: 190px;
+}
+.exterior {
+  background-image: url('fondoexteriores3.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 100%;
+  min-height: 500px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
+  padding-bottom: 200px;
+  padding-top: 60px;
+  z-index: 0; 
+  overflow: hidden;
+}
+
+.interior::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+.exterior::after {
+ content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+.exterior::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(to top, transparent,  rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+
+.titulo-interior {
+  color: rgb(253, 253, 253);
+  font-size: 50px;
+  font-family: 'Work Sans';
+  text-align: center;
+  margin-bottom: 40px; 
+  font-weight: 400;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  padding: 50px;
+  margin-top: 20px;
+}
+
+.titulo-exterior {
+  color:  rgb(253, 253, 253);
+  font-size: 50px;
+  font-family: 'Work Sans';
+  text-align: center;
+  margin-bottom: 40px; 
+  font-weight: 400;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  padding: 50px;
+  margin-top: 20px;
+}
+
+
+.imagenes-f1,
+.imagenes-f2 {
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  gap: 20px;
+  max-width: 1100px;
+}
+.imagenes-f1{
+  margin-bottom: 40px;
+}
+.imagen {
+  flex: 1;
+  height: 80px; 
+  width: 80px;
+  border-radius: 12px;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 130px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 8px rgba(241, 239, 239, 0.877);
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.imagen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.3);
+  border-radius: 12px;
+  transition: background 0.3s;
+}
+
+.imagen p {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s, text-shadow 0.3s;
+  font-family: 'Work Sans';
+  font-size: 20px;
+  color: rgb(218, 3, 3);
+  font-weight: 700;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+.imagen:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+}
+
+.imagen:hover::before {
+  background: rgba(0,0,0,0.6);
+}
+
+.imagen:hover p {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+.apliques {
+  background-image: url('1.png');
+}
+.colgantes {
+  background-image: url('2.png');
+}
+.veladores {
+  background-image: url('6.png');
+}
+.plafones {
+  background-image: url('4.png');
+}
+.espejos {
+  background-image: url('5.png');
+}
+.ventiladores {
+  background-image: url('3.png');
+}
+.lamp-de-pie {
+  background-image: url('7.png');
+}
+
+.imagen2 {
+  flex: 1;
+  height: 50px; 
+  width: 50px;
+  border-radius: 12px;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 130px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 8px rgba(247, 243, 243, 0.986);
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.imagen2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  border-radius: 12px;
+  transition: background 0.3s;
+}
+
+.imagen2 p {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s, text-shadow 0.3s;
+  font-family: 'Work Sans';
+  font-size: 20px;
+  color: white;
+  font-weight: 700;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+.imagen2:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+}
+
+.imagen2:hover::before {
+  background: rgba(240, 239, 239, 0.897);
+}
+
+.imagen2:hover p {
+  color: #ff0606;
+  text-shadow: 0 0 10px rgba(214, 0, 0, 0.8);
+}
+
+.bifocales {
+  background-image: url('8.png');
+}
+.unifocales {
+  background-image: url('9.png');
+}
+.farolas {
+  background-image: url('10.png');
+}
+.estacas {
+  background-image: url('13.png');
+}
+.tortugas {
+  background-image: url('14.png');
+}
+.proyectores {
+  background-image: url('11.png');
+}
+.lumin-de-pileta {
+  background-image: url('12.png');
+}
+.solares {
+  background-image: url('16.png');
+}
+
+.embutidos {
+  background-image: url('fondoembutidos.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 100%;
+  min-height: 600px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
+  padding-bottom: 100px;
+  padding-top: 60px;
+}
+
+.embutidos h1 {
+  font-family: 'Work Sans';
+  font-size: 60px;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  font-weight: 400;
+  margin-top: 40px;
+}
+
+.embutidos button {
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 70px;
+  border-radius: 15px;
+  background-color: transparent;
+  border: #fff solid 5px;
+  font-family: 'Work Sans';
+  font-size: 20px;
+  color: white;
+  font-weight: 400;
+  box-shadow: 0 4px 25px rgba(252, 249, 249, 0.89); 
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  cursor: pointer;
+}
+
+.embutidos button:hover {
+  color: #fff;
+  transform: scale(1.1);
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+.embutidos::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+.embutidos::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, transparent,  rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+
+.smarts {
+  background-image: url('fondosmart.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 100%;
+  min-height: 600px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
+  padding-bottom: 100px;
+  padding-top: 60px;
+}
+
+.smarts h1 {
+  font-family: 'Work Sans';
+  font-size: 60px;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  font-weight: 400;
+  margin-top: 40px;
+}
+
+.smarts button {
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 70px;
+  border-radius: 15px;
+  background-color: transparent;
+  border: #fff solid 5px;
+  font-family: 'Work Sans';
+  font-size: 20px;
+  color: white;
+  font-weight: 400;
+  box-shadow: 0 4px 25px rgba(252, 249, 249, 0.89); 
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  cursor: pointer;
+}
+
+.smarts button:hover {
+  color: #fff;
+  transform: scale(1.1);
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+.smarts::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+.smarts::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, transparent,  rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+
+.alumbrado {
+  background-image: url('fondoalumbradopublico.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 100%;
+  min-height: 600px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
+  padding-bottom: 100px;
+  padding-top: 60px;
+}
+
+.alumbrado h1 {
+  font-family: 'Work Sans';
+  font-size: 60px;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  font-weight: 400;
+  margin-top: 40px;
+}
+
+.alumbrado button {
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 70px;
+  border-radius: 15px;
+  background-color: transparent;
+  border: #fff solid 5px;
+  font-family: 'Work Sans';
+  font-size: 20px;
+  color: white;
+  font-weight: 400;
+  box-shadow: 0 4px 25px rgba(252, 249, 249, 0.89); 
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  cursor: pointer;
+}
+
+.alumbrado button:hover {
+  color: #fff;
+  transform: scale(1.1);
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+.alumbrado::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+.alumbrado::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, transparent,  rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+
+.ventiladores-section {
+  background-image: url('fondoventiladores.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 100%;
+  min-height: 600px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
+  padding-bottom: 100px;
+  padding-top: 60px;
+}
+
+.ventiladores-section h1 {
+  font-family: 'Work Sans';
+  font-size: 60px;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  font-weight: 400;
+  margin-top: 40px;
+}
+
+.ventiladores-section button {
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 70px;
+  border-radius: 15px;
+  background-color: transparent;
+  border: #fff solid 5px;
+  font-family: 'Work Sans';
+  font-size: 20px;
+  color: white;
+  font-weight: 400;
+  box-shadow: 0 4px 25px rgba(252, 249, 249, 0.89); 
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  cursor: pointer;
+}
+
+.ventiladores-section button:hover {
+  color: #fff;
+  transform: scale(1.1);
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+.ventiladores-section::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+.ventiladores-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, transparent,  rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+.camaras {
+  background-image: url('fondocamaras.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 100%;
+  min-height: 600px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
+  padding-bottom: 100px;
+  padding-top: 60px;
+}
+
+.camaras h1 {
+  font-family: 'Work Sans';
+  font-size: 60px;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  font-weight: 400;
+  margin-top: 40px;
+}
+
+.camaras button {
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 70px;
+  border-radius: 15px;
+  background-color: transparent;
+  border: #fff solid 5px;
+  font-family: 'Work Sans';
+  font-size: 20px;
+  color: white;
+  font-weight: 400;
+  box-shadow: 0 4px 25px rgba(252, 249, 249, 0.89); 
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  cursor: pointer;
+}
+
+.camaras button:hover {
+  color: #fff;
+  transform: scale(1.1);
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+.camaras::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, transparent,  rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+
+footer {
+  background-color: rgb(255, 12, 12); 
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 40px;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-left p {
+  margin: 0;
+  font-weight: bold;
+  font-size: 25px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.footer-left a {
+  color: white;
+  font-size: 35px;
+  transition: color 0.3s;
+}
+
+.footer-left a:hover {
+  color: #ffd700; 
+}
+
+.footer-right ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-right ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+  font-size: 18px;
+  font-family: 'Work Sans';
+}
+
+.footer-right ul li a:hover {
+  color: #ffd700;
+}
+
+.whatsapp-float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  background-color: #20b954;
+}
