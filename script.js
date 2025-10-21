@@ -77,3 +77,21 @@ const swiper2 = new Swiper('.swiper2', {
   speed: 800,
 });
 
+const scrollTopBtn = document.getElementById('scroll-top');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) { // aparece después de 300px
+    scrollTopBtn.style.opacity = '1';
+  } else {
+    scrollTopBtn.style.opacity = '0';
+  }
+});
+
+scrollTopBtn.addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+
+

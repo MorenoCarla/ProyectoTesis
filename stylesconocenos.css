@@ -55,7 +55,7 @@ header {
 }
 
 .menu li a:hover {
-  color: #ffd700; 
+  color:  #b3b2b2; 
 }
 
 .menu li a i {
@@ -478,7 +478,7 @@ footer {
 }
 
 .footer-left a:hover {
-  color: #ffd700; 
+  color: #b3b2b2; 
 }
 
 .footer-right {
@@ -495,7 +495,7 @@ footer {
 }
 
 .footer-right:hover {
-  color: #ffd700;
+  color:  #b3b2b2;
 }
 
 .confiar {
@@ -536,3 +536,28 @@ footer {
   transform: translateY(0);
 }
 
+.scroll-top {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  bottom: 30px;
+  right: 20px;
+  background-color: transparent; /* fondo transparente */
+  color: white;                  /* flechita blanca */
+  border: 2px solid white;       /* borde blanco */
+  border-radius: 50%;            /* redondo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s;
+}
+
+.scroll-top:hover {
+  transform: scale(1.1);
+  background-color: rgba(255,255,255,0.1); /* un toque sutil al pasar el mouse */
+}

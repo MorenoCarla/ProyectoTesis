@@ -78,7 +78,7 @@ body {
     color: white;
     font-size: 70px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    margin-top: 150px;
+    margin-top: 100px;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
 }
 
@@ -179,7 +179,7 @@ footer {
 }
 
 .footer-left a:hover {
-  color: #ffd700; 
+  color: #afafad; 
 }
 
 .footer-right {
@@ -196,7 +196,7 @@ footer {
 }
 
 .footer-right:hover {
-  color: #ffd700;
+  color: #afafad;
 }
 
 .confiar {
