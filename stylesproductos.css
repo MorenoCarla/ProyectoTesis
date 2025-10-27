@@ -229,7 +229,7 @@ header {
   display: flex;
   align-items: center;
   justify-content:center;
-  gap: 20px;
+  gap: 50px;
   max-width: 1100px;
 }
 .imagenes-f1{
@@ -246,7 +246,7 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 130px;
+  padding: 100px;
   background-size: cover;
   background-position: center;
   box-shadow: 0 4px 8px rgba(241, 239, 239, 0.877);
@@ -323,7 +323,7 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 130px;
+  padding: 100px;
   background-size: cover;
   background-position: center;
   box-shadow: 0 4px 8px rgba(247, 243, 243, 0.986);
