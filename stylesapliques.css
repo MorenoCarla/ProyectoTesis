@@ -103,6 +103,9 @@ header {
   transform: scale(1.05);
   filter: brightness(1.1);
 }
+.imagen:hover p {
+  color:rgb(255, 15, 15);; 
+}
 
 .imagen p::after {
   content: "";
