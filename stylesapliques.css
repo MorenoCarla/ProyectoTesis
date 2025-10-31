@@ -11,7 +11,16 @@ html, body {
   margin-top: 0;
 }
 
-body.fondo-principal {
+body.fondo-principal-colgantes {
+   background-image: url('fondo-colgantes.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
+body.fondo-principal-apliques {
   background-image: url('fondo2.png');  
   background-size: cover;
   background-position: center;
@@ -84,10 +93,11 @@ header {
   font-family: 'Work Sans';
   font-weight: 400;
   text-align: start;
-  margin-bottom: 40px; 
+  margin-bottom: 10px; 
   text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
   padding: 50px;
-  margin-top: 150px;
+  margin-top: 110px;
+  margin-left: 15px;
 } 
 
 .fila {
@@ -304,4 +314,54 @@ footer {
 
 .footer-right:hover {
   color: #8f8f8f;
+}
+
+
+.scroll-top {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  bottom: 100px;  
+  right: 25px;
+  background-color: transparent; 
+  color: white;                  
+  border: 2px solid white;   
+  border-radius: 50%;            
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s;
+}
+
+.scroll-top:hover {
+  transform: scale(1.1);
+  background-color: rgba(255,255,255,0.1); 
+}
+
+.whatsapp-float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  background-color: #20b954;
 }

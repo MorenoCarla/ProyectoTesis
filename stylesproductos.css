@@ -276,6 +276,11 @@ header {
   text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
 }
 
+.link-seccion {
+  text-decoration: none;
+  color: inherit;
+}
+
 .imagen:hover {
   transform: translateY(-15px);
   box-shadow: 0 12px 25px rgba(0,0,0,0.4);
@@ -728,8 +733,6 @@ header {
   background: linear-gradient(to top, transparent,  rgba(0, 0, 0, 0.8));
   pointer-events: none;
 }
-
-
 
 footer {
   background-color: rgb(255, 12, 12); 
