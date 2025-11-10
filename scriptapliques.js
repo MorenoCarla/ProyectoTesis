@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Mensaje "no encontrado"
   const mensajeNoEncontrado = document.createElement("div");
   mensajeNoEncontrado.className = "mensaje-no-encontrado";
-  mensajeNoEncontrado.textContent = "Producto no encontrado 😢";
+  mensajeNoEncontrado.textContent = "Producto no encontrado😢 Intenta nuevamente con otro nombre u código.";
   mensajeNoEncontrado.style.display = "none";
   main.insertBefore(mensajeNoEncontrado, resultados);
 
