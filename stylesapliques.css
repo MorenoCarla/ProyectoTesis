@@ -11,8 +11,17 @@ html, body {
   margin-top: 0;
 }
 
+body.fondo-veladores {
+  background-image: url('fondoveladores.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
 body.fondo-principal-colgantes {
-   background-image: url('fondo-colgantes.png');  
+  background-image: url('fondo-colgantes.png');  
   background-size: cover;
   background-position: center;
   background-attachment: fixed; 
