@@ -5,7 +5,7 @@ html {
 html, body {
   margin: 0;
   padding: 0;
-  background-image: url("fondo.png"); 
+  background-image: url("img/fondo.png"); 
   background-size: cover;   
   background-repeat: no-repeat; 
   background-attachment: fixed; 
@@ -542,10 +542,10 @@ footer {
   height: 50px;
   bottom: 30px;
   right: 20px;
-  background-color: transparent; /* fondo transparente */
-  color: white;                  /* flechita blanca */
-  border: 2px solid white;       /* borde blanco */
-  border-radius: 50%;            /* redondo */
+  background-color: transparent; 
+  color: white;                  
+  border: 2px solid white;       
+  border-radius: 50%;            
   display: flex;
   align-items: center;
   justify-content: center;
@@ -559,5 +559,5 @@ footer {
 
 .scroll-top:hover {
   transform: scale(1.1);
-  background-color: rgba(255,255,255,0.1); /* un toque sutil al pasar el mouse */
+  background-color: rgba(255,255,255,0.1); 
 }

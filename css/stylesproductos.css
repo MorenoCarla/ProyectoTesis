@@ -136,7 +136,7 @@ header {
 }
 
 .interior {
-  background-image: url('fondointeriores.png');
+  background-image: url('../img/fondointeriores.png');
   background-size: cover;
   background-position: center;
   position: relative;
@@ -149,7 +149,7 @@ header {
   padding-bottom: 190px;
 }
 .exterior {
-  background-image: url('fondoexteriores3.png');
+  background-image: url('../img/fondoexteriores3.png');
   background-size: cover;
   background-position: center;
   position: relative;
@@ -296,25 +296,25 @@ header {
 }
 
 .apliques {
-  background-image: url('1.png');
+  background-image: url('../img/1.png');
 }
 .colgantes {
-  background-image: url('2.png');
+  background-image: url('../img/2.png');
 }
 .veladores {
-  background-image: url('6.png');
+  background-image: url('../img/6.png');
 }
 .plafones {
-  background-image: url('4.png');
+  background-image: url('../img/4.png');
 }
 .espejos {
-  background-image: url('5.png');
+  background-image: url('../img/5.png');
 }
 .ventiladores {
-  background-image: url('3.png');
+  background-image: url('../img/3.png');
 }
 .lamp-de-pie {
-  background-image: url('7.png');
+  background-image: url('../img/7.png');
 }
 
 .imagen2 {
@@ -373,32 +373,32 @@ header {
 }
 
 .bifocales {
-  background-image: url('8.png');
+  background-image: url('../img/8.png');
 }
 .unifocales {
-  background-image: url('9.png');
+  background-image: url('../img/9.png');
 }
 .farolas {
-  background-image: url('10.png');
+  background-image: url('../img/10.png');
 }
 .estacas {
-  background-image: url('13.png');
+  background-image: url('../img/13.png');
 }
 .tortugas {
-  background-image: url('14.png');
+  background-image: url('../img/14.png');
 }
 .proyectores {
-  background-image: url('11.png');
+  background-image: url('../img/11.png');
 }
 .lumin-de-pileta {
-  background-image: url('12.png');
+  background-image: url('../img/12.png');
 }
 .solares {
-  background-image: url('16.png');
+  background-image: url('../img/16.png');
 }
 
 .embutidos {
-  background-image: url('fondoembutidos.png');
+  background-image: url('../img/fondoembutidos.png');
   background-size: cover;
   background-position: center;
   position: relative;
@@ -468,7 +468,7 @@ header {
 
 
 .smarts {
-  background-image: url('fondosmart.png');
+  background-image: url('../img/fondosmart.png');
   background-size: cover;
   background-position: center;
   position: relative;
@@ -538,7 +538,7 @@ header {
 
 
 .alumbrado {
-  background-image: url('fondoalumbradopublico.png');
+  background-image: url('../img/fondoalumbradopublico.png');
   background-size: cover;
   background-position: center;
   position: relative;
@@ -608,7 +608,7 @@ header {
 
 
 .ventiladores-section {
-  background-image: url('fondoventiladores.png');
+  background-image: url('../img/fondoventiladores.png');
   background-size: cover;
   background-position: center;
   position: relative;
@@ -677,7 +677,7 @@ header {
 }
 
 .camaras {
-  background-image: url('fondocamaras.png');
+  background-image: url('../img/fondocamaras.png');
   background-size: cover;
   background-position: center;
   position: relative;

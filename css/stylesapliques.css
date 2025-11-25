@@ -11,8 +11,62 @@ html, body {
   margin-top: 0;
 }
 
+body.fondo-estacas {
+  background-image: url('../img/fondoestacas.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
+body.fondo-farolas {
+  background-image: url('../img/fondofarolas.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
+body.fondo-bifocales {
+  background-image: url('../img/fondobifocales.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
+body.fondo-unifocales {
+  background-image: url('../img/fondounifocales.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
+body.fondo-lamparasdepie {
+  background-image: url('../img/fondolamparas.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
+body.fondo-espejos {
+  background-image: url('../img/fondoespejos.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
 body.fondo-plafones {
-  background-image: url('fondoplafones.png');  
+  background-image: url('../img/fondoplafones.png');  
   background-size: cover;
   background-position: center;
   background-attachment: fixed; 
@@ -21,7 +75,7 @@ body.fondo-plafones {
 }
 
 body.fondo-veladores {
-  background-image: url('fondoveladores.png');  
+  background-image: url('../img/fondoveladores.png');  
   background-size: cover;
   background-position: center;
   background-attachment: fixed; 
@@ -30,7 +84,7 @@ body.fondo-veladores {
 }
 
 body.fondo-principal-colgantes {
-  background-image: url('fondo-colgantes.png');  
+  background-image: url('../img/fondo-colgantes.png');  
   background-size: cover;
   background-position: center;
   background-attachment: fixed; 
@@ -39,7 +93,7 @@ body.fondo-principal-colgantes {
 }
 
 body.fondo-principal-apliques {
-  background-image: url('fondoapliques2.png');  
+  background-image: url('../img/fondoapliques2.png');  
   background-size: cover;
   background-position: center;
   background-attachment: fixed; 
@@ -105,6 +159,19 @@ header {
   color: #8d8b8b;
 }
 
+.titulo-espejos {
+  color: rgb(218, 0, 0);
+  font-size: 30px;
+  font-family: 'Work Sans';
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 10px; 
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  padding: 50px;
+  margin-top: 110px;
+  margin-left: 50px;
+} 
+
 .titulo {
   color: rgb(218, 0, 0);
   font-size: 30px;
@@ -159,7 +226,11 @@ header {
   transition: filter 0.3s ease;
   padding-bottom: 40px;
 }
-/* Efecto hover */
+
+.exterior p {
+  color: white;
+}
+
 .imagen:hover {
   transform: scale(1.05);
   filter: brightness(1.1);
@@ -189,6 +260,12 @@ header {
 .p3 { background-color: #ebebeb; }
 .p4 { background-color: #f6f6f6; }
 .p5 { background-color: #cfcfcf; }
+
+.p1-ext { background-color: #5d5d5d; }
+.p2-ext { background-color: #898989; }
+.p3-ext { background-color: #b8b8b8; }
+.p4-ext { background-color: #cfcfcf; }
+.p5-ext { background-color: #5d5d5d; }
 
 .buscador {
   position: relative;
@@ -251,6 +328,10 @@ header {
   top: -3px;
   transition: filter 0.3s ease;
   padding-bottom: 40px;
+}
+
+.resultados-busqueda .exterior p {
+  color: white;
 }
 
 .resultados-busqueda .imagen:hover {

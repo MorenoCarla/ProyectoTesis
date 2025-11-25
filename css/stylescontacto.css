@@ -8,7 +8,7 @@ html, body {
 }
 
 body.fondo-principal {
-  background-image: url(fondo1.png);  
+  background-image: url(img/fondo1.png);  
   background-size: cover;
   background-position: center;
   background-attachment: fixed; 
@@ -86,7 +86,7 @@ body {
 }
 
 .contacto {
-  margin-bottom: 40px; /* espacio razonable */
+  margin-bottom: 40px; 
   padding-bottom: 0; 
 }
 
