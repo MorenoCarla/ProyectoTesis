@@ -11,6 +11,15 @@ html, body {
   margin-top: 0;
 }
 
+body.fondo-tortugas {
+  background-image: url('../img/fondotortugas.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
 body.fondo-estacas {
   background-image: url('../img/fondoestacas.png');  
   background-size: cover;
