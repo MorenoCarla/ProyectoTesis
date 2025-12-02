@@ -11,6 +11,33 @@ html, body {
   margin-top: 0;
 }
 
+body.fondo-solares {
+  background-image: url('../img/fondosolares.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
+body.fondo-piletas {
+  background-image: url('../img/fondopiletas.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
+body.fondo-reflectores {
+  background-image: url('../img/fondoreflectores.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
 body.fondo-tortugas {
   background-image: url('../img/fondotortugas.png');  
   background-size: cover;
