@@ -11,6 +11,15 @@ html, body {
   margin-top: 0;
 }
 
+body.fondo-artefactos {
+  background-image: url('../img/fondoartefactos.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
 body.fondo-solares {
   background-image: url('../img/fondosolares.png');  
   background-size: cover;
@@ -206,6 +215,19 @@ header {
   padding: 50px;
   margin-top: 110px;
   margin-left: 50px;
+} 
+
+.titulo-artefactos {
+  color: rgb(218, 0, 0);
+  font-size: 30px;
+  font-family: 'Work Sans';
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 10px; 
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  padding: 50px;
+  margin-top: 110px;
+  margin-left: 0px;
 } 
 
 .titulo {
