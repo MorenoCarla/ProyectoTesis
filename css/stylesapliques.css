@@ -11,6 +11,33 @@ html, body {
   margin-top: 0;
 }
 
+body.fondo-smart {
+  background-image: url('../img/fondosmartpagina.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
+body.fondo-camaras {
+  background-image: url('../img/fondocamaraspagina.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
+body.fondo-ventiladores {
+  background-image: url('../img/fondoventiladorespagina.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
 body.fondo-artefactos {
   background-image: url('../img/fondoartefactos.png');  
   background-size: cover;
