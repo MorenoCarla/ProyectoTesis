@@ -11,6 +11,15 @@ html, body {
   margin-top: 0;
 }
 
+body.fondo-paneles {
+  background-image: url('../img/fondopaneles.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  margin: 0;
+  padding: 0;
+}
+
 body.fondo-smart {
   background-image: url('../img/fondosmartpagina.png');  
   background-size: cover;
@@ -338,6 +347,12 @@ header {
 
 .imagen:hover p::after {
   transform: translateX(-50%) scaleX(1);
+}
+
+.link-producto {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
 }
 
 .p1 { background-color: #cfcfcf; }

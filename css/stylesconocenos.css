@@ -2,14 +2,13 @@ html {
   scroll-behavior: smooth;
 }
 
-html, body {
+body.fondo-conocenos {
+  background-image: url('../img/fondogrisoscuro.png');  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
   margin: 0;
   padding: 0;
-  background-image: url("img/fondo.png"); 
-  background-size: cover;   
-  background-repeat: no-repeat; 
-  background-attachment: fixed; 
-  background-position: center;  
 }
 
 .strong {
