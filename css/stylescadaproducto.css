@@ -196,7 +196,8 @@ header {
   margin: 0 0 0 0;
 }
 
-.imagenes-colores {
+.imagenes-colores,
+.imagenes-luces {
   display: flex;
   gap: 10px;
 }
@@ -205,10 +206,17 @@ header {
   gap: 14px;
   margin-left: 5px;
 }
+.texto-codigos-luces {
+  margin-top: 5px;
+  display: flex;
+  gap: 14px;
+}
 .imagenes-colores img {
   width: 50px;
 }
-
+.imagenes-luces img {
+  width: 40px;
+}
 .boton-descargas {
   font-family: Work Sans;
   font-weight: bold;
