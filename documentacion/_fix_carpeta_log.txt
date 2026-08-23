@@ -1,4 +1,0 @@
-bytes=700684 head=3c006800
-ERROR: 'utf-8' codec can't decode byte 0xed in position 73878: invalid continuation byte
-bytes=700684 head=3c006800
-ERROR: 'utf-8' codec can't decode byte 0xed in position 73878: invalid continuation byte

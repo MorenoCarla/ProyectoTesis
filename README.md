@@ -7,7 +7,7 @@ Trabajo Final Integrador (UTN): sitio web institucional y **CRM comercial** para
 - **Sitio web:** catálogo por categorías, fichas de producto, contacto, diseño responsive.
 - **CRM:** login con roles (gerente / empleado / cliente), consultas, clientes, seguimientos, marketing, presupuestos PDF, reportes Excel.
 - **Backend:** Node.js, Express, MySQL.
-- **Documentación:** manual de usuario y carpeta TFI en `documentacion/`.
+- **Documentación:** manual y carpeta TFI (carpeta `documentacion/` en tu PC; no está en el repo público).
 
 ## Requisitos
 
@@ -62,7 +62,6 @@ ProyectoTesis/
 │   ├── routes/
 │   ├── database/schema.sql
 │   └── uploads/          # no versionado (solo .gitkeep)
-└── documentacion/        # Manual y carpeta TFI
 ```
 
 ## Demo en vivo
