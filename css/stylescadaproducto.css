@@ -996,12 +996,16 @@ footer:not(.site-footer) {
     text-align: left;
   }
 
+  .descripcion .titulo {
+    text-align: center;
+  }
+
   .imagenes-colores,
   .imagenes-luces,
   .imagenes-medidas,
   .texto-codigos,
   .texto-codigos-luces {
-    justify-content: center;
+    justify-content: start;
   }
 
   .caracteristicas {
