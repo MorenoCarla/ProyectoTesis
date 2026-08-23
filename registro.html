@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro - CRM Ituarte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Work Sans', sans-serif;
+      background: linear-gradient(135deg, #ff0000, #af0303);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .box {
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      width: 420px;
+      max-width: 100%;
+    }
+    h2 { text-align: center; margin-bottom: 8px; }
+    p.sub { text-align: center; color: #64748b; font-size: 14px; margin-bottom: 20px; }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #c62828;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .msg { margin-top: 12px; font-size: 14px; text-align: center; }
+    .ok { color: #2e7d32; }
+    .err { color: #c62828; }
+    .links { text-align: center; margin-top: 16px; font-size: 14px; }
+    .links a { color: #c62828; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Registrarse</h2>
+    <p class="sub">Creá tu cuenta de cliente para ver tus consultas</p>
+
+    <form onsubmit="registrar(event)">
+      <input type="text" id="nombre" placeholder="Nombre" required>
+      <input type="text" id="apellido" placeholder="Apellido">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="tel" id="telefono" placeholder="Teléfono">
+      <input type="text" id="ciudad" placeholder="Ciudad">
+      <input type="password" id="password" placeholder="Contraseña (mín. 6 caracteres)" required minlength="6">
+      <button type="submit">Crear cuenta</button>
+    </form>
+
+    <div id="mensaje" class="msg"></div>
+    <div class="links">
+      <a href="login.html">¿Ya tenés cuenta? Iniciá sesión</a>
+    </div>
+  </div>
+
+  <script>
+    async function registrar(e) {
+      e.preventDefault();
+      const msg = document.getElementById("mensaje");
+
+      const body = {
+        nombre: document.getElementById("nombre").value,
+        apellido: document.getElementById("apellido").value,
+        email: document.getElementById("email").value,
+        telefono: document.getElementById("telefono").value,
+        ciudad: document.getElementById("ciudad").value,
+        password: document.getElementById("password").value
+      };
+
+      try {
+        const res = await fetch("http://localhost:3000/auth/registro", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          msg.className = "msg err";
+          msg.innerText = data.error;
+          return;
+        }
+
+        msg.className = "msg ok";
+        msg.innerHTML = data.mensaje + ' <a href="login.html">Iniciar sesión</a>';
+      } catch {
+        msg.className = "msg err";
+        msg.innerText = "Error de conexión con el servidor";
+      }
+    }
+  </script>
+</body>
+</html>

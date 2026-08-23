@@ -1,142 +1,210 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ELECTRICIDAD ITUARTE</title>
-        <link rel="stylesheet" href="css/stylescontacto.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-        <script src="js/scriptcontacto.js" defer></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
-    </head>
-    <script>
-        console.log("HTML funcionando");
-    </script>
-    <body class="fondo-contacto">
-        <header>
-            <a href="index.html">
-                <div class="logo">
-                    <img src="img/LOGO.png" alt="Logo Empresa">
-                </div>
-            </a>    
-        </header>
-        <main>
-            <h1 class="titulo">Dudas, consultas, sugerencias? <p class="Escribinos"><strong>Escribinos!</strong></p></h1>
-            <br>
-            <br>
-            <br>
-            <br>
-            <section class="contacto reveal">
-                <h2 class="titulo-contacto">Contacto</h2>
-                <br>
-                <br>
-                <div class="tabs">
-                    <button class="tab-btn active" data-tab="tecnico">Consultas Técnicas</button>
-                    <button class="tab-btn" data-tab="comercial">Consultas Comerciales</button>
-                    <button class="tab-btn" data-tab="asesoramiento">Asesoramiento Lumínico</button>
-                </div>
-                <br>
-                <br>
-                <br>
-                <div class="tab-content active" id="tecnico">
-                    <p class="consultas">Consultas Técnicas</p>
-                    <br>
-                    <br>
-                    <form id="formContacto">
-                        <p class="pform">Nombre Completo:</p>    
-                        <input type="text" id="nombre" required>
-                        <p class="pform">Ciudad:</p>
-                        <input type="text" id="ciudad" required>
-                        <p class="pform">Email:</p>
-                        <input type="email" id="email" required>
-                        <p class="pform">Teléfono:</p>
-                        <input type="number" id="telefono" required>
-                        <p class="pform">Comentario:</p>
-                        <textarea required id="mensaje"></textarea>
-                        <button type="submit">Enviar</button>
-                    </form>
-                </div>
-                <div class="tab-content" id="comercial">
-                    <p class="consultas">Consultas Comerciales</p>
-                    <br>
-                    <br>
-                    <form>
-                        <p class="pform">Nombre Completo:</p>    
-                        <input type="text" required>
-                        <p class="pform">Ciudad:</p>
-                        <input type="text" required>
-                        <p class="pform">Email:</p>
-                        <input type="email" required>
-                        <p class="pform">Teléfono:</p>
-                        <input type="number" required>
-                        <p class="pform">Comentario:</p>
-                        <textarea required></textarea>
-                        <button type="submit">Enviar</button>
-                    </form>
-                </div>
-                <div class="tab-content" id="asesoramiento">
-                    <p class="consultas">Asesoramiento</p>
-                    <br>
-                    <br>
-                    <form>
-                        <p class="pform">Nombre Completo:</p>
-                        <input type="text" required>
-                        <p class="pform">Ciudad:</p>
-                        <input type="text" required>
-                        <p class="pform">Tipo de producto:</p>
-                        <select name="opciones" id="sucursales" required>
-                            <option value="" disabled selected hidden>Seleccioná una opción...</option>
-                            <option value="sucursales">Sucursal Concepción (Casa Central)</option>
-                            <option value="sucursales">Sucursal Alberdi</option>
-                        </select>
-                        <p class="pform">Email:</p>
-                        <input type="email" required>
-                        <p class="pform">Número de Teléfono:</p>
-                        <input type="number" required>
-                        <p class="pform">Comentario:</p>
-                        <textarea name="comentario" id="comentario" required></textarea>
-                        <div class="file-upload">
-                            <label for="archivo">
-                                <i class="fas fa-upload"></i> Subir Imagen
-                            </label>
-                            <input type="file" id="archivo" name="archivo" accept="image/*">
-                        </div>
-                        <button type="submit">Enviar</button>
-                    </form>
-                </div>
-            </section>
-            <br>
-            <div class="confiar reveal">
-                <img src="img/lamparita.png" alt="lamparita">
-                <h1><strong>¡GRACIAS POR CONFIAR!</strong></h1>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto — Electricidad Ituarte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="css/site-chrome.css">
+  <link rel="stylesheet" href="css/stylescontacto.css">
+  <script src="js/site-chrome.js" defer></script>
+  <script src="js/scriptcontacto.js" defer></script>
+</head>
+<body class="pagina-institucional pagina-contacto">
+
+  <header class="site-header">
+    <a href="index.html" class="site-logo">
+      <img src="img/LOGO.png" alt="Electricidad Ituarte">
+    </a>
+    <button type="button" class="site-nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+    </button>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="conócenos.html">Conócenos</a>
+      <a href="productos.html">Productos</a>
+      <a href="catalogo.html">Catálogo</a>
+      <a href="contacto.html" class="active">Contacto</a>
+      <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank" class="nav-instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </nav>
+  </header>
+
+  <section class="contacto-hero">
+    <div class="container reveal">
+      <span class="section-kicker">Contacto</span>
+      <h1 class="section-title">¿Dudas, consultas o sugerencias? <strong class="text-rojo">¡Escribinos!</strong></h1>
+      <p class="section-lead">Completá el formulario según tu necesidad. Todos los campos marcados con * son obligatorios.</p>
+    </div>
+  </section>
+
+  <main class="section-block section-block--form">
+    <div class="container">
+      <section class="contacto-panel card reveal">
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="tecnico">Técnica</button>
+          <button class="tab-btn" data-tab="comercial">Comercial</button>
+          <button class="tab-btn" data-tab="asesoramiento">Asesoramiento</button>
+          <button class="tab-btn tab-queja" data-tab="queja">Quejas</button>
+        </div>
+
+        <div class="tab-content active" id="tecnico">
+          <h2 class="tab-heading">Consultas Técnicas</h2>
+          <p class="form-desc">Instalación, funcionamiento, compatibilidad o normativas de productos.</p>
+          <form id="formTecnico" class="form-profesional">
+            <div class="form-fila">
+              <div class="form-campo"><label>Nombre *</label><input type="text" id="nombre" required placeholder="Ej: Juan"></div>
+              <div class="form-campo"><label>Apellido *</label><input type="text" id="apellido" required placeholder="Ej: Pérez"></div>
             </div>
-        </main>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <footer>
-            <div class="footer-left">
-                <p>SEGUINOS!</p>
-                <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.facebook.com/share/19tbHw23mm/?" target="_blank"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.tiktok.com/@ituarte.electricidad?" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <div class="form-fila">
+              <div class="form-campo"><label>Email *</label><input type="email" id="email" required placeholder="tu@email.com"></div>
+              <div class="form-campo"><label>Teléfono *</label><input type="tel" id="telefono" required placeholder="3865..."></div>
             </div>
-            <div class="footer-right">
-                <p><strong>Horarios de Atención:</strong></p>
-                <ul>
-                <li>Lunes a viernes: 8:30 a 12:30hs/ 16:30 a 20:30hs</li>
-                <li>Sábados: 8:30 a 13:00hs</li>
-                </ul>
+            <div class="form-fila">
+              <div class="form-campo"><label>Ciudad *</label><input type="text" id="ciudad" required placeholder="Ej: Concepción"></div>
+              <div class="form-campo"><label>Producto o equipo</label><input type="text" id="productoTecnico" placeholder="Ej: Reflector LED 100W"></div>
             </div>
-        </footer>
-        <a href="https://wa.me/5493865601388" class="whatsapp-float" target="_blank">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-    </body>    
+            <div class="form-campo"><label>Detalle de la consulta *</label><textarea id="mensaje" rows="5" required placeholder="Describí tu consulta técnica..."></textarea></div>
+            <button type="submit" class="btn btn-primary">Enviar consulta técnica</button>
+          </form>
+        </div>
+
+        <div class="tab-content" id="comercial">
+          <h2 class="tab-heading">Consultas Comerciales</h2>
+          <p class="form-desc">Presupuestos, precios, disponibilidad y cotizaciones.</p>
+          <form id="formComercial" class="form-profesional">
+            <div class="form-fila">
+              <div class="form-campo"><label>Nombre *</label><input type="text" id="nombreComercial" required></div>
+              <div class="form-campo"><label>Apellido *</label><input type="text" id="apellidoComercial" required></div>
+            </div>
+            <div class="form-fila">
+              <div class="form-campo"><label>Email *</label><input type="email" id="emailComercial" required></div>
+              <div class="form-campo"><label>Teléfono *</label><input type="tel" id="telefonoComercial" required></div>
+            </div>
+            <div class="form-fila">
+              <div class="form-campo"><label>Ciudad *</label><input type="text" id="ciudadComercial" required></div>
+              <div class="form-campo"><label>Producto de interés</label><input type="text" id="productoComercial" placeholder="Ej: Iluminación de local"></div>
+            </div>
+            <div class="form-campo"><label>Cantidad aproximada</label><input type="text" id="cantidadComercial" placeholder="Ej: 20 unidades"></div>
+            <div class="form-campo"><label>Detalle del pedido *</label><textarea id="mensajeComercial" rows="5" required placeholder="Contanos qué necesitás cotizar..."></textarea></div>
+            <button type="submit" class="btn btn-primary">Solicitar cotización</button>
+          </form>
+        </div>
+
+        <div class="tab-content" id="asesoramiento">
+          <h2 class="tab-heading">Asesoramiento Lumínico</h2>
+          <p class="form-desc">Proyectos de iluminación para hogares, comercios u obras.</p>
+          <form id="formAsesoramiento" class="form-profesional">
+            <div class="form-fila">
+              <div class="form-campo"><label>Nombre *</label><input type="text" id="nombreAsesoramiento" required></div>
+              <div class="form-campo"><label>Apellido *</label><input type="text" id="apellidoAsesoramiento" required></div>
+            </div>
+            <div class="form-fila">
+              <div class="form-campo"><label>Email *</label><input type="email" id="emailAsesoramiento" required></div>
+              <div class="form-campo"><label>Teléfono *</label><input type="tel" id="telefonoAsesoramiento" required></div>
+            </div>
+            <div class="form-fila">
+              <div class="form-campo"><label>Ciudad *</label><input type="text" id="ciudadAsesoramiento" required></div>
+              <div class="form-campo">
+                <label>Sucursal preferida *</label>
+                <select id="sucursalAsesoramiento" required>
+                  <option value="" disabled selected hidden>Seleccioná...</option>
+                  <option value="Concepción">Concepción (Casa Central)</option>
+                  <option value="Alberdi">J. B. Alberdi</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-campo">
+              <label>Tipo de espacio *</label>
+              <select id="tipoEspacio" required>
+                <option value="" disabled selected hidden>Seleccioná...</option>
+                <option value="Vivienda">Vivienda</option>
+                <option value="Local comercial">Local comercial</option>
+                <option value="Industria/Obra">Industria / Obra</option>
+                <option value="Exterior">Exterior / Jardín</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <div class="form-campo"><label>Descripción del proyecto *</label><textarea id="mensajeAsesoramiento" rows="5" required placeholder="Metraje, ambiente, estilo deseado..."></textarea></div>
+            <button type="submit" class="btn btn-primary">Solicitar asesoramiento</button>
+          </form>
+        </div>
+
+        <div class="tab-content" id="queja">
+          <h2 class="tab-heading">Quejas y Reclamos</h2>
+          <p class="form-desc">Si tuviste un problema con un producto o servicio, contanos para ayudarte.</p>
+          <form id="formQueja" class="form-profesional">
+            <div class="form-fila">
+              <div class="form-campo"><label>Nombre *</label><input type="text" id="nombreQueja" required></div>
+              <div class="form-campo"><label>Apellido *</label><input type="text" id="apellidoQueja" required></div>
+            </div>
+            <div class="form-fila">
+              <div class="form-campo"><label>Email *</label><input type="email" id="emailQueja" required></div>
+              <div class="form-campo"><label>Teléfono *</label><input type="tel" id="telefonoQueja" required></div>
+            </div>
+            <div class="form-fila">
+              <div class="form-campo"><label>Ciudad *</label><input type="text" id="ciudadQueja" required></div>
+              <div class="form-campo">
+                <label>Sucursal *</label>
+                <select id="sucursalQueja" required>
+                  <option value="" disabled selected hidden>Seleccioná...</option>
+                  <option value="Concepción">Concepción</option>
+                  <option value="Alberdi">J. B. Alberdi</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-fila">
+              <div class="form-campo"><label>Producto relacionado</label><input type="text" id="productoQueja" placeholder="Ej: Reflector LED"></div>
+              <div class="form-campo"><label>N° factura o pedido</label><input type="text" id="nroReferencia" placeholder="Si lo tenés, ayuda a agilizar"></div>
+            </div>
+            <div class="form-campo"><label>Descripción del problema *</label><textarea id="mensajeQueja" rows="5" required placeholder="Contanos qué pasó..."></textarea></div>
+            <button type="submit" class="btn btn-queja">Enviar queja o reclamo</button>
+          </form>
+        </div>
+      </section>
+
+      <div class="cta-gracias reveal">
+        <img src="img/lamparita.png" alt="" class="lamp-icon">
+        <h2 class="section-title">¡Gracias por confiar!</h2>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-grid">
+      <div>
+        <h3>Electricidad Ituarte</h3>
+        <p>Más de 50 años iluminando proyectos en Tucumán.</p>
+        <div class="site-footer-social">
+          <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/share/19tbHw23mm/?" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="https://www.tiktok.com/@ituarte.electricidad?" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="site-footer-links">
+        <h3>Navegación</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="conócenos.html">Conócenos</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="registro.html">Registrarse</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Horarios de atención</h3>
+        <ul>
+          <li>Lunes a viernes: 8:30 a 12:30 hs / 16:30 a 20:30 hs</li>
+          <li>Sábados: 8:30 a 13:00 hs</li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-footer-copy">© Electricidad Ituarte — Concepción &amp; J. B. Alberdi, Tucumán</p>
+  </footer>
+
+  <a href="https://wa.me/5493865601388" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</body>
 </html>

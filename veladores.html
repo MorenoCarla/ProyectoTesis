@@ -1,239 +1,339 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Veladores</title>
-        <link rel="stylesheet" href="css/stylesapliques.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-        <script src="js/scriptapliques.js" defer></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
-    </head>
-    <body class="fondo-veladores">
-        <header>
-            <div class="logo">
-                <a href="index.html">
-                <img src="img/LOGO.png" alt="Logo Empresa">
-                </a>
-            </div>
-            <nav class="navbar">
-                <ul class="nav-links">
-                    <li><a href="contacto.html" target="_blank">Contacto</a></li>
-                    <li><a href="productos.html">Productos</a></li>
-                </ul>
-            </nav>    
-            <div class="buscador">
-                <input type="text" id="busqueda" placeholder="Buscar por nombre o código...">
-                <i class="fa fa-search"></i>
-            </div>
-        </header>
-        <main>
-            <h1 class="titulo">VELADORES</h1>
-            <div class="mensaje-no-encontrado" style="display: none;">
-                Producto no encontrado😢 Intenta nuevamente con otro nombre u código.
-            </div>
-            <section class="filas-imagenes">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veladores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="css/site-chrome.css">
+  <link rel="stylesheet" href="css/stylesapliques.css">
+  <script src="js/site-chrome.js" defer></script>
+  <script src="js/scriptapliques.js" defer></script>
+</head>
+<body class="pagina-institucional pagina-categoria fondo-veladores">
+  <header class="site-header">
+    <a href="index.html" class="site-logo">
+      <img src="img/LOGO.png" alt="Electricidad Ituarte">
+    </a>
+    <button type="button" class="site-nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+    </button>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="conócenos.html">Conócenos</a>
+      <a href="productos.html" class="active">Productos</a>
+      <a href="catalogo.html">Catálogo</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank" class="nav-instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </nav>
+  </header>
+
+  <section class="cat-catalog-hero">
+    <div class="container">
+      <a href="productos.html" class="cat-back-link"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver a categorías</a>
+      <h1 class="cat-catalog-title">VELADORES</h1>
+      <div class="buscador cat-catalog-search">
+        <input type="text" id="busqueda" placeholder="Buscar por nombre o código..." autocomplete="off">
+        <button type="button" class="buscador-btn" aria-label="Buscar"><i class="fa fa-search"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <main class="cat-catalog-main">
+    <div class="container">
+      <div class="mensaje-no-encontrado" style="display: none;">Producto no encontrado😢 Intenta nuevamente con otro nombre o código.</div>
+<section class="filas-imagenes cat-catalog-grid">
                 <div class="fila uno">
-                    <div class="imagen 1" data-nombre="Rulo" data-codigo="20605">
-                        <img src="img/rulo.png" alt="rulo">
-                        <p class="p1">Rulo</p>
-                    </div>
-                     <div class="imagen 2" data-nombre="Twister" data-codigo="21105">
-                        <img src="img/twister.png" alt="twister">
-                        <p class="p2">Twister</p>
-                    </div>
-                     <div class="imagen 3" data-nombre="circle" data-codigo="21104">
-                        <img src="img/circle.png" alt="circle">
-                        <p class="p3">Circle</p>
-                    </div>
-                     <div class="imagen 4" data-nombre="chain" data-codigo="21756">
-                        <img src="img/chain.png" alt="chain">
-                        <p class="p4">Chain</p>
-                    </div>
-                     <div class="imagen 5" data-nombre="Fanal" data-codigo="20467">
-                        <img src="img/fanal.png" alt="fanal">
-                        <p class="p5">Fanal</p>
-                    </div>
+                    <a href="rulo.html" class="link-producto">
+                        <div class="imagen 1" data-nombre="Rulo" data-codigo="20605">
+                            <img src="img/rulo.png" alt="rulo">
+                            <p class="p1">Rulo</p>
+                        </div>
+                    </a>
+                    <a href="twister.html" class="link-producto">
+                        <div class="imagen 2" data-nombre="Twister" data-codigo="21105">
+                            <img src="img/twister.png" alt="twister">
+                            <p class="p2">Twister</p>
+                        </div>
+                    </a>
+                    <a href="circle.html" class="link-producto">
+                        <div class="imagen 3" data-nombre="circle" data-codigo="21104">
+                            <img src="img/circle.png" alt="circle">
+                            <p class="p3">Circle</p>
+                        </div>
+                    </a>
+                    <a href="chain.html" class="link-producto">
+                        <div class="imagen 4" data-nombre="chain" data-codigo="21756">
+                            <img src="img/chain.png" alt="chain">
+                            <p class="p4">Chain</p>
+                        </div>
+                    </a>
+                    <a href="fanal.html" class="link-producto">
+                        <div class="imagen 5" data-nombre="Fanal" data-codigo="20467">
+                            <img src="img/fanal.png" alt="fanal">
+                            <p class="p5">Fanal</p>
+                        </div>
+                    </a>
                 </div>
                 <div class="fila dos">
-                    <div class="imagen 6" data-nombre="Saturno" data-codigo="20687, 20688">
-                        <img src="img/saturno.png" alt="saturno">
-                        <p class="p4">Saturno</p>
-                    </div>
-                     <div class="imagen 7" data-nombre="Ibla" data-codigo="21727, 21729, 21849">
-                        <img src="img/ibla.png" alt="ibla">
-                        <p class="p1">Ibla</p>
-                    </div>
-                     <div class="imagen 8" data-nombre="Egon" data-codigo="20424">
-                        <img src="img/egon.png" alt="egon">
-                        <p class="p2">Egon</p>
-                    </div>
-                     <div class="imagen 9" data-nombre="Mini Bipin" data-codigo="23845">
-                        <img src="img/minibipin.png" alt="mini bipin">
-                        <p class="p5">Mini Bipin</p>
-                    </div>
-                     <div class="imagen 10" data-nombre="Lampy" data-codigo="21041">
-                        <img src="img/lampy.png" alt="lampy">
-                        <p class="p3">Lampy</p>
-                    </div>
+                    <a href="saturno.html" class="link-producto">
+                        <div class="imagen 6" data-nombre="Saturno" data-codigo="20687, 20688">
+                            <img src="img/saturno.png" alt="saturno">
+                            <p class="p4">Saturno</p>
+                        </div>
+                    </a>
+                    <a href="ibla.html" class="link-producto">
+                        <div class="imagen 7" data-nombre="Ibla" data-codigo="21727, 21849, 21726">
+                            <img src="img/ibla.png" alt="ibla">
+                            <p class="p1">Ibla</p>
+                        </div>
+                    </a>
+                    <a href="egon.html" class="link-producto">
+                        <div class="imagen 8" data-nombre="Egon" data-codigo="20424">
+                            <img src="img/egon.png" alt="egon">
+                            <p class="p2">Egon</p>
+                        </div>
+                    </a>
+                    <a href="minibipin.html" class="link-producto">
+                        <div class="imagen 9" data-nombre="Mini Bipin" data-codigo="23845">
+                            <img src="img/minibipin.png" alt="mini bipin">
+                            <p class="p5">Mini Bipin</p>
+                        </div>
+                    </a>
+                    <a href="lampy.html" class="link-producto">
+                        <div class="imagen 10" data-nombre="Lampy" data-codigo="21041">
+                            <img src="img/lampy.png" alt="lampy">
+                            <p class="p3">Lampy</p>
+                        </div>
+                    </a>
                 </div>
                 <div class="fila tres">
-                    <div class="imagen 11" data-nombre="Elegance" data-codigo="22719">
-                        <img src="img/elegance.png" alt="elegance">
-                        <p class="p1">Elegance</p>
-                    </div>
-                     <div class="imagen 12" data-nombre="Ikosi" data-codigo="20426">
-                        <img src="img/ikosi.png" alt="ikosi">
-                        <p class="p2">Ikosi</p>
-                    </div>
-                     <div class="imagen 13" data-nombre="Bala" data-codigo="23840, 23838, 23841">
-                        <img src="img/bala.png" alt="bala">
-                        <p class="p3">Bala</p>
-                    </div>
-                     <div class="imagen 14" data-nombre="Osaka" data-codigo="21647">
-                        <img src="img/osakavelador.png" alt="osaka">
-                        <p class="p4">Osaka</p>
-                    </div>
-                     <div class="imagen 15" data-nombre="Space" data-codigo="22716, 22715, 22714, 22713">
-                        <img src="img/space.png" alt="space">
-                        <p class="p5">Space</p>
-                    </div>
+                    <a href="elegance.html" class="link-producto">
+                        <div class="imagen 11" data-nombre="Elegance" data-codigo="22719">
+                            <img src="img/elegance.png" alt="elegance">
+                            <p class="p1">Elegance</p>
+                        </div>
+                    </a>
+                    <a href="ikosi.html" class="link-producto">
+                        <div class="imagen 12" data-nombre="Ikosi" data-codigo="20426">
+                            <img src="img/ikosi.png" alt="ikosi">
+                            <p class="p2">Ikosi</p>
+                        </div>
+                    </a>
+                    <a href="bala.html" class="link-producto">
+                        <div class="imagen 13" data-nombre="Bala" data-codigo="23840, 23838, 23841">
+                            <img src="img/bala.png" alt="bala">
+                            <p class="p3">Bala</p>
+                        </div>
+                    </a>
+                    <a href="osakavelador.html" class="link-producto">
+                        <div class="imagen 14" data-nombre="Osaka" data-codigo="21647">
+                            <img src="img/osakavelador.png" alt="osaka">
+                            <p class="p4">Osaka</p>
+                        </div>
+                    </a>
+                    <a href="space.html" class="link-producto">
+                        <div class="imagen 15" data-nombre="Space" data-codigo="22716, 22715, 22714, 22713">
+                            <img src="img/space.png" alt="space">
+                            <p class="p5">Space</p>
+                        </div>
+                    </a>
                 </div>
                 <div class="fila cuatro">
-                    <div class="imagen 16" data-nombre="Colonia" data-codigo="21853, 21854, 21855">
-                        <img src="img/colonia.png" alt="colonia">
-                        <p class="p4">Colonia</p>
-                    </div>
-                     <div class="imagen 17" data-nombre="Teen" data-codigo="19807, 19806">
-                        <img src="img/teen.png" alt="teen">
-                        <p class="p1">Teen</p>
-                    </div>
-                     <div class="imagen 18" data-nombre="vc1esf1" data-codigo="18003">
-                        <img src="img/vcesf1.png" alt="vc1esf1">
-                        <p class="p2">Vc1Esf1</p>
-                    </div>
-                     <div class="imagen 19" data-nombre="vc1esf2" data-codigo="18003">
-                        <img src="img/vcesf2.png" alt="vc1esf2">
-                        <p class="p5">Vc1Esf2</p>
-                    </div>
-                     <div class="imagen 20" data-nombre="vc1esf3" data-codigo="18003">
-                        <img src="img/vcesf3.png" alt="vc1esf3">
-                        <p class="p3">Vc1Esf3</p>
-                    </div>
+                    <a href="colonia.html" class="link-producto">
+                        <div class="imagen 16" data-nombre="Colonia" data-codigo="21853, 21854, 21855">
+                            <img src="img/colonia.png" alt="colonia">
+                            <p class="p4">Colonia</p>
+                        </div>
+                    </a>
+                    <a href="teen.html" class="link-producto">
+                        <div class="imagen 17" data-nombre="Teen" data-codigo="19806, 19807">
+                            <img src="img/teen.png" alt="teen">
+                            <p class="p1">Teen</p>
+                        </div>
+                    </a>
+                    <a href="vc1esf1.html" class="link-producto">
+                        <div class="imagen 18" data-nombre="vc1esf1" data-codigo="18003">
+                            <img src="img/vcesf1.png" alt="vc1esf1">
+                            <p class="p2">Vc1Esf1</p>
+                        </div>
+                    </a>
+                    <a href="vc1esf2.html" class="link-producto">
+                        <div class="imagen 19" data-nombre="vc1esf2" data-codigo="18003">
+                            <img src="img/vcesf2.png" alt="vc1esf2">
+                            <p class="p5">Vc1Esf2</p>
+                        </div>
+                    </a>
+                    <a href="vc1esf3.html" class="link-producto">
+                        <div class="imagen 20" data-nombre="vc1esf3" data-codigo="18003">
+                            <img src="img/vcesf3.png" alt="vc1esf3">
+                            <p class="p3">Vc1Esf3</p>
+                        </div>
+                    </a>
                 </div>
                 <div class="fila cinco">
-                    <div class="imagen 21" data-nombre="vc1esf4" data-codigo="18003">
-                        <img src="img/vcesf4.png" alt="vc1esf4">
-                        <p class="p1">Vc1Esf4</p>
-                    </div>
-                     <div class="imagen 22" data-nombre="vc1esf5" data-codigo="18252">
-                        <img src="img/vcesf5.png" alt="vc1esf5">
-                        <p class="p2">Vc1Esf5</p>
-                    </div>
-                     <div class="imagen 23" data-nombre="vc1esf6" data-codigo="18252">
-                        <img src="img/vcesf6.png" alt="vc1esf6">
-                        <p class="p3">Vc1Esf6</p>
-                    </div>
-                     <div class="imagen 24" data-nombre="vc1esf7" data-codigo="18003">
-                        <img src="img/vcesf7.png" alt="vc1esf7">
-                        <p class="p4">Vc1Esf7</p>
-                    </div>
-                     <div class="imagen 25" data-nombre="vc1esf8" data-codigo="18003">
-                        <img src="img/vcesf8.png" alt="vc1esf8">
-                        <p class="p5">Vc1Esf8</p>
-                    </div>
+                    <a href="vc1esf4.html" class="link-producto">
+                        <div class="imagen 21" data-nombre="vc1esf4" data-codigo="18003">
+                            <img src="img/vcesf4.png" alt="vc1esf4">
+                            <p class="p1">Vc1Esf4</p>
+                        </div>
+                    </a>
+                    <a href="vc1esf5.html" class="link-producto">
+                        <div class="imagen 22" data-nombre="vc1esf5" data-codigo="18252">
+                            <img src="img/vcesf5.png" alt="vc1esf5">
+                            <p class="p2">Vc1Esf5</p>
+                        </div>
+                    </a>
+                    <a href="vc1esf6.html" class="link-producto">
+                        <div class="imagen 23" data-nombre="vc1esf6" data-codigo="18252">
+                            <img src="img/vcesf6.png" alt="vc1esf6">
+                            <p class="p3">Vc1Esf6</p>
+                        </div>
+                    </a>
+                    <a href="vc1esf7.html" class="link-producto">
+                        <div class="imagen 24" data-nombre="vc1esf7" data-codigo="18003">
+                            <img src="img/vcesf7.png" alt="vc1esf7">
+                            <p class="p4">Vc1Esf7</p>
+                        </div>
+                    </a>
+                    <a href="vc1esf8.html" class="link-producto">
+                        <div class="imagen 25" data-nombre="vc1esf8" data-codigo="18003">
+                            <img src="img/vcesf8.png" alt="vc1esf8">
+                            <p class="p5">Vc1Esf8</p>
+                        </div>
+                    </a>
                 </div>
                 <div class="fila seis">
-                    <div class="imagen 26" data-nombre="vc1esf9" data-codigo="18002">
-                        <img src="img/vc1esf9.png" alt="vc1esf9">
-                        <p class="p4">Vc1Esf9</p>
-                    </div>
-                     <div class="imagen 27" data-nombre="vc1esf10" data-codigo="4054">
-                        <img src="img/vc1esf10.png" alt="vc1esf10">
-                        <p class="p1">Vc1Esf10</p>
-                    </div>
-                     <div class="imagen 28" data-nombre="vc1esf11" data-codigo="18252">
-                        <img src="img/vc1esf11.png" alt="vc1esf11">
-                        <p class="p2">Vc1Esf11</p>
-                    </div>
-                     <div class="imagen 29" data-nombre="vc2esf12" data-codigo="18005">
-                        <img src="img/vc2esf12.png" alt="vc2esf12">
-                        <p class="p5">Vc2Esf12</p>
-                    </div>
-                     <div class="imagen 30" data-nombre="vc2esf13" data-codigo="17352">
-                        <img src="img/vc2esf13.png" alt="vc2esf13">
-                        <p class="p3">Vc2Esf13</p>
-                    </div>
+                    <a href="vc1esf9.html" class="link-producto">
+                        <div class="imagen 26" data-nombre="vc1esf9" data-codigo="18002">
+                            <img src="img/vc1esf9.png" alt="vc1esf9">
+                            <p class="p4">Vc1Esf9</p>
+                        </div>
+                    </a>
+                    <a href="vc1esf10.html" class="link-producto">
+                        <div class="imagen 27" data-nombre="vc1esf10" data-codigo="4054">
+                            <img src="img/vc1esf10.png" alt="vc1esf10">
+                            <p class="p1">Vc1Esf10</p>
+                        </div>
+                    </a>
+                    <a href="vc1esf11.html" class="link-producto">
+                        <div class="imagen 28" data-nombre="vc1esf11" data-codigo="18252">
+                            <img src="img/vc1esf11.png" alt="vc1esf11">
+                            <p class="p2">Vc1Esf11</p>
+                        </div>
+                    </a>
+                    <a href="vc2esf12.html" class="link-producto">
+                        <div class="imagen 29" data-nombre="vc2esf12" data-codigo="18005">
+                            <img src="img/vc2esf12.png" alt="vc2esf12">
+                            <p class="p5">Vc2Esf12</p>
+                        </div>
+                    </a>
+                    <a href="vc2esf13.html" class="link-producto">
+                        <div class="imagen 30" data-nombre="vc2esf13" data-codigo="17352">
+                            <img src="img/vc2esf13.png" alt="vc2esf13">
+                            <p class="p3">Vc2Esf13</p>
+                        </div>
+                    </a>
                 </div>
                 <div class="fila siete">
-                    <div class="imagen 31" data-nombre="vc2esf14" data-codigo="17352">
-                        <img src="img/vc2esf14.png" alt="vc2esf14">
-                        <p class="p1">Vc2Esf14</p>
-                    </div>
-                     <div class="imagen 32" data-nombre="vc2esf15" data-codigo="21966">
-                        <img src="img/vc2esf15.png" alt="vc2esf15">
-                        <p class="p2">Vc2Esf15</p>
-                    </div>
-                     <div class="imagen 33" data-nombre="vc2esf16" data-codigo="18005">
-                        <img src="img/vc2esf16.png" alt="vc2esf16">
-                        <p class="p3">Vc2Esf16</p>
-                    </div>
-                     <div class="imagen 34" data-nombre="Umbrella" data-codigo="22712">
-                        <img src="img/umbrella.png" alt="umbrella">
-                        <p class="p4">Umbrella</p>
-                    </div>
-                     <div class="imagen 35" data-nombre="Vintage" data-codigo="23848, 23849">
-                        <img src="img/vintage.png" alt="vintage">
-                        <p class="p5">Vintage</p>
-                    </div>
+                    <a href="vc2esf14.html" class="link-producto">
+                        <div class="imagen 31" data-nombre="vc2esf14" data-codigo="21966">
+                            <img src="img/vc2esf14.png" alt="vc2esf14">
+                            <p class="p1">Vc2Esf14</p>
+                        </div>
+                    </a>
+                    <a href="vc2esf15.html" class="link-producto">
+                        <div class="imagen 32" data-nombre="vc2esf15" data-codigo="18005">
+                            <img src="img/vc2esf15.png" alt="vc2esf15">
+                            <p class="p2">Vc2Esf15</p>
+                        </div>
+                    </a>
+                    <a href="vc2esf16.html" class="link-producto">
+                        <div class="imagen 33" data-nombre="vc2esf16" data-codigo="18005">
+                            <img src="img/vc2esf16.png" alt="vc2esf16">
+                            <p class="p3">Vc2Esf16</p>
+                        </div>
+                    </a>
+                    <a href="umbrella.html" class="link-producto">
+                        <div class="imagen 34" data-nombre="Umbrella" data-codigo="22712">
+                            <img src="img/umbrella.png" alt="umbrella">
+                            <p class="p4">Umbrella</p>
+                        </div>
+                    </a>
+                    <a href="vintage.html" class="link-producto">
+                        <div class="imagen 35" data-nombre="Vintage" data-codigo="23848">
+                            <img src="img/vintage.png" alt="vintage">
+                            <p class="p5">Vintage</p>
+                        </div>
+                    </a>
                 </div>
                 <div class="fila ocho">
-                    <div class="imagen 36" data-nombre="Ostende" data-codigo="16930">
-                        <img src="img/ostende.png" alt="ostende">
-                        <p class="p4">Ostende</p>
-                    </div>
-                     <div class="imagen 37" data-nombre="Juno" data-codigo="20041">
-                        <img src="img/juno.png" alt="juno">
-                        <p class="p1">Juno</p>
-                    </div>
-                     <div class="imagen 38" data-nombre="Venus" data-codigo="21663">
-                        <img src="img/venus.png" alt="venus">
-                        <p class="p2">Venus</p>
-                    </div>
-                     <div class="imagen 39" data-nombre="adryn" data-codigo="20423">
-                        <img src="img/adryn.png" alt="adryn">
-                        <p class="p5">Adryn</p>
-                    </div>
+                    <a href="ostende.html" class="link-producto">
+                        <div class="imagen 36" data-nombre="Ostende" data-codigo="16930, 16929">
+                            <img src="img/ostende.png" alt="ostende">
+                            <p class="p4">Ostende</p>
+                        </div>
+                    </a>
+                    <a href="juno.html" class="link-producto">
+                        <div class="imagen 37" data-nombre="Juno" data-codigo="20041">
+                            <img src="img/juno.png" alt="juno">
+                            <p class="p1">Juno</p>
+                        </div>
+                    </a>
+                    <a href="venus.html" class="link-producto">
+                        <div class="imagen 38" data-nombre="Venus" data-codigo="21663">
+                            <img src="img/venus.png" alt="venus">
+                            <p class="p2">Venus</p>
+                        </div>
+                    </a>
+                    <a href="adryn.html" class="link-producto">
+                        <div class="imagen 39" data-nombre="Adryn" data-codigo="20423">
+                            <img src="img/adryn.png" alt="adryn">
+                            <p class="p5">Adryn</p>
+                        </div>
+                    </a>
                 </div>
             </section>
-        </main>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <footer>
-            <div class="footer-left">
-                <p>SEGUINOS!</p>
-                <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.facebook.com/share/19tbHw23mm/?" target="_blank"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.tiktok.com/@ituarte.electricidad?" target="_blank"><i class="fab fa-tiktok"></i></a>
-            </div>
-            <div class="footer-right">
-                <p><strong>Horarios de Atención:</strong></p>
-                <ul>
-                <li>Lunes a viernes: 8:30 a 12:30hs/ 16:30 a 20:30hs</li>
-                <li>Sábados: 8:30 a 13:00hs</li>
-                </ul>
-            </div>
-        </footer>
-        <div class="scroll-top" id="scroll-top">&#8679;</div>
-        <a href="https://wa.me/5493865601388" class="whatsapp-float" target="_blank">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-    </body>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-grid">
+      <div>
+        <h3>Electricidad Ituarte</h3>
+        <p>Más de 50 años iluminando proyectos en Tucumán.</p>
+        <div class="site-footer-social">
+          <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/share/19tbHw23mm/?" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="https://www.tiktok.com/@ituarte.electricidad?" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="site-footer-links">
+        <h3>Navegación</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="conócenos.html">Conócenos</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="registro.html">Registrarse</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Horarios de atención</h3>
+        <ul>
+          <li>Lunes a viernes: 8:30 a 12:30 hs / 16:30 a 20:30 hs</li>
+          <li>Sábados: 8:30 a 13:00 hs</li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-footer-copy">© Electricidad Ituarte — Concepción &amp; J. B. Alberdi, Tucumán</p>
+  </footer>
+
+  <button type="button" class="scroll-top" id="scroll-top" aria-label="Volver arriba">↑</button>
+  <a href="https://wa.me/5493865601388" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</body>
 </html>

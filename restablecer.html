@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nueva contraseña - CRM Ituarte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Work Sans', sans-serif;
+      background: linear-gradient(135deg, #ff0000, #af0303);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .box {
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      width: 400px;
+      max-width: 100%;
+      text-align: center;
+    }
+    .password-container {
+      position: relative;
+      margin-bottom: 15px;
+    }
+    .password-container input {
+      width: 100%;
+      padding: 14px 45px 14px 14px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      box-sizing: border-box;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #64748b;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #c62828;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .msg { margin-top: 15px; font-size: 14px; }
+    .ok { color: #2e7d32; }
+    .err { color: #c62828; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Nueva contraseña</h2>
+    <p style="color:#64748b;font-size:14px;margin-bottom:20px;">Elegí tu nueva contraseña</p>
+
+    <form onsubmit="restablecer(event)">
+      <div class="password-container">
+        <input type="password" id="password" placeholder="Nueva contraseña" required minlength="6">
+        <i class="fa-solid fa-eye toggle-password" data-target="password"></i>
+      </div>
+      <div class="password-container">
+        <input type="password" id="password2" placeholder="Repetir contraseña" required minlength="6">
+        <i class="fa-solid fa-eye toggle-password" data-target="password2"></i>
+      </div>
+      <button type="submit">Guardar contraseña</button>
+    </form>
+
+    <div id="mensaje" class="msg"></div>
+  </div>
+
+  <script>
+    document.querySelectorAll(".toggle-password").forEach(icon => {
+      icon.addEventListener("click", () => {
+        const input = document.getElementById(icon.dataset.target);
+        if (input.type === "password") {
+          input.type = "text";
+          icon.classList.replace("fa-eye", "fa-eye-slash");
+        } else {
+          input.type = "password";
+          icon.classList.replace("fa-eye-slash", "fa-eye");
+        }
+      });
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+
+    if (!token) {
+      document.getElementById("mensaje").className = "msg err";
+      document.getElementById("mensaje").innerText = "Link inválido. Pedí uno nuevo en Recuperar contraseña.";
+    }
+
+    async function restablecer(e) {
+      e.preventDefault();
+      const password = document.getElementById("password").value;
+      const password2 = document.getElementById("password2").value;
+      const msg = document.getElementById("mensaje");
+
+      if (password !== password2) {
+        msg.className = "msg err";
+        msg.innerText = "Las contraseñas no coinciden";
+        return;
+      }
+
+      try {
+        const res = await fetch("http://localhost:3000/auth/restablecer", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token, password })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          msg.className = "msg err";
+          msg.innerText = data.error;
+          return;
+        }
+
+        msg.className = "msg ok";
+        msg.innerHTML = data.mensaje + ' <a href="login.html">Iniciar sesión</a>';
+      } catch {
+        msg.className = "msg err";
+        msg.innerText = "Error de conexión";
+      }
+    }
+  </script>
+</body>
+</html>

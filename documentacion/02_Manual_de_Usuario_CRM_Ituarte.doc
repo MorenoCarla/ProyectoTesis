@@ -1,0 +1,352 @@
+﻿<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<!--[if gte mso 9]><xml>
+<w:WordDocument>
+<w:View>Print</w:View>
+<w:Zoom>100</w:Zoom>
+<w:DoNotOptimizeForBrowser/>
+</w:WordDocument>
+</xml><![endif]-->
+<title>Manual de Usuario — CRM Ituarte</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.55; margin: 2cm; color: #1e293b; }
+  h1 { color: #c62828; font-size: 20pt; text-align: center; border-bottom: 2px solid #c62828; padding-bottom: 10px; }
+  h2 { color: #c62828; font-size: 14pt; margin-top: 28px; page-break-before: auto; }
+  h3 { color: #475569; font-size: 12pt; margin-top: 16px; }
+  .portada { text-align: center; margin: 40px 0 60px; }
+  .portada p { color: #64748b; margin: 8px 0; }
+  .portada .titulo-grande { font-size: 16pt; font-weight: bold; color: #1e293b; margin: 20px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 10pt; }
+  th { background: #c62828; color: white; padding: 8px; text-align: left; }
+  td { border: 1px solid #e2e8f0; padding: 8px; }
+  .paso { background: #f8fafc; border-left: 4px solid #c62828; padding: 10px 14px; margin: 10px 0; }
+  .nota { background: #fff8e1; padding: 10px 14px; border-radius: 6px; font-size: 10pt; margin: 10px 0; }
+  ul { margin: 8px 0; }
+  li { margin-bottom: 5px; }
+  .toc a { color: #c62828; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="portada">
+  <p>Universidad Tecnológica Nacional — Facultad Regional Tucumán</p>
+  <p>Regional Concepción</p>
+  <p class="titulo-grande">MANUAL DE USUARIO</p>
+  <p><strong>Sistema CRM y sitio web — Electricidad Ituarte</strong></p>
+  <p>Sitio institucional, gestión de clientes, consultas, seguimientos, marketing y presupuestos</p>
+  <br><br>
+  <p><strong>Autora:</strong> Carla Guadalupe Moreno</p>
+  <p><strong>Carrera:</strong> Tecnicatura Universitaria en Programación</p>
+  <p><strong>Año:</strong> 2026</p>
+</div>
+
+<h2>Índice</h2>
+<ol class="toc">
+  <li>Introducción</li>
+  <li>Objetivo del manual</li>
+  <li>Descripción general del sistema</li>
+  <li>Uso del sitio web institucional</li>
+  <li>Requisitos para utilizar el sistema</li>
+  <li>Acceso al sistema</li>
+  <li>Roles de usuario</li>
+  <li>Panel del gerente</li>
+  <li>Panel del empleado</li>
+  <li>Portal del cliente</li>
+  <li>Módulo de presupuestos</li>
+  <li>Módulo de marketing</li>
+  <li>Reportes</li>
+  <li>Solución de problemas frecuentes</li>
+</ol>
+
+<h2>1. Introducción</h2>
+<p>
+  El presente manual describe el uso del <strong>sitio web institucional</strong> y del
+  <strong>Sistema CRM de Electricidad Ituarte</strong>, desarrollado como proyecto integrador
+  de la Tecnicatura Universitaria en Programación. El CRM centraliza la gestión comercial de la empresa:
+  clientes, consultas recibidas desde el sitio web, seguimientos, campañas de marketing y presupuestos en PDF.
+</p>
+<p>
+  El CRM se integra con el sitio web institucional de Ituarte. Cuando un visitante completa
+  un formulario de contacto o consulta por un producto, la información ingresa automáticamente
+  al panel de gestión.
+</p>
+
+<h2>2. Objetivo del manual</h2>
+<p>
+  Brindar una guía clara y ordenada para que visitantes del sitio web, gerentes, empleados y clientes
+  registrados puedan utilizar el sistema de forma autónoma, conociendo las funciones disponibles
+  según su rol de acceso.
+</p>
+
+<h2>3. Descripción general del sistema</h2>
+<p>El sistema se compone de tres partes:</p>
+<table>
+  <tr><th>Componente</th><th>Descripción</th></tr>
+  <tr><td>Sitio web</td><td>Catálogo de productos, información institucional y formularios de contacto.</td></tr>
+  <tr><td>Panel CRM</td><td>Aplicación web para gerentes y empleados de Ituarte.</td></tr>
+  <tr><td>Portal del cliente</td><td>Acceso limitado para clientes registrados que deseen ver sus consultas.</td></tr>
+</table>
+
+<h2>4. Uso del sitio web institucional</h2>
+<p>
+  El sitio web público de Electricidad Ituarte complementa al CRM. Permite conocer la empresa,
+  recorrer el catálogo de luminarias y enviar consultas que ingresan automáticamente al panel de gestión.
+  No requiere usuario ni contraseña para navegar; solo para registrarse como cliente o acceder al CRM.
+</p>
+
+<h3>4.1 Navegación general</h3>
+<p>
+  Todas las páginas comparten el mismo encabezado y pie de página. Desde el menú superior se accede a:
+  <strong>Home</strong>, <strong>Conócenos</strong>, <strong>Productos</strong>, <strong>Catálogo</strong>,
+  <strong>Contacto</strong>, <strong>Acceso CRM</strong> y <strong>Registrarse</strong>.
+  En dispositivos móviles, el menú se despliega con el ícono de hamburguesa (☰).
+</p>
+<p class="nota">[Insertar captura: encabezado del sitio en escritorio o menú móvil abierto]</p>
+
+<h3>4.2 Página de inicio</h3>
+<p>
+  La home presenta un banner principal, accesos rápidos a Conócenos y Productos, promociones
+  y datos de las sucursales de Concepción y Juan Bautista Alberdi.
+</p>
+<p class="nota">[Insertar captura: index.html — home completa]</p>
+
+<h3>4.3 Conócenos</h3>
+<p>
+  Información institucional: historia de la empresa (más de 50 años), valores, sucursales y formas de contacto.
+</p>
+<p class="nota">[Insertar captura: conócenos.html]</p>
+
+<h3>4.4 Catálogo de productos</h3>
+<p>Desde <strong>Productos</strong> se elige una categoría (Apliques, Colgantes, Reflectores, etc.). Cada categoría muestra una grilla de productos con buscador. Al hacer clic en un artículo se abre su ficha con fotos, descripción, códigos y descargas.</p>
+<div class="paso">
+  <strong>Paso 1:</strong> Ir a <strong>Productos</strong> y elegir una categoría.<br>
+  <strong>Paso 2:</strong> Buscar o seleccionar el producto deseado.<br>
+  <strong>Paso 3:</strong> Revisar la ficha y, si corresponde, usar el formulario <strong>Consúltanos!</strong> al final de la página.
+</div>
+<p class="nota">[Insertar captura: productos.html y ficha de producto, p. ej. galia.html]</p>
+
+<h3>4.5 Catálogo PDF</h3>
+<p>La opción <strong>Catálogo</strong> del menú permite ver o descargar el catálogo general en PDF.</p>
+<p class="nota">[Insertar captura: catalogo.html]</p>
+
+<h3>4.6 Contacto y consultas</h3>
+<p>
+  En <strong>Contacto</strong> hay un formulario general para mensajes, consultas comerciales o solicitudes
+  de presupuesto. En cada ficha de producto, el bloque <strong>Consúltanos!</strong> envía una consulta
+  vinculada a ese artículo. Ambos formularios crean un registro en el CRM (sección Consultas).
+</p>
+<p class="nota">[Insertar captura: contacto.html o formulario Consúltanos en una ficha]</p>
+
+<h3>4.7 Registro de clientes</h3>
+<p>
+  Quienes deseen hacer seguimiento de sus consultas pueden registrarse desde <strong>Registrarse</strong>
+  en el menú o en la pantalla de login del CRM. Tras el alta, ingresan con email y contraseña al portal del cliente (sección 10).
+</p>
+<p class="nota">[Insertar captura: registro.html]</p>
+
+<h2>5. Requisitos para utilizar el sistema</h2>
+<ul>
+  <li>Navegador web actualizado (Google Chrome, Microsoft Edge o Firefox).</li>
+  <li>Conexión al servidor donde está instalado el CRM (en desarrollo: computadora con backend activo).</li>
+  <li>Usuario y contraseña asignados por la gerencia de la empresa.</li>
+</ul>
+<div class="nota">
+  <strong>Importante:</strong> El backend del sistema debe estar en ejecución para que el CRM funcione.
+  Si la pantalla indica error de conexión, contactar al administrador del sistema.
+</div>
+
+<h2>6. Acceso al sistema</h2>
+<h3>6.1 Inicio de sesión</h3>
+<div class="paso">
+  <strong>Paso 1:</strong> Abrir el navegador y acceder a la página de login del CRM.<br>
+  <strong>Paso 2:</strong> Ingresar email y contraseña provistos por la empresa.<br>
+  <strong>Paso 3:</strong> Hacer clic en <strong>Ingresar</strong>.<br>
+  <strong>Paso 4:</strong> El sistema redirige automáticamente según el rol: panel gerencial, panel operativo o portal cliente.
+</div>
+<p class="nota">[Insertar captura: login.html — sin contraseñas visibles]</p>
+<h3>6.2 Recuperar contraseña</h3>
+<p>
+  Desde la pantalla de login, seleccionar <strong>¿Olvidaste tu contraseña?</strong>,
+  ingresar el email registrado y seguir el enlace de restablecimiento.
+</p>
+<h3>6.3 Cerrar sesión</h3>
+<p>Utilizar el botón <strong>Salir</strong> en el menú lateral del panel.</p>
+
+<h2>7. Roles de usuario</h2>
+<table>
+  <tr><th>Rol</th><th>Usuario típico</th><th>Permisos principales</th></tr>
+  <tr>
+    <td><strong>Gerente</strong></td>
+    <td>Responsable comercial / dueña</td>
+    <td>Acceso total: dashboard global, reportes, empleados, campañas, plantillas, todos los clientes y presupuestos.</td>
+  </tr>
+  <tr>
+    <td><strong>Empleado</strong></td>
+    <td>Vendedor / asesor comercial</td>
+    <td>Panel operativo: mis consultas, tomar consultas sin asignar, seguimientos, marketing (calendario y oportunidades), presupuestos.</td>
+  </tr>
+  <tr>
+    <td><strong>Cliente</strong></td>
+    <td>Cliente registrado</td>
+    <td>Ver sus consultas, crear nuevas, cambiar contraseña.</td>
+  </tr>
+</table>
+
+<h2>8. Panel del gerente</h2>
+<p>Al ingresar como gerente, se visualiza el <strong>Panel gerencial</strong> (borde rojo en el menú lateral).</p>
+
+<h3>8.1 Dashboard — Resumen gerencial</h3>
+<p>Muestra indicadores (KPIs) del negocio:</p>
+<ul>
+  <li>Clientes activos, consultas activas, pendientes, sin asignar.</li>
+  <li>Consultas del día y de la última semana.</li>
+  <li>Contactos de marketing y cuentas corrientes.</li>
+  <li>Gráficos de estados y tipos de consulta.</li>
+  <li>Próximos seguimientos y consultas recientes.</li>
+</ul>
+
+<h3>8.2 Consultas</h3>
+<p>Gestión de todas las consultas recibidas.</p>
+<ul>
+  <li><strong>Vista por defecto:</strong> consultas activas recientes (no muestra todo el historial de golpe).</li>
+  <li><strong>Filtros:</strong> por estado (pendiente, en proceso, finalizada, cancelada).</li>
+  <li><strong>Buscador:</strong> por nombre de cliente, email, producto, etc.</li>
+  <li><strong>Ver detalle:</strong> asignar empleado, cambiar estado, programar seguimiento.</li>
+  <li><strong>Paginación:</strong> Anterior / Siguiente (15–20 registros por página).</li>
+</ul>
+
+<h3>8.3 Clientes</h3>
+<ul>
+  <li>Listado paginado de clientes activos.</li>
+  <li>Búsqueda por nombre, email, ciudad.</li>
+  <li>Filtro por rubro (arquitecto, electricista, etc.) y período de alta.</li>
+  <li><strong>Editar perfil comercial:</strong> rubro, cuenta corriente, cumpleaños, notas.</li>
+  <li><strong>Presupuestos:</strong> ver historial y subir PDF (ver sección 11).</li>
+  <li><strong>Buscar por N° de presupuesto:</strong> campo en la barra superior de Clientes.</li>
+</ul>
+
+<h3>8.4 Seguimientos</h3>
+<p>Consultar y registrar seguimientos comerciales sobre consultas (llamadas, visitas, envío de presupuesto, etc.).</p>
+
+<h3>8.5 Marketing</h3>
+<p>Organizado en pestañas internas (ver sección 12).</p>
+
+<h3>8.6 Reportes</h3>
+<p>Solo gerente. Descarga de informes en PDF y Excel (ver sección 13).</p>
+
+<h3>8.7 Empleados</h3>
+<p>Alta de nuevos empleados con usuario de acceso al CRM. Solo visible para gerente.</p>
+
+<h2>9. Panel del empleado</h2>
+<p>Al ingresar como empleado, se visualiza el <strong>Panel operativo</strong> (borde azul).</p>
+
+<h3>9.1 Mi día</h3>
+<p>Pantalla principal con:</p>
+<ul>
+  <li>Mis consultas activas.</li>
+  <li>Consultas sin asignar (con botón <strong>Tomar esta consulta</strong>).</li>
+  <li>Seguimientos del día y vencidos.</li>
+  <li>Oportunidades de marketing pendientes.</li>
+</ul>
+
+<h3>9.2 Mis consultas</h3>
+<p>Filtros: Mis consultas, Sin asignar, Finalizadas propias. No incluye reportes ni gestión de empleados.</p>
+
+<h3>9.3 Marketing (acotado)</h3>
+<p>Acceso a calendario comercial y oportunidades de contacto. Sin campañas ni plantillas.</p>
+
+<h2>10. Portal del cliente</h2>
+<p>Los clientes registrados pueden:</p>
+<ul>
+  <li>Ver el estado de sus consultas.</li>
+  <li>Crear nuevas consultas.</li>
+  <li>Cambiar su contraseña.</li>
+</ul>
+<p>El registro de clientes se realiza desde el enlace <strong>Registrarse como cliente</strong> en la pantalla de login.</p>
+
+<h2>11. Módulo de presupuestos</h2>
+<p>Permite asociar archivos PDF de presupuestos a cada cliente.</p>
+
+<h3>11.1 Subir un presupuesto</h3>
+<div class="paso">
+  <strong>Paso 1:</strong> Ir a <strong>Clientes</strong>.<br>
+  <strong>Paso 2:</strong> Buscar al cliente y hacer clic en <strong>Presupuestos</strong>.<br>
+  <strong>Paso 3:</strong> Completar título, N° de presupuesto (recomendado) y <strong>Elaborado por</strong> (empleado).<br>
+  <strong>Paso 4:</strong> Seleccionar archivo PDF (máximo 150 MB).<br>
+  <strong>Paso 5:</strong> Clic en <strong>Cargar presupuesto PDF</strong>.
+</div>
+
+<h3>11.2 Consultar historial</h3>
+<ul>
+  <li>Lista paginada de presupuestos del cliente.</li>
+  <li>Botón <strong>Ver PDF</strong> para abrir el documento.</li>
+  <li>Badge <strong>Elaborado por</strong> indica quién hizo el presupuesto.</li>
+</ul>
+
+<h3>11.3 Filtros dentro del cliente</h3>
+<ul>
+  <li>Por N° de presupuesto.</li>
+  <li>Por título o nombre de archivo.</li>
+  <li>Por período (30 días, 3 meses, etc.).</li>
+  <li>Por empleado elaborador.</li>
+</ul>
+
+<h3>11.4 Buscar presupuesto sin saber el cliente</h3>
+<p>En la sección Clientes, usar el campo <strong>N° presupuesto (buscar cliente)</strong> y el botón Buscar presupuesto.</p>
+
+<div class="nota">
+  Los archivos PDF se almacenan en el servidor. La base de datos guarda los datos del presupuesto (cliente, empleado, número, fecha), no el archivo completo.
+</div>
+
+<h2>12. Módulo de marketing</h2>
+<h3>12.1 Calendario comercial</h3>
+<p>Calendario anual con días especiales (Día del Electricista, del Arquitecto, etc.). El gerente puede agregar fechas nuevas.</p>
+
+<h3>12.2 Campañas (solo gerente)</h3>
+<p>Crear mensajes promocionales con variables {{nombre}}, {{rubro}}, {{empresa}} para personalizar por cliente.</p>
+
+<h3>12.3 Oportunidades de contacto</h3>
+<ul>
+  <li>Lista de clientes a contactar por cumpleaños, campañas, cuenta corriente (1° del mes), días especiales.</li>
+  <li>Buscador y filtros por rubro y categoría.</li>
+  <li>Al marcar <strong>Enviado</strong>, la tarjeta se registra y desaparece de pendientes.</li>
+</ul>
+
+<h3>12.4 Plantillas automáticas (solo gerente)</h3>
+<p>Editar mensajes predeterminados de cumpleaños, cuenta corriente y días especiales.</p>
+
+<h2>13. Reportes</h2>
+<p>Solo accesible para el gerente. Informes descargables en PDF y Excel:</p>
+<table>
+  <tr><th>Reporte</th><th>Contenido</th></tr>
+  <tr><td>Resumen gerencial</td><td>KPIs del dashboard.</td></tr>
+  <tr><td>Consultas</td><td>Listado de consultas filtrado.</td></tr>
+  <tr><td>Clientes</td><td>Listado de clientes activos.</td></tr>
+  <tr><td>Seguimientos</td><td>Seguimientos registrados.</td></tr>
+  <tr><td>Marketing</td><td>Envíos y campañas.</td></tr>
+</table>
+<p>Los reportes incluyen logo de Ituarte, encabezado y formato A4 vertical.</p>
+
+<h2>14. Solución de problemas frecuentes</h2>
+<table>
+  <tr><th>Problema</th><th>Posible solución</th></tr>
+  <tr><td>No carga el CRM</td><td>Verificar que el backend esté encendido. Acceder por la URL indicada por el administrador.</td></tr>
+  <tr><td>Email o contraseña incorrectos</td><td>Verificar mayúsculas. Usar Recuperar contraseña o consultar al gerente.</td></tr>
+  <tr><td>Error al subir PDF</td><td>Verificar que sea PDF y no supere 150 MB. Comprimir si es necesario.</td></tr>
+  <tr><td>No veo Reportes</td><td>Esa sección es solo para gerente.</td></tr>
+  <tr><td>Lista de consultas vacía</td><td>Revisar filtros activos. Cambiar a “Todas” o ampliar período.</td></tr>
+</table>
+
+<br><br>
+<p style="text-align: center; color: #64748b; font-size: 10pt;">
+  — Fin del Manual de Usuario —<br>
+  CRM Electricidad Ituarte — Proyecto de Tesis UTN 2026
+</p>
+
+</body>
+</html>

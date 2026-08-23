@@ -1,0 +1,104 @@
+﻿<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<!--[if gte mso 9]><xml>
+<w:WordDocument>
+<w:View>Print</w:View>
+<w:Zoom>100</w:Zoom>
+<w:DoNotOptimizeForBrowser/>
+</w:WordDocument>
+</xml><![endif]-->
+<title>Índice de la carpeta — Tesis CRM Ituarte</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.5; margin: 2cm; }
+  h1 { color: #c62828; font-size: 18pt; }
+  h2 { color: #c62828; font-size: 13pt; margin-top: 20px; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 10pt; }
+  th { background: #c62828; color: white; padding: 8px; text-align: left; }
+  td { border: 1px solid #ccc; padding: 8px; vertical-align: top; }
+  .nota { background: #fff8e1; padding: 12px; border-left: 4px solid #f9a825; margin: 14px 0; }
+</style>
+</head>
+<body>
+
+<h1>Índice de documentación — Proyecto de Tesis</h1>
+<p>
+  <strong>Título:</strong> Sistema CRM para la gestión comercial de Electricidad Ituarte<br>
+  <strong>Autora:</strong> Carla Guadalupe Moreno<br>
+  <strong>Carrera:</strong> Tecnicatura Universitaria en Programación — UTN FRT<br>
+  <strong>Regional:</strong> Concepción, Tucumán
+</p>
+
+<div class="nota">
+  <strong>Nota:</strong> Este índice sigue la estructura habitual de entrega de tesis. Comparalo con el modelo que te dio la facultad y renombrá o agregá archivos si te piden algo distinto.
+</div>
+
+<h2>Estructura sugerida de la carpeta digital</h2>
+
+<table>
+  <tr><th>N°</th><th>Archivo / carpeta</th><th>Contenido</th></tr>
+  <tr>
+    <td>1</td>
+    <td><strong>CARPETA_TFI_ITUARTE.doc</strong></td>
+    <td>Carpeta TFI completa: resumen, diseño, sitio web + CRM, metodología, resultados (modelo Fluxx adaptado).</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td><strong>02_Manual_de_Usuario_CRM_Ituarte.doc</strong></td>
+    <td>Guía para gerente, empleados y clientes — cómo usar el CRM paso a paso.</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td><strong>03_Documentacion_Tecnica.pdf</strong> (opcional)</td>
+    <td>Arquitectura, base de datos, API, diagrama ER, instalación — si la cátedra lo pide aparte.</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td><strong>04_Diagramas/</strong></td>
+    <td>Diagrama entidad-relación, casos de uso, capturas de pantalla.</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td><strong>05_Codigo_Fuente/</strong></td>
+    <td>Carpeta completa <em>ProyectoTesis</em> (sitio web + backend + scripts SQL).</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td><strong>06_Base_de_Datos/</strong></td>
+    <td>schema.sql + scripts de actualización (marketing, presupuestos, etc.).</td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td><strong>07_Anexos/</strong></td>
+    <td>Capturas del sitio web, formularios, reportes PDF/Excel de ejemplo.</td>
+  </tr>
+</table>
+
+<h2>Contenido del proyecto entregable (resumen)</h2>
+<ul>
+  <li>Sitio web institucional con diseño unificado, catálogo por categorías y más de 350 fichas de producto conectadas al CRM</li>
+  <li>CRM web con roles: gerente, empleado y cliente</li>
+  <li>Backend Node.js + Express + MySQL</li>
+  <li>Módulos: consultas, clientes, seguimientos, marketing, reportes, presupuestos PDF, empleados</li>
+</ul>
+
+<h2>Checklist antes de entregar</h2>
+<ul>
+  <li>☐ Carpeta TFI impresa/en PDF (CARPETA_TFI_ITUARTE.doc)</li>
+  <li>☐ Manual de usuario revisado</li>
+  <li>☐ Capturas de pantalla en 07_Anexos/</li>
+  <li>☐ Código fuente: carpeta ProyectoTesis completa</li>
+  <li>☐ Script SQL para recrear la base de datos</li>
+  <li>☐ Pendrive / entrega digital según indique la cátedra</li>
+</ul>
+
+<p style="margin-top: 30px; color: #666; font-size: 9pt;">
+  Carpeta generada para Proyecto de Tesis — CRM Ituarte — 2026
+</p>
+
+</body>
+</html>

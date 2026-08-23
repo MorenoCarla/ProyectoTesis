@@ -1,118 +1,167 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tortugas</title>
-        <link rel="stylesheet" href="css/stylesapliques.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-        <script src="js/scriptapliques.js" defer></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
-    </head>
-    <body class="fondo-tortugas">
-        <header>
-            <div class="logo">
-                <a href="index.html">
-                <img src="img/LOGO.png" alt="Logo Empresa">
-                </a>
-            </div>
-            <nav class="navbar">
-                <ul class="nav-links">
-                    <li><a href="contacto.html" target="_blank">Contacto</a></li>
-                    <li><a href="productos.html">Productos</a></li>
-                </ul>
-            </nav>    
-            <div class="buscador">
-                <input type="text" id="busqueda" placeholder="Buscar por nombre o código...">
-                <i class="fa fa-search"></i>
-            </div>
-        </header>
-        <main>
-            <h1 class="titulo">TORTUGAS</h1>
-            <section class="filas-imagenes">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tortugas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="css/site-chrome.css">
+  <link rel="stylesheet" href="css/stylesapliques.css">
+  <script src="js/site-chrome.js" defer></script>
+  <script src="js/scriptapliques.js" defer></script>
+</head>
+<body class="pagina-institucional pagina-categoria fondo-tortugas">
+  <header class="site-header">
+    <a href="index.html" class="site-logo">
+      <img src="img/LOGO.png" alt="Electricidad Ituarte">
+    </a>
+    <button type="button" class="site-nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+    </button>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="conócenos.html">Conócenos</a>
+      <a href="productos.html" class="active">Productos</a>
+      <a href="catalogo.html">Catálogo</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank" class="nav-instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </nav>
+  </header>
+
+  <section class="cat-catalog-hero">
+    <div class="container">
+      <a href="productos.html" class="cat-back-link"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver a categorías</a>
+      <h1 class="cat-catalog-title">TORTUGAS</h1>
+      <div class="buscador cat-catalog-search">
+        <input type="text" id="busqueda" placeholder="Buscar por nombre o código..." autocomplete="off">
+        <button type="button" class="buscador-btn" aria-label="Buscar"><i class="fa fa-search"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <main class="cat-catalog-main">
+    <div class="container">
+      <div class="mensaje-no-encontrado" style="display: none;">Producto no encontrado😢 Intenta nuevamente con otro nombre o código.</div>
+<section class="filas-imagenes cat-catalog-grid">
                 <div class="fila uno">
-                    <div class="imagen exterior 1" data-nombre="Oval 18w" data-codigo="20810, 20811">
-                        <img src="img/ovalada18w.png" alt="oval 18w">
-                        <p class="p1-ext">Oval 18w</p>
-                    </div>
-                    <div class="imagen exterior 2" data-nombre="Oval 12w" data-codigo="20808, 20809">
-                        <img src="img/ovalada12w.png" alt="oval 12w">
-                        <p class="p2-ext">Oval 12w</p>
-                    </div>
-                    <div class="imagen exterior 3" data-nombre="Redonda 18w" data-codigo="21269, 21270">
-                        <img src="img/redonda18w.png" alt="redonda 18w">
-                        <p class="p3-ext">Redonda 18w</p>
-                    </div>
-                    <div class="imagen exterior 4" data-nombre="Redonda 12w" data-codigo="21267, 21268">
-                        <img src="img/redonda12w.png" alt="redonda 12w">
-                        <p class="p4-ext">Redonda 12w</p>
-                    </div>
-                    <div class="imagen exterior 5" data-nombre="Ovalada Grande" data-codigo="3462">
-                        <img src="img/ovalgrande.png" alt="ovalada grande">
-                        <p class="p5-ext">Ovalada Grande</p>
-                    </div>
+                    <a href="oval18.html" class="link-producto">
+                        <div class="imagen exterior 1" data-nombre="Oval 18" data-codigo="20810">
+                            <img src="img/ovalada18w.png" alt="oval 18">
+                            <p class="p1-ext">Oval 18</p>
+                        </div>
+                    </a>
+                    <a href="oval12.html" class="link-producto">
+                        <div class="imagen exterior 2" data-nombre="Oval 12" data-codigo="20808">
+                            <img src="img/ovalada12w.png" alt="oval 12">
+                            <p class="p2-ext">Oval 12</p>
+                        </div>
+                    </a>
+                    <a href="redonda18.html" class="link-producto">
+                        <div class="imagen exterior 3" data-nombre="Redonda 18" data-codigo="21269">
+                            <img src="img/redonda18w.png" alt="redonda 18">
+                            <p class="p3-ext">Redonda 18</p>
+                        </div>
+                    </a>
+                    <a href="redonda12.html" class="link-producto">
+                        <div class="imagen exterior 4" data-nombre="Redonda 12" data-codigo="21267">
+                            <img src="img/redonda12w.png" alt="redonda 12">
+                            <p class="p4-ext">Redonda 12</p>
+                        </div>
+                    </a>
+                    <a href="ovaladagrande.html" class="link-producto">
+                        <div class="imagen exterior 5" data-nombre="Ovalada Grande" data-codigo="3462">
+                            <img src="img/ovalgrande.png" alt="ovalada grande">
+                            <p class="p5-ext">Ovalada Grande</p>
+                        </div>
+                    </a>
                 </div>
                 <div class="fila dos">
-                    <div class="imagen exterior 6" data-nombre="Ovalada Chica" data-codigo="3461">
-                        <img src="img/ovaladachica.png" alt="ovalada chica">
-                        <p class="p4-ext">Ovalada Chica</p>
-                    </div>
-                     <div class="imagen exterior 7" data-nombre="Circular Grande" data-codigo="3789">
-                        <img src="img/circulargrande.png" alt="circular grande">
-                        <p class="p1-ext">Circular Grande</p>
-                    </div>
-                     <div class="imagen exterior 8" data-nombre="Circular Chica" data-codigo="3463">
-                        <img src="img/circularchica.png" alt="circular chica">
-                        <p class="p2-ext">Circular Chica</p>
-                    </div>
-                     <div class="imagen exterior 9" data-nombre="Oval Fundición Grande" data-codigo="18131, 18132">
-                        <img src="img/ovaladafundiciongrande.png" alt="oval fundicion grande">
-                        <p class="p5-ext">Oval Fundición Grande</p>
-                    </div>
-                     <div class="imagen exterior 10" data-nombre="Oval Fundición Chica" data-codigo="18133, 18134">
-                        <img src="img/ovaladafundicionchica.png" alt="oval fundicion chica">
-                        <p class="p3-ext">Oval Fundición Chica</p>
-                    </div>
+                    <a href="ovaladachica.html" class="link-producto">
+                        <div class="imagen exterior 6" data-nombre="Ovalada Chica" data-codigo="3461">
+                            <img src="img/ovaladachica.png" alt="ovalada chica">
+                            <p class="p4-ext">Ovalada Chica</p>
+                        </div>
+                    </a>
+                    <a href="circulagrande.html" class="link-producto">
+                        <div class="imagen exterior 7" data-nombre="Circular Grande" data-codigo="3789">
+                            <img src="img/circulargrande.png" alt="circular grande">
+                            <p class="p1-ext">Circular Grande</p>
+                        </div>
+                    </a>
+                    <a href="circularchica.html" class="link-producto">
+                        <div class="imagen exterior 8" data-nombre="Circular Chica" data-codigo="3463">
+                            <img src="img/circularchica.png" alt="circular chica">
+                            <p class="p2-ext">Circular Chica</p>
+                        </div>
+                    </a>
+                    <a href="ovalfundiciongrande.html" class="link-producto">
+                        <div class="imagen exterior 9" data-nombre="Oval Fundición Grande" data-codigo="18132, 18131">
+                            <img src="img/ovaladafundiciongrande.png" alt="oval fundicion grande">
+                            <p class="p5-ext">Oval Fundición Grande</p>
+                        </div>
+                    </a>
+                    <a href="ovalfundicionchica.html" class="link-producto">
+                        <div class="imagen exterior 10" data-nombre="Oval Fundición Chica" data-codigo="18134, 18133">
+                            <img src="img/ovaladafundicionchica.png" alt="oval fundicion chica">
+                            <p class="p3-ext">Oval Fundición Chica</p>
+                        </div>
+                    </a>
                 </div>
                 <div class="fila tres">
-                     <div class="imagen exterior 1" data-nombre="circular fundicion chica" data-codigo="17840, 17839">
-                        <img src="img/circularfundicionchica.png" alt="circular fundicion chica">
-                        <p class="p3-ext">Circ. Fundición Chica</p>
-                    </div>
-                     <div class="imagen exterior 2" data-nombre="Circular Fundición Grande" data-codigo="18586, 18585">
-                        <img src="img/circularfundiciongrande.png" alt="circular fundicion grande">
-                        <p class="p4-ext">Circ. Fundición Grande</p>
-                    </div>
+                    <a href="circularfundicionchica.html" class="link-producto">
+                        <div class="imagen exterior 1" data-nombre="circular fundicion chica" data-codigo="17840, 17839">
+                            <img src="img/circularfundicionchica.png" alt="circular fundicion chica">
+                            <p class="p3-ext">Circ. Fundición Chica</p>
+                        </div>
+                    </a>
+                    <a href="circularfundiciongrande.html" class="link-producto">
+                        <div class="imagen exterior 2" data-nombre="Circular Fundición Grande" data-codigo="18585">
+                            <img src="img/circularfundiciongrande.png" alt="circular fundicion grande">
+                            <p class="p4-ext">Circ. Fundición Grande</p>
+                        </div>
+                    </a>
                 </div>
             </section>
-        </main>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <footer>
-            <div class="footer-left">
-                <p>SEGUINOS!</p>
-                <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.facebook.com/share/19tbHw23mm/?" target="_blank"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.tiktok.com/@ituarte.electricidad?" target="_blank"><i class="fab fa-tiktok"></i></a>
-            </div>
-            <div class="footer-right">
-                <p><strong>Horarios de Atención:</strong></p>
-                <ul>
-                <li>Lunes a viernes: 8:30 a 12:30hs/ 16:30 a 20:30hs</li>
-                <li>Sábados: 8:30 a 13:00hs</li>
-                </ul>
-            </div>
-        </footer>
-        <div class="scroll-top" id="scroll-top">&#8679;</div>
-        <a href="https://wa.me/5493865601388" class="whatsapp-float" target="_blank">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-    </body>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-grid">
+      <div>
+        <h3>Electricidad Ituarte</h3>
+        <p>Más de 50 años iluminando proyectos en Tucumán.</p>
+        <div class="site-footer-social">
+          <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/share/19tbHw23mm/?" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="https://www.tiktok.com/@ituarte.electricidad?" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="site-footer-links">
+        <h3>Navegación</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="conócenos.html">Conócenos</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="registro.html">Registrarse</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Horarios de atención</h3>
+        <ul>
+          <li>Lunes a viernes: 8:30 a 12:30 hs / 16:30 a 20:30 hs</li>
+          <li>Sábados: 8:30 a 13:00 hs</li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-footer-copy">© Electricidad Ituarte — Concepción &amp; J. B. Alberdi, Tucumán</p>
+  </footer>
+
+  <button type="button" class="scroll-top" id="scroll-top" aria-label="Volver arriba">↑</button>
+  <a href="https://wa.me/5493865601388" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</body>
 </html>

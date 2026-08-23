@@ -1,0 +1,534 @@
+﻿<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<!--[if gte mso 9]><xml>
+<w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument>
+</xml><![endif]-->
+<title>Carpeta TFI - Electricidad Ituarte</title>
+<style>
+@page { size: A4; margin: 2.5cm; }
+body { font-family: "Times New Roman", Times, serif; font-size: 12pt; line-height: 1.5; color: #000; }
+h1 { font-size: 18pt; text-align: center; margin-top: 36pt; page-break-before: always; }
+h1:first-of-type { page-break-before: auto; }
+h2 { font-size: 14pt; margin-top: 18pt; border-bottom: 1px solid #333; padding-bottom: 4pt; }
+h3 { font-size: 12pt; margin-top: 14pt; font-weight: bold; }
+p { text-align: justify; margin: 6pt 0; }
+ul, ol { margin: 6pt 0 6pt 20pt; }
+li { margin-bottom: 4pt; }
+table { border-collapse: collapse; width: 100%; margin: 10pt 0; font-size: 11pt; }
+th, td { border: 1px solid #333; padding: 5pt 8pt; vertical-align: top; }
+th { background: #f0f0f0; font-weight: bold; text-align: center; }
+.portada { text-align: center; margin-top: 80pt; page-break-after: always; }
+.portada h1 { font-size: 22pt; border: none; page-break-before: auto; }
+.nota { font-size: 10pt; font-style: italic; color: #444; }
+.codigo { font-family: Consolas, monospace; font-size: 10pt; background: #f5f5f5; padding: 8pt; display: block; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+
+<!-- ==================== PORTADA ==================== -->
+<div class="portada">
+<p style="font-size:16pt; margin-bottom:40pt;">Universidad Tecnológica Nacional<br>Facultad Regional Concepción</p>
+<h1>Trabajo Final Integrador</h1>
+<p style="font-size:16pt; margin:30pt 0;"><strong>Sitio Web Corporativo y Sistema CRM<br>para Electricidad Ituarte</strong></p>
+<p style="margin-top:50pt;">Presentado por:</p>
+<p><strong>Carla Guadalupe Moreno</strong></p>
+<p style="margin-top:30pt;">Para optar al título de</p>
+<p><strong>Tecnicatura Universitaria en Programación</strong></p>
+<p style="margin-top:50pt;">Concepción, Tucumán — 2025</p>
+</div>
+
+<!-- ==================== ÍNDICE ==================== -->
+<h1>Índice</h1>
+<ol class="indice">
+<li>Resumen ejecutivo</li>
+<li>Introducción</li>
+<li>Estado del arte</li>
+<li>Descripción del proyecto
+  <ol>
+    <li>Problemática identificada</li>
+    <li>Definición de la solución</li>
+    <li>Alcance del proyecto</li>
+    <li>Segmentación de mercado</li>
+    <li>Modelo Entidad-Relación</li>
+    <li>Historias de usuario</li>
+    <li>Reglas de negocio</li>
+    <li>Requisitos funcionales y no funcionales</li>
+    <li>Matriz de trazabilidad</li>
+    <li>Limitaciones del proyecto</li>
+    <li>Mejoras futuras</li>
+  </ol>
+</li>
+<li>Metodología de desarrollo</li>
+<li>Recursos del proyecto</li>
+<li>Plan de trabajo</li>
+<li>Resultados esperados</li>
+<li>Referencias bibliográficas</li>
+<li>Anexo</li>
+</ol>
+
+<!-- ==================== 1. RESUMEN EJECUTIVO ==================== -->
+<h1>1. Resumen ejecutivo</h1>
+
+<p>El presente Trabajo Final Integrador (TFI) describe el diseño, desarrollo e implementación de una solución digital integral para <strong>Electricidad Ituarte</strong>, comercio familiar especializado en iluminación, materiales eléctricos y asesoramiento técnico, con sede en Concepción, provincia de Tucumán, Argentina.</p>
+
+<p>La problemática central identificada es la falta de presencia digital estructurada y de herramientas internas que permitan gestionar de forma ordenada las consultas de clientes, el seguimiento comercial y la comunicación de marketing. Hasta la implementación de este proyecto, la empresa dependía principalmente de atención presencial, contacto telefónico y mensajes informales, lo que dificultaba el registro histórico de interacciones, la asignación de tareas entre empleados y la medición del desempeño comercial.</p>
+
+<p>La solución propuesta combina dos componentes integrados:</p>
+<ul>
+<li><strong>Sitio web corporativo:</strong> catálogo de productos con más de 350 fichas individuales, diseño unificado (header, footer y tipografía compartidos), páginas por categoría con buscador, información institucional, formulario de contacto conectado al CRM y acceso al sistema.</li>
+<li><strong>Sistema CRM (Customer Relationship Management):</strong> aplicación web interna para gerentes y empleados, con módulos de consultas, clientes, seguimientos, marketing automatizado, presupuestos en PDF, reportes gerenciales y portal del cliente registrado.</li>
+</ul>
+
+<p>La arquitectura técnica adoptada es cliente-servidor: frontend en HTML5, CSS3 y JavaScript; backend en Node.js con Express.js; base de datos relacional MySQL (<em>crm_ituarte</em>) normalizada en tercera forma normal (3FN); autenticación mediante JWT y contraseñas hasheadas con bcrypt.</p>
+
+<p>El proyecto fue desarrollado por una única integrante (la autora) bajo metodología ágil adaptada, con entregas incrementales validadas junto a la empresa. Los resultados incluyen un sitio web con diseño unificado (header, footer y tipografía compartidos), catálogo en constante ampliación con más de 350 fichas de producto, un CRM operativo con roles diferenciados (gerente, empleado y cliente), generación de reportes en PDF y Excel exclusivos para gerencia, y almacenamiento de presupuestos comerciales vinculados a cada cliente.</p>
+
+<p>Se concluye que la solución mejora la organización comercial de Electricidad Ituarte, profesionaliza la atención al cliente y sienta las bases para futuras integraciones (e-commerce, facturación electrónica, app móvil).</p>
+
+<!-- ==================== 2. INTRODUCCIÓN ==================== -->
+<h1>2. Introducción</h1>
+
+<h3>2.1 Contexto</h3>
+<p>En la actualidad, los comercios del rubro eléctrico e iluminación enfrentan una creciente demanda de información online por parte de sus clientes. Los consumidores consultan catálogos, comparan productos y solicitan presupuestos antes de visitar el local. Simultáneamente, las empresas necesitan sistemas que registren cada interacción para no perder oportunidades de venta ni repetir esfuerzos de comunicación.</p>
+
+<p>Electricidad Ituarte es una empresa con 50 años de trayectoria en la localidad de Concepción y Juan Bautista Alberdi que ofrece productos de iluminación decorativa e industrial, materiales eléctricos y asesoramiento lumínico. A pesar de su reconocimiento local, carecía de un sitio web unificado y de un sistema interno de gestión de relaciones con clientes.</p>
+
+<h3>2.2 Objetivo general</h3>
+<p>Desarrollar e implementar un sitio web corporativo y un sistema CRM integrado que permita a Electricidad Ituarte mostrar su catálogo de productos, recibir consultas de clientes y gestionar de manera eficiente el ciclo comercial completo: desde el primer contacto hasta el seguimiento, presupuesto y reportes gerenciales.</p>
+
+<h3>2.3 Objetivos específicos</h3>
+<ol>
+<li>Diseñar e implementar un sitio web responsive con catálogo de productos, páginas institucionales y formulario de contacto conectado al CRM.</li>
+<li>Modelar e implementar una base de datos relacional normalizada que soporte usuarios, clientes, consultas, seguimientos, marketing y presupuestos.</li>
+<li>Desarrollar un backend RESTful con autenticación segura y control de acceso por roles (gerente, empleado, cliente).</li>
+<li>Implementar módulos CRM: gestión de consultas, clientes, seguimientos, marketing automatizado, presupuestos PDF y reportes.</li>
+<li>Diferenciar la interfaz y permisos según el rol del usuario (gerente vs. empleado vs. cliente).</li>
+<li>Documentar el proyecto conforme a los requisitos académicos de la Tecnicatura Universitaria en Programación de la UTN-FRC.</li>
+</ol>
+
+<h3>2.4 Justificación</h3>
+<p>La digitalización de Electricidad Ituarte responde a una necesidad real del negocio: ampliar su alcance comercial, centralizar la información de clientes y mejorar la coordinación entre gerencia y empleados. Desde la perspectiva académica, el proyecto integra conocimientos de programación web full-stack, bases de datos, seguridad, diseño de interfaces y gestión de proyectos de software, cumpliendo con los objetivos formativos del TFI.</p>
+
+<!-- ==================== 3. ESTADO DEL ARTE ==================== -->
+<h1>3. Estado del arte</h1>
+
+<h3>3.1 Transformación digital en el comercio minorista</h3>
+<p>La transformación digital en el comercio minorista argentino ha acelerado la adopción de sitios web, redes sociales y herramientas de gestión. Según estudios del sector, más del 70% de los consumidores investigan online antes de comprar productos de hogar y construcción (CACE, 2023). Las empresas que no cuentan con presencia digital estructurada pierden visibilidad frente a competidores que ofrecen catálogos online y atención multicanal.</p>
+
+<h3>3.2 Sistemas CRM en pymes</h3>
+<p>Los sistemas CRM (Customer Relationship Management) permiten centralizar datos de clientes, registrar interacciones y automatizar comunicaciones. Soluciones comerciales como Salesforce, HubSpot o Zoho CRM ofrecen funcionalidades avanzadas pero implican costos de licencia, curva de aprendizaje y dependencia de servicios externos. Para pymes como Electricidad Ituarte, un CRM a medida resulta más viable: se adapta a procesos locales, no genera costos recurrentes de suscripción y puede integrarse directamente con el sitio web existente.</p>
+
+<h3>3.3 Catálogos web en el rubro eléctrico e iluminación</h3>
+<p>Los principales distribuidores del rubro (Sica, Candil, Ilumina, entre otros) utilizan sitios web con catálogos categorizados, fichas técnicas de productos y formularios de consulta. Las tendencias incluyen: diseño responsive, imágenes de alta calidad, filtros por categoría y tipología de producto, y botones de contacto directo (WhatsApp, formulario). El proyecto Ituarte sigue estas buenas prácticas adaptándolas a la identidad visual de la marca (colores corporativos, tipografía y estilo propio).</p>
+
+<h3>3.4 Tecnologías web para pymes</h3>
+<p>El stack tecnológico elegido — HTML/CSS/JavaScript en el frontend, Node.js/Express en el backend y MySQL como motor de base de datos — es ampliamente documentado, de libre acceso y adecuado para proyectos de escala media. Node.js permite un desarrollo unificado en JavaScript, Express simplifica la creación de APIs REST, y MySQL garantiza integridad referencial y consultas eficientes sobre datos relacionales.</p>
+
+<h3>3.5 Brecha identificada</h3>
+<p>Tras el análisis del estado del arte, se identifica que Electricidad Ituarte no contaba con ninguna de las soluciones mencionadas de forma integrada. Existían perfiles en redes sociales y comunicación informal, pero no un sistema que registrara consultas, asignara empleados, generara reportes ni almacenara presupuestos de forma centralizada. Este proyecto cubre esa brecha con una solución personalizada.</p>
+
+<!-- ==================== 4. DESCRIPCIÓN DEL PROYECTO ==================== -->
+<h1>4. Descripción del proyecto</h1>
+
+<h2>4.1 Problemática identificada</h2>
+<p>Electricidad Ituarte presentaba las siguientes dificultades operativas y comerciales:</p>
+<ul>
+<li><strong>Ausencia de sitio web unificado:</strong> los clientes no podían consultar el catálogo completo de productos de forma online; la información estaba dispersa en redes sociales y material impreso.</li>
+<li><strong>Consultas sin registro sistemático:</strong> las solicitudes llegaban por teléfono, WhatsApp o presencialmente, sin un historial centralizado que permitiera dar seguimiento.</li>
+<li><strong>Falta de trazabilidad comercial:</strong> no existía registro de qué empleado atendió cada consulta, qué acciones se realizaron ni cuándo debía contactarse nuevamente al cliente.</li>
+<li><strong>Comunicación de marketing manual:</strong> los envíos promocionales (cumpleaños, fechas especiales) se realizaban de forma individual y sin control de duplicados.</li>
+<li><strong>Presupuestos desorganizados:</strong> los archivos PDF de presupuestos quedaban en carpetas locales de cada empleado, dificultando su recuperación.</li>
+<li><strong>Sin métricas gerenciales:</strong> la gerencia no contaba con reportes consolidados de consultas, clientes activos ni desempeño del equipo.</li>
+</ul>
+
+<h2>4.2 Definición de la solución</h2>
+<p>La solución consiste en una plataforma web compuesta por dos subsistemas integrados:</p>
+
+<h3>4.2.1 Sitio web corporativo (frontend público)</h3>
+<ul>
+<li>Página de inicio con hero, secciones institucionales en paneles semitransparentes, grilla de promociones y sucursales con videos y mapas.</li>
+<li>Sección "Conócenos" con historia y valores de la empresa.</li>
+<li>Catálogo de productos organizado por categorías: apliques, colgantes, plafones, reflectores, ventiladores, veladores, farolas, paneles solares, cámaras de seguridad, entre otras.</li>
+<li>Fichas individuales de producto con imágenes, descripción y datos técnicos.</li>
+<li>Formulario de contacto/consulta conectado al backend del CRM.</li>
+<li>Acceso al login del CRM para usuarios registrados (empleados, gerente y clientes).</li>
+<li><strong>Componentes compartidos (site-chrome):</strong> header fino unificado (~68 px), footer institucional de tres columnas, tipografía Work Sans, botón volver arriba, WhatsApp flotante y menú hamburguesa en dispositivos móviles (site-chrome.css / site-chrome.js).</li>
+<li><strong>Navegación global:</strong> Home, Conócenos, Productos, Catálogo, Contacto, Acceso CRM, Registrarse e Instagram en todas las páginas públicas.</li>
+<li><strong>Páginas de categoría:</strong> 19 catálogos (apliques, colgantes, ventiladores, reflectores, etc.) con hero, buscador integrado y diseño claro u oscuro según tipo de producto (category-catalog.css).</li>
+<li><strong>Fichas de producto:</strong> más de 350 páginas HTML con imágenes, descripción, códigos, carrusel de productos relacionados, formulario "Consúltanos" vinculado al CRM mediante data-producto y data-categoria en el body; fondos diferenciados por categoría (por ejemplo, colgantes con fondocolgantescadauno.png).</li>
+<li><strong>Catálogo y contacto:</strong> páginas institucionales con franja hero gris, descarga de catálogo PDF y formulario de contacto/quejas conectado al backend.</li>
+<li><strong>Diseño responsive:</strong> reglas CSS para móvil en categorías y productos (mobile-ux.css), adaptación de header, catálogo e imágenes.</li>
+</ul>
+
+<h3>4.2.2 Sistema CRM (frontend privado)</h3>
+<ul>
+<li><strong>Dashboard gerencial:</strong> panel con 8 indicadores clave (KPIs), gráfico de distribución de consultas y accesos rápidos a módulos. Diseño con colores corporativos Ituarte.</li>
+<li><strong>Módulo Consultas:</strong> listado con filtros (estado, tipo, empleado, fecha), paginación, agrupación por cliente y operaciones CRUD.</li>
+<li><strong>Módulo Clientes:</strong> registro, edición, baja lógica (soft delete), capitalización automática de nombres y ciudades, filtros y paginación.</li>
+<li><strong>Módulo Seguimientos:</strong> notas de contacto vinculadas a cada consulta, con fecha de próximo contacto.</li>
+<li><strong>Módulo Marketing:</strong> campañas automatizadas por cumpleaños y días especiales, plantillas de mensajes, control anti-duplicados (7 días), confirmación visual de envío.</li>
+<li><strong>Módulo Presupuestos:</strong> carga de archivos PDF por cliente, historial paginado, filtros por número, fecha y empleado elaborador, búsqueda global.</li>
+<li><strong>Módulo Reportes:</strong> generación de informes en PDF y Excel (solo gerente): consultas por período, clientes activos, desempeño por empleado.</li>
+<li><strong>Portal Cliente:</strong> vista simplificada donde el cliente registrado consulta sus consultas y puede crear nuevas.</li>
+</ul>
+
+<h3>4.2.3 Backend y base de datos</h3>
+<p>API REST desarrollada en Node.js/Express con rutas protegidas por JWT. Base de datos MySQL con 14 tablas principales (roles, usuarios, empleados, clientes, tipos_consulta, consultas, seguimientos, historial_estados, presupuestos, campanas_marketing, plantillas_mensajes, dias_especiales, envios_marketing, campana_archivos). Los archivos PDF de presupuestos se almacenan en el sistema de archivos (<em>backend/uploads/presupuestos/</em>) con metadatos en la base de datos.</p>
+
+<h2>4.3 Alcance del proyecto</h2>
+
+<h3>Dentro del alcance</h3>
+<ul>
+<li>Sitio web corporativo con catálogo de productos (carga progresiva de fichas).</li>
+<li>CRM completo con los módulos descritos.</li>
+<li>Autenticación con roles y permisos diferenciados.</li>
+<li>Base de datos relacional normalizada.</li>
+<li>Reportes gerenciales exportables.</li>
+<li>Documentación académica del TFI.</li>
+</ul>
+
+<h3>Fuera del alcance (v1.0)</h3>
+<ul>
+<li>Comercio electrónico con pasarela de pagos.</li>
+<li>Facturación electrónica (AFIP).</li>
+<li>Aplicación móvil nativa (iOS/Android).</li>
+<li>Integración con ERP o sistemas contables externos.</li>
+<li>Chat en tiempo real / bot de atención automatizada.</li>
+</ul>
+
+<h2>4.4 Segmentación de mercado</h2>
+<table>
+<tr><th>Segmento</th><th>Descripción</th><th>Necesidad principal</th></tr>
+<tr><td>Clientes particulares</td><td>Personas que buscan iluminación para hogar, reformas o proyectos personales</td><td>Ver catálogo online, consultar precios y disponibilidad</td></tr>
+<tr><td>Clientes comerciales</td><td>Comercios, oficinas, locales que requieren iluminación profesional</td><td>Presupuestos formales, asesoramiento técnico, seguimiento</td></tr>
+<tr><td>Instaladores y electricistas</td><td>Profesionales que compran materiales y derivan clientes</td><td>Catálogo técnico, consultas rápidas, historial de compras</td></tr>
+<tr><td>Empleados Ituarte</td><td>Asesores comerciales y personal de mostrador</td><td>Gestionar consultas asignadas, registrar seguimientos</td></tr>
+<tr><td>Gerencia</td><td>Dueños/administradores de la empresa</td><td>Visión global, reportes, control de equipo y marketing</td></tr>
+</table>
+
+<h2>4.5 Modelo Entidad-Relación</h2>
+<p>La base de datos <em>crm_ituarte</em> fue diseñada en tercera forma normal (3FN) para eliminar redundancias y garantizar integridad referencial. A continuación se describe el modelo lógico:</p>
+
+<h3>Entidades principales y relaciones</h3>
+<table>
+<tr><th>Entidad</th><th>Descripción</th><th>Relaciones</th></tr>
+<tr><td>roles</td><td>Tipos de usuario: admin (gerente), empleado, cliente</td><td>1:N con usuarios</td></tr>
+<tr><td>usuarios</td><td>Credenciales de acceso, datos personales</td><td>N:1 con roles; 1:1 con empleados o clientes</td></tr>
+<tr><td>empleados</td><td>Datos laborales (cargo, sucursal)</td><td>1:1 con usuarios; 1:N con consultas, seguimientos, presupuestos</td></tr>
+<tr><td>clientes</td><td>Personas que contactan o compran</td><td>1:1 opcional con usuarios; 1:N con consultas, presupuestos</td></tr>
+<tr><td>tipos_consulta</td><td>Catálogo: técnica, comercial, lumínica, queja, producto</td><td>1:N con consultas</td></tr>
+<tr><td>consultas</td><td>Cada contacto o pedido del cliente</td><td>N:1 con clientes, empleados, tipos_consulta; 1:N con seguimientos, historial_estados</td></tr>
+<tr><td>seguimientos</td><td>Notas de contacto y próximo seguimiento</td><td>N:1 con consultas y empleados</td></tr>
+<tr><td>historial_estados</td><td>Auditoría de cambios de estado en consultas</td><td>N:1 con consultas y empleados</td></tr>
+<tr><td>presupuestos</td><td>Metadatos de PDFs comerciales</td><td>N:1 con clientes y empleados</td></tr>
+<tr><td>campanas_marketing</td><td>Campañas promocionales</td><td>1:N con plantillas_mensajes, campana_archivos</td></tr>
+<tr><td>plantillas_mensajes</td><td>Textos reutilizables para marketing</td><td>N:1 con campanas_marketing</td></tr>
+<tr><td>dias_especiales</td><td>Fechas conmemorativas para envíos automáticos</td><td>Independiente</td></tr>
+<tr><td>envios_marketing</td><td>Registro de envíos realizados (control anti-duplicados)</td><td>N:1 con clientes</td></tr>
+<tr><td>campana_archivos</td><td>Archivos adjuntos de campañas</td><td>N:1 con campanas_marketing</td></tr>
+</table>
+
+<p class="nota">Nota: El diagrama ER gráfico se incluirá en el Anexo (sección 12) una vez exportado desde MySQL Workbench o herramienta de modelado.</p>
+
+<h2>4.6 Historias de usuario</h2>
+
+<table>
+<tr><th>ID</th><th>Rol</th><th>Historia de usuario</th><th>Criterio de aceptación</th></tr>
+<tr><td>HU-01</td><td>Visitante</td><td>Como visitante del sitio web, quiero ver el catálogo de productos por categoría, para encontrar iluminación que me interese.</td><td>El catálogo muestra categorías con enlaces a fichas de producto. Cada ficha incluye imagen, nombre y descripción.</td></tr>
+<tr><td>HU-02</td><td>Visitante</td><td>Como visitante, quiero enviar una consulta desde el formulario de contacto, para recibir asesoramiento sin ir al local.</td><td>El formulario envía datos al backend, crea cliente y consulta en el CRM, y muestra confirmación al usuario.</td></tr>
+<tr><td>HU-03</td><td>Empleado/Gerente</td><td>Como usuario del CRM, quiero iniciar sesión con email y contraseña, para acceder según mi rol.</td><td>Login valida credenciales, genera JWT y redirige al panel correspondiente (admin, empleado o cliente).</td></tr>
+<tr><td>HU-04</td><td>Empleado</td><td>Como empleado, quiero ver y gestionar las consultas asignadas, para dar seguimiento a los clientes.</td><td>Listado con filtros (estado, tipo, fecha), paginación, cambio de estado y asignación de empleado.</td></tr>
+<tr><td>HU-05</td><td>Gerente</td><td>Como gerente, quiero ver todas las consultas activas agrupadas por cliente, para tener una visión completa.</td><td>Panel gerencial con consultas recientes, filtros backend, agrupación y paginación server-side.</td></tr>
+<tr><td>HU-06</td><td>Empleado/Gerente</td><td>Como usuario autorizado, quiero registrar y editar clientes, para mantener la base de datos actualizada.</td><td>CRUD de clientes con capitalización automática, soft delete, filtros y paginación.</td></tr>
+<tr><td>HU-07</td><td>Empleado</td><td>Como empleado, quiero agregar seguimientos a una consulta, para documentar cada contacto con el cliente.</td><td>Formulario de seguimiento con nota y fecha de próximo contacto; visible en historial de la consulta.</td></tr>
+<tr><td>HU-08</td><td>Gerente</td><td>Como gerente, quiero configurar campañas de marketing automatizado, para enviar saludos en cumpleaños y fechas especiales.</td><td>Módulo marketing con pestañas: campañas, plantillas, días especiales. Envío con confirmación verde y control anti-duplicados (7 días).</td></tr>
+<tr><td>HU-09</td><td>Empleado/Gerente</td><td>Como empleado, quiero subir presupuestos PDF vinculados a un cliente, para centralizar la documentación comercial.</td><td>Upload de PDF (hasta 150 MB), registro de metadatos (número, título, elaborado por), historial paginado con filtros.</td></tr>
+<tr><td>HU-10</td><td>Gerente</td><td>Como gerente, quiero generar reportes en PDF y Excel, para analizar el desempeño comercial.</td><td>Reportes de consultas, clientes y empleados exportables. Solo accesible para rol gerente.</td></tr>
+<tr><td>HU-11</td><td>Cliente</td><td>Como cliente registrado, quiero ver el estado de mis consultas, para saber cómo avanza mi pedido.</td><td>Portal cliente con listado de consultas propias y opción de crear nuevas.</td></tr>
+<tr><td>HU-12</td><td>Gerente</td><td>Como gerente, quiero un dashboard con indicadores clave, para tomar decisiones informadas.</td><td>Dashboard con 8 KPIs, gráfico donut de consultas por estado y paneles de acceso rápido.</td></tr>
+</table>
+
+<h2>4.7 Reglas de negocio</h2>
+<ol>
+<li><strong>RN-01 Autenticación:</strong> Todo acceso al CRM requiere login válido. Las contraseñas se almacenan hasheadas (bcrypt, cost 10). El token JWT expira según configuración del servidor.</li>
+<li><strong>RN-02 Roles:</strong> Existen tres roles: gerente (admin), empleado y cliente. Cada rol tiene permisos específicos sobre módulos y operaciones.</li>
+<li><strong>RN-03 Consultas activas:</strong> Solo se muestran consultas con <em>activo = 1</em> y de los últimos 90 días por defecto, salvo filtros explícitos.</li>
+<li><strong>RN-04 Soft delete:</strong> Clientes y consultas no se eliminan físicamente; se marcan con <em>activo = 0</em> y <em>eliminado_en</em> para preservar historial.</li>
+<li><strong>RN-05 Capitalización:</strong> Al guardar clientes, nombres, apellidos y ciudades se capitalizan automáticamente (primera letra en mayúscula).</li>
+<li><strong>RN-06 Estados de consulta:</strong> Una consulta transita por: pendiente → en_proceso → finalizado (o cancelado). Cada cambio queda registrado en historial_estados.</li>
+<li><strong>RN-07 Marketing anti-duplicados:</strong> No se envía la misma campaña al mismo cliente dentro de un período de 7 días.</li>
+<li><strong>RN-08 Reportes exclusivos:</strong> La generación de reportes PDF/Excel está restringida al rol gerente.</li>
+<li><strong>RN-09 Presupuestos:</strong> Cada presupuesto PDF se vincula obligatoriamente a un cliente. El campo "Elaborado por" registra al empleado que lo creó.</li>
+<li><strong>RN-10 Interfaz por rol:</strong> El gerente ve dashboard completo con KPIs y reportes; el empleado ve panel simplificado sin acceso a reportes ni configuración de marketing avanzada.</li>
+</ol>
+
+<h2>4.8 Requisitos funcionales y no funcionales</h2>
+
+<h3>Requisitos funcionales (RF)</h3>
+<table>
+<tr><th>ID</th><th>Requisito</th></tr>
+<tr><td>RF-01</td><td>El sistema debe permitir navegar el catálogo de productos del sitio web por categorías.</td></tr>
+<tr><td>RF-02</td><td>El sistema debe recibir consultas desde el formulario web y registrarlas en el CRM.</td></tr>
+<tr><td>RF-03</td><td>El sistema debe autenticar usuarios con email/contraseña y emitir token JWT.</td></tr>
+<tr><td>RF-04</td><td>El sistema debe permitir CRUD de consultas con filtros, paginación y agrupación.</td></tr>
+<tr><td>RF-05</td><td>El sistema debe permitir CRUD de clientes con soft delete y capitalización.</td></tr>
+<tr><td>RF-06</td><td>El sistema debe permitir registrar seguimientos vinculados a consultas.</td></tr>
+<tr><td>RF-07</td><td>El sistema debe registrar historial de cambios de estado en consultas.</td></tr>
+<tr><td>RF-08</td><td>El sistema debe gestionar campañas de marketing con plantillas y días especiales.</td></tr>
+<tr><td>RF-09</td><td>El sistema debe controlar duplicados de envío de marketing en ventana de 7 días.</td></tr>
+<tr><td>RF-10</td><td>El sistema debe permitir subir, listar, filtrar y descargar presupuestos PDF por cliente.</td></tr>
+<tr><td>RF-11</td><td>El sistema debe generar reportes en PDF y Excel (solo gerente).</td></tr>
+<tr><td>RF-12</td><td>El sistema debe mostrar dashboard gerencial con KPIs y gráficos.</td></tr>
+<tr><td>RF-13</td><td>El sistema debe ofrecer portal simplificado para clientes registrados.</td></tr>
+<tr><td>RF-14</td><td>El sistema debe permitir recuperación de contraseña por email/token.</td></tr>
+</table>
+
+<h3>Requisitos no funcionales (RNF)</h3>
+<table>
+<tr><th>ID</th><th>Requisito</th></tr>
+<tr><td>RNF-01</td><td><strong>Seguridad:</strong> Contraseñas hasheadas con bcrypt; comunicación protegida con JWT; validación de entrada en backend.</td></tr>
+<tr><td>RNF-02</td><td><strong>Rendimiento:</strong> Paginación server-side en listados; índices en columnas frecuentemente consultadas.</td></tr>
+<tr><td>RNF-03</td><td><strong>Usabilidad:</strong> Interfaz responsive; mensajes de confirmación/error claros; colores corporativos Ituarte.</td></tr>
+<tr><td>RNF-04</td><td><strong>Mantenibilidad:</strong> Código modular (rutas separadas por módulo); base de datos normalizada (3FN).</td></tr>
+<tr><td>RNF-05</td><td><strong>Escalabilidad:</strong> Arquitectura cliente-servidor que permite agregar módulos sin reescribir el core.</td></tr>
+<tr><td>RNF-06</td><td><strong>Compatibilidad:</strong> Funcionamiento en navegadores modernos (Chrome, Firefox, Edge).</td></tr>
+<tr><td>RNF-07</td><td><strong>Disponibilidad:</strong> Sistema diseñado para operar en horario comercial con posibilidad de hosting local o en la nube.</td></tr>
+</table>
+
+<h2>4.9 Matriz de trazabilidad</h2>
+<table>
+<tr><th>HU</th><th>RF</th><th>RNF</th><th>Módulo</th></tr>
+<tr><td>HU-01</td><td>RF-01</td><td>RNF-03, RNF-06</td><td>Sitio web — Catálogo</td></tr>
+<tr><td>HU-02</td><td>RF-02</td><td>RNF-01</td><td>Sitio web — Contacto / CRM Consultas</td></tr>
+<tr><td>HU-03</td><td>RF-03, RF-14</td><td>RNF-01</td><td>Login / Auth</td></tr>
+<tr><td>HU-04, HU-05</td><td>RF-04, RF-07</td><td>RNF-02, RNF-03</td><td>CRM — Consultas</td></tr>
+<tr><td>HU-06</td><td>RF-05</td><td>RNF-02</td><td>CRM — Clientes</td></tr>
+<tr><td>HU-07</td><td>RF-06</td><td>RNF-03</td><td>CRM — Seguimientos</td></tr>
+<tr><td>HU-08</td><td>RF-08, RF-09</td><td>RNF-03</td><td>CRM — Marketing</td></tr>
+<tr><td>HU-09</td><td>RF-10</td><td>RNF-02</td><td>CRM — Presupuestos</td></tr>
+<tr><td>HU-10</td><td>RF-11</td><td>RNF-01</td><td>CRM — Reportes</td></tr>
+<tr><td>HU-11</td><td>RF-13</td><td>RNF-03</td><td>CRM — Portal Cliente</td></tr>
+<tr><td>HU-12</td><td>RF-12</td><td>RNF-03, RNF-05</td><td>CRM — Dashboard</td></tr>
+</table>
+
+<h2>4.10 Limitaciones del proyecto</h2>
+<ul>
+<li>El catálogo de productos del sitio web se encuentra en carga progresiva; no todas las categorías tienen fichas completas al momento de la entrega del TFI.</li>
+<li>El sistema no incluye pasarela de pagos ni facturación electrónica.</li>
+<li>Los envíos de marketing se registran en el sistema pero la entrega efectiva depende de canales externos (email/WhatsApp manual).</li>
+<li>El proyecto fue desarrollado por una sola integrante, lo que limita la velocidad de desarrollo y pruebas en comparación con un equipo.</li>
+<li>El hosting en producción aún no está desplegado en un servidor público; actualmente funciona en entorno local de desarrollo.</li>
+<li>No se implementaron pruebas automatizadas (unit tests / integration tests) por restricciones de tiempo.</li>
+</ul>
+
+<h2>4.11 Mejoras futuras</h2>
+<ul>
+<li>Completar la carga de todas las fichas de producto del catálogo web.</li>
+<li>Implementar e-commerce con carrito de compras y pasarela de pagos (Mercado Pago).</li>
+<li>Integrar envío automático de emails/WhatsApp desde el módulo de marketing.</li>
+<li>Desarrollar aplicación móvil para empleados (consultas y seguimientos en campo).</li>
+<li>Agregar módulo de inventario/stock vinculado al catálogo web.</li>
+<li>Implementar pruebas automatizadas y pipeline CI/CD.</li>
+<li>Desplegar en servidor cloud con dominio propio (ituarte.com.ar).</li>
+<li>Integrar facturación electrónica AFIP.</li>
+<li>Agregar chat en vivo o chatbot para atención inicial.</li>
+</ul>
+
+<!-- ==================== 5. METODOLOGÍA ==================== -->
+<h1>5. Metodología de desarrollo</h1>
+
+<h3>5.1 Enfoque metodológico</h3>
+<p>Se adoptó una metodología ágil adaptada, combinando elementos de Scrum simplificado para un equipo de una persona. Dado que la autora es la única desarrolladora y también la vinculación con la empresa (Electricidad Ituarte), se eliminaron roles formales de Scrum Master o Product Owner, concentrando las funciones de desarrollo, diseño, testing y documentación en un solo integrante.</p>
+
+<h3>5.2 Fases del proyecto</h3>
+<ol>
+<li><strong>Investigación y relevamiento (Sprint 0):</strong> Análisis de la problemática con la empresa, estudio de CRMs existentes, definición de alcance y selección de stack tecnológico.</li>
+<li><strong>Diseño (Sprint 1):</strong> Modelado de base de datos (ER), diseño de wireframes del sitio web y CRM, definición de historias de usuario y reglas de negocio.</li>
+<li><strong>Desarrollo sitio web (Sprints 2-4):</strong> Implementación de páginas institucionales, catálogo, fichas de producto y formulario de contacto.</li>
+<li><strong>Desarrollo backend y CRM base (Sprints 5-7):</strong> API REST, autenticación JWT, módulos de consultas, clientes y seguimientos.</li>
+<li><strong>Desarrollo CRM avanzado (Sprints 8-10):</strong> Marketing, reportes, presupuestos PDF, dashboard gerencial, portal cliente.</li>
+<li><strong>Correcciones y refinamiento (Sprint 11):</strong> Incorporación de feedback de la tutora académica (filtros backend, paginación, roles diferenciados, marketing liviano) y rediseño unificado del sitio web (site-chrome, categorías, fichas de producto).</li>
+<li><strong>Documentación y entrega (Sprint 12):</strong> Carpeta TFI, manual de usuario, preparación de defensa oral.</li>
+</ol>
+
+<h3>5.3 Herramientas utilizadas</h3>
+<table>
+<tr><th>Categoría</th><th>Herramienta</th><th>Uso</th></tr>
+<tr><td>Editor de código</td><td>Visual Studio Code / Cursor IDE</td><td>Desarrollo frontend y backend</td></tr>
+<tr><td>Control de versiones</td><td>Git</td><td>Historial de cambios del proyecto</td></tr>
+<tr><td>Base de datos</td><td>MySQL Workbench</td><td>Modelado, scripts SQL, administración</td></tr>
+<tr><td>Runtime</td><td>Node.js v18+</td><td>Servidor backend</td></tr>
+<tr><td>Testing manual</td><td>Navegador + Postman</td><td>Pruebas de funcionalidad y API</td></tr>
+<tr><td>Diseño</td><td>Figma / Canva</td><td>Wireframes y referencias visuales</td></tr>
+<tr><td>Documentación</td><td>Microsoft Word</td><td>Carpeta TFI y manual de usuario</td></tr>
+</table>
+
+<h3>5.4 Gestión de cambios</h3>
+<p>Los cambios solicitados por la tutora académica durante el desarrollo fueron registrados e implementados en iteraciones cortas. Ejemplos: migración de filtros de frontend a backend, implementación de paginación server-side, rediseño del dashboard gerencial, simplificación del módulo de marketing y separación de reportes PDF/Excel exclusivos para gerente.</p>
+
+<!-- ==================== 6. RECURSOS ==================== -->
+<h1>6. Recursos del proyecto</h1>
+
+<h3>6.1 Recursos humanos</h3>
+<table>
+<tr><th>Rol</th><th>Persona</th><th>Responsabilidades</th></tr>
+<tr><td>Desarrolladora full-stack</td><td>Carla Guadalupe Moreno</td><td>Análisis, diseño, programación frontend/backend, base de datos, testing, documentación</td></tr>
+<tr><td>Tutora académica</td><td>Prof. UTN-FRC</td><td>Supervisión, feedback y validación del proyecto</td></tr>
+<tr><td>Referente empresarial</td><td>Electricidad Ituarte (gerencia)</td><td>Relevamiento de necesidades, validación funcional, datos de productos</td></tr>
+</table>
+
+<h3>6.2 Recursos materiales</h3>
+<ul>
+<li>Computadora personal (Windows 10, 8 GB RAM).</li>
+<li>Conexión a internet para documentación y recursos.</li>
+<li>Servidor local de desarrollo (Node.js + MySQL en localhost).</li>
+</ul>
+
+<h3>6.3 Recursos software (libres)</h3>
+<ul>
+<li>Node.js, Express.js, MySQL Community Edition.</li>
+<li>Visual Studio Code / Cursor IDE.</li>
+<li>Git, Postman, MySQL Workbench.</li>
+<li>Librerías: bcrypt, jsonwebtoken, multer, pdfkit, exceljs, cors, dotenv.</li>
+</ul>
+
+<!-- ==================== 7. PLAN DE TRABAJO ==================== -->
+<h1>7. Plan de trabajo</h1>
+
+<p>El siguiente cronograma refleja la planificación y ejecución del proyecto durante el año 2025. Al ser un proyecto individual, las tareas se solaparon en algunos períodos.</p>
+
+<table>
+<tr><th>Fase / Sprint</th><th>Actividades principales</th><th>Duración estimada</th><th>Entregable</th></tr>
+<tr><td>Sprint 0 — Relevamiento</td><td>Entrevistas con empresa, análisis problemática, estado del arte</td><td>2 semanas</td><td>Documento de relevamiento</td></tr>
+<tr><td>Sprint 1 — Diseño</td><td>Modelo ER, wireframes, historias de usuario, reglas de negocio</td><td>2 semanas</td><td>Diseño BD + prototipos</td></tr>
+<tr><td>Sprint 2 — Web base</td><td>Index, conócenos, contacto, estructura CSS</td><td>2 semanas</td><td>Páginas institucionales</td></tr>
+<tr><td>Sprint 3 — Catálogo web</td><td>Categorías, plantilla producto, migración header/footer, más de 350 fichas</td><td>3 semanas</td><td>Catálogo parcial funcional</td></tr>
+<tr><td>Sprint 4 — Más catálogo</td><td>Colgantes, plafones, reflectores y otras categorías</td><td>3 semanas</td><td>Ampliación catálogo (en curso)</td></tr>
+<tr><td>Sprint 5 — Backend base</td><td>Express, MySQL, auth JWT, API consultas</td><td>2 semanas</td><td>Backend operativo</td></tr>
+<tr><td>Sprint 6 — CRM consultas/clientes</td><td>Panel admin, CRUD consultas y clientes, filtros</td><td>3 semanas</td><td>Módulos consultas + clientes</td></tr>
+<tr><td>Sprint 7 — Seguimientos</td><td>Notas, historial estados, asignación empleados</td><td>2 semanas</td><td>Módulo seguimientos</td></tr>
+<tr><td>Sprint 8 — Marketing</td><td>Campañas, plantillas, días especiales, anti-duplicados</td><td>2 semanas</td><td>Módulo marketing</td></tr>
+<tr><td>Sprint 9 — Reportes + Dashboard</td><td>PDF/Excel, KPIs, gráficos, roles diferenciados</td><td>3 semanas</td><td>Reportes + dashboard gerente</td></tr>
+<tr><td>Sprint 10 — Presupuestos</td><td>Upload PDF, historial, filtros, búsqueda global</td><td>2 semanas</td><td>Módulo presupuestos</td></tr>
+<tr><td>Sprint 11 — Correcciones</td><td>Feedback tutora: filtros backend, paginación, UI roles, rediseño sitio web unificado</td><td>2 semanas</td><td>CRM refinado</td></tr>
+<tr><td>Sprint 12 — Documentación</td><td>Carpeta TFI, manual usuario, preparación defensa</td><td>3 semanas</td><td>Documentación completa</td></tr>
+</table>
+
+<p class="nota">Duración total estimada: approximately 31 semanas (~8 meses), compatible con el cronograma académico del TFI 2025.</p>
+
+<!-- ==================== 8. RESULTADOS ESPERADOS ==================== -->
+<h1>8. Resultados esperados</h1>
+
+<h3>8.1 Resultados técnicos</h3>
+<ul>
+<li>Sitio web corporativo funcional con diseño unificado, más de 350 fichas de producto y navegación responsive.</li>
+<li>Sistema CRM con 7 módulos operativos: consultas, clientes, seguimientos, marketing, presupuestos, reportes y dashboard.</li>
+<li>Base de datos MySQL normalizada con 14 tablas e integridad referencial.</li>
+<li>API REST con autenticación JWT y control de acceso por roles.</li>
+<li>Interfaz diferenciada para gerente, empleado y cliente.</li>
+</ul>
+
+<h3>8.2 Resultados para la empresa</h3>
+<ul>
+<li>Presencia digital profesional con catálogo accesible 24/7.</li>
+<li>Centralización de consultas y datos de clientes.</li>
+<li>Trazabilidad completa del ciclo comercial (consulta → seguimiento → presupuesto).</li>
+<li>Herramientas de marketing automatizado para fidelización.</li>
+<li>Reportes gerenciales para toma de decisiones basada en datos.</li>
+</ul>
+
+<h3>8.3 Resultados académicos</h3>
+<ul>
+<li>Cumplimiento de los objetivos formativos de la Tecnicatura Universitaria en Programación.</li>
+<li>Aplicación integrada de conocimientos: programación web, bases de datos, seguridad, UX y gestión de proyectos.</li>
+<li>Documentación completa: carpeta TFI, manual de usuario y código fuente comentado.</li>
+<li>Capacidad demostrada de relevar necesidades reales, diseñar e implementar una solución de software.</li>
+</ul>
+
+<!-- ==================== 9. REFERENCIAS ==================== -->
+<h1>9. Referencias bibliográficas</h1>
+
+<ol>
+<li>Pressman, R. S. &amp; Maxim, B. R. (2020). <em>Ingeniería de Software: Un enfoque práctico</em> (9ª ed.). McGraw-Hill.</li>
+<li>Fowler, M. (2018). <em>Patterns of Enterprise Application Architecture</em>. Addison-Wesley.</li>
+<li>MDN Web Docs. (2024). <em>JavaScript Guide</em>. Mozilla Foundation. https://developer.mozilla.org/es/docs/Web/JavaScript/Guide</li>
+<li>Express.js Foundation. (2024). <em>Express documentation</em>. https://expressjs.com/</li>
+<li>Oracle Corporation. (2024). <em>MySQL 8.0 Reference Manual</em>. https://dev.mysql.com/doc/</li>
+<li>Node.js Foundation. (2024). <em>Node.js Documentation</em>. https://nodejs.org/docs/</li>
+<li>OWASP Foundation. (2023). <em>OWASP Top Ten Web Application Security Risks</em>. https://owasp.org/www-project-top-ten/</li>
+<li>Cámara Argentina de Comercio Electrónico (CACE). (2023). <em>Estudio de eCommerce B2C en Argentina</em>.</li>
+<li>Sommerville, I. (2016). <em>Software Engineering</em> (10ª ed.). Pearson.</li>
+<li>Universidad Tecnológica Nacional — Facultad Regional Concepción. (2024). <em>Programa de la Materia Proyecto Final</em>.</li>
+</ol>
+
+<!-- ==================== 10. ANEXO ==================== -->
+<h1>10. Anexo</h1>
+
+<p>Los siguientes materiales complementarios se adjuntan o referencian junto a esta carpeta:</p>
+
+<h3>Anexo A — Diagrama Entidad-Relación</h3>
+<p class="nota">[Pendiente: exportar diagrama ER desde MySQL Workbench e insertar imagen aquí]</p>
+<p><strong>Qué capturar:</strong> diagrama completo de la base <em>crm_ituarte</em> (tablas y relaciones), exportado como PNG desde MySQL Workbench → Database → Reverse Engineer o desde el diagrama EER guardado.</p>
+
+<h3>Anexo B — Capturas de pantalla del sitio web</h3>
+<p>Insertar en este orden (una imagen por ítem, con pie de foto breve):</p>
+<ol>
+<li><strong>Home</strong> — <code>index.html</code> completa (hero + accesos + sucursales).</li>
+<li><strong>Conócenos</strong> — <code>conócenos.html</code>.</li>
+<li><strong>Grilla de categorías</strong> — <code>productos.html</code>.</li>
+<li><strong>Categoría interior</strong> — p. ej. <code>apliques.html</code> con buscador visible.</li>
+<li><strong>Ficha de producto</strong> — p. ej. <code>galia.html</code> (fotos + datos + formulario Consúltanos al final).</li>
+<li><strong>Catálogo PDF</strong> — <code>catalogo.html</code>.</li>
+<li><strong>Contacto</strong> — <code>contacto.html</code> con formulario visible.</li>
+<li><strong>Opcional recomendado:</strong> vista móvil con menú hamburguesa abierto.</li>
+</ol>
+<p class="nota">Guardar capturas en documentacion/07_Anexos/ (PNG o JPG). En Word: Insertar → Imagen, debajo de cada ítem.</p>
+
+<h3>Anexo C — Capturas de pantalla del CRM</h3>
+<p>Insertar en este orden (backend encendido; no mostrar contraseñas reales):</p>
+<ol>
+<li><strong>Login</strong> — <code>login.html</code>.</li>
+<li><strong>Dashboard gerente</strong> — KPIs y gráficos visibles.</li>
+<li><strong>Consultas</strong> — listado con filtros; ideal: una consulta que vino del sitio web.</li>
+<li><strong>Clientes</strong> — listado o ficha con presupuestos.</li>
+<li><strong>Marketing</strong> — calendario u oportunidades de contacto.</li>
+<li><strong>Presupuestos</strong> — modal o historial de un cliente con PDF cargado.</li>
+<li><strong>Reportes</strong> — pantalla de descarga o vista previa de un informe.</li>
+<li><strong>Portal cliente</strong> — <code>crm-cliente.html</code> con consultas del usuario.</li>
+</ol>
+<p class="nota">[Pendiente: pegar capturas según lista anterior]</p>
+
+<h3>Anexo D — Diagrama de arquitectura</h3>
+<p>Arquitectura cliente-servidor de tres capas:</p>
+<ul>
+<li><strong>Capa de presentación:</strong> HTML5 + CSS3 + JavaScript (sitio web público + paneles CRM).</li>
+<li><strong>Capa de lógica de negocio:</strong> Node.js + Express.js (API REST, autenticación, validaciones, generación de reportes).</li>
+<li><strong>Capa de datos:</strong> MySQL (crm_ituarte) + sistema de archivos (uploads/presupuestos).</li>
+</ul>
+
+<h3>Anexo E — Estructura de archivos del proyecto</h3>
+<div class="codigo">ProyectoTesis/
+├── index.html, contacto.html, catalogo.html, productos.html ...
+├── [fichas de producto].html (50+ archivos)
+├── login.html, registro.html, crm-admin.html, crm-cliente.html
+├── css/ (estilos sitio web + crm.css)
+├── js/ (crm-admin.js, crm-cliente.js, auth.js ...)
+├── img/ (imágenes productos y logo)
+├── backend/
+│   ├── server.js
+│   ├── routes/ (auth, consultas, clientes, seguimientos, marketing, reportes, presupuestos)
+│   ├── middleware/ (auth.js)
+│   ├── database/ (schema.sql, scripts de actualización)
+│   └── uploads/presupuestos/ (PDFs almacenados)
+└── documentacion/ (carpeta TFI, manual de usuario)</div>
+
+<h3>Anexo F — Manual de usuario</h3>
+<p>Manual elaborado por separado: <strong>02_Manual_de_Usuario_CRM_Ituarte.doc</strong> (incluye sección 4 — Uso del sitio web institucional, y guía completa del CRM por rol).</p>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi cuenta - CRM Ituarte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="css/crm.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="img/logologin.png" alt="Logo">
+        <h2>Ituarte</h2>
+        <p>Portal del cliente</p>
+      </div>
+      <button class="menu-item active" data-section="mis-consultas"><i class="fa fa-inbox"></i> Mis consultas</button>
+      <button class="menu-item" data-section="nueva-consulta"><i class="fa fa-plus"></i> Nueva consulta</button>
+      <a href="cambiar-contrasena.html" class="menu-item" style="text-decoration:none;"><i class="fa fa-key"></i> Cambiar contraseña</a>
+      <button class="menu-item" onclick="cerrarSesion()"><i class="fa fa-sign-out-alt"></i> Cerrar sesión</button>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <h1 id="tituloSeccion">Mis consultas</h1>
+        <div class="user-info">
+          <span id="nombreUsuario"></span>
+          <span class="rol">cliente</span>
+        </div>
+      </div>
+
+      <section id="mis-consultas" class="section active">
+        <div class="panel">
+          <h2>Historial de mis consultas</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tipo</th>
+                <th>Producto</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaConsultasCliente"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="nueva-consulta" class="section">
+        <div class="panel">
+          <h2>Enviar nueva consulta</h2>
+          <form id="formNuevaConsulta" onsubmit="enviarConsulta(event)">
+            <div class="form-grupo">
+              <label>Tipo de consulta</label>
+              <select id="tipoConsulta" required></select>
+            </div>
+            <div class="form-grupo">
+              <label>Producto de interés (opcional)</label>
+              <input type="text" id="productoInteres" placeholder="Ej: Reflectores LED">
+            </div>
+            <div class="form-grupo">
+              <label>Mensaje</label>
+              <textarea id="mensajeConsulta" rows="4" required placeholder="Describí tu consulta..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar consulta</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="modalDetalle">
+    <div class="modal">
+      <button class="modal-cerrar" onclick="document.getElementById('modalDetalle').classList.remove('open')">&times;</button>
+      <h2>Consulta #<span id="detalleId"></span></h2>
+      <div id="detalleContenido"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/crm-api.js"></script>
+  <script src="js/crm-responsive.js"></script>
+  <script src="js/crm-cliente.js"></script>
+</body>
+</html>

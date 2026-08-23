@@ -1,26 +1,39 @@
 document.addEventListener("DOMContentLoaded", () => {
   const inputBusqueda = document.getElementById("busqueda");
+  if (!inputBusqueda) return;
+
+  const main = document.querySelector(".cat-catalog-main") || document.querySelector("main");
   const imagenes = Array.from(document.querySelectorAll(".imagen"));
   const filas = Array.from(document.querySelectorAll(".fila"));
-  const main = document.querySelector("main");
+  const grid = main?.querySelector(".filas-imagenes");
 
-  // Contenedor donde se mostrarán los resultados encontrados
-  const resultados = document.createElement("div");
-  resultados.className = "resultados-busqueda";
-  resultados.style.display = "none";
-  main.insertBefore(resultados, main.querySelector(".filas-imagenes"));
+  let resultados = main?.querySelector(".resultados-busqueda");
+  if (!resultados && main) {
+    resultados = document.createElement("div");
+    resultados.className = "resultados-busqueda";
+    if (grid) {
+      main.querySelector(".container")?.insertBefore(resultados, grid);
+    } else {
+      main.prepend(resultados);
+    }
+  }
 
-  // Mensaje "no encontrado"
-  const mensajeNoEncontrado = document.createElement("div");
-  mensajeNoEncontrado.className = "mensaje-no-encontrado";
-  mensajeNoEncontrado.textContent = "Producto no encontrado😢 Intenta nuevamente con otro nombre u código.";
-  mensajeNoEncontrado.style.display = "none";
-  main.insertBefore(mensajeNoEncontrado, resultados);
+  let mensajeNoEncontrado = main?.querySelector(".mensaje-no-encontrado");
+  if (!mensajeNoEncontrado && main) {
+    mensajeNoEncontrado = document.createElement("div");
+    mensajeNoEncontrado.className = "mensaje-no-encontrado";
+    mensajeNoEncontrado.textContent =
+      "Producto no encontrado😢 Intenta nuevamente con otro nombre o código.";
+    mensajeNoEncontrado.style.display = "none";
+    if (grid) {
+      main.querySelector(".container")?.insertBefore(mensajeNoEncontrado, grid);
+    }
+  }
 
   function mostrarTodasFilas() {
-    resultados.style.display = "none";
-    mensajeNoEncontrado.style.display = "none";
-    filas.forEach(fila => (fila.style.display = "flex"));
+    if (resultados) resultados.classList.remove("activo");
+    if (mensajeNoEncontrado) mensajeNoEncontrado.style.display = "none";
+    filas.forEach((fila) => (fila.style.display = ""));
   }
 
   function aplicarBusqueda(texto) {
@@ -31,80 +44,63 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const coincidencias = [];
 
-    imagenes.forEach(imagen => {
+    imagenes.forEach((imagen) => {
       const nombre = (imagen.dataset.nombre || "").toLowerCase();
       const codigos = (imagen.dataset.codigo || "")
         .toLowerCase()
         .split(",")
-        .map(s => s.trim());
+        .map((s) => s.trim());
       const busca = texto.toLowerCase();
-
       const coincideNombre = nombre.includes(busca);
-      const coincideCodigo = codigos.some(c => c && c.includes(busca));
-
+      const coincideCodigo = codigos.some((c) => c && c.includes(busca));
       if (coincideNombre || coincideCodigo) {
         coincidencias.push(imagen);
       }
     });
 
     if (coincidencias.length === 0) {
-      filas.forEach(fila => (fila.style.display = "none"));
-      resultados.style.display = "none";
-      mensajeNoEncontrado.style.display = "block";
+      filas.forEach((fila) => (fila.style.display = "none"));
+      if (resultados) resultados.classList.remove("activo");
+      if (mensajeNoEncontrado) mensajeNoEncontrado.style.display = "block";
       return;
     }
 
-    // Ocultamos filas y mensaje, mostramos los resultados en formato fila horizontal
-    mensajeNoEncontrado.style.display = "none";
-    filas.forEach(fila => (fila.style.display = "none"));
+    if (mensajeNoEncontrado) mensajeNoEncontrado.style.display = "none";
+    filas.forEach((fila) => (fila.style.display = "none"));
 
+    if (!resultados) return;
     resultados.innerHTML = "";
 
-    coincidencias.forEach(node => {
-      const clon = node.cloneNode(true);
-      resultados.appendChild(clon);
+    coincidencias.forEach((node) => {
+      const link = node.closest(".link-producto");
+      if (link) {
+        const wrap = document.createElement("div");
+        wrap.className = "link-producto";
+        wrap.appendChild(node.cloneNode(true));
+        resultados.appendChild(wrap);
+      } else {
+        resultados.appendChild(node.cloneNode(true));
+      }
     });
 
-    resultados.style.display = "flex"; // los muestra en fila
+    resultados.classList.add("activo");
   }
 
-  // Escucha mientras el usuario escribe
-  inputBusqueda.addEventListener("input", e => {
-    const texto = e.target.value.trim();
-    aplicarBusqueda(texto);
+  inputBusqueda.addEventListener("input", (e) => {
+    aplicarBusqueda(e.target.value.trim());
   });
 
-  // Buscar también al presionar Enter
-  inputBusqueda.addEventListener("keypress", e => {
+  inputBusqueda.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       aplicarBusqueda(e.target.value.trim());
     }
   });
 
-  // Buscar al hacer clic en la lupa
-  const botonLupa = document.querySelector(".buscador i");
-  if (botonLupa) {
-    botonLupa.addEventListener("click", () => {
+  const botonBuscar = document.querySelector(".buscador-btn, .cat-catalog-search .fa-search");
+  if (botonBuscar) {
+    botonBuscar.addEventListener("click", () => {
       aplicarBusqueda(inputBusqueda.value.trim());
     });
   }
-});
-
-
-const scrollTopBtn = document.getElementById('scroll-top');
-
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 300) { // aparece después de 300px
-    scrollTopBtn.style.opacity = '1';
-  } else {
-    scrollTopBtn.style.opacity = '0';
-  }
-});
-
-scrollTopBtn.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
 });

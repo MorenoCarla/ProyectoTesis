@@ -1,0 +1,369 @@
+/* Catálogos por categoría — apliques, colgantes, etc. */
+
+.pagina-categoria {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.pagina-categoria .cat-catalog-main {
+  flex: 1;
+}
+
+/* ── Hero: tono claro (interior) ── */
+.pagina-categoria.fondo-principal-apliques .cat-catalog-hero,
+.pagina-categoria.fondo-principal-colgantes .cat-catalog-hero,
+.pagina-categoria.fondo-veladores .cat-catalog-hero,
+.pagina-categoria.fondo-plafones .cat-catalog-hero,
+.pagina-categoria.fondo-lamparasdepie .cat-catalog-hero,
+.pagina-categoria.fondo-espejos .cat-catalog-hero,
+.pagina-categoria.fondo-paneles .cat-catalog-hero,
+.pagina-categoria.fondo-smart .cat-catalog-hero,
+.pagina-categoria.fondo-ventiladores .cat-catalog-hero {
+  background: rgba(255, 255, 255, 0.96);
+  color: #1a1a1a;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.pagina-categoria.fondo-principal-apliques .cat-back-link,
+.pagina-categoria.fondo-principal-colgantes .cat-back-link,
+.pagina-categoria.fondo-veladores .cat-back-link,
+.pagina-categoria.fondo-plafones .cat-back-link,
+.pagina-categoria.fondo-lamparasdepie .cat-back-link,
+.pagina-categoria.fondo-espejos .cat-back-link,
+.pagina-categoria.fondo-paneles .cat-back-link,
+.pagina-categoria.fondo-smart .cat-back-link,
+.pagina-categoria.fondo-ventiladores .cat-back-link {
+  color: var(--ituarte-rojo);
+}
+
+.pagina-categoria.fondo-principal-apliques .cat-back-link:hover,
+.pagina-categoria.fondo-principal-colgantes .cat-back-link:hover,
+.pagina-categoria.fondo-veladores .cat-back-link:hover,
+.pagina-categoria.fondo-plafones .cat-back-link:hover,
+.pagina-categoria.fondo-lamparasdepie .cat-back-link:hover,
+.pagina-categoria.fondo-espejos .cat-back-link:hover,
+.pagina-categoria.fondo-paneles .cat-back-link:hover,
+.pagina-categoria.fondo-smart .cat-back-link:hover,
+.pagina-categoria.fondo-ventiladores .cat-back-link:hover {
+  color: var(--ituarte-rojo-oscuro);
+}
+
+.pagina-categoria.fondo-principal-apliques .cat-catalog-title,
+.pagina-categoria.fondo-principal-colgantes .cat-catalog-title,
+.pagina-categoria.fondo-veladores .cat-catalog-title,
+.pagina-categoria.fondo-plafones .cat-catalog-title,
+.pagina-categoria.fondo-lamparasdepie .cat-catalog-title,
+.pagina-categoria.fondo-espejos .cat-catalog-title,
+.pagina-categoria.fondo-paneles .cat-catalog-title,
+.pagina-categoria.fondo-smart .cat-catalog-title,
+.pagina-categoria.fondo-ventiladores .cat-catalog-title {
+  color: rgb(218, 0, 0);
+  text-shadow: none;
+}
+
+.pagina-categoria.fondo-principal-apliques .cat-catalog-search input,
+.pagina-categoria.fondo-principal-colgantes .cat-catalog-search input,
+.pagina-categoria.fondo-veladores .cat-catalog-search input,
+.pagina-categoria.fondo-plafones .cat-catalog-search input,
+.pagina-categoria.fondo-lamparasdepie .cat-catalog-search input,
+.pagina-categoria.fondo-espejos .cat-catalog-search input,
+.pagina-categoria.fondo-paneles .cat-catalog-search input,
+.pagina-categoria.fondo-smart .cat-catalog-search input,
+.pagina-categoria.fondo-ventiladores .cat-catalog-search input {
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Hero: tono oscuro (exterior y otras) ── */
+.pagina-categoria.fondo-bifocales .cat-catalog-hero,
+.pagina-categoria.fondo-unifocales .cat-catalog-hero,
+.pagina-categoria.fondo-farolas .cat-catalog-hero,
+.pagina-categoria.fondo-estacas .cat-catalog-hero,
+.pagina-categoria.fondo-tortugas .cat-catalog-hero,
+.pagina-categoria.fondo-reflectores .cat-catalog-hero,
+.pagina-categoria.fondo-piletas .cat-catalog-hero,
+.pagina-categoria.fondo-solares .cat-catalog-hero,
+.pagina-categoria.fondo-artefactos .cat-catalog-hero,
+.pagina-categoria.fondo-camaras .cat-catalog-hero {
+  background: rgba(32, 32, 32, 0.94);
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pagina-categoria.fondo-bifocales .cat-back-link,
+.pagina-categoria.fondo-unifocales .cat-back-link,
+.pagina-categoria.fondo-farolas .cat-back-link,
+.pagina-categoria.fondo-estacas .cat-back-link,
+.pagina-categoria.fondo-tortugas .cat-back-link,
+.pagina-categoria.fondo-reflectores .cat-back-link,
+.pagina-categoria.fondo-piletas .cat-back-link,
+.pagina-categoria.fondo-solares .cat-back-link,
+.pagina-categoria.fondo-artefactos .cat-back-link,
+.pagina-categoria.fondo-camaras .cat-back-link {
+  color: #fecaca;
+}
+
+.pagina-categoria.fondo-bifocales .cat-catalog-title,
+.pagina-categoria.fondo-unifocales .cat-catalog-title,
+.pagina-categoria.fondo-farolas .cat-catalog-title,
+.pagina-categoria.fondo-estacas .cat-catalog-title,
+.pagina-categoria.fondo-tortugas .cat-catalog-title,
+.pagina-categoria.fondo-reflectores .cat-catalog-title,
+.pagina-categoria.fondo-piletas .cat-catalog-title,
+.pagina-categoria.fondo-solares .cat-catalog-title,
+.pagina-categoria.fondo-artefactos .cat-catalog-title,
+.pagina-categoria.fondo-camaras .cat-catalog-title {
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.pagina-categoria.fondo-bifocales .cat-catalog-search input,
+.pagina-categoria.fondo-unifocales .cat-catalog-search input,
+.pagina-categoria.fondo-farolas .cat-catalog-search input,
+.pagina-categoria.fondo-estacas .cat-catalog-search input,
+.pagina-categoria.fondo-tortugas .cat-catalog-search input,
+.pagina-categoria.fondo-reflectores .cat-catalog-search input,
+.pagina-categoria.fondo-piletas .cat-catalog-search input,
+.pagina-categoria.fondo-solares .cat-catalog-search input,
+.pagina-categoria.fondo-artefactos .cat-catalog-search input,
+.pagina-categoria.fondo-camaras .cat-catalog-search input {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ── Hero común ── */
+.cat-catalog-hero {
+  padding: 22px 0 26px;
+}
+
+.cat-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.cat-catalog-title {
+  margin: 0 0 16px;
+  font-size: clamp(1.35rem, 4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.cat-catalog-title strong {
+  font-weight: inherit;
+}
+
+.cat-catalog-search {
+  position: relative;
+  max-width: 520px;
+}
+
+.cat-catalog-search input {
+  width: 100%;
+  padding: 12px 48px 12px 16px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+}
+
+.buscador-btn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: var(--ituarte-rojo);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.buscador-btn:hover {
+  background: var(--ituarte-rojo-oscuro);
+}
+
+/* ── Grilla: imágenes grandes, título unido (estilo original) ── */
+.cat-catalog-main {
+  padding: clamp(16px, 3vw, 28px) 0 40px;
+}
+
+.pagina-categoria .filas-imagenes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 4px 8px;
+  max-width: 1500px;
+  margin: 0 auto;
+  justify-items: center;
+}
+
+.pagina-categoria .fila {
+  display: contents;
+}
+
+.pagina-categoria .link-producto {
+  display: block;
+  width: 100%;
+  max-width: 230px;
+}
+
+.pagina-categoria .imagen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.pagina-categoria .imagen:hover {
+  transform: scale(1.05);
+  filter: brightness(1.08);
+  box-shadow: none;
+}
+
+.pagina-categoria .imagen img {
+  width: 100%;
+  max-width: 230px;
+  height: auto;
+  object-fit: contain;
+  padding: 0;
+  margin: 0;
+  display: block;
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+.pagina-categoria .imagen p {
+  width: 100%;
+  margin: 0;
+  padding: 18px 8px 32px;
+  font-family: "Work Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  color: rgb(59, 59, 59);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.35);
+  position: relative;
+  transition: color 0.3s ease, filter 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Título pegado a la imagen — una sola pieza visual */
+.pagina-categoria .imagen img + p {
+  margin-top: 0;
+}
+
+.pagina-categoria .imagen p[class*="-ext"] {
+  color: #fff;
+}
+
+.pagina-categoria .imagen:hover p {
+  color: rgb(255, 15, 15);
+}
+
+.pagina-categoria .imagen p::after {
+  display: block;
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%) scaleX(0);
+  width: 60%;
+  height: 2px;
+  background-color: rgb(255, 15, 15);
+  transition: transform 0.3s ease;
+}
+
+.pagina-categoria .imagen:hover p::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.pagina-categoria .mensaje-no-encontrado {
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #444;
+  font-size: 1rem;
+}
+
+.pagina-categoria .resultados-busqueda {
+  display: none;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 4px 8px;
+  max-width: 1500px;
+  margin: 0 auto 20px;
+  justify-items: center;
+}
+
+.pagina-categoria .resultados-busqueda.activo {
+  display: grid;
+}
+
+.pagina-categoria .resultados-busqueda .link-producto,
+.pagina-categoria .resultados-busqueda > .link-producto {
+  max-width: 230px;
+  width: 100%;
+}
+
+.pagina-categoria .resultados-busqueda .imagen {
+  margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+  .pagina-categoria .filas-imagenes,
+  .pagina-categoria .resultados-busqueda.activo {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 6px;
+    padding: 0 8px;
+  }
+
+  .pagina-categoria .link-producto {
+    max-width: none;
+    display: flex;
+    justify-content: center;
+  }
+
+  .pagina-categoria .imagen {
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .pagina-categoria .imagen img {
+    max-width: min(230px, 44vw);
+    width: 100%;
+  }
+
+  .pagina-categoria .imagen p {
+    font-size: 15px;
+    padding: 14px 4px 26px;
+  }
+}
+
+@media (max-width: 380px) {
+  .pagina-categoria .imagen p {
+    font-size: 13px;
+    padding: 12px 2px 22px;
+  }
+
+  .pagina-categoria .imagen img {
+    max-width: min(200px, 46vw);
+  }
+}

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirigiendo...</title>
+</head>
+<body>
+  <script>
+    if (localStorage.getItem("token")) {
+      const u = JSON.parse(localStorage.getItem("usuario") || "{}");
+      window.location.href = u.rol === "cliente" ? "crm-cliente.html" : "crm-admin.html";
+    } else {
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>

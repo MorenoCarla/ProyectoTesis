@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login CRM - Ituarte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Work Sans', sans-serif;
+      background: linear-gradient(135deg, #ff0000, #af0303);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .login {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      width: 400px;
+      max-width: 100%;
+      box-shadow: 0 20px 40px rgba(0,0,0,.15);
+      text-align: center;
+    }
+    .login h2 { margin-bottom: 8px; color: #1e293b; }
+    .subtitulo { color: #64748b; font-size: 14px; margin-bottom: 25px; }
+    .logoLogin { width: 90px; margin-bottom: 12px; }
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border: 1px solid #dbe2ea;
+      border-radius: 12px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+    input:focus {
+      outline: none;
+      border-color: #c62828;
+      box-shadow: 0 0 0 4px rgba(198,40,40,.15);
+    }
+    button[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #c62828;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button[type="submit"]:hover { background: #b71c1c; }
+    .errores { color: #dc2626; margin-top: 12px; font-size: 14px; }
+    .links { margin-top: 20px; font-size: 14px; }
+    .links a { color: #c62828; text-decoration: none; }
+    .links a:hover { text-decoration: underline; }
+    .password-container { position: relative; }
+    .password-container input { padding-right: 45px; }
+    #togglePassword {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="login">
+    <img src="img/logologin.png" class="logoLogin" alt="Logo">
+    <h2>CRM Ituarte</h2>
+    <p class="subtitulo">Gestión de clientes y consultas</p>
+
+    <form onsubmit="ingresar(event)">
+      <input type="email" id="email" placeholder="Email" required autofocus>
+      <div class="password-container">
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <i class="fa-solid fa-eye" id="togglePassword"></i>
+      </div>
+      <button type="submit">Ingresar</button>
+    </form>
+
+    <div id="error" class="errores"></div>
+
+    <div class="links">
+      <a href="recuperar.html">¿Olvidaste tu contraseña?</a><br><br>
+      <a href="registro.html">Registrarse como cliente</a><br><br>
+      <a href="index.html">← Volver al sitio</a>
+    </div>
+  </div>
+
+  <script>
+    async function ingresar(event) {
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const errorDiv = document.getElementById("error");
+      errorDiv.innerText = "";
+
+      try {
+        const res = await fetch("http://localhost:3000/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          errorDiv.innerText = data.error || "Error al ingresar";
+          return;
+        }
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
+        if (data.usuario.rol === "cliente") {
+          window.location.href = "crm-cliente.html";
+        } else {
+          window.location.href = "crm-admin.html";
+        }
+      } catch {
+        errorDiv.innerText = "No se pudo conectar al servidor. ¿Está corriendo en el puerto 3000?";
+      }
+    }
+
+    document.getElementById("togglePassword").addEventListener("click", function() {
+      const input = document.getElementById("password");
+      if (input.type === "password") {
+        input.type = "text";
+        this.classList.replace("fa-eye", "fa-eye-slash");
+      } else {
+        input.type = "password";
+        this.classList.replace("fa-eye-slash", "fa-eye");
+      }
+    });
+  </script>
+</body>
+</html>

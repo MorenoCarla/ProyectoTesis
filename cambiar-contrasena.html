@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cambiar contraseña - CRM Ituarte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="css/crm.css">
+  <style>
+    body { background: #f0f2f5; min-height: 100vh; }
+    .pagina {
+      max-width: 480px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .panel-cuenta {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+    .panel-cuenta h1 { font-size: 22px; margin-bottom: 8px; }
+    .panel-cuenta p { color: #64748b; font-size: 14px; margin-bottom: 24px; }
+    .volver-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #c62828;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .password-container {
+      position: relative;
+    }
+    .password-container input {
+      padding-right: 45px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #64748b;
+      font-size: 16px;
+    }
+    .msg { margin-top: 16px; padding: 12px; border-radius: 8px; font-size: 14px; display: none; }
+    .msg.ok { display: block; background: #d4edda; color: #155724; }
+    .msg.err { display: block; background: #f8d7da; color: #721c24; }
+  </style>
+</head>
+<body>
+  <div class="pagina">
+    <a href="#" id="linkVolver" class="volver-link">← Volver al panel</a>
+
+    <div class="panel-cuenta">
+      <h1>Cambiar contraseña</h1>
+      <p>Ingresá tu contraseña actual y elegí una nueva (mínimo 6 caracteres).</p>
+
+      <form id="formCambiar" onsubmit="cambiarPassword(event)">
+        <div class="form-grupo">
+          <label>Contraseña actual *</label>
+          <div class="password-container">
+            <input type="password" id="actual" required autocomplete="current-password">
+            <i class="fa-solid fa-eye toggle-password" data-target="actual"></i>
+          </div>
+        </div>
+        <div class="form-grupo">
+          <label>Nueva contraseña *</label>
+          <div class="password-container">
+            <input type="password" id="nueva" required minlength="6" autocomplete="new-password">
+            <i class="fa-solid fa-eye toggle-password" data-target="nueva"></i>
+          </div>
+        </div>
+        <div class="form-grupo">
+          <label>Repetir nueva contraseña *</label>
+          <div class="password-container">
+            <input type="password" id="confirmar" required minlength="6" autocomplete="new-password">
+            <i class="fa-solid fa-eye toggle-password" data-target="confirmar"></i>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;padding:14px;">Guardar nueva contraseña</button>
+      </form>
+
+      <div id="mensaje" class="msg"></div>
+    </div>
+  </div>
+
+  <script src="js/crm-api.js"></script>
+  <script>
+    const usuario = verificarSesion(["admin", "empleado", "cliente"]);
+    if (!usuario) throw new Error("Sin sesión");
+
+    document.getElementById("linkVolver").href =
+      usuario.rol === "cliente" ? "crm-cliente.html" : "crm-admin.html";
+
+    document.querySelectorAll(".toggle-password").forEach(icon => {
+      icon.addEventListener("click", () => {
+        const input = document.getElementById(icon.dataset.target);
+        if (input.type === "password") {
+          input.type = "text";
+          icon.classList.replace("fa-eye", "fa-eye-slash");
+        } else {
+          input.type = "password";
+          icon.classList.replace("fa-eye-slash", "fa-eye");
+        }
+      });
+    });
+
+    async function cambiarPassword(e) {
+      e.preventDefault();
+      const msg = document.getElementById("mensaje");
+      msg.className = "msg";
+      msg.style.display = "none";
+
+      const actual = document.getElementById("actual").value;
+      const nueva = document.getElementById("nueva").value;
+      const confirmar = document.getElementById("confirmar").value;
+
+      if (nueva !== confirmar) {
+        msg.className = "msg err";
+        msg.style.display = "block";
+        msg.textContent = "Las contraseñas nuevas no coinciden";
+        return;
+      }
+
+      if (nueva === actual) {
+        msg.className = "msg err";
+        msg.style.display = "block";
+        msg.textContent = "La nueva contraseña debe ser distinta a la actual";
+        return;
+      }
+
+      try {
+        const res = await fetch(API_URL + "/auth/cambiar-password", {
+          method: "POST",
+          headers: headersAuth(),
+          body: JSON.stringify({
+            password_actual: actual,
+            password_nueva: nueva
+          })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          msg.className = "msg err";
+          msg.style.display = "block";
+          msg.textContent = data.error || "Error al cambiar contraseña";
+          return;
+        }
+
+        msg.className = "msg ok";
+        msg.style.display = "block";
+        msg.textContent = data.mensaje + " — Volvé a iniciar sesión con tu nueva contraseña.";
+        document.getElementById("formCambiar").reset();
+
+        setTimeout(() => cerrarSesion(), 3000);
+      } catch {
+        msg.className = "msg err";
+        msg.style.display = "block";
+        msg.textContent = "Error de conexión con el servidor";
+      }
+    }
+  </script>
+</body>
+</html>

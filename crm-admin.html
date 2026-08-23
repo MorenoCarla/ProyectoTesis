@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel CRM - Ituarte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="css/crm.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="img/logologin.png" alt="Logo">
+        <h2>CRM Ituarte</h2>
+        <p id="sidebarSubtitulo">Panel de gestión</p>
+      </div>
+      <button class="menu-item active" data-section="dashboard" id="menuDashboard">
+        <i class="fa fa-chart-pie" id="menuDashboardIcon"></i> <span id="menuDashboardText">Dashboard</span>
+      </button>
+      <button class="menu-item" data-section="consultas"><i class="fa fa-inbox"></i> Consultas</button>
+      <button class="menu-item" data-section="clientes"><i class="fa fa-users"></i> Clientes</button>
+      <button class="menu-item" data-section="marketing"><i class="fa fa-bullhorn"></i> Marketing</button>
+      <button class="menu-item" data-section="seguimientos"><i class="fa fa-clock"></i> Seguimientos</button>
+      <button class="menu-item" data-section="empleados" id="menuEmpleados" style="display:none;"><i class="fa fa-id-badge"></i> Empleados</button>
+      <button class="menu-item" data-section="reportes" id="menuReportes"><i class="fa fa-file-export"></i> Reportes</button>
+      <a href="cambiar-contrasena.html" class="menu-item" style="text-decoration:none;"><i class="fa fa-key"></i> Cambiar contraseña</a>
+      <button class="menu-item" onclick="cerrarSesion()"><i class="fa fa-sign-out-alt"></i> Cerrar sesión</button>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <h1 id="tituloSeccion">Dashboard</h1>
+        <div class="topbar-derecha">
+          <div class="topbar-fecha" id="fechaActualCRM" title="Fecha de hoy"></div>
+          <div class="user-info">
+            <span id="nombreUsuario"></span>
+            <span class="rol" id="rolUsuario"></span>
+          </div>
+        </div>
+      </div>
+
+      <div id="alertaDiaEspecial" class="alerta-dia-especial" style="display:none;"></div>
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="section active">
+        <div id="dashboardGerente">
+          <div class="dash-gerente-hero">
+            <div class="dash-gerente-hero-texto">
+              <span class="dash-gerente-etiqueta">Electricidad Ituarte</span>
+              <h2>Resumen gerencial</h2>
+              <p id="dashGerenteBienvenida">Vista general del CRM comercial</p>
+            </div>
+            <img src="img/LOGO.png" alt="Ituarte" class="dash-gerente-logo">
+          </div>
+
+          <div class="dash-kpi-grid" id="kpiDashboardGerente"></div>
+
+          <div class="dash-gerente-grid-2">
+            <div class="panel dash-panel-chart">
+              <div class="dash-panel-titulo">
+                <h3><i class="fa fa-chart-pie"></i> Estado de consultas</h3>
+                <span class="dash-panel-sub" id="dashTotalConsultasLabel"></span>
+              </div>
+              <div class="dash-donut-layout">
+                <div class="dash-donut-wrap"><canvas id="graficoEstados"></canvas></div>
+                <div class="dash-estado-leyenda" id="leyendaEstadosDash"></div>
+              </div>
+            </div>
+            <div class="panel dash-panel-chart">
+              <div class="dash-panel-titulo">
+                <h3><i class="fa fa-layer-group"></i> Consultas por tipo</h3>
+                <span class="dash-panel-sub">Distribución comercial</span>
+              </div>
+              <div class="dash-bar-wrap"><canvas id="graficoTipos"></canvas></div>
+            </div>
+          </div>
+
+          <div class="dash-gerente-grid-3">
+            <div class="panel">
+              <div class="dash-panel-titulo">
+                <h3><i class="fa fa-tags"></i> Clientes por rubro</h3>
+                <span class="dash-panel-sub">Segmentación comercial</span>
+              </div>
+              <div id="listaRubrosDash" class="dash-rubros-lista"></div>
+            </div>
+            <div class="panel">
+              <div class="dash-panel-titulo">
+                <h3><i class="fa fa-calendar-check"></i> Próximos seguimientos</h3>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="irASeccion('seguimientos')">Ver todos</button>
+              </div>
+              <div id="listaSeguimientos"></div>
+            </div>
+            <div class="panel">
+              <div class="dash-panel-titulo">
+                <h3><i class="fa fa-inbox"></i> Consultas recientes</h3>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="irASeccion('consultas')">Ver todas</button>
+              </div>
+              <div id="listaConsultasRecientesDash"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="dashboardEmpleado" style="display:none;">
+          <p class="panel-intro-operativo">Tu resumen operativo del día: consultas, seguimientos y contactos pendientes.</p>
+          <div class="cards cards-operativo" id="cardsDashboardEmpleado"></div>
+          <div class="dashboard-operativo-grid">
+            <div class="panel">
+              <div class="panel-header-inline">
+                <h2>Consultas para atender</h2>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="irASeccion('consultas')">Ver todas</button>
+              </div>
+              <div id="listaConsultasOperativas"></div>
+            </div>
+            <div class="panel">
+              <div class="panel-header-inline">
+                <h2>Próximos seguimientos</h2>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="irASeccion('seguimientos')">Registrar</button>
+              </div>
+              <div id="listaSeguimientosOperativos"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header-inline">
+              <h2>Contactos de marketing pendientes</h2>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="irASeccion('marketing', 'oportunidades')">Ir a oportunidades</button>
+            </div>
+            <p id="resumenMarketingOperativo" class="consultas-resumen"></p>
+          </div>
+          <div class="panel">
+            <h2>Mis últimos seguimientos registrados</h2>
+            <div id="listaMisSeguimientosRecientes"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONSULTAS -->
+      <section id="consultas" class="section">
+        <div class="panel">
+          <h2 id="tituloSeccionConsultas">Gestión de consultas</h2>
+          <p id="introConsultas" class="panel-intro-operativo" style="display:none;">
+            Consultas asignadas a vos o sin asignar para que puedas tomarlas. El historial completo lo ve el gerente.
+          </p>
+          <div class="toolbar">
+            <input type="text" id="buscarConsulta" placeholder="Buscar por cliente, producto, mensaje...">
+            <select id="filtroEstadoConsulta">
+              <option value="activas" selected>Activas recientes (30 días)</option>
+              <option value="pendiente">Solo pendientes</option>
+              <option value="en_proceso">Solo en proceso</option>
+              <option value="activas_todas">Todas las activas (sin límite de fecha)</option>
+              <option value="finalizado">Finalizadas</option>
+              <option value="cancelado">Canceladas</option>
+              <option value="todas">Historial completo</option>
+            </select>
+          </div>
+          <p id="resumenConsultas" class="consultas-resumen"></p>
+          <div id="consultasListaAgrupada" class="consultas-agrupadas"></div>
+          <div id="tablaConsultasWrap" class="consultas-tabla-wrap" style="display:none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Cliente</th>
+                  <th>Tipo</th>
+                  <th>Producto</th>
+                  <th>Empleado</th>
+                  <th>Estado</th>
+                  <th>Prioridad</th>
+                  <th>Fecha</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaConsultas"></tbody>
+            </table>
+          </div>
+          <div id="paginacionConsultas" class="marketing-paginacion"></div>
+        </div>
+      </section>
+
+      <!-- CLIENTES -->
+      <section id="clientes" class="section">
+        <div class="panel">
+          <h2>Clientes registrados</h2>
+          <div class="toolbar toolbar-clientes">
+            <input type="text" id="buscarCliente" placeholder="Buscar por nombre, email, ciudad...">
+            <input type="text" id="buscarPresupuestoGlobal" placeholder="N° presupuesto (buscar cliente)...">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnBuscarPresupuestoGlobal">
+              <i class="fa fa-search"></i> Buscar presupuesto
+            </button>
+            <select id="filtroRubroCliente" title="Filtrar por rubro">
+              <option value="">Todos los rubros</option>
+            </select>
+            <select id="filtroPeriodoCliente" title="Período de alta">
+              <option value="inicio" selected>Vista rápida (3 últimos)</option>
+              <option value="15">Últimos 15 días</option>
+              <option value="30">Últimos 30 días</option>
+              <option value="90">Últimos 3 meses</option>
+              <option value="180">Últimos 6 meses</option>
+              <option value="0">Todo el historial</option>
+            </select>
+          </div>
+          <p id="resumenClientes" class="consultas-resumen"></p>
+          <div id="resultadosPresupuestoGlobal" class="presupuestos-busqueda-global" style="display:none;"></div>
+          <div id="clientesLista" class="consultas-grupo-lista clientes-lista-plana"></div>
+          <div id="paginacionClientes" class="marketing-paginacion"></div>
+        </div>
+      </section>
+
+      <!-- MARKETING -->
+      <section id="marketing" class="section">
+        <nav class="marketing-secciones-nav" id="navMarketingSecciones" aria-label="Secciones de marketing">
+          <button type="button" class="marketing-seccion-tab active" data-marketing-tab="calendario">
+            <i class="fa fa-calendar"></i> Calendario comercial
+          </button>
+          <button type="button" class="marketing-seccion-tab" data-marketing-tab="campanas">
+            <i class="fa fa-bullhorn"></i> Campañas
+          </button>
+          <button type="button" class="marketing-seccion-tab" data-marketing-tab="oportunidades">
+            <i class="fa fa-address-book"></i> Oportunidades de contacto
+          </button>
+          <button type="button" class="marketing-seccion-tab" data-marketing-tab="plantillas" id="tabPlantillasMarketing" style="display:none;">
+            <i class="fa fa-file-alt"></i> Plantillas automáticas
+          </button>
+        </nav>
+
+        <!-- PESTAÑA: Calendario -->
+        <div id="marketingTabCalendario" class="marketing-seccion-panel active">
+          <div class="panel">
+            <div class="calendario-header">
+              <div>
+                <h2>Calendario comercial <span id="anioCalendarioComercial"></span></h2>
+                <p style="color:#64748b;font-size:14px;margin-top:6px;">
+                  Días profesionales y fechas importantes para contactar clientes. Los colores coinciden con el rubro objetivo.
+                </p>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="cargarCalendarioComercial()">
+                <i class="fa fa-sync"></i> Actualizar
+              </button>
+            </div>
+            <div id="proximosDiasEspeciales" class="proximos-dias"></div>
+            <div id="leyendaCalendario" class="calendario-leyenda"></div>
+            <div id="gridCalendarioAnual" class="calendario-anual"></div>
+          </div>
+
+          <div class="panel" id="panelGestionDiasCalendario" style="display:none;">
+            <h2>Gestionar fechas del calendario</h2>
+            <p style="color:#64748b;font-size:14px;margin-bottom:16px;">
+              Agregá días profesionales o fechas comerciales. Aparecen en el calendario y generan oportunidades de contacto.
+            </p>
+            <form id="formNuevoDiaEspecial" onsubmit="crearDiaEspecial(event)" style="max-width:600px;margin-bottom:20px;padding:16px;background:#f0f9ff;border-radius:10px;border:1px solid #bae6fd;">
+              <strong style="display:block;margin-bottom:12px;color:#0369a1;">Agregar fecha al calendario</strong>
+              <div class="form-grupo">
+                <label>Nombre del día *</label>
+                <input type="text" id="nuevoDiaNombre" required placeholder="Ej: Día del Comercio">
+              </div>
+              <div class="form-grupo" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div>
+                  <label>Mes *</label>
+                  <select id="nuevoDiaMes" required>
+                    <option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option>
+                    <option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option>
+                    <option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option>
+                    <option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Día *</label>
+                  <input type="number" id="nuevoDiaDia" required min="1" max="31" placeholder="Ej: 15">
+                </div>
+              </div>
+              <div class="form-grupo">
+                <label>Dirigido a (rubro)</label>
+                <select id="nuevoDiaRubro">
+                  <option value="">Todos los clientes</option>
+                  <option value="arquitecto">Arquitectos</option>
+                  <option value="electricista">Electricistas</option>
+                  <option value="ingeniero">Ingenieros</option>
+                  <option value="diseñador_interiores">Diseñadores</option>
+                  <option value="constructor">Constructores</option>
+                  <option value="municipalidad">Municipalidades</option>
+                  <option value="empresa_industrial">Empresa industrial</option>
+                  <option value="comercio">Comercio</option>
+                  <option value="particular">Particulares</option>
+                </select>
+              </div>
+              <div class="form-grupo">
+                <label>Mensaje automático *</label>
+                <textarea id="nuevoDiaPlantilla" rows="3" required placeholder="Hola {{nombre}}, desde Ituarte..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-sm">Agregar al calendario</button>
+            </form>
+            <h3 style="font-size:16px;margin-bottom:12px;">Fechas cargadas</h3>
+            <div id="editorDiasEspeciales"></div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA: Campañas -->
+        <div id="marketingTabCampanas" class="marketing-seccion-panel">
+          <div class="panel">
+            <h2>Campañas activas</h2>
+            <p style="color:#64748b;font-size:14px;margin-bottom:16px;">
+              Promociones vigentes de Ituarte. Revisá el mensaje modelo y descargá placas o material para redes antes de contactar clientes en <strong>Oportunidades de contacto</strong>.
+            </p>
+            <div id="listaCampanasActivas"></div>
+          </div>
+
+          <div class="panel" id="panelCampanas" style="display:none;">
+            <h2>Crear campaña promocional</h2>
+            <p style="color:#64748b;font-size:14px;margin-bottom:16px;">
+              Armá un mensaje modelo para una promo de la semana, un día especial, etc.
+              Usá <code>{{nombre}}</code>, <code>{{rubro}}</code>, <code>{{empresa}}</code> para personalizar por cliente.
+            </p>
+            <form id="formCampana" onsubmit="guardarCampana(event)" style="max-width:600px;">
+              <div class="form-grupo">
+                <label>Título de la campaña *</label>
+                <input type="text" id="campTitulo" required placeholder="Ej: Semana del LED 20% off">
+              </div>
+              <div class="form-grupo">
+                <label>Mensaje modelo *</label>
+                <textarea id="campMensaje" rows="4" required placeholder="Hola {{nombre}}, esta semana en Ituarte..."></textarea>
+              </div>
+              <div class="form-grupo">
+                <label>Dirigido a (rubro)</label>
+                <select id="campRubro">
+                  <option value="">Todos los clientes</option>
+                  <option value="arquitecto">Arquitectos</option>
+                  <option value="electricista">Electricistas</option>
+                  <option value="ingeniero">Ingenieros</option>
+                  <option value="diseñador_interiores">Diseñadores</option>
+                  <option value="municipalidad">Municipalidades</option>
+                  <option value="empresa_industrial">Empresa industrial</option>
+                </select>
+              </div>
+              <div class="form-grupo" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div><label>Desde (opcional)</label><input type="date" id="campInicio"></div>
+                <div><label>Hasta (opcional)</label><input type="date" id="campFin"></div>
+              </div>
+              <div class="form-grupo">
+                <label>Placas / imágenes / videos (opcional)</label>
+                <input type="file" id="campArchivos" multiple accept="image/*,video/*,.pdf,.txt">
+                <small style="color:#64748b;display:block;margin-top:6px;">
+                  Material para Instagram, TikTok, etc. Los empleados lo descargan al enviar el mensaje.
+                </small>
+              </div>
+              <button type="submit" class="btn btn-primary">Publicar campaña</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- PESTAÑA: Oportunidades -->
+        <div id="marketingTabOportunidades" class="marketing-seccion-panel">
+          <div class="panel">
+            <h2>Oportunidades de contacto</h2>
+            <p style="color:#64748b;font-size:14px;margin-bottom:16px;">
+              Solo clientes pendientes de contacto (máx. 15 por página). Al marcar como enviado, desaparecen de la lista
+              y no se repiten en 7 días. Para campañas generales, usá filtro por rubro o el buscador.
+            </p>
+
+            <div id="avisoMarketing" class="marketing-aviso" style="display:none;"></div>
+            <div id="resumenMarketing" class="marketing-resumen"></div>
+
+            <div class="marketing-filtros">
+              <input type="text" id="buscarOportunidad" placeholder="Buscar por nombre, email, teléfono o empresa...">
+              <select id="filtroRubroOportunidad">
+                <option value="">Todos los rubros</option>
+                <option value="arquitecto">Arquitecto</option>
+                <option value="electricista">Electricista</option>
+                <option value="ingeniero">Ingeniero</option>
+                <option value="diseñador_interiores">Diseñador de interiores</option>
+                <option value="constructor">Constructor</option>
+                <option value="municipalidad">Municipalidad</option>
+                <option value="empresa_industrial">Empresa industrial</option>
+                <option value="comercio">Comercio</option>
+                <option value="particular">Particular</option>
+                <option value="otro">Otro</option>
+              </select>
+              <button class="btn btn-primary btn-sm" onclick="cargarOportunidadesMarketing()">
+                <i class="fa fa-sync"></i> Actualizar
+              </button>
+            </div>
+
+            <div class="marketing-tabs" id="tabsCategoriaMarketing">
+              <button type="button" class="marketing-tab active" data-categoria="todos">Todos</button>
+              <button type="button" class="marketing-tab" data-categoria="urgente">Urgente hoy</button>
+              <button type="button" class="marketing-tab" data-categoria="semana">Esta semana</button>
+              <button type="button" class="marketing-tab" data-categoria="campana">Campañas</button>
+              <button type="button" class="marketing-tab" data-categoria="cuenta_corriente" title="Visible el 1° de cada mes">Cuenta corriente (1° del mes)</button>
+            </div>
+
+            <div id="listaMarketing"></div>
+            <div id="paginacionMarketing" class="marketing-paginacion"></div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA: Plantillas (solo admin) -->
+        <div id="marketingTabPlantillas" class="marketing-seccion-panel">
+          <div class="panel">
+            <h2>Plantillas automáticas</h2>
+            <p style="color:#64748b;font-size:14px;margin-bottom:16px;">
+              Textos base que el sistema usa para cumpleaños, cuenta corriente y otros envíos automáticos.
+              Usá <code>{{nombre}}</code>, <code>{{rubro}}</code>, <code>{{empresa}}</code>.
+            </p>
+            <div id="editorPlantillas"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEGUIMIENTOS -->
+      <section id="seguimientos" class="section">
+        <div class="panel" id="panelSeguimientosRecientes" style="display:none;">
+          <h2>Mis seguimientos recientes</h2>
+          <div id="listaSeguimientosEmpleado"></div>
+        </div>
+        <div class="panel">
+          <h2>Registrar seguimiento</h2>
+          <p id="introSeguimientos" class="panel-intro-operativo" style="display:none;">
+            Registrá llamadas, presupuestos enviados y próximos contactos sobre tus consultas asignadas.
+          </p>
+          <form id="formSeguimiento" onsubmit="guardarSeguimiento(event)">
+            <div class="form-grupo">
+              <label>Seleccionar consulta</label>
+              <select id="segConsultaId" required>
+                <option value="">Elegí una consulta...</option>
+              </select>
+            </div>
+            <div class="form-grupo">
+              <label>Nota del seguimiento</label>
+              <textarea id="segNota" rows="3" required placeholder="Ej: Llamé al cliente, envié presupuesto..."></textarea>
+            </div>
+            <div class="form-grupo">
+              <label>Próximo contacto (opcional)</label>
+              <input type="datetime-local" id="segProximo">
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar seguimiento</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- EMPLEADOS (solo gerente) -->
+      <section id="empleados" class="section">
+        <div class="panel">
+          <h2>Equipo de trabajo</h2>
+          <p style="color:#64748b;font-size:14px;margin-bottom:20px;">
+            Creá usuarios para que tu equipo ingrese al CRM, vea consultas y registre seguimientos.
+          </p>
+          <form id="formNuevoEmpleado" onsubmit="crearEmpleado(event)" style="max-width:520px;margin-bottom:28px;">
+            <div class="form-grupo">
+              <label>Nombre *</label>
+              <input type="text" id="empNombre" required placeholder="Ej: Laura">
+            </div>
+            <div class="form-grupo">
+              <label>Apellido</label>
+              <input type="text" id="empApellido" placeholder="Ej: Martínez">
+            </div>
+            <div class="form-grupo">
+              <label>Email corporativo *</label>
+              <input type="email" id="empEmail" required placeholder="laura@ituarte.com">
+            </div>
+            <div class="form-grupo">
+              <label>Teléfono</label>
+              <input type="tel" id="empTelefono" placeholder="3865...">
+            </div>
+            <div class="form-grupo">
+              <label>Cargo *</label>
+              <input type="text" id="empCargo" required placeholder="Ej: Marketing, Ventas, Atención al cliente">
+            </div>
+            <div class="form-grupo">
+              <label>Sucursal</label>
+              <select id="empSucursal">
+                <option value="Concepción">Concepción</option>
+                <option value="Alberdi">J. B. Alberdi</option>
+              </select>
+            </div>
+            <div class="form-grupo">
+              <label>Contraseña inicial (opcional)</label>
+              <input type="text" id="empPassword" placeholder="Se genera automática si dejás vacío">
+              <small style="color:#64748b;">Mínimo 6 caracteres. Se muestra una sola vez al crear.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">+ Crear empleado</button>
+          </form>
+        </div>
+        <div class="panel">
+          <h2>Empleados registrados</h2>
+          <p style="color:#64748b;font-size:14px;margin-bottom:12px;">
+            Vista filtrada en el servidor: por defecto solo activos. Usá buscador o filtros para ver más.
+          </p>
+          <div class="toolbar toolbar-clientes">
+            <input type="text" id="buscarEmpleado" placeholder="Buscar por nombre, email, cargo...">
+            <select id="filtroEstadoEmpleado" title="Estado">
+              <option value="activos" selected>Solo activos</option>
+              <option value="inactivos">Solo inactivos</option>
+              <option value="todos">Activos e inactivos</option>
+            </select>
+            <select id="filtroSucursalEmpleado" title="Sucursal">
+              <option value="">Todas las sucursales</option>
+              <option value="Concepción">Concepción</option>
+              <option value="Alberdi">J. B. Alberdi</option>
+            </select>
+          </div>
+          <p id="resumenEmpleados" class="consultas-resumen"></p>
+          <div class="consultas-tabla-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Email</th>
+                  <th>Cargo</th>
+                  <th>Sucursal</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaEmpleados"></tbody>
+            </table>
+          </div>
+          <div id="paginacionEmpleados" class="marketing-paginacion"></div>
+        </div>
+      </section>
+
+      <!-- REPORTES -->
+      <section id="reportes" class="section">
+        <div class="panel">
+          <h2>Exportar reportes</h2>
+          <p style="color:#64748b;margin-bottom:20px;font-size:14px;">
+            Informes con logo y formato Ituarte. Cada reporte trae solo los datos del área elegida (filtrados, no toda la base).
+          </p>
+
+          <div class="reportes-grid">
+            <article class="reporte-card">
+              <h3><i class="fa fa-comments"></i> Consultas</h3>
+              <p>Consultas comerciales por estado y período.</p>
+              <div class="reporte-filtros">
+                <select id="repConsultasEstado">
+                  <option value="activas">Activas (pendiente + en proceso)</option>
+                  <option value="pendiente">Solo pendientes</option>
+                  <option value="en_proceso">Solo en proceso</option>
+                  <option value="finalizado">Finalizadas</option>
+                  <option value="cancelado">Canceladas</option>
+                  <option value="todas">Todas</option>
+                </select>
+                <select id="repConsultasDias">
+                  <option value="30" selected>Últimos 30 días</option>
+                  <option value="15">Últimos 15 días</option>
+                  <option value="90">Últimos 3 meses</option>
+                  <option value="365">Último año</option>
+                </select>
+              </div>
+              <div class="reporte-botones">
+                <button class="btn btn-success btn-sm" onclick="exportarReporte('consultas','excel')"><i class="fa fa-file-excel"></i> Excel</button>
+                <button class="btn btn-danger btn-sm" onclick="exportarReporte('consultas','pdf')"><i class="fa fa-file-pdf"></i> PDF</button>
+              </div>
+            </article>
+
+            <article class="reporte-card">
+              <h3><i class="fa fa-users"></i> Clientes</h3>
+              <p>Clientes activos con rubro y consultas asociadas.</p>
+              <div class="reporte-filtros">
+                <select id="repClientesRubro">
+                  <option value="">Todos los rubros</option>
+                  <option value="arquitecto">Arquitectos</option>
+                  <option value="ingeniero">Ingenieros</option>
+                  <option value="electricista">Electricistas</option>
+                  <option value="sin_rubro">Sin rubro</option>
+                </select>
+                <select id="repClientesDias">
+                  <option value="">Todo el historial</option>
+                  <option value="30" selected>Últimos 30 días</option>
+                  <option value="90">Últimos 3 meses</option>
+                </select>
+              </div>
+              <div class="reporte-botones">
+                <button class="btn btn-success btn-sm" onclick="exportarReporte('clientes','excel')"><i class="fa fa-file-excel"></i> Excel</button>
+                <button class="btn btn-danger btn-sm" onclick="exportarReporte('clientes','pdf')"><i class="fa fa-file-pdf"></i> PDF</button>
+              </div>
+            </article>
+
+            <article class="reporte-card">
+              <h3><i class="fa fa-bullhorn"></i> Marketing</h3>
+              <p>Contactos comerciales enviados y registrados.</p>
+              <div class="reporte-filtros">
+                <select id="repMarketingDias">
+                  <option value="30" selected>Últimos 30 días</option>
+                  <option value="7">Últimos 7 días</option>
+                  <option value="90">Últimos 3 meses</option>
+                </select>
+              </div>
+              <div class="reporte-botones">
+                <button class="btn btn-success btn-sm" onclick="exportarReporte('marketing','excel')"><i class="fa fa-file-excel"></i> Excel</button>
+                <button class="btn btn-danger btn-sm" onclick="exportarReporte('marketing','pdf')"><i class="fa fa-file-pdf"></i> PDF</button>
+              </div>
+            </article>
+
+            <article class="reporte-card">
+              <h3><i class="fa fa-chart-pie"></i> Resumen ejecutivo</h3>
+              <p>Indicadores generales: clientes, consultas por estado, marketing.</p>
+              <div class="reporte-botones">
+                <button class="btn btn-success btn-sm" onclick="exportarReporte('resumen','excel')"><i class="fa fa-file-excel"></i> Excel</button>
+                <button class="btn btn-danger btn-sm" onclick="exportarReporte('resumen','pdf')"><i class="fa fa-file-pdf"></i> PDF</button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL DETALLE CONSULTA -->
+  <div class="modal-overlay" id="modalConsulta">
+    <div class="modal">
+      <button class="modal-cerrar" onclick="cerrarModal()">&times;</button>
+      <h2>Detalle de consulta #<span id="modalId"></span></h2>
+      <div class="detalle-grid" id="modalDetalle"></div>
+
+      <h3 style="margin-bottom:10px;font-size:15px;">Gestionar consulta</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div>
+          <label style="font-size:12px;color:#64748b;">Estado</label>
+          <select id="modalEstado" class="estado-select" style="width:100%;margin-top:4px;">
+            <option value="pendiente">Pendiente</option>
+            <option value="en_proceso">En proceso</option>
+            <option value="finalizado">Finalizado</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;color:#64748b;">Prioridad</label>
+          <select id="modalPrioridad" class="estado-select" style="width:100%;margin-top:4px;">
+            <option value="baja">Baja</option>
+            <option value="media">Media</option>
+            <option value="alta">Alta</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:16px;" id="bloqueAsignarEmpleado">
+        <label style="font-size:12px;color:#64748b;">Empleado asignado</label>
+        <select id="modalEmpleado" class="estado-select" style="width:100%;margin-top:4px;">
+          <option value="">Sin asignar</option>
+        </select>
+      </div>
+      <button class="btn btn-primary btn-sm" id="btnTomarConsulta" onclick="tomarConsulta()" style="display:none;margin-bottom:12px;">
+        <i class="fa fa-hand-pointer"></i> Tomar esta consulta
+      </button>
+      <button class="btn btn-primary btn-sm" onclick="guardarCambiosModal()" style="margin-bottom:20px;">
+        Guardar cambios
+      </button>
+
+      <h3 style="margin-bottom:10px;font-size:15px;">Historial de estados</h3>
+      <div id="modalHistorial"></div>
+      <br>
+      <h3 style="margin-bottom:10px;font-size:15px;">Seguimientos</h3>
+      <div id="modalSeguimientos"></div>
+    </div>
+  </div>
+
+  <!-- MODAL EDITAR CLIENTE -->
+  <div class="modal-overlay" id="modalCliente">
+    <div class="modal">
+      <button class="modal-cerrar" onclick="cerrarModalCliente()">&times;</button>
+      <h2>Perfil comercial del cliente</h2>
+      <form id="formEditarCliente" onsubmit="guardarCliente(event)">
+        <input type="hidden" id="editClienteId">
+        <div class="detalle-grid">
+          <div class="form-grupo"><label>Nombre</label><input type="text" id="editNombre" required></div>
+          <div class="form-grupo"><label>Apellido</label><input type="text" id="editApellido"></div>
+          <div class="form-grupo"><label>Email</label><input type="email" id="editEmail" required></div>
+          <div class="form-grupo"><label>Teléfono</label><input type="tel" id="editTelefono"></div>
+          <div class="form-grupo"><label>Ciudad</label><input type="text" id="editCiudad"></div>
+          <div class="form-grupo"><label>Empresa</label><input type="text" id="editEmpresa" placeholder="Estudio, municipalidad, etc."></div>
+          <div class="form-grupo"><label>Tipo de cliente</label>
+            <select id="editTipoCliente">
+              <option value="particular">Particular</option>
+              <option value="profesional">Profesional</option>
+              <option value="empresa">Empresa</option>
+              <option value="municipalidad">Municipalidad</option>
+            </select>
+          </div>
+          <div class="form-grupo"><label>Rubro / Profesión</label>
+            <select id="editRubro">
+              <option value="">Sin especificar</option>
+              <option value="arquitecto">Arquitecto</option>
+              <option value="ingeniero">Ingeniero</option>
+              <option value="electricista">Electricista</option>
+              <option value="diseñador_interiores">Diseñador de interiores</option>
+              <option value="constructor">Constructor</option>
+              <option value="municipalidad">Municipalidad / Alumbrado público</option>
+              <option value="empresa_industrial">Empresa industrial</option>
+              <option value="comercio">Comercio</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-grupo"><label>Fecha de nacimiento</label><input type="date" id="editNacimiento"></div>
+          <div class="form-grupo"><label>Cuenta corriente</label>
+            <select id="editCuentaCorriente">
+              <option value="0">No</option>
+              <option value="1">Sí</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grupo"><label>Notas comerciales</label>
+          <textarea id="editNotas" rows="2" placeholder="Preferencias, proyectos en curso..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar perfil</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL PRESUPUESTOS -->
+  <div class="modal-overlay" id="modalPresupuestos">
+    <div class="modal modal-presupuestos">
+      <button class="modal-cerrar" onclick="cerrarModalPresupuestos()">&times;</button>
+      <h2 id="tituloModalPresupuestos">Presupuestos del cliente</h2>
+      <p id="subtituloModalPresupuestos" class="presupuestos-subtitulo"></p>
+
+      <form id="formSubirPresupuesto" class="presupuestos-upload" onsubmit="subirPresupuesto(event)">
+        <input type="hidden" id="presupuestoClienteId">
+        <div class="detalle-grid">
+          <div class="form-grupo">
+            <label>Título / referencia</label>
+            <input type="text" id="presupuestoTitulo" placeholder="Ej: Luminaria LED local comercial">
+          </div>
+          <div class="form-grupo">
+            <label>N° presupuesto (opcional)</label>
+            <input type="text" id="presupuestoNumero" placeholder="Ej: P-2026-0142">
+          </div>
+          <div class="form-grupo form-grupo-full">
+            <label>Elaborado por *</label>
+            <select id="presupuestoEmpleado" required>
+              <option value="">Seleccionar empleado...</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grupo">
+          <label>Archivo PDF *</label>
+          <input type="file" id="presupuestoArchivo" accept="application/pdf,.pdf" required>
+        </div>
+        <div class="form-grupo">
+          <label>Notas (opcional)</label>
+          <textarea id="presupuestoNotas" rows="2" placeholder="Observaciones internas..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" id="btnSubirPresupuesto">
+          <i class="fa fa-upload"></i> Cargar presupuesto PDF
+        </button>
+      </form>
+
+      <div class="presupuestos-lista-header">
+        <h3>Historial de presupuestos</h3>
+        <span id="presupuestosContador" class="presupuestos-contador"></span>
+      </div>
+      <div class="presupuestos-filtros toolbar">
+        <input type="text" id="filtroNumeroPresupuesto" placeholder="Filtrar por N° presupuesto...">
+        <input type="text" id="filtroTextoPresupuesto" placeholder="Buscar título o archivo...">
+        <select id="filtroPeriodoPresupuesto">
+          <option value="0">Todas las fechas</option>
+          <option value="30" selected>Últimos 30 días</option>
+          <option value="90">Últimos 3 meses</option>
+          <option value="180">Últimos 6 meses</option>
+          <option value="365">Último año</option>
+        </select>
+        <select id="filtroEmpleadoPresupuesto">
+          <option value="">Todos los empleados</option>
+        </select>
+      </div>
+      <div id="listaPresupuestos" class="presupuestos-lista"></div>
+      <div id="paginacionPresupuestos" class="marketing-paginacion"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/crm-api.js"></script>
+  <script src="js/crm-responsive.js"></script>
+  <script src="js/crm-admin.js"></script>
+</body>
+</html>

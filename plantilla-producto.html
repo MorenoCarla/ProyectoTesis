@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ══════════════════════════════════════════════════════════════
+  PLANTILLA PARA CREAR UNA NUEVA PÁGINA DE PRODUCTO
+  ══════════════════════════════════════════════════════════════
+
+  CÓMO USAR:
+  1. Copiá una página que ya funciona (ej: jorisI.html)
+  2. Renombrá el archivo (ej: dicro.html)
+  3. Cambiá SOLO lo marcado abajo con "← CAMBIAR"
+  4. NO modifiques js/scriptcadaproducto.js (ya conecta al CRM)
+
+  LO MÍNIMO QUE TENÉS QUE CAMBIAR EN CADA PÁGINA NUEVA:
+  ─────────────────────────────────────────────────────
+  A) <title>                    → Nombre del producto
+  B) data-producto en <body>    → Mismo nombre (aparece en el CRM)
+  C) data-categoria en <body>   → Apliques, Reflectores, Colgantes, etc.
+  D) Imágenes del swiper        → Fotos del producto
+  E) h1, descripción, códigos   → Info del producto
+  F) btn-volver                 → Link a la categoría (apliques.html, etc.)
+  G) Carrusel "otros productos" → Links relacionados
+
+  EL FORMULARIO "Consúltanos" NO SE TOCA.
+  Envía automáticamente al CRM con el nombre del producto.
+  ══════════════════════════════════════════════════════════════
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ← CAMBIAR: título de la pestaña del navegador -->
+    <title>NOMBRE DEL PRODUCTO</title>
+    <link rel="stylesheet" href="css/stylescadaproducto.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Este script conecta el formulario al CRM. NO LO SAQUES. -->
+    <script src="js/scriptcadaproducto.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<!-- ← CAMBIAR: data-producto (nombre en CRM) y data-categoria (sección del catálogo) -->
+<body class="fondo-cada-producto" data-producto="NOMBRE DEL PRODUCTO" data-categoria="Apliques">
+
+    <header>
+        <!-- header igual en todas las páginas, no tocar -->
+    </header>
+
+    <main>
+        <!-- ← CAMBIAR: link de volver a la categoría -->
+        <div class="barra-volver">
+            <a href="apliques.html" class="btn-volver">← Volver a apliques</a>
+        </div>
+
+        <section class="caja-informacion">
+            <!-- ← CAMBIAR: imágenes del producto -->
+            <div class="swiper swiper-producto">...</div>
+
+            <div class="descripcion">
+                <!-- ← CAMBIAR: título, descripción, códigos, colores -->
+                <h1 class="titulo"><strong>NOMBRE DEL PRODUCTO</strong></h1>
+            </div>
+        </section>
+
+        <!-- Formulario conectado al CRM — NO TOCAR la estructura -->
+        <section class="dos-partes">
+            <div class="imagen-info">
+                <div class="formulario">
+                    <h2>Consúltanos!</h2>
+                    <form>
+                        <label>Nombre</label>
+                        <input type="text" id="nombre" placeholder="Tu nombre" required>
+                        <label>Email</label>
+                        <input type="email" id="email" placeholder="Tu email" required>
+                        <label>Mensaje</label>
+                        <textarea rows="4" id="mensaje" placeholder="Tu mensaje" required></textarea>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer><!-- footer igual, no tocar --></footer>
+</body>
+</html>

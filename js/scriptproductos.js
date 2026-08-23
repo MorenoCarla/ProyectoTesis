@@ -1,53 +1,34 @@
-const menuIcon = document.getElementById('menu-icon');
-const menu = document.getElementById('menu');
+document.addEventListener("DOMContentLoaded", () => {
+  const jumpLinks = document.querySelectorAll(".productos-jump-inner a");
+  const sections = document.querySelectorAll(".cat-section[id]");
 
-// Abrir/cerrar al tocar el ícono
-menuIcon.addEventListener('click', (e) => {
-  e.stopPropagation(); // evita que el click cierre el menú inmediatamente
-  menu.classList.toggle('active');
-});
+  jumpLinks.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const id = link.getAttribute("href");
+      if (!id || !id.startsWith("#")) return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--ituarte-header")) || 68;
+      const jumpH = document.querySelector(".productos-jump")?.offsetHeight || 0;
+      const top = target.getBoundingClientRect().top + window.scrollY - headerH - jumpH - 8;
+      window.scrollTo({ top, behavior: "smooth" });
+    });
+  });
 
-// Cerrar al hacer click fuera
-document.addEventListener('click', (e) => {
-  if (!menu.contains(e.target) && !menuIcon.contains(e.target)) {
-    menu.classList.remove('active');
+  if (sections.length && jumpLinks.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.id;
+          jumpLinks.forEach((link) => {
+            link.classList.toggle("is-active", link.getAttribute("href") === `#${id}`);
+          });
+        });
+      },
+      { rootMargin: "-40% 0px -45% 0px", threshold: 0 }
+    );
+    sections.forEach((section) => observer.observe(section));
   }
 });
-
-menu.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => menu.classList.remove('active'));
-});
-
-const scrollTopBtn = document.getElementById('scroll-top');
-
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 300) { // aparece después de 300px
-    scrollTopBtn.style.opacity = '1';
-  } else {
-    scrollTopBtn.style.opacity = '0';
-  }
-});
-
-scrollTopBtn.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-});
-
-function revealOnScroll() {
-  const elements = document.querySelectorAll('.reveal');
-
-  elements.forEach(el => {
-    const windowHeight = window.innerHeight;
-    const elementTop = el.getBoundingClientRect().top;
-    const elementVisible = 100; // margen antes de aparecer
-
-    if (elementTop < windowHeight - elementVisible) {
-      el.classList.add("active");
-    } else {
-      el.classList.remove("active"); // si querés que desaparezcan al salir
-    }
-  });
-}
-window.addEventListener("scroll", revealOnScroll);
