@@ -4,17 +4,8 @@
  * Importado al final de cada CSS principal del sitio.
  */
 
-/* ── Fondos catálogo/producto: sin zoom ni saturación excesiva ── */
+/* ── Fondos: ver backgrounds-mobile.css (importado al final de cada CSS) ── */
 @media (max-width: 992px) {
-  body[class*="fondo"],
-  body.fondo-cada-producto,
-  body.producto-exterior,
-  body.fondo-principal {
-    background-attachment: scroll !important;
-    background-size: cover !important;
-    background-position: center center !important;
-  }
-
   body[class*="fondo"]::before,
   body.fondo-cada-producto::before,
   body.producto-exterior::before {
@@ -78,7 +69,7 @@
     padding: 7px 28px 7px 12px !important;
   }
 
-  footer {
+  footer:not(.site-footer) {
     flex-direction: column !important;
     align-items: center !important;
     text-align: center !important;
@@ -387,6 +378,7 @@
   .caja-informacion .descripcion .subtitulo {
     font-size: 12px !important;
     margin-bottom: 2px !important;
+    text-align: center !important;
   }
 
   .caja-informacion .descripcion .titulo {

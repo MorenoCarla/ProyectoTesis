@@ -390,3 +390,5 @@
     grid-template-columns: 1fr;
   }
 }
+
+@import url("backgrounds-mobile.css");

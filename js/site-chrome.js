@@ -53,6 +53,20 @@
 
     window.addEventListener("scroll", revealOnScroll);
     window.addEventListener("load", revealOnScroll);
+
+    const paginasConHome = [
+      "pagina-conocenos",
+      "pagina-productos",
+      "pagina-catalogo",
+      "pagina-contacto"
+    ];
+    const necesitaHome = paginasConHome.some((c) => document.body.classList.contains(c));
+    if (necesitaHome && !document.querySelector(".barra-home-back")) {
+      const barra = document.createElement("div");
+      barra.className = "barra-home-back";
+      barra.innerHTML = '<a href="index.html" class="btn-home-back"><i class="fa fa-house" aria-hidden="true"></i> Volver a Home</a>';
+      header.insertAdjacentElement("afterend", barra);
+    }
   }
 
   if (document.readyState === "loading") {

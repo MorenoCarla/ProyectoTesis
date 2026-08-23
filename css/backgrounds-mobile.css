@@ -1,0 +1,132 @@
+/**
+ * Fondos responsive — Electricidad Ituarte
+ *
+ * DESKTOP (pantallas > 768px): sin cambios, css original.
+ * MÓVIL: fondos más suaves + opción de imagen vertical en img/mobile/
+ *
+ * Para usar imagen propia en el celu:
+ *   1. Creá img/mobile/fondo1.png (vertical, ej. 1080×1920)
+ *   2. Descomentá la regla correspondiente en la sección "Imágenes móvil"
+ */
+
+@media (max-width: 768px) {
+
+  /* ── Sin zoom extremo: muestra el ancho completo de la imagen horizontal ── */
+  .pagina-home,
+  .pagina-catalogo,
+  .pagina-contacto,
+  .pagina-conocenos,
+  body[class*="fondo"],
+  body.fondo-cada-producto,
+  body.producto-exterior {
+    background-attachment: scroll !important;
+    background-repeat: no-repeat !important;
+    background-position: center top !important;
+    background-size: 100% auto !important;
+  }
+
+  .pagina-home { background-color: #c5c5c5 !important; }
+  .pagina-catalogo,
+  .pagina-contacto { background-color: #c5c5c5 !important; }
+  .pagina-conocenos { background-color: #2a2a2a !important; }
+
+  body.fondo-principal-apliques,
+  body.fondo-principal-colgantes,
+  body.fondo-lamparasdepie,
+  body.fondo-plafones,
+  body.fondo-veladores,
+  body.fondo-espejos,
+  body.fondo-paneles { background-color: #e8e8e8 !important; }
+
+  body.fondo-bifocales,
+  body.fondo-unifocales,
+  body.fondo-farolas,
+  body.fondo-estacas,
+  body.fondo-tortugas,
+  body.fondo-reflectores,
+  body.fondo-piletas,
+  body.fondo-solares,
+  body.fondo-artefactos,
+  body.fondo-camaras,
+  body.fondo-ventiladores,
+  body.fondo-smart,
+  body.fondo-cada-producto,
+  body.producto-exterior { background-color: #3a3a3a !important; }
+
+  /* Secciones de productos.html */
+  .cat-section {
+    background-attachment: scroll !important;
+    background-repeat: no-repeat !important;
+    background-position: center top !important;
+    background-size: 100% auto !important;
+  }
+
+  .cat-section--interior { background-color: #d8d8d8 !important; }
+  .cat-section--exterior,
+  .cat-section--embutidos,
+  .cat-section--smarts,
+  .cat-section--alumbrado,
+  .cat-section--ventiladores,
+  .cat-section--camaras { background-color: #353535 !important; }
+
+  /* Banners home (Conócenos / Contacto) */
+  .banner-seccion {
+    background-size: cover !important;
+    background-position: center !important;
+  }
+
+  .card-productos,
+  .card-catalogo {
+    background-size: cover !important;
+    background-position: center !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   IMÁGENES MÓVIL PROPIAS — img/mobile/ (mismo nombre que img/)
+   Descomentá la página cuando agregues el PNG vertical.
+   ═══════════════════════════════════════════════════════════ */
+
+/*
+@media (max-width: 768px) {
+  .pagina-home,
+  .pagina-catalogo,
+  .pagina-contacto {
+    background-image: url("../img/mobile/fondo1.png") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+
+  .pagina-conocenos {
+    background-image: url("../img/mobile/fondogrisoscuro.png") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+
+  body.fondo-principal-apliques {
+    background-image: url("../img/mobile/fondoapliques2.png") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+
+  body.fondo-principal-colgantes {
+    background-image: url("../img/mobile/fondo-colgantes.png") !important;
+    background-size: cover !important;
+  }
+
+  body.fondo-bifocales {
+    background-image: url("../img/mobile/fondobifocales.png") !important;
+    background-size: cover !important;
+  }
+
+  .cat-section--interior {
+    background-image: url("../img/mobile/fondointeriores.png") !important;
+    background-size: cover !important;
+  }
+
+  .cat-section--exterior {
+    background-image: url("../img/mobile/fondoexteriores3.png") !important;
+    background-size: cover !important;
+  }
+}
+*/

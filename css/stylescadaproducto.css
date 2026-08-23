@@ -976,6 +976,36 @@ footer:not(.site-footer) {
   .descripcion {
     width: 100%;
     max-width: 520px;
+    text-align: center;
+  }
+
+  .subtitulo,
+  .caja-informacion .descripcion .subtitulo {
+    text-align: center;
+  }
+
+  .otrosSwiper .swiper-slide p {
+    text-align: center;
+  }
+
+  .descripcion .titulodescripcion,
+  .descripcion .codigo,
+  .descripcion .descargas,
+  .descripcion .linea,
+  .descripcion .textodescripcion {
+    text-align: left;
+  }
+
+  .imagenes-colores,
+  .imagenes-luces,
+  .imagenes-medidas,
+  .texto-codigos,
+  .texto-codigos-luces {
+    justify-content: center;
+  }
+
+  .caracteristicas {
+    justify-content: center;
   }
 
   .titulo {
@@ -1255,3 +1285,5 @@ body.producto-exterior > header:not(.site-header) .nav-links li a .fab {
     padding: 6px 8px;
   }
 }
+
+@import url("backgrounds-mobile.css");

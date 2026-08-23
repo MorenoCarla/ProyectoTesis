@@ -285,6 +285,44 @@ body.pagina-institucional {
   text-align: center;
 }
 
+/* ── Volver a Home (páginas institucionales secundarias) ── */
+.barra-home-back {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.pagina-conocenos .barra-home-back {
+  background: rgba(0, 0, 0, 0.35);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.btn-home-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "Work Sans", sans-serif;
+  color: var(--ituarte-rojo);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.btn-home-back:hover {
+  color: var(--ituarte-rojo-oscuro);
+}
+
+.pagina-conocenos .btn-home-back {
+  color: #fff;
+}
+
+.pagina-conocenos .btn-home-back:hover {
+  color: #fecaca;
+}
+
 .scroll-top {
   position: fixed;
   width: 44px;
@@ -362,5 +400,30 @@ body.pagina-institucional {
   .site-footer-grid {
     grid-template-columns: 1fr;
     gap: 22px;
+  }
+
+  .pagina-categoria .site-footer-grid,
+  body.fondo-cada-producto .site-footer-grid,
+  body.producto-exterior .site-footer-grid {
+    text-align: center;
+  }
+
+  .pagina-categoria .site-footer-social,
+  body.fondo-cada-producto .site-footer-social,
+  body.producto-exterior .site-footer-social {
+    justify-content: center;
+  }
+
+  .pagina-categoria .site-footer-grid > div:first-child,
+  body.fondo-cada-producto .site-footer-grid > div:first-child,
+  body.producto-exterior .site-footer-grid > div:first-child {
+    text-align: center;
+  }
+
+  .pagina-categoria .site-footer-links ul,
+  body.fondo-cada-producto .site-footer-links ul,
+  body.producto-exterior .site-footer-links ul {
+    display: inline-block;
+    text-align: center;
   }
 }
