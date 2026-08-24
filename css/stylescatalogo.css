@@ -57,6 +57,14 @@
   margin-bottom: 16px;
 }
 
+.catalogo-btns .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
 .catalogo-nota {
   font-size: 0.9rem;
   color: var(--ituarte-gris);

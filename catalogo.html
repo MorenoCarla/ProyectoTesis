@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="css/site-chrome.css">
   <link rel="stylesheet" href="css/stylescatalogo.css">
+  <link rel="stylesheet" href="css/institucional-mobile-bg.css">
   <script src="js/site-chrome.js" defer></script>
 </head>
 <body class="pagina-institucional pagina-catalogo">
@@ -45,8 +46,12 @@
       <div class="catalogo-actions">
         <p class="catalogo-quote">"Conocé un mundo de luminaria de diseño"</p>
         <div class="catalogo-btns">
-          <button type="button" class="btn btn-dark" id="btnDescargar">Descargar catálogo</button>
-          <a href="productos.html" class="btn btn-primary">Ver online</a>
+          <a href="catalogo/catalogo-ituarte-2025.pdf" class="btn btn-dark" download="Catalogo-Electricidad-Ituarte-2025.pdf">
+            <i class="fa fa-download" aria-hidden="true"></i> Descargar catálogo
+          </a>
+          <a href="catalogo/catalogo-ituarte-2025.pdf" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-external-link-alt" aria-hidden="true"></i> Ver online
+          </a>
         </div>
         <p class="catalogo-nota">También podés navegar por categorías desde la sección <a href="productos.html">Productos</a>.</p>
         <a href="contacto.html" class="catalogo-contacto-link">¿Consultas? Escribinos →</a>
@@ -91,11 +96,5 @@
     </div>
     <p class="site-footer-copy">© Electricidad Ituarte — Concepción &amp; J. B. Alberdi, Tucumán</p>
   </footer>
-
-  <script>
-    document.getElementById("btnDescargar")?.addEventListener("click", () => {
-      alert("Próximamente: enlace de descarga del catálogo PDF.");
-    });
-  </script>
 </body>
 </html>
