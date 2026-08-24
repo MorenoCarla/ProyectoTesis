@@ -1,0 +1,44 @@
+/**
+ * Fondos móvil — Home, Conócenos, Catálogo, Contacto
+ * Capa ::before fija (misma idea que categorías en mobile-ux.css).
+ * Enlazar DESPUÉS de styles.css en cada HTML.
+ */
+
+@media (max-width: 992px) {
+
+  body.pagina-home,
+  body.pagina-conocenos,
+  body.pagina-catalogo,
+  body.pagina-contacto {
+    background-image: none !important;
+    background-color: transparent !important;
+  }
+
+  body.pagina-home::before,
+  body.pagina-conocenos::before,
+  body.pagina-catalogo::before,
+  body.pagina-contacto::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  body.pagina-home::before,
+  body.pagina-catalogo::before,
+  body.pagina-contacto::before {
+    background-image: url("../img/mobile/fondo1.png");
+  }
+
+  body.pagina-conocenos::before {
+    background-image: url("../img/mobile/fondogrisoscuro.png");
+  }
+
+  body.pagina-conocenos main {
+    background-color: transparent;
+  }
+}

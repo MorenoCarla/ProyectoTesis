@@ -1,10 +1,15 @@
+@import url("backgrounds-mobile.css");
+@import url("backgrounds-mobile-imagenes.css");
+
 /* Home — Electricidad Ituarte */
 
-.pagina-home {
-  background-image: url("../img/fondo1.png");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+@media (min-width: 769px) {
+  .pagina-home {
+    background-image: url("../img/fondo1.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
 }
 
 .pagina-home main {
@@ -401,5 +406,3 @@
     padding: 18px 14px;
   }
 }
-
-@import url("backgrounds-mobile.css");

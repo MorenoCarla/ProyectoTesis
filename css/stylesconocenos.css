@@ -1,10 +1,15 @@
+@import url("backgrounds-mobile.css");
+@import url("backgrounds-mobile-imagenes.css");
+
 /* Conócenos — colores y fondos originales, layout nuevo */
 
-.pagina-conocenos {
-  background-image: url("../img/fondogrisoscuro.png");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+@media (min-width: 769px) {
+  .pagina-conocenos {
+    background-image: url("../img/fondogrisoscuro.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
 }
 
 .pagina-conocenos main {
@@ -390,5 +395,3 @@
     grid-template-columns: 1fr;
   }
 }
-
-@import url("backgrounds-mobile.css");

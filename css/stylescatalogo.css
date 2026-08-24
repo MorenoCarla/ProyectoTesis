@@ -1,10 +1,15 @@
+@import url("backgrounds-mobile.css");
+@import url("backgrounds-mobile-imagenes.css");
+
 /* Catálogo general */
 
-.pagina-catalogo {
-  background-image: url("../img/fondo1.png");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+@media (min-width: 769px) {
+  .pagina-catalogo {
+    background-image: url("../img/fondo1.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
 }
 
 .catalogo-hero {
@@ -116,5 +121,3 @@
     font-size: 1rem;
   }
 }
-
-@import url("backgrounds-mobile.css");

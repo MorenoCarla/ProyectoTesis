@@ -1,10 +1,15 @@
+@import url("backgrounds-mobile.css");
+@import url("backgrounds-mobile-imagenes.css");
+
 /* Contacto */
 
-.pagina-contacto {
-  background-image: url("../img/fondo1.png");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+@media (min-width: 769px) {
+  .pagina-contacto {
+    background-image: url("../img/fondo1.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
 }
 
 .contacto-hero {
@@ -205,5 +210,3 @@
     font-size: 1.25rem;
   }
 }
-
-@import url("backgrounds-mobile.css");
