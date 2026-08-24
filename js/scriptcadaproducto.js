@@ -91,40 +91,19 @@ function initSwiperOtros() {
   const total = el.querySelectorAll(".swiper-slide").length;
   if (total === 0) return;
 
-  const isCompact = total <= 7;
-  const section = el.closest(".otros-apliques");
-
-  if (isCompact && section) {
-    section.classList.add("otros-apliques--compact");
-    el.classList.add("otrosSwiper--static");
-    el.querySelectorAll("img").forEach((img) => {
-      if (img.complete) return;
-      img.addEventListener("load", syncVerMasHeights, { once: true });
-    });
-    syncVerMasHeights();
-    return;
-  }
-
-  const defaultBreakpoints = {
-    480: { slidesPerView: 4, spaceBetween: 10 },
-    768: { slidesPerView: 5, spaceBetween: 12 },
-    1024: { slidesPerView: 6, spaceBetween: 12 },
-    1280: { slidesPerView: 6, spaceBetween: 14 },
-  };
-
   const swiper = new Swiper(el, {
-    slidesPerView: 3,
+    slidesPerView: 2,
     slidesPerGroup: 1,
     spaceBetween: 10,
     speed: 500,
     loop: false,
     rewind: true,
-    watchOverflow: false,
+    watchOverflow: true,
     grabCursor: true,
     observer: true,
     observeParents: true,
     autoplay:
-      total > 3
+      total > 2
         ? {
             delay: 2400,
             disableOnInteraction: false,
@@ -135,7 +114,12 @@ function initSwiperOtros() {
       nextEl: el.querySelector(".swiper-button-next"),
       prevEl: el.querySelector(".swiper-button-prev"),
     },
-    breakpoints: defaultBreakpoints,
+    breakpoints: {
+      480: { slidesPerView: 3, spaceBetween: 10 },
+      768: { slidesPerView: 4, spaceBetween: 12 },
+      1024: { slidesPerView: 5, spaceBetween: 12 },
+      1280: { slidesPerView: 6, spaceBetween: 14 },
+    },
     on: {
       init: syncVerMasHeights,
       resize: syncVerMasHeights,

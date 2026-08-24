@@ -141,8 +141,40 @@
     background-image: url("../img/mobile/fondoapliques2.png");
   }
 
+  body.fondo-cada-producto[data-categoria="Apliques"]::after {
+    background-image: url("../img/mobile/fondoapliques2.png");
+  }
+
   body.fondo-cada-producto[data-categoria="Colgantes"]::after {
     background-image: url("../img/mobile/fondo-colgantes.png");
+  }
+
+  body.fondo-cada-producto[data-categoria="Veladores"]::after {
+    background-image: url("../img/mobile/fondoveladores.png");
+  }
+
+  body.fondo-cada-producto[data-categoria="Plafones"]::after {
+    background-image: url("../img/mobile/fondoplafones.png");
+  }
+
+  body.fondo-cada-producto[data-categoria="Lámparas de pie"]::after {
+    background-image: url("../img/mobile/fondolamparasdepie.png");
+  }
+
+  body.fondo-cada-producto[data-categoria="Espejos"]::after {
+    background-image: url("../img/mobile/fondoespejos.png");
+  }
+
+  body.fondo-cada-producto[data-categoria="Paneles"]::after {
+    background-image: url("../img/mobile/fondopaneles.png");
+  }
+
+  body.fondo-cada-producto[data-categoria="Ventiladores"]::after {
+    background-image: url("../img/mobile/fondoventiladores.png");
+  }
+
+  body.fondo-cada-producto[data-categoria="Smart"]::after {
+    background-image: url("../img/mobile/fondosmarts.png");
   }
 
   body.producto-exterior::after {
