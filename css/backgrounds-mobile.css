@@ -1,36 +1,4 @@
 /**
- * Fondos en móvil — capa fija al viewport (evita zoom en páginas largas).
- * NO cambia background-image (eso lo hace backgrounds-mobile-imagenes.css).
- * NO incluye .cat-section (grilla de productos.html).
+ * Legacy — las imágenes van en fondos-mobile-capas.css (::after fijo).
+ * Este archivo queda vacío a propósito para no pisar con 100% auto.
  */
-
-@media (max-width: 992px) {
-
-  body.fondo-principal-apliques,
-  body.fondo-principal-colgantes,
-  body.fondo-lamparasdepie,
-  body.fondo-plafones,
-  body.fondo-veladores,
-  body.fondo-espejos,
-  body.fondo-paneles,
-  body.fondo-bifocales,
-  body.fondo-unifocales,
-  body.fondo-farolas,
-  body.fondo-estacas,
-  body.fondo-tortugas,
-  body.fondo-reflectores,
-  body.fondo-piletas,
-  body.fondo-solares,
-  body.fondo-artefactos,
-  body.fondo-camaras,
-  body.fondo-ventiladores,
-  body.fondo-smart,
-  body.fondo-cada-producto,
-  body.producto-exterior {
-    background-attachment: fixed !important;
-    background-repeat: no-repeat !important;
-    background-position: center center !important;
-    background-size: cover !important;
-  }
-}
-

@@ -1,0 +1,187 @@
+/**
+ * Fondos móvil — categorías y productos
+ * Capa ::after fija (igual que Home). Evita mega-zoom en páginas largas.
+ */
+
+@media (max-width: 992px) {
+
+  body.fondo-principal-apliques,
+  body.fondo-principal-colgantes,
+  body.fondo-lamparasdepie,
+  body.fondo-plafones,
+  body.fondo-veladores,
+  body.fondo-espejos,
+  body.fondo-paneles,
+  body.fondo-bifocales,
+  body.fondo-unifocales,
+  body.fondo-farolas,
+  body.fondo-estacas,
+  body.fondo-tortugas,
+  body.fondo-reflectores,
+  body.fondo-piletas,
+  body.fondo-solares,
+  body.fondo-artefactos,
+  body.fondo-camaras,
+  body.fondo-ventiladores,
+  body.fondo-smart,
+  body.fondo-cada-producto,
+  body.producto-exterior {
+    background-image: none !important;
+    background-color: transparent !important;
+  }
+
+  body.fondo-principal-apliques::after,
+  body.fondo-principal-colgantes::after,
+  body.fondo-lamparasdepie::after,
+  body.fondo-plafones::after,
+  body.fondo-veladores::after,
+  body.fondo-espejos::after,
+  body.fondo-paneles::after,
+  body.fondo-bifocales::after,
+  body.fondo-unifocales::after,
+  body.fondo-farolas::after,
+  body.fondo-estacas::after,
+  body.fondo-tortugas::after,
+  body.fondo-reflectores::after,
+  body.fondo-piletas::after,
+  body.fondo-solares::after,
+  body.fondo-artefactos::after,
+  body.fondo-camaras::after,
+  body.fondo-ventiladores::after,
+  body.fondo-smart::after,
+  body.fondo-cada-producto::after,
+  body.producto-exterior::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  body.fondo-principal-apliques::after {
+    background-image: url("../img/mobile/fondoapliques2.png");
+  }
+
+  body.fondo-principal-colgantes::after {
+    background-image: url("../img/mobile/fondo-colgantes.png");
+  }
+
+  body.fondo-lamparasdepie::after {
+    background-image: url("../img/mobile/fondolamparasdepie.png");
+  }
+
+  body.fondo-plafones::after {
+    background-image: url("../img/mobile/fondoplafones.png");
+  }
+
+  body.fondo-veladores::after {
+    background-image: url("../img/mobile/fondoveladores.png");
+  }
+
+  body.fondo-espejos::after {
+    background-image: url("../img/mobile/fondoespejos.png");
+  }
+
+  body.fondo-paneles::after {
+    background-image: url("../img/mobile/fondopaneles.png");
+  }
+
+  body.fondo-bifocales::after {
+    background-image: url("../img/mobile/fondobifocales.png");
+  }
+
+  body.fondo-unifocales::after {
+    background-image: url("../img/mobile/fondounifocales.png");
+  }
+
+  body.fondo-farolas::after {
+    background-image: url("../img/mobile/fondofarolas.png");
+  }
+
+  body.fondo-estacas::after {
+    background-image: url("../img/mobile/fondoestacas.png");
+  }
+
+  body.fondo-tortugas::after {
+    background-image: url("../img/mobile/fondotortugas.png");
+  }
+
+  body.fondo-reflectores::after {
+    background-image: url("../img/mobile/fondoreflectores.png");
+  }
+
+  body.fondo-piletas::after {
+    background-image: url("../img/mobile/fondopiletas.png");
+  }
+
+  body.fondo-solares::after {
+    background-image: url("../img/mobile/fondosolares.png");
+  }
+
+  body.fondo-artefactos::after {
+    background-image: url("../img/mobile/fondoartefactosalumbradopublico.png");
+  }
+
+  body.fondo-camaras::after {
+    background-image: url("../img/mobile/fondocamaras.png");
+  }
+
+  body.fondo-ventiladores::after {
+    background-image: url("../img/mobile/fondoventiladores.png");
+  }
+
+  body.fondo-smart::after {
+    background-image: url("../img/mobile/fondosmarts.png");
+  }
+
+  body.fondo-cada-producto::after {
+    background-image: url("../img/mobile/fondoapliques2.png");
+  }
+
+  body.fondo-cada-producto[data-categoria="Colgantes"]::after {
+    background-image: url("../img/mobile/fondo-colgantes.png");
+  }
+
+  body.producto-exterior::after {
+    background-image: url("../img/mobile/fondobifocales.png");
+  }
+
+  body.producto-exterior.producto-unifocal::after {
+    background-image: url("../img/mobile/fondounifocales.png");
+  }
+
+  body.producto-exterior.producto-farolas::after {
+    background-image: url("../img/mobile/fondofarolas.png");
+  }
+
+  body.producto-exterior.producto-estacas::after {
+    background-image: url("../img/mobile/fondoestacas.png");
+  }
+
+  body.producto-exterior.producto-tortugas::after {
+    background-image: url("../img/mobile/fondotortugas.png");
+  }
+
+  body.producto-exterior.producto-reflectores::after {
+    background-image: url("../img/mobile/fondoreflectores.png");
+  }
+
+  body.producto-exterior.producto-piletas::after {
+    background-image: url("../img/mobile/fondopiletas.png");
+  }
+
+  body.producto-exterior.producto-solares::after {
+    background-image: url("../img/mobile/fondosolares.png");
+  }
+
+  body.producto-exterior.producto-alumbrado::after {
+    background-image: url("../img/mobile/fondoartefactosalumbradopublico.png");
+  }
+
+  body.producto-exterior.producto-camaras::after {
+    background-image: url("../img/mobile/fondocamaras.png");
+  }
+}

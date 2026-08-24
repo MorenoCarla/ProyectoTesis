@@ -1,0 +1,26 @@
+CATÁLOGO PDF — Electricidad Ituarte
+====================================
+
+Tu PDF pesa ~1 GB. GitHub NO acepta archivos de más de 100 MB.
+
+OPCIÓN RECOMENDADA: Google Drive
+--------------------------------
+1. Subí catalogo-ituarte-2025.pdf a Google Drive.
+2. Clic derecho → Compartir → "Cualquier persona con el enlace".
+3. Copiá el link. Ejemplo:
+   https://drive.google.com/file/d/1ABCxyz123/view?usp=sharing
+4. El ID es la parte del medio: 1ABCxyz123
+5. Abrí js/catalogo.js y reemplazá TU_ID_DE_GOOGLE_DRIVE por ese ID.
+6. git add js/catalogo.js && git commit && git push
+
+En local (npm start) sigue funcionando el PDF de esta carpeta aunque no esté en Git.
+
+OPCIÓN B: Comprimir el PDF
+--------------------------
+Si lo bajás a menos de 100 MB (por ejemplo con ilovepdf.com/compress_pdf),
+podés subirlo a GitHub. Sacá catalogo/*.pdf del .gitignore antes.
+
+OPCIÓN C: GitHub Release (hasta 2 GB por archivo)
+-------------------------------------------------
+Repo → Releases → New release → adjuntar el PDF como asset.
+Luego pegá la URL del asset en js/catalogo.js (manual).

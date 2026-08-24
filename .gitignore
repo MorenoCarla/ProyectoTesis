@@ -25,3 +25,6 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Catálogo PDF (muy pesado para GitHub; usar Google Drive — ver catalogo/LEEME.txt)
+catalogo/*.pdf
