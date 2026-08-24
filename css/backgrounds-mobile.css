@@ -1,39 +1,36 @@
-/**
- * Fondos en móvil — solo suaviza el zoom (misma imagen que en PC).
- * NO cambia background-image → no rompe fondos si faltan PNG en img/mobile/
- *
- * NO incluye .cat-section (grilla de productos.html) — ese CSS no se toca acá.
- *
- * Para fondos verticales propios: agregá PNG en img/mobile/ y descomentá
- * la línea en mobile-ux.css que importa backgrounds-mobile-imagenes.css
- */
-
-@media (max-width: 768px) {
-
-  body.fondo-principal-apliques,
-  body.fondo-principal-colgantes,
-  body.fondo-lamparasdepie,
-  body.fondo-plafones,
-  body.fondo-veladores,
-  body.fondo-espejos,
-  body.fondo-paneles,
-  body.fondo-bifocales,
-  body.fondo-unifocales,
-  body.fondo-farolas,
-  body.fondo-estacas,
-  body.fondo-tortugas,
-  body.fondo-reflectores,
-  body.fondo-piletas,
-  body.fondo-solares,
-  body.fondo-artefactos,
-  body.fondo-camaras,
-  body.fondo-ventiladores,
-  body.fondo-smart,
-  body.fondo-cada-producto,
-  body.producto-exterior {
-    background-attachment: scroll !important;
-    background-repeat: no-repeat !important;
-    background-position: center top !important;
-    background-size: 100% auto !important;
-  }
-}
+/**
+ * Fondos en móvil — capa fija al viewport (evita zoom en páginas largas).
+ * NO cambia background-image (eso lo hace backgrounds-mobile-imagenes.css).
+ * NO incluye .cat-section (grilla de productos.html).
+ */
+
+@media (max-width: 992px) {
+
+  body.fondo-principal-apliques,
+  body.fondo-principal-colgantes,
+  body.fondo-lamparasdepie,
+  body.fondo-plafones,
+  body.fondo-veladores,
+  body.fondo-espejos,
+  body.fondo-paneles,
+  body.fondo-bifocales,
+  body.fondo-unifocales,
+  body.fondo-farolas,
+  body.fondo-estacas,
+  body.fondo-tortugas,
+  body.fondo-reflectores,
+  body.fondo-piletas,
+  body.fondo-solares,
+  body.fondo-artefactos,
+  body.fondo-camaras,
+  body.fondo-ventiladores,
+  body.fondo-smart,
+  body.fondo-cada-producto,
+  body.producto-exterior {
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: cover !important;
+  }
+}
+
