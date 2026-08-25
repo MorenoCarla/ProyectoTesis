@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nueva contraseña - CRM Ituarte</title>
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -56,6 +57,56 @@
     .msg { margin-top: 15px; font-size: 14px; }
     .ok { color: #2e7d32; }
     .err { color: #c62828; }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+        align-items: flex-start;
+        padding-top: 6vh;
+      }
+
+      .box {
+        width: 100%;
+        max-width: 100%;
+        padding: 36px 28px;
+        border-radius: 16px;
+      }
+
+      h2 {
+        font-size: 1.85rem;
+        margin-bottom: 10px;
+      }
+
+      .box > p {
+        font-size: 1.05rem !important;
+        margin-bottom: 24px !important;
+      }
+
+      .password-container {
+        margin-bottom: 18px;
+      }
+
+      .password-container input,
+      button {
+        font-size: 17px;
+        padding: 16px 52px 16px 16px;
+        border-radius: 14px;
+      }
+
+      button {
+        padding: 17px;
+      }
+
+      .toggle-password {
+        right: 18px;
+        font-size: 1.15rem;
+      }
+
+      .msg {
+        font-size: 1rem;
+        margin-top: 18px;
+      }
+    }
   </style>
 </head>
 <body>

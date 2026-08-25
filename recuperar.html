@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recuperar contraseña - CRM Ituarte</title>
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -54,6 +55,62 @@
     }
     .link-box a { color: #c62828; font-weight: 600; }
     .volver { display: block; text-align: center; margin-top: 20px; color: #c62828; font-size: 14px; }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+        align-items: flex-start;
+        padding-top: 6vh;
+      }
+
+      .box {
+        width: 100%;
+        max-width: 100%;
+        padding: 36px 28px;
+        border-radius: 16px;
+      }
+
+      h2 {
+        font-size: 1.85rem;
+        margin-bottom: 12px;
+      }
+
+      p {
+        font-size: 1.05rem;
+        margin-bottom: 22px;
+        line-height: 1.55;
+      }
+
+      input,
+      button {
+        font-size: 17px;
+        padding: 16px;
+        margin-bottom: 18px;
+        border-radius: 14px;
+      }
+
+      button {
+        padding: 17px;
+        margin-bottom: 0;
+      }
+
+      .msg {
+        font-size: 1rem;
+        margin-top: 18px;
+      }
+
+      .link-box {
+        margin-top: 18px;
+        padding: 16px;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      .volver {
+        margin-top: 24px;
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
