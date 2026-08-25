@@ -399,6 +399,9 @@ header:not(.site-header) {
 .otros-apliques {
   width: 100%;
   margin: 120px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .otros-apliques h2 {
@@ -406,7 +409,12 @@ header:not(.site-header) {
   font-size: 30px;
   color: rgb(255, 15, 15);
   font-weight: 400;
-  margin-left: 40px;
+  margin: 0 0 8px;
+  padding: 0 16px;
+  width: 100%;
+  max-width: min(1350px, 100%);
+  text-align: center;
+  box-sizing: border-box;
   text-shadow: 1px 1px 4px rgba(0,0,0,0.25)
 }
 
@@ -489,27 +497,49 @@ header:not(.site-header) {
   flex: none;
 }
 .otrosSwiper {
-  width: fit-content;
+  width: 100%;
   max-width: min(1350px, 100%);
   margin: 0 auto;
-  padding: 0 48px 16px;
+  padding: 0 56px 16px;
   box-shadow: none;
-  overflow: visible;
+  overflow: hidden;
   position: relative;
   box-sizing: border-box;
 }
 
 .otrosSwiper .swiper-wrapper {
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .otrosSwiper .swiper-slide {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: stretch;
+  width: 168px;
   height: auto !important;
-  align-self: flex-start;
   box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .otrosSwiper .swiper-slide {
+    width: 200px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .otrosSwiper .swiper-slide {
+    width: 220px;
+  }
+}
+
+.otrosSwiper .swiper-slide.ver-mas {
+  width: 200px;
+}
+
+@media (min-width: 1024px) {
+  .otrosSwiper .swiper-slide.ver-mas {
+    width: 220px;
+  }
 }
 
 .otrosSwiper .swiper-button-next,
@@ -617,6 +647,7 @@ header:not(.site-header) {
 
 .contenido-ver-mas {
   width: 100%;
+  min-width: 160px;
   max-width: 220px;
   min-height: 0;
   flex: none;

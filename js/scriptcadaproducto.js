@@ -92,13 +92,14 @@ function initSwiperOtros() {
   if (total === 0) return;
 
   const swiper = new Swiper(el, {
-    slidesPerView: 2,
+    slidesPerView: "auto",
     slidesPerGroup: 1,
-    spaceBetween: 10,
+    spaceBetween: 12,
     speed: 500,
     loop: false,
     rewind: true,
     watchOverflow: true,
+    centerInsufficientSlides: true,
     grabCursor: true,
     observer: true,
     observeParents: true,
@@ -113,12 +114,6 @@ function initSwiperOtros() {
     navigation: {
       nextEl: el.querySelector(".swiper-button-next"),
       prevEl: el.querySelector(".swiper-button-prev"),
-    },
-    breakpoints: {
-      480: { slidesPerView: 3, spaceBetween: 10 },
-      768: { slidesPerView: 4, spaceBetween: 12 },
-      1024: { slidesPerView: 5, spaceBetween: 12 },
-      1280: { slidesPerView: 6, spaceBetween: 14 },
     },
     on: {
       init: syncVerMasHeights,
