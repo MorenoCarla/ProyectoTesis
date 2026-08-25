@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login CRM - Ituarte</title>
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -66,6 +67,69 @@
       transform: translateY(-50%);
       cursor: pointer;
       color: #64748b;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+        align-items: flex-start;
+        padding-top: 6vh;
+      }
+
+      .login {
+        width: 100%;
+        max-width: 100%;
+        padding: 36px 28px;
+        border-radius: 16px;
+      }
+
+      .logoLogin {
+        width: 130px;
+        margin-bottom: 16px;
+      }
+
+      .login h2 {
+        font-size: 1.85rem;
+        margin-bottom: 10px;
+      }
+
+      .subtitulo {
+        font-size: 1.05rem;
+        margin-bottom: 28px;
+      }
+
+      input,
+      button[type="submit"] {
+        font-size: 17px;
+        padding: 16px;
+        margin-bottom: 18px;
+        border-radius: 14px;
+      }
+
+      .password-container input {
+        padding-right: 52px;
+      }
+
+      #togglePassword {
+        right: 18px;
+        font-size: 1.15rem;
+      }
+
+      button[type="submit"] {
+        margin-bottom: 0;
+        padding: 17px;
+      }
+
+      .errores {
+        font-size: 1rem;
+        margin-top: 16px;
+      }
+
+      .links {
+        margin-top: 24px;
+        font-size: 1rem;
+        line-height: 1.6;
+      }
     }
   </style>
 </head>
