@@ -1,17 +1,31 @@
-Fondos verticales para celular
-===========================
+Tus archivos en esta carpeta (nombres exactos para el CSS)
+================================================================
 
-Copiá acá versiones VERTICALES de tus fondos (ideal: 1080×1920 px o similar).
+fondo1.png                          → Home, Catálogo, Contacto
+fondogrisoscuro.png                 → Conócenos
+fondoapliques2.png                  → Apliques (categoría + productos interior)
+fondo-colgantes.png                 → Colgantes (categoría + productos colgantes)
+fondolamparasdepie.png              → Lámparas de pie
+fondoplafones.png                   → Plafones
+fondoveladores.png                  → Veladores
+fondoespejos.png                    → Espejos
+fondopaneles.png                    → Paneles
+fondobifocales.png                  → Bifocales
+fondounifocales.png                 → Unifocales
+fondofarolas.png                    → Farolas
+fondoestacas.png                    → Estacas
+fondotortugas.png                   → Tortugas
+fondoreflectores.png                → Reflectores
+fondopiletas.png                    → Piletas
+fondosolares.png                    → Solares
+fondoartefactosalumbradopublico.png → Artefactos / alumbrado público
+fondocamaras.png                    → Cámaras
+fondoventiladores.png               → Ventiladores
+fondosmarts.png                     → Smart
 
-Usá el MISMO nombre que en la carpeta img/ de arriba, por ejemplo:
+NO usa fondos de acá: productos.html (grilla interior/exterior)
 
-  img/fondo1.png          →  img/mobile/fondo1.png
-  img/fondogrisoscuro.png →  img/mobile/fondogrisoscuro.png
-  img/fondoapliques2.png  →  img/mobile/fondoapliques2.png
-
-Cuando tengas la imagen lista:
-  1. Guardala en esta carpeta (img/mobile/)
-  2. Abrí css/backgrounds-mobile.css
-  3. Descomentá el bloque al final (/* ... */) y la línea de esa página
-
-En computadora se sigue viendo la imagen horizontal de siempre.
+Probar en PC con F12:
+  1. npm start en backend
+  2. Abrir http://localhost:3000/index.html (no doble clic al HTML)
+  3. F12 → modo celular → Ctrl+Shift+R

@@ -101,7 +101,7 @@
   margin: 16px 0 0;
   font-size: 1rem;
   color: #fff;
-  text-align: center;
+  text-align: left;
 }
 
 /* ¿Qué hacemos? — fondo oscuro */
@@ -298,6 +298,8 @@
   padding: 0;
   background: transparent;
   box-shadow: none;
+  display: flex;
+  flex-direction: column;
 }
 
 .ubicacion-card h3 {
@@ -311,28 +313,31 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.ubicacion-card img {
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-.mapa-link {
+/* Mapas — más altos que Home, misma altura en las dos columnas */
+#ubicacion .mapa-link {
   display: block;
+  margin-top: 8px;
   border-radius: 10px;
   overflow: hidden;
   transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.mapa-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-}
-
-.mapa-link img {
   width: 100%;
+  height: clamp(180px, 20vw, 240px);
+  line-height: 0;
+}
+
+#ubicacion .mapa-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+#ubicacion .mapa-link img {
+  width: 100%;
+  height: 100%;
   display: block;
-  box-shadow: none;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .cierre-text {
@@ -373,6 +378,10 @@
   .clientes-block,
   .ubicacion-grid {
     grid-template-columns: 1fr;
+  }
+
+  #ubicacion .mapa-link {
+    height: clamp(200px, 48vw, 260px);
   }
 
   .features-grid {
