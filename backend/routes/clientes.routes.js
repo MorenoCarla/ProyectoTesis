@@ -2,6 +2,7 @@ const express = require("express");
 const pool = require("../config/db");
 const { verificarToken, soloRoles } = require("../middleware/auth");
 const { normalizarDatosPersonales } = require("../utils/texto");
+const { validarPerfilComercial, perfilComercialIncompleto } = require("../utils/cliente");
 
 const router = express.Router();
 
@@ -50,6 +51,94 @@ function armarFiltrosClientes(req) {
   sql += " GROUP BY c.id";
   return { sql, params, rubro: rubro || null, buscar, dias: dias > 0 ? dias : null };
 }
+
+async function obtenerClientePorUsuario(pool, usuarioId) {
+  const [filas] = await pool.query(
+    "SELECT * FROM clientes WHERE usuario_id = ? AND activo = 1 LIMIT 1",
+    [usuarioId]
+  );
+  return filas[0] || null;
+}
+
+// GET /clientes/mi-perfil — portal del cliente
+router.get("/mi-perfil", verificarToken, soloRoles("cliente"), async (req, res) => {
+  try {
+    const cliente = await obtenerClientePorUsuario(pool, req.usuario.id);
+    if (!cliente) {
+      return res.status(404).json({ error: "Perfil de cliente no encontrado" });
+    }
+    res.json({
+      ...cliente,
+      perfil_incompleto: perfilComercialIncompleto(cliente)
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener perfil" });
+  }
+});
+
+// PUT /clientes/mi-perfil — portal del cliente
+router.put("/mi-perfil", verificarToken, soloRoles("cliente"), async (req, res) => {
+  try {
+    const cliente = await obtenerClientePorUsuario(pool, req.usuario.id);
+    if (!cliente) {
+      return res.status(404).json({ error: "Perfil de cliente no encontrado" });
+    }
+
+    const {
+      nombre, apellido, telefono, ciudad,
+      tipo_cliente, rubro, empresa, fecha_nacimiento
+    } = req.body;
+
+    const perfilCheck = validarPerfilComercial(req.body, { exigirPerfil: true });
+    if (!perfilCheck.ok) {
+      return res.status(400).json({ error: perfilCheck.error });
+    }
+
+    const normalizado = normalizarDatosPersonales({
+      nombre: nombre || cliente.nombre,
+      apellido: apellido ?? cliente.apellido,
+      ciudad: ciudad ?? cliente.ciudad,
+      empresa: empresa ?? cliente.empresa
+    });
+
+    await pool.query(
+      `UPDATE clientes SET
+         nombre = ?, apellido = ?, telefono = ?, ciudad = ?,
+         tipo_cliente = ?, rubro = ?, empresa = ?, fecha_nacimiento = ?
+       WHERE id = ? AND activo = 1`,
+      [
+        normalizado.nombre,
+        normalizado.apellido || "",
+        telefono || null,
+        normalizado.ciudad,
+        perfilCheck.perfil.tipo_cliente,
+        perfilCheck.perfil.rubro,
+        normalizado.empresa,
+        perfilCheck.perfil.fecha_nacimiento,
+        cliente.id
+      ]
+    );
+
+    await pool.query(
+      "UPDATE usuarios SET nombre = ?, apellido = ?, telefono = ? WHERE id = ?",
+      [normalizado.nombre, normalizado.apellido || "", telefono || null, req.usuario.id]
+    );
+
+    const [actualizado] = await pool.query(
+      "SELECT * FROM clientes WHERE id = ?",
+      [cliente.id]
+    );
+
+    res.json({
+      mensaje: "Perfil actualizado",
+      cliente: actualizado[0],
+      perfil_incompleto: perfilComercialIncompleto(actualizado[0])
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al actualizar perfil" });
+  }
+});
 
 // GET /clientes/rubros  — rubros con cantidad (para filtros)
 router.get("/rubros", verificarToken, soloRoles("admin", "empleado"), async (req, res) => {

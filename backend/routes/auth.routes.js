@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const pool = require("../config/db");
 const { JWT_SECRET, verificarToken } = require("../middleware/auth");
 const { normalizarDatosPersonales } = require("../utils/texto");
+const { validarPerfilComercial, upsertClienteComercial } = require("../utils/cliente");
 
 const router = express.Router();
 
@@ -66,10 +67,18 @@ router.post("/login", async (req, res) => {
 // POST /auth/registro  (clientes que se registran desde el sitio)
 router.post("/registro", async (req, res) => {
   try {
-    const { nombre, apellido, email, password, telefono, ciudad } = req.body;
+    const {
+      nombre, apellido, email, password, telefono, ciudad,
+      tipo_cliente, rubro, empresa, fecha_nacimiento
+    } = req.body;
 
     if (!nombre || !email || !password) {
       return res.status(400).json({ error: "Nombre, email y contraseña son obligatorios" });
+    }
+
+    const perfilCheck = validarPerfilComercial(req.body, { exigirPerfil: true });
+    if (!perfilCheck.ok) {
+      return res.status(400).json({ error: perfilCheck.error });
     }
 
     const [existente] = await pool.query(
@@ -83,7 +92,7 @@ router.post("/registro", async (req, res) => {
 
     const hash = await bcrypt.hash(password, 10);
 
-    const normalizado = normalizarDatosPersonales({ nombre, apellido, ciudad });
+    const normalizado = normalizarDatosPersonales({ nombre, apellido, ciudad, empresa });
     const emailNorm = email.trim().toLowerCase();
 
     const [rolCliente] = await pool.query(
@@ -96,11 +105,18 @@ router.post("/registro", async (req, res) => {
       [rolCliente[0].id, normalizado.nombre, normalizado.apellido || "", emailNorm, hash, telefono || null]
     );
 
-    await pool.query(
-      `INSERT INTO clientes (usuario_id, nombre, apellido, email, telefono, ciudad)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [resultado.insertId, normalizado.nombre, normalizado.apellido || "", emailNorm, telefono || null, normalizado.ciudad]
-    );
+    await upsertClienteComercial(pool, {
+      nombre: normalizado.nombre,
+      apellido: normalizado.apellido,
+      email: emailNorm,
+      telefono,
+      ciudad: normalizado.ciudad,
+      tipo_cliente: perfilCheck.perfil.tipo_cliente,
+      rubro: perfilCheck.perfil.rubro,
+      empresa: perfilCheck.perfil.empresa,
+      fecha_nacimiento: perfilCheck.perfil.fecha_nacimiento,
+      usuario_id: resultado.insertId
+    });
 
     res.status(201).json({ mensaje: "Registro exitoso. Ya podés iniciar sesión." });
   } catch (error) {

@@ -210,3 +210,29 @@
     font-size: 1.25rem;
   }
 }
+
+.perfil-comercial-bloque {
+  margin: 8px 0 4px;
+  padding: 18px 16px 6px;
+  border: 1px solid #f0d4d4;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fffafa 0%, #fff 100%);
+}
+
+.perfil-comercial-bloque legend {
+  padding: 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ituarte-rojo);
+}
+
+.perfil-comercial-bloque legend span {
+  font-weight: 500;
+  color: var(--ituarte-gris);
+  font-size: 12px;
+}
+
+.perfil-comercial-bloque small {
+  font-weight: 400;
+  color: #94a3b8;
+}

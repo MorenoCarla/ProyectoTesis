@@ -291,6 +291,13 @@ router.put("/:id", verificarToken, soloRoles("admin", "empleado"), async (req, r
       );
     }
 
+    if (estado !== undefined && ["finalizado", "cancelado"].includes(estado)) {
+      await pool.query(
+        "UPDATE consultas SET fecha_seguimiento = NULL WHERE id = ?",
+        [req.params.id]
+      );
+    }
+
     let empleadoIdHistorial = null;
     const [emp] = await pool.query(
       "SELECT id FROM empleados WHERE usuario_id = ?",

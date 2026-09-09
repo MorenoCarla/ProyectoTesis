@@ -219,6 +219,15 @@ document.querySelectorAll(".menu-item[data-section]").forEach(btn => {
     document.getElementById("tituloSeccion").textContent =
       btn.textContent.trim();
     if (btn.dataset.section === "marketing") cambiarTabMarketing(marketingTabActiva || "calendario");
+    if (btn.dataset.section === "seguimientos") {
+      initSeguimientoConsultaPicker();
+      buscarConsultasParaSeguimiento("");
+      if (!esGerente) {
+        apiGet("/dashboard")
+          .then(d => renderSeguimientosRecientesOperativos(d.seguimientos_recientes || []))
+          .catch(() => {});
+      }
+    }
   });
 });
 
@@ -463,15 +472,19 @@ async function renderDashboardOperativo(data) {
     listaConsultas.innerHTML = "<p class='consultas-vacio'>No tenés consultas activas pendientes por ahora.</p>";
   } else {
     listaConsultas.innerHTML = data.consultas_prioritarias.map(c => `
-      <article class="consulta-card consulta-card-operativa">
-        <div class="consulta-card-main">
-          <strong>#${c.id} · ${c.cliente_nombre} ${c.cliente_apellido || ""}</strong>
-          <span class="consulta-card-meta">${c.tipo_consulta} · ${c.producto_interes || "Sin producto"}</span>
-          <span class="consulta-card-meta">${c.empleado_nombre || "Sin asignar"} · Prioridad ${c.prioridad}</span>
-        </div>
-        <div class="consulta-card-side">
+      <article class="consulta-operativa-card">
+        <div class="consulta-operativa-header">
+          <strong>#${c.id} · ${escaparHtml(c.cliente_nombre)} ${escaparHtml(c.cliente_apellido || "")}</strong>
           ${badgeEstado(c.estado)}
-          <button class="btn btn-secondary btn-sm" onclick="verConsulta(${c.id})">Atender</button>
+        </div>
+        <div class="consulta-operativa-datos">
+          <span><i class="fa fa-tag" aria-hidden="true"></i>${escaparHtml(c.tipo_consulta)} · ${escaparHtml(c.producto_interes || "Sin producto")}</span>
+          <span><i class="fa fa-user" aria-hidden="true"></i>${escaparHtml(c.empleado_nombre || "Sin asignar")} · Prioridad ${escaparHtml(c.prioridad)}</span>
+        </div>
+        <div class="consulta-operativa-acciones">
+          <button type="button" class="btn btn-primary btn-sm" onclick="verConsulta(${c.id})">
+            <i class="fa fa-inbox" aria-hidden="true"></i> Atender
+          </button>
         </div>
       </article>
     `).join("");
@@ -482,27 +495,20 @@ async function renderDashboardOperativo(data) {
     listaSeg.innerHTML = "<p class='consultas-vacio'>No tenés seguimientos programados.</p>";
   } else {
     listaSeg.innerHTML = data.proximos_seguimientos.map(s => `
-      <div class="seguimiento-item">
-        <strong>#${s.id} · ${s.nombre} ${s.apellido || ""}</strong>
-        <small>${formatearFecha(s.fecha_seguimiento)} · ${badgeEstado(s.estado)} · Prioridad ${s.prioridad || "media"}</small>
-      </div>
+      <article class="seguimiento-operativo-card">
+        <div class="consulta-operativa-header">
+          <strong>#${s.id} · ${escaparHtml(s.nombre)} ${escaparHtml(s.apellido || "")}</strong>
+          ${badgeEstado(s.estado)}
+        </div>
+        <div class="consulta-operativa-datos">
+          <span><i class="fa fa-calendar" aria-hidden="true"></i>${formatearFecha(s.fecha_seguimiento)}</span>
+          <span><i class="fa fa-flag" aria-hidden="true"></i>Prioridad ${escaparHtml(s.prioridad || "media")}</span>
+        </div>
+      </article>
     `).join("");
   }
 
-  const listaRecientes = document.getElementById("listaMisSeguimientosRecientes");
-  const panelRecientesSeg = document.getElementById("listaSeguimientosEmpleado");
-  const htmlSeguimientos = !data.seguimientos_recientes?.length
-    ? "<p class='consultas-vacio'>Todavía no registraste seguimientos.</p>"
-    : data.seguimientos_recientes.map(s => `
-      <div class="seguimiento-item">
-        <strong>#${s.consulta_id} · ${s.cliente_nombre} ${s.cliente_apellido || ""}</strong>
-        <p style="font-size:13px;margin:6px 0 0;">${escaparHtml(s.nota)}</p>
-        <small>${formatearFecha(s.creado_en)}${s.proximo_contacto ? " · Próximo: " + formatearFecha(s.proximo_contacto) : ""}</small>
-      </div>
-    `).join("");
-
-  if (listaRecientes) listaRecientes.innerHTML = htmlSeguimientos;
-  if (panelRecientesSeg) panelRecientesSeg.innerHTML = htmlSeguimientos;
+  renderSeguimientosRecientesOperativos(data.seguimientos_recientes || []);
 
   try {
     const mk = await apiGet("/marketing/oportunidades?limite=1");
@@ -561,7 +567,6 @@ async function cargarConsultas() {
 
     renderPaginacionTabla("paginacionConsultas", consultasMeta, "cambiarPaginaConsultas");
     renderResumenConsultas();
-    actualizarSelectConsultas();
   } catch (e) {
     mostrarToast(e.message, true);
   }
@@ -687,21 +692,135 @@ function cambiarPaginaConsultas(pagina) {
   cargarConsultas();
 }
 
-async function actualizarSelectConsultas() {
-  const select = document.getElementById("segConsultaId");
-  if (!select) return;
+function renderSeguimientosRecientesOperativos(lista) {
+  const cont = document.getElementById("listaSeguimientosEmpleado");
+  if (!cont) return;
+
+  if (!lista.length) {
+    cont.innerHTML = `<p class="consultas-vacio">No hay seguimientos recientes en consultas activas. Cuando cierres una consulta, deja de listarse acá.</p>`;
+    return;
+  }
+
+  cont.innerHTML = lista.map(s => `
+    <div class="seguimiento-item">
+      <strong>#${s.consulta_id} · ${escaparHtml(s.cliente_nombre)} ${escaparHtml(s.cliente_apellido || "")}</strong>
+      <p style="font-size:13px;margin:6px 0 0;">${escaparHtml(s.nota)}</p>
+      <small>${formatearFecha(s.creado_en)}${s.proximo_contacto ? " · Próximo: " + formatearFecha(s.proximo_contacto) : ""}</small>
+    </div>
+  `).join("");
+}
+
+let segConsultaBuscarTimer = null;
+let segConsultaPickerInit = false;
+
+function initSeguimientoConsultaPicker() {
+  if (segConsultaPickerInit) return;
+  segConsultaPickerInit = true;
+
+  const input = document.getElementById("segConsultaBuscar");
+  const resultados = document.getElementById("segConsultaResultados");
+  if (!input || !resultados) return;
+
+  input.addEventListener("input", () => {
+    clearTimeout(segConsultaBuscarTimer);
+    segConsultaBuscarTimer = setTimeout(() => {
+      buscarConsultasParaSeguimiento(input.value.trim());
+    }, 300);
+  });
+
+  input.addEventListener("focus", () => {
+    if (!resultados.innerHTML.trim()) {
+      buscarConsultasParaSeguimiento(input.value.trim());
+    } else {
+      resultados.hidden = false;
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".seg-consulta-picker")) {
+      resultados.hidden = true;
+    }
+  });
+}
+
+function nombreClienteConsulta(c) {
+  return [c.cliente_nombre, c.cliente_apellido].filter(Boolean).join(" ").trim();
+}
+
+function etiquetaConsultaSeguimiento(c) {
+  return `#${c.id} - ${nombreClienteConsulta(c)} - ${c.tipo_consulta} (${c.estado})`;
+}
+
+async function buscarConsultasParaSeguimiento(termino) {
+  const resultados = document.getElementById("segConsultaResultados");
+  if (!resultados) return;
 
   try {
-    const params = new URLSearchParams({ vista: "activas", limite: "100" });
-    if (!esGerente) params.set("asignacion", "mias");
+    const params = new URLSearchParams({ vista: "activas", limite: "15", pagina: "1" });
+    if (!esGerente) params.set("asignacion", "operativas");
+    if (termino) params.set("buscar", termino);
+
     const data = await apiGet("/consultas?" + params.toString());
-    const lista = data.consultas || data;
-    select.innerHTML = '<option value="">Elegí una consulta...</option>' +
-      lista.map(c =>
-        `<option value="${c.id}">#${c.id} - ${c.cliente_nombre} - ${c.tipo_consulta} (${c.estado})</option>`
-      ).join("");
+    const lista = data.consultas || [];
+
+    if (!lista.length) {
+      resultados.innerHTML = `<p class="seg-consulta-vacio">${termino ? "Sin resultados para esa búsqueda." : "No hay consultas activas."}</p>`;
+      resultados.hidden = false;
+      return;
+    }
+
+    resultados.innerHTML = lista.map((c) => {
+      const label = etiquetaConsultaSeguimiento(c);
+      return `
+        <button type="button" class="seg-consulta-opcion" data-id="${c.id}" data-label="${label.replace(/"/g, "&quot;")}">
+          <strong>#${c.id}</strong> ${nombreClienteConsulta(c)}
+          <small>${c.tipo_consulta} · ${c.estado}</small>
+        </button>
+      `;
+    }).join("");
+
+    resultados.querySelectorAll(".seg-consulta-opcion").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        seleccionarConsultaSeguimiento(btn.dataset.id, btn.dataset.label);
+      });
+    });
+
+    resultados.hidden = false;
   } catch (e) {
     console.error(e);
+  }
+}
+
+function seleccionarConsultaSeguimiento(id, label) {
+  const hidden = document.getElementById("segConsultaId");
+  const input = document.getElementById("segConsultaBuscar");
+  const seleccionada = document.getElementById("segConsultaSeleccionada");
+  const resultados = document.getElementById("segConsultaResultados");
+
+  if (hidden) hidden.value = id;
+  if (input) input.value = "";
+  if (seleccionada) {
+    seleccionada.textContent = "Seleccionada: " + label;
+    seleccionada.style.display = "block";
+  }
+  if (resultados) resultados.hidden = true;
+}
+
+function limpiarConsultaSeguimientoPicker() {
+  const hidden = document.getElementById("segConsultaId");
+  const input = document.getElementById("segConsultaBuscar");
+  const seleccionada = document.getElementById("segConsultaSeleccionada");
+  const resultados = document.getElementById("segConsultaResultados");
+
+  if (hidden) hidden.value = "";
+  if (input) input.value = "";
+  if (seleccionada) {
+    seleccionada.textContent = "";
+    seleccionada.style.display = "none";
+  }
+  if (resultados) {
+    resultados.innerHTML = "";
+    resultados.hidden = true;
   }
 }
 
@@ -813,6 +932,8 @@ async function verConsulta(id) {
     `).join("") || "<p style='color:#64748b;font-size:13px;'>Sin seguimientos aún</p>";
 
     actualizarModalAsignacion(c);
+    const btnDesactivar = document.getElementById("btnDesactivarConsulta");
+    if (btnDesactivar) btnDesactivar.style.display = esGerente ? "inline-flex" : "none";
     document.getElementById("modalConsulta").classList.add("open");
   } catch (e) {
     mostrarToast(e.message, true);
@@ -821,6 +942,20 @@ async function verConsulta(id) {
 
 function cerrarModal() {
   document.getElementById("modalConsulta").classList.remove("open");
+}
+
+async function desactivarConsulta() {
+  if (!consultaActualId) return;
+  if (!confirm("¿Desactivar esta consulta?\n\nDejará de verse en el CRM, pero se conserva en la base por auditoría.")) return;
+  try {
+    await apiDelete("/consultas/" + consultaActualId);
+    mostrarToast("Consulta desactivada");
+    cerrarModal();
+    await cargarConsultas();
+    await cargarDashboard();
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
 }
 
 async function guardarCambiosModal() {
@@ -2174,8 +2309,12 @@ async function guardarSeguimiento(e) {
 
     mostrarToast("Seguimiento guardado correctamente");
     document.getElementById("formSeguimiento").reset();
-    actualizarSelectConsultas();
+    limpiarConsultaSeguimientoPicker();
     await cargarDashboard();
+    if (!esGerente && document.getElementById("seguimientos")?.classList.contains("active")) {
+      const dash = await apiGet("/dashboard");
+      renderSeguimientosRecientesOperativos(dash.seguimientos_recientes || []);
+    }
   } catch (e) {
     mostrarToast(e.message, true);
   }
@@ -2232,6 +2371,69 @@ async function exportarReporte(tipo, formato) {
   }
 }
 
+function renderEmpleadosTabla(lista) {
+  const tbody = document.getElementById("tablaEmpleados");
+  if (!tbody) return;
+
+  if (lista.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#64748b;padding:20px;">No hay empleados con esos criterios.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = lista.map(e => `
+    <tr>
+      <td>${escaparHtml(e.nombre_completo)}</td>
+      <td>${escaparHtml(e.email)}</td>
+      <td>${escaparHtml(e.cargo)}</td>
+      <td>${escaparHtml(e.sucursal)}</td>
+      <td>${e.activo && e.usuario_activo
+        ? '<span class="badge badge-finalizado">Activo</span>'
+        : '<span class="badge badge-cancelado">Inactivo</span>'}</td>
+      <td>
+        ${e.activo && e.usuario_activo && e.usuario_id !== usuario.id
+          ? `<button class="btn btn-danger btn-sm" onclick='desactivarEmpleado(${e.id}, ${JSON.stringify(e.nombre_completo)})'>Desactivar</button>`
+          : "—"}
+      </td>
+    </tr>
+  `).join("");
+}
+
+function renderEmpleadosListaMovil(lista) {
+  const cont = document.getElementById("empleadosLista");
+  if (!cont) return;
+
+  if (lista.length === 0) {
+    cont.innerHTML = `<p class="consultas-vacio">No hay empleados con esos criterios.</p>`;
+    return;
+  }
+
+  cont.innerHTML = lista.map(e => {
+    const badge = e.activo && e.usuario_activo
+      ? '<span class="badge badge-finalizado">Activo</span>'
+      : '<span class="badge badge-cancelado">Inactivo</span>';
+    const puedeDesactivar = e.activo && e.usuario_activo && e.usuario_id !== usuario.id;
+
+    return `
+    <article class="empleado-card">
+      <div class="empleado-card-header">
+        <strong>${escaparHtml(e.nombre_completo)}</strong>
+        ${badge}
+      </div>
+      <div class="empleado-card-datos">
+        <span><i class="fa fa-envelope" aria-hidden="true"></i>${escaparHtml(e.email)}</span>
+        <span><i class="fa fa-briefcase" aria-hidden="true"></i>${escaparHtml(e.cargo)} · ${escaparHtml(e.sucursal)}</span>
+      </div>
+      ${puedeDesactivar
+        ? `<div class="empleado-card-acciones">
+            <button type="button" class="btn btn-danger btn-sm" onclick='desactivarEmpleado(${e.id}, ${JSON.stringify(e.nombre_completo)})'>
+              <i class="fa fa-ban" aria-hidden="true"></i> Desactivar
+            </button>
+          </div>`
+        : ""}
+    </article>`;
+  }).join("");
+}
+
 async function cargarTablaEmpleados() {
   if (!esGerente) return;
   try {
@@ -2257,28 +2459,8 @@ async function cargarTablaEmpleados() {
     empleadosPagina = data.pagina;
 
     const lista = data.empleados || [];
-    const tbody = document.getElementById("tablaEmpleados");
-
-    if (lista.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#64748b;padding:20px;">No hay empleados con esos criterios.</td></tr>`;
-    } else {
-      tbody.innerHTML = lista.map(e => `
-        <tr>
-          <td>${escaparHtml(e.nombre_completo)}</td>
-          <td>${escaparHtml(e.email)}</td>
-          <td>${escaparHtml(e.cargo)}</td>
-          <td>${escaparHtml(e.sucursal)}</td>
-          <td>${e.activo && e.usuario_activo
-            ? '<span class="badge badge-finalizado">Activo</span>'
-            : '<span class="badge badge-cancelado">Inactivo</span>'}</td>
-          <td>
-            ${e.activo && e.usuario_activo && e.usuario_id !== usuario.id
-              ? `<button class="btn btn-danger btn-sm" onclick='desactivarEmpleado(${e.id}, ${JSON.stringify(e.nombre_completo)})'>Desactivar</button>`
-              : "—"}
-          </td>
-        </tr>
-      `).join("");
-    }
+    renderEmpleadosTabla(lista);
+    renderEmpleadosListaMovil(lista);
 
     renderResumenEmpleados(data);
     renderPaginacionTabla("paginacionEmpleados", empleadosMeta, "cambiarPaginaEmpleados");

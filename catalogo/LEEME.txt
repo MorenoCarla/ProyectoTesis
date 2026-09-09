@@ -1,26 +1,45 @@
-CATÁLOGO PDF — Electricidad Ituarte
+CATÁLOGOS PDF — Electricidad Ituarte
 ====================================
 
-Tu PDF pesa ~1 GB. GitHub NO acepta archivos de más de 100 MB.
+Carpeta: ProyectoTesis/catalogo/
 
-OPCIÓN RECOMENDADA: Google Drive
---------------------------------
-1. Subí catalogo-ituarte-2025.pdf a Google Drive.
-2. Clic derecho → Compartir → "Cualquier persona con el enlace".
-3. Copiá el link. Ejemplo:
-   https://drive.google.com/file/d/1ABCxyz123/view?usp=sharing
-4. El ID es la parte del medio: 1ABCxyz123
-5. Abrí js/catalogo.js y reemplazá TU_ID_DE_GOOGLE_DRIVE por ese ID.
-6. git add js/catalogo.js && git commit && git push
+Copiá acá tus PDF con ESTOS nombres exactos (minúsculas, sin tildes en el archivo):
 
-En local (npm start) sigue funcionando el PDF de esta carpeta aunque no esté en Git.
+  catalogo-apliques.pdf
+  catalogo-colgantes.pdf
+  catalogo-veladores.pdf
+  catalogo-plafones.pdf
+  catalogo-paneles.pdf
+  catalogo-espejos.pdf
+  catalogo-ventiladores.pdf
+  catalogo-lamparas-de-pie.pdf
+  catalogo-bifocales.pdf
+  catalogo-unifocales.pdf
+  catalogo-farolas.pdf
+  catalogo-estacas.pdf
+  catalogo-tortugas.pdf
+  catalogo-reflectores.pdf
+  catalogo-solares.pdf
+  catalogo-smart.pdf
+  catalogo-camaras.pdf
+  catalogo-alumbrado-publico.pdf
+  catalogo-luminaria-pileta.pdf
 
-OPCIÓN B: Comprimir el PDF
---------------------------
-Si lo bajás a menos de 100 MB (por ejemplo con ilovepdf.com/compress_pdf),
-podés subirlo a GitHub. Sacá catalogo/*.pdf del .gitignore antes.
+Catálogo general del sitio (página Catálogo):
+  catalogo-ituarte-2025.pdf
 
-OPCIÓN C: GitHub Release (hasta 2 GB por archivo)
--------------------------------------------------
-Repo → Releases → New release → adjuntar el PDF como asset.
-Luego pegá la URL del asset en js/catalogo.js (manual).
+Cómo funciona
+-------------
+- En cada ficha de producto, el botón rojo "Catálogo X" abre el PDF que corresponda.
+- No hace falta tocar los HTML: scriptcadaproducto.js lo enlaza solo.
+- Si tu PDF se llama distinto, renombralo o copialo con el nombre de la lista.
+
+Pendrive / presentación
+-----------------------
+Copiá la carpeta completa "catalogo" dentro de ProyectoTesis en el pendrive.
+Ejemplo: E:\ProyectoTesis\catalogo\catalogo-apliques.pdf
+
+GitHub
+------
+Los PDF pesados están en .gitignore (GitHub no acepta > 100 MB).
+Para la web online podés usar Google Drive — ver js/catalogo.js (catálogo general).
