@@ -72,15 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
     resultados.innerHTML = "";
 
     coincidencias.forEach((node) => {
-      const link = node.closest(".link-producto");
-      if (link) {
-        const wrap = document.createElement("div");
-        wrap.className = "link-producto";
-        wrap.appendChild(node.cloneNode(true));
-        resultados.appendChild(wrap);
-      } else {
-        resultados.appendChild(node.cloneNode(true));
-      }
+      const link = node.closest("a.link-producto");
+      resultados.appendChild((link || node).cloneNode(true));
     });
 
     resultados.classList.add("activo");

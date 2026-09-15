@@ -1,5 +1,6 @@
 @import url("mobile-ux.css");
 @import url("site-chrome.css");
+@import url("../vendor/fonts/work-sans.css");
 
 html {
   scroll-behavior: smooth;
@@ -8,6 +9,7 @@ html {
 html, body {
   margin: 0;
   padding: 0;
+  font-family: "Work Sans", system-ui, sans-serif;
 }
 
 .body {
@@ -21,6 +23,8 @@ body.fondo-cada-producto {
   background-attachment: fixed; 
   margin: 0;
   padding: 0;
+  font-family: "Work Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 body.fondo-cada-producto[data-categoria="Colgantes"] {
@@ -176,7 +180,7 @@ header:not(.site-header) {
 .nav-links li a {
   text-decoration: none;
   color: white;
-  font-family: 'Work Sans';
+  font-family: "Work Sans", system-ui, sans-serif;
   font-weight: bold;
   transition: color 0.3s;
   font-size: 18px;
@@ -199,7 +203,7 @@ header:not(.site-header) {
   color:white;
   padding: 8px 16px;
   border-radius: 20px;
-  font-family: 'Work Sans';
+  font-family: "Work Sans", system-ui, sans-serif;
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
@@ -276,7 +280,7 @@ header:not(.site-header) {
 }
 
 .descripcion {
-  font-family: Work Sans;
+  font-family: "Work Sans", system-ui, sans-serif;
 }
 
 .titulo {
@@ -377,7 +381,7 @@ header:not(.site-header) {
   width: 40px;
 }
 .boton-descargas {
-  font-family: Work Sans;
+  font-family: "Work Sans", system-ui, sans-serif;
   font-weight: bold;
   color: white;
   background-color: rgb(228, 5, 5);
@@ -405,7 +409,7 @@ header:not(.site-header) {
 }
 
 .otros-apliques h2 {
-  font-family: Work Sans;
+  font-family: "Work Sans", system-ui, sans-serif;
   font-size: 30px;
   color: rgb(255, 15, 15);
   font-weight: 400;
@@ -599,7 +603,7 @@ header:not(.site-header) {
   width: 100%;
   margin: 0;
   padding: 8px 4px 12px;
-  font-family: 'Work Sans';
+  font-family: "Work Sans", system-ui, sans-serif;
   font-size: 16px;
   color: rgb(59, 59, 59);
   font-weight: 700;
@@ -659,7 +663,7 @@ header:not(.site-header) {
   justify-content: center;
   gap: 8px;
   text-align: center;
-  font-family: Work Sans, sans-serif;
+  font-family: "Work Sans", system-ui, sans-serif;
   font-weight: 600;
   color: white;
   background-color: rgb(255, 15, 15);
@@ -805,7 +809,7 @@ body.producto-exterior .otrosSwiper .swiper-slide a:has(> p.p4-ext) p {
 }
 
 .direcciones h1 {
-  font-family: 'Work Sans';
+  font-family: "Work Sans", system-ui, sans-serif;
   font-size: 15px;
   margin-bottom: 3px;
   color:#383838;
@@ -814,7 +818,7 @@ body.producto-exterior .otrosSwiper .swiper-slide a:has(> p.p4-ext) p {
 
 .direcciones p {
   margin: 1px 0;
-  font-family: 'Work Sans';
+  font-family: "Work Sans", system-ui, sans-serif;
   font-size: 13px;
   line-height: 1.35;
   color: #555;
@@ -832,7 +836,7 @@ body.producto-exterior .otrosSwiper .swiper-slide a:has(> p.p4-ext) p {
 .formulario h2 {
   margin-bottom: 10px;
   flex-shrink: 0;
-  font-family: 'Work Sans';
+  font-family: "Work Sans", system-ui, sans-serif;
   color: rgb(228, 5, 5);
   font-size: clamp(22px, 2.5vw, 28px);
 }
@@ -841,7 +845,7 @@ body.producto-exterior .otrosSwiper .swiper-slide a:has(> p.p4-ext) p {
   display: flex;
   flex-direction: column;
   gap: 0;
-  font-family: 'Work Sans';
+  font-family: "Work Sans", system-ui, sans-serif;
   font-weight: 400;
   color: #383838;
   flex-shrink: 0;
@@ -903,7 +907,7 @@ body.producto-exterior .otrosSwiper .swiper-slide a:has(> p.p4-ext) p {
   padding: 9px 10px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
-  font-family: 'Work Sans';
+  font-family: "Work Sans", system-ui, sans-serif;
   font-size: 13px;
   background: #fff;
   color: #383838;
@@ -966,7 +970,7 @@ body.producto-exterior .otrosSwiper .swiper-slide a:has(> p.p4-ext) p {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  font-family: 'Work Sans';
+  font-family: "Work Sans", system-ui, sans-serif;
   font-size: 14px;
 }
 
@@ -976,7 +980,7 @@ body.producto-exterior .otrosSwiper .swiper-slide a:has(> p.p4-ext) p {
 
 .formulario button,
 .formulario .btn-enviar-producto {
-  font-family: 'Work Sans';
+  font-family: "Work Sans", system-ui, sans-serif;
   margin-top: 10px;
   padding: 12px 14px;
   background-color: rgb(228, 5, 5);
@@ -1059,7 +1063,7 @@ footer:not(.site-footer) {
   transition: color 0.3s;
   font-size: 20px;
   margin-right: 70px;
-  font-family: 'Work Sans';
+  font-family: "Work Sans", system-ui, sans-serif;
 }
 
 .footer-right:hover {
@@ -1315,7 +1319,7 @@ footer:not(.site-footer) {
     text-align: center;
     padding: 40px 20px;
     gap: 16px;
-    font-family: 'Work Sans';
+    font-family: "Work Sans", system-ui, sans-serif;
   }
 
   .footer-left,
