@@ -428,110 +428,207 @@ body.pagina-institucional {
   }
 }
 
-/* ── Pantallas grandes (GitHub Pages / monitores anchos) ── */
-@media (min-width: 1280px) {
+/* ── Notebook / pantalla media (1280–1599): solo layout, tipografía igual ── */
+@media (min-width: 1280px) and (max-width: 1599px) {
   :root {
-    --ituarte-ancho: min(94vw, 1380px);
+    --ituarte-ancho: min(94vw, 1280px);
+  }
+
+  .caja-informacion {
+    max-width: min(94vw, 1180px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pagina-categoria .filas-imagenes,
+  .pagina-categoria .resultados-busqueda {
+    max-width: min(94vw, 1500px);
   }
 }
 
+/* ── Monitores grandes (1600+): tipografía más legible ── */
 @media (min-width: 1600px) {
   :root {
-    --ituarte-ancho: min(92vw, 1720px);
+    --ituarte-ancho: min(92vw, 1680px);
     --ituarte-header: 80px;
+  }
+
+  html {
+    font-size: 106.25%;
+  }
+
+  .site-logo img {
+    height: 60px;
+  }
+
+  .site-nav a {
+    font-size: 16px;
+    padding: 10px 15px;
+  }
+
+  .site-nav .nav-instagram {
+    font-size: 19px;
+  }
+
+  .site-footer h3 {
+    font-size: 17px;
+  }
+
+  .site-footer p,
+  .site-footer li,
+  .site-footer-links a {
+    font-size: 15px;
+  }
+
+  .site-footer-copy {
+    font-size: 13px;
+  }
+
+  .barra-home-back a,
+  .btn-volver,
+  .cat-back-link {
+    font-size: 15px;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 2.8vw, 3rem);
+  }
+
+  .section-lead {
+    font-size: clamp(1.05rem, 1.25vw, 1.22rem);
+  }
+
+  .btn {
+    font-size: 15px;
+    padding: 13px 24px;
+  }
+
+  .hero-swiper {
+    height: clamp(440px, 63vh, 800px);
+  }
+
+  .hero-overlay h1 {
+    font-size: clamp(2.1rem, 3vw, 3.4rem);
+  }
+
+  .hero-overlay p {
+    font-size: clamp(1.05rem, 1.35vw, 1.25rem);
+  }
+
+  .cat-catalog-title {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+  }
+
+  .cat-catalog-search input {
+    font-size: 16px;
+    padding: 12px 15px;
+  }
+
+  .pagina-categoria .filas-imagenes,
+  .pagina-categoria .resultados-busqueda {
+    max-width: min(94vw, 1720px);
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+
+  .pagina-categoria .imagen img {
+    max-width: 280px;
+  }
+
+  .pagina-categoria .imagen p {
+    font-size: 21px;
+  }
+
+  .caja-informacion {
+    max-width: min(92vw, 1480px);
+    margin-left: auto;
+    margin-right: auto;
+    gap: 76px;
+  }
+
+  .swiper-container-custom,
+  .caja-informacion .swiper-producto {
+    width: 540px;
+  }
+
+  .titulo {
+    font-size: 3rem;
+  }
+
+  .textodescripcion,
+  .descripcion .textodescripcion {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  .otros-apliques h2 {
+    font-size: 2rem;
+  }
+
+  .otrosSwiper .swiper-slide p {
+    font-size: 17px;
+  }
+
+  .tab-btn {
+    font-size: 14px;
+    padding: 11px 17px;
+  }
+
+  .form-campo label {
+    font-size: 14px;
+  }
+
+  .form-profesional input,
+  .form-profesional textarea,
+  .form-profesional select {
+    font-size: 15px;
+    padding: 12px 14px;
+  }
+
+  .form-profesional .btn,
+  .btn-queja {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --ituarte-ancho: min(88vw, 1820px);
+    --ituarte-header: 84px;
   }
 
   html {
     font-size: 112.5%;
   }
 
-  .site-logo img {
-    height: 64px;
-  }
-
   .site-nav a {
+    font-size: 17px;
+  }
+
+  .site-footer p,
+  .site-footer li,
+  .site-footer-links a {
     font-size: 16px;
-    padding: 10px 16px;
-  }
-
-  .section-title {
-    font-size: clamp(2.1rem, 3vw, 3.25rem);
-  }
-
-  .section-lead {
-    font-size: clamp(1.08rem, 1.35vw, 1.35rem);
-    max-width: 820px;
-  }
-
-  .btn {
-    font-size: 16px;
-    padding: 14px 28px;
-  }
-
-  .hero-swiper {
-    height: clamp(460px, 65vh, 820px);
-  }
-
-  .hero-overlay h1 {
-    font-size: clamp(2.2rem, 3.5vw, 3.75rem);
-    max-width: 920px;
-  }
-
-  .hero-overlay p {
-    font-size: clamp(1.1rem, 1.5vw, 1.35rem);
-    max-width: 720px;
-  }
-
-  .banner-seccion h2 {
-    font-size: clamp(1.75rem, 2.8vw, 2.65rem);
-  }
-
-  .card-body h3 {
-    font-size: 1.5rem;
-  }
-
-  .pagina-categoria .filas-imagenes,
-  .pagina-categoria .resultados-busqueda {
-    max-width: min(94vw, 1800px);
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-  }
-
-  .pagina-categoria .imagen img {
-    max-width: 290px;
   }
 
   .pagina-categoria .imagen p {
-    font-size: 22px;
+    font-size: 23px;
   }
 
-  .caja-informacion {
-    max-width: min(92vw, 1500px);
-    margin-left: auto;
-    margin-right: auto;
-    gap: 80px;
-  }
-
-  .swiper-container-custom,
-  .caja-informacion .swiper-producto {
-    width: 560px;
+  .pagina-categoria .imagen img {
+    max-width: 295px;
   }
 
   .titulo {
     font-size: 3.25rem;
   }
-}
 
-@media (min-width: 1920px) {
-  :root {
-    --ituarte-ancho: min(88vw, 1860px);
-    --ituarte-header: 84px;
-  }
-
-  html {
-    font-size: 118.75%;
+  .form-profesional input,
+  .form-profesional textarea,
+  .form-profesional select {
+    font-size: 16px;
   }
 
   .hero-swiper {
-    height: clamp(500px, 68vh, 880px);
+    height: clamp(480px, 66vh, 860px);
   }
 }

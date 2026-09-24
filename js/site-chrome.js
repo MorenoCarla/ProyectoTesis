@@ -1,4 +1,12 @@
 (function () {
+  /* Fuerza CSS actualizado en GitHub Pages (evita caché vieja) */
+  document.querySelectorAll('link[href*="site-chrome.css"]').forEach(function (link) {
+    var href = link.getAttribute("href") || "";
+    if (!href.includes("v=7")) {
+      link.setAttribute("href", href.split("?")[0] + "?v=7");
+    }
+  });
+
   function initSiteChrome() {
     const header = document.querySelector(".site-header");
     if (!header) return;
