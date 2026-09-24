@@ -1,6 +1,5 @@
 @import url("mobile-ux.css");
 @import url("site-chrome.css");
-@import url("../vendor/fonts/work-sans.css");
 
 html {
   scroll-behavior: smooth;
@@ -9,7 +8,6 @@ html {
 html, body {
   margin: 0;
   padding: 0;
-  font-family: "Work Sans", system-ui, sans-serif;
 }
 
 .body {
@@ -23,8 +21,6 @@ body.fondo-cada-producto {
   background-attachment: fixed; 
   margin: 0;
   padding: 0;
-  font-family: "Work Sans", system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
 }
 
 body.fondo-cada-producto[data-categoria="Colgantes"] {
@@ -180,7 +176,7 @@ header:not(.site-header) {
 .nav-links li a {
   text-decoration: none;
   color: white;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: 'Work Sans';
   font-weight: bold;
   transition: color 0.3s;
   font-size: 18px;
@@ -203,7 +199,7 @@ header:not(.site-header) {
   color:white;
   padding: 8px 16px;
   border-radius: 20px;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: 'Work Sans';
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
@@ -280,7 +276,7 @@ header:not(.site-header) {
 }
 
 .descripcion {
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: Work Sans;
 }
 
 .titulo {
@@ -381,7 +377,7 @@ header:not(.site-header) {
   width: 40px;
 }
 .boton-descargas {
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: Work Sans;
   font-weight: bold;
   color: white;
   background-color: rgb(228, 5, 5);
@@ -409,7 +405,7 @@ header:not(.site-header) {
 }
 
 .otros-apliques h2 {
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: Work Sans;
   font-size: 30px;
   color: rgb(255, 15, 15);
   font-weight: 400;
@@ -603,7 +599,7 @@ header:not(.site-header) {
   width: 100%;
   margin: 0;
   padding: 8px 4px 12px;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: 'Work Sans';
   font-size: 16px;
   color: rgb(59, 59, 59);
   font-weight: 700;
@@ -663,7 +659,7 @@ header:not(.site-header) {
   justify-content: center;
   gap: 8px;
   text-align: center;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: Work Sans, sans-serif;
   font-weight: 600;
   color: white;
   background-color: rgb(255, 15, 15);
@@ -753,211 +749,77 @@ body.producto-exterior .otrosSwiper .swiper-slide a:has(> p.p4-ext) p {
 .dos-partes {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 0 20px;
+  align-items: center;
 }
 
 .imagen-info {
-  display: grid;
-  grid-template-columns: minmax(240px, 270px) minmax(0, 1fr);
-  gap: 28px 40px;
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-  align-items: end;
-}
-
-.info-marca-columna {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 22px;
-  width: 100%;
-  justify-self: center;
-  align-self: center;
+  justify-content: center; /* ⬅️ clave */
+  gap: 90px;
+  max-width: 1000px;   /* ⬅️ limita el ancho real */
+  margin: 0 auto;      
 }
 
 .imagenes {
   display: flex;
-  flex-direction: column;
+  flex-direction: column;   
   align-items: center;
   gap: 0;
-  width: 100%;
 }
 
 .imagen1 {
-  width: 100px;
-  height: 136px;
+  width: 110px;
+  height: 150px;
 }
 
 .imagen2 {
-  width: 190px;
-  height: auto;
-  max-height: 52px;
-  object-fit: contain;
+  width: 200px;
+  height: 55px;
 }
 
 .direcciones {
-  width: 100%;
-  min-width: 0;
+  flex: 1;
+  min-width: 250px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 18px;
-  text-align: center;
+  gap: 30px;
+  text-align: left;
 }
 
 .direcciones h1 {
-  font-family: "Work Sans", system-ui, sans-serif;
-  font-size: 15px;
-  margin-bottom: 3px;
+  font-family: 'Work Sans';
+  font-size: 20px;
+  margin-bottom: 5px;
   color:#383838;
-  line-height: 1.25;
 }
 
 .direcciones p {
-  margin: 1px 0;
-  font-family: "Work Sans", system-ui, sans-serif;
-  font-size: 13px;
-  line-height: 1.35;
-  color: #555;
+  margin: 2px 0;
+  font-family: 'Work Sans';
+  color: #383838;
 }
 
 .formulario {
-  display: flex;
-  flex-direction: column;
+  flex: 0 0 520px;   
+  max-width: 520px;
   width: 100%;
-  min-width: 0;
-  max-width: none;
-  align-self: center;
+  max-width: 480px;  
 }
 
 .formulario h2 {
-  margin-bottom: 10px;
-  flex-shrink: 0;
-  font-family: "Work Sans", system-ui, sans-serif;
+  margin-bottom: 20px;
+  font-family: 'Work Sans';
   color: rgb(228, 5, 5);
-  font-size: clamp(22px, 2.5vw, 28px);
 }
 
 .formulario form {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  font-family: "Work Sans", system-ui, sans-serif;
+  gap: 10px;
+  font-family: 'Work Sans';
   font-weight: 400;
   color: #383838;
-  flex-shrink: 0;
-}
-
-.formulario form.form-producto-consulta {
-  gap: 12px;
-  padding: 20px 16px 14px;
-  padding-right: 12px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow:
-    0 8px 28px rgba(0, 0, 0, 0.12),
-    inset 0 -10px 14px -14px rgba(0, 0, 0, 0.08);
-  overflow-x: hidden;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(228, 5, 5, 0.4) transparent;
-}
-
-.formulario form.form-producto-consulta::-webkit-scrollbar {
-  width: 6px;
-}
-
-.formulario form.form-producto-consulta::-webkit-scrollbar-thumb {
-  background: rgba(228, 5, 5, 0.35);
-  border-radius: 999px;
-}
-
-.form-producto-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px 12px;
-}
-
-.form-producto-consulta .form-campo {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-
-.form-producto-consulta .form-campo--full {
-  grid-column: 1 / -1;
-}
-
-.form-producto-consulta label {
-  font-size: 12px;
-  font-weight: 600;
-  color: #383838;
-  line-height: 1.3;
-}
-
-.form-producto-consulta input,
-.form-producto-consulta textarea,
-.form-producto-consulta select {
-  width: 100%;
-  padding: 9px 10px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  font-family: "Work Sans", system-ui, sans-serif;
-  font-size: 13px;
-  background: #fff;
-  color: #383838;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.form-producto-consulta input:focus,
-.form-producto-consulta textarea:focus,
-.form-producto-consulta select:focus {
-  outline: none;
-  border-color: rgb(228, 5, 5);
-  box-shadow: 0 0 0 3px rgba(228, 5, 5, 0.12);
-}
-
-.form-producto-consulta textarea {
-  resize: vertical;
-  min-height: 72px;
-  max-height: 140px;
-}
-
-.form-producto-seccion-perfil {
-  padding-top: 10px;
-  margin-top: 2px;
-  border-top: 1px dashed #e5e7eb;
-}
-
-.form-producto-seccion-titulo {
-  margin: 0 0 8px;
-  font-size: 12px;
-  font-weight: 700;
-  color: rgb(228, 5, 5);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.form-producto-seccion-titulo span {
-  font-weight: 500;
-  color: #94a3b8;
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.form-producto-consulta .perfil-opcional {
-  font-weight: 400;
-  font-size: 11px;
-  color: #94a3b8;
-}
-
-.form-producto-consulta .perfil-campo-rubro {
-  margin-top: 2px;
 }
 
 .formulario label {
@@ -970,7 +832,7 @@ body.producto-exterior .otrosSwiper .swiper-slide a:has(> p.p4-ext) p {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: 'Work Sans';
   font-size: 14px;
 }
 
@@ -978,45 +840,21 @@ body.producto-exterior .otrosSwiper .swiper-slide a:has(> p.p4-ext) p {
   resize: none;
 }
 
-.formulario button,
-.formulario .btn-enviar-producto {
-  font-family: "Work Sans", system-ui, sans-serif;
+.formulario button {
+  font-family: 'Work Sans';
   margin-top: 10px;
-  padding: 12px 14px;
+  padding: 12px;
   background-color: rgb(228, 5, 5);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   font-weight: bold;
-  font-size: 14px;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-  width: 100%;
-  flex-shrink: 0;
-  box-shadow: 0 4px 14px rgba(228, 5, 5, 0.28);
+  transition: background 0.3s;
 }
 
-.formulario button:hover,
-.formulario .btn-enviar-producto:hover {
+.formulario button:hover {
   background-color: rgb(180, 0, 0);
-}
-
-.formulario .btn-enviar-producto:active {
-  transform: translateY(1px);
-}
-
-body.producto-exterior .formulario form.form-producto-consulta {
-  background: rgba(255, 255, 255, 0.97);
-}
-
-body.producto-exterior .form-producto-consulta label,
-body.producto-exterior .form-producto-seccion-titulo {
-  color: #383838;
-}
-
-body.producto-exterior .formulario h2 {
-  color: rgb(228, 5, 5);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
 footer:not(.site-footer) {
@@ -1063,7 +901,7 @@ footer:not(.site-footer) {
   transition: color 0.3s;
   font-size: 20px;
   margin-right: 70px;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: 'Work Sans';
 }
 
 .footer-right:hover {
@@ -1257,40 +1095,15 @@ footer:not(.site-footer) {
   }
 
   .imagen-info {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    flex-direction: column;
+    gap: 36px;
     padding: 0 16px;
-    max-width: 560px;
-    align-items: stretch;
-  }
-
-  .info-marca-columna {
-    gap: 20px;
-    align-self: auto;
-  }
-
-  .direcciones {
-    text-align: center;
-  }
-
-  .formulario {
-    height: auto !important;
     max-width: 100%;
   }
 
-  .formulario form.form-producto-consulta {
-    height: auto !important;
-    max-height: none !important;
-    overflow: visible;
-  }
-
-  .formulario form.form-producto-consulta {
-    max-height: none;
-    overflow: visible;
-  }
-
-  .form-producto-grid {
-    grid-template-columns: 1fr;
+  .formulario {
+    flex: 1 1 auto;
+    max-width: 100%;
   }
 
   .dos-partes {
@@ -1319,7 +1132,7 @@ footer:not(.site-footer) {
     text-align: center;
     padding: 40px 20px;
     gap: 16px;
-    font-family: "Work Sans", system-ui, sans-serif;
+    font-family: 'Work Sans';
   }
 
   .footer-left,

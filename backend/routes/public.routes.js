@@ -1,6 +1,6 @@
 const express = require("express");
 const pool = require("../config/db");
-const { validarPerfilComercial, upsertClienteComercial } = require("../utils/cliente");
+const { normalizarDatosPersonales } = require("../utils/texto");
 
 const router = express.Router();
 
@@ -8,19 +8,10 @@ const router = express.Router();
 // POST /public/consulta
 router.post("/consulta", async (req, res) => {
   try {
-    const {
-      nombre, apellido, email, telefono, ciudad, mensaje,
-      producto, tipo_consulta, prioridad,
-      tipo_cliente, rubro, empresa, fecha_nacimiento
-    } = req.body;
+    const { nombre, apellido, email, telefono, ciudad, mensaje, producto, tipo_consulta, prioridad } = req.body;
 
     if (!nombre || !email || !mensaje) {
       return res.status(400).json({ error: "Nombre, email y mensaje son obligatorios" });
-    }
-
-    const perfilCheck = validarPerfilComercial(req.body, { exigirPerfil: Boolean(tipo_cliente) });
-    if (!perfilCheck.ok) {
-      return res.status(400).json({ error: perfilCheck.error });
     }
 
     const tipoNombre = tipo_consulta || "Consulta comercial";
@@ -28,18 +19,33 @@ router.post("/consulta", async (req, res) => {
     const prioridadFinal = prioridad || (esQueja ? "alta" : "media");
     const productoFinal = producto || tipoNombre;
 
-    const clienteId = await upsertClienteComercial(pool, {
-      nombre,
-      apellido,
-      email,
-      telefono,
-      ciudad,
-      tipo_cliente: perfilCheck.perfil.tipo_cliente,
-      rubro: perfilCheck.perfil.rubro,
-      empresa: perfilCheck.perfil.empresa,
-      fecha_nacimiento: perfilCheck.perfil.fecha_nacimiento
-    });
+    const normalizado = normalizarDatosPersonales({ nombre, apellido, ciudad });
+    const emailNorm = email.trim().toLowerCase();
 
+    // Buscar o crear cliente por email
+    let clienteId;
+
+    const [existente] = await pool.query(
+      "SELECT id FROM clientes WHERE email = ? AND activo = 1",
+      [emailNorm]
+    );
+
+    if (existente.length > 0) {
+      clienteId = existente[0].id;
+      await pool.query(
+        "UPDATE clientes SET nombre = ?, apellido = ?, telefono = ?, ciudad = ? WHERE id = ?",
+        [normalizado.nombre, normalizado.apellido || "", telefono || null, normalizado.ciudad, clienteId]
+      );
+    } else {
+      const [nuevo] = await pool.query(
+        `INSERT INTO clientes (nombre, apellido, email, telefono, ciudad)
+         VALUES (?, ?, ?, ?, ?)`,
+        [normalizado.nombre, normalizado.apellido || "", emailNorm, telefono || null, normalizado.ciudad]
+      );
+      clienteId = nuevo.insertId;
+    }
+
+    // Buscar tipo de consulta por nombre
     const [tipo] = await pool.query(
       "SELECT id FROM tipos_consulta WHERE nombre = ?",
       [tipoNombre]

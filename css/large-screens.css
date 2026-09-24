@@ -1,0 +1,321 @@
+/**
+ * Pantallas grandes (monitores 27"+, 1440p, 4K)
+ * Escala tipografía y contenedores sin afectar móvil/tablet.
+ */
+
+@media (min-width: 1400px) {
+  :root {
+    --ituarte-ancho: min(1360px, calc(100% - 48px));
+    --ituarte-header: 76px;
+  }
+
+  body.pagina-institucional {
+    font-size: 17px;
+  }
+
+  .section-block {
+    padding: 64px 0;
+  }
+
+  .section-title {
+    font-size: clamp(1.85rem, 2.2vw, 2.75rem);
+  }
+
+  .section-lead {
+    font-size: clamp(1.02rem, 1.2vw, 1.2rem);
+    max-width: 720px;
+  }
+
+  .section-kicker {
+    font-size: 13px;
+  }
+
+  .btn {
+    font-size: 15px;
+    padding: 13px 24px;
+  }
+
+  .site-logo img {
+    height: 58px;
+  }
+
+  .site-nav a {
+    font-size: 15px;
+    padding: 9px 14px;
+  }
+
+  .site-footer h3 {
+    font-size: 1.15rem;
+  }
+
+  .site-footer p,
+  .site-footer a {
+    font-size: 15px;
+  }
+
+  /* Home */
+  .hero-swiper {
+    height: clamp(400px, 58vh, 680px);
+  }
+
+  .hero-overlay {
+    padding: clamp(28px, 4vw, 56px);
+  }
+
+  .hero-overlay h1 {
+    font-size: clamp(1.85rem, 2.8vw, 3rem);
+    max-width: 780px;
+  }
+
+  .hero-overlay p {
+    font-size: clamp(1rem, 1.35vw, 1.22rem);
+    max-width: 620px;
+  }
+
+  .banner-seccion {
+    min-height: 168px;
+  }
+
+  .banner-seccion h2 {
+    font-size: clamp(1.5rem, 2.5vw, 2.35rem);
+  }
+
+  .card-body {
+    padding: 26px;
+  }
+
+  .card-body h3 {
+    font-size: 1.4rem;
+  }
+
+  .card-body p {
+    font-size: 1rem;
+  }
+
+  .card-productos {
+    min-height: 320px;
+  }
+
+  /* Categorías (apliques, colgantes, etc.) */
+  .cat-catalog-title {
+    font-size: clamp(2rem, 2.8vw, 2.85rem);
+  }
+
+  .cat-catalog-search input {
+    font-size: 16px;
+    padding: 12px 16px;
+  }
+
+  .pagina-categoria .filas-imagenes,
+  .pagina-categoria .resultados-busqueda {
+    max-width: 1680px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 8px 12px;
+  }
+
+  .pagina-categoria .link-producto {
+    max-width: 260px;
+  }
+
+  .pagina-categoria .imagen img {
+    max-width: 260px;
+  }
+
+  .pagina-categoria .imagen p {
+    font-size: 20px;
+  }
+
+  /* Productos — página de categorías */
+  .cat-section-title {
+    font-size: clamp(1.5rem, 2.2vw, 2.1rem);
+  }
+
+  .cat-card span {
+    font-size: 1.05rem;
+  }
+
+  .productos-jump-inner a {
+    font-size: 14px;
+    padding: 9px 16px;
+  }
+
+  /* Ficha de producto individual */
+  .caja-informacion {
+    max-width: 1320px;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 72px;
+    padding-top: 52px;
+    padding-bottom: 44px;
+  }
+
+  .swiper-container-custom,
+  .caja-informacion .swiper-producto {
+    width: 520px;
+  }
+
+  .titulo {
+    font-size: 48px;
+  }
+
+  .subtitulo {
+    font-size: 15px;
+  }
+
+  .textodescripcion {
+    font-size: 17px;
+    line-height: 1.55;
+  }
+
+  .otros-apliques h2 {
+    font-size: 34px;
+    max-width: min(1480px, 100%);
+  }
+
+  .otrosSwiper {
+    max-width: min(1480px, 100%);
+  }
+
+  .otrosSwiper .swiper-slide {
+    width: 240px;
+  }
+
+  .otrosSwiper .swiper-slide a,
+  .otrosSwiper .swiper-slide img {
+    max-width: 240px;
+  }
+
+  .otrosSwiper .swiper-slide p {
+    font-size: 18px;
+  }
+
+  .otros-apliques--compact .otrosSwiper .swiper-slide {
+    width: 220px !important;
+    max-width: 220px;
+  }
+
+  /* CRM */
+  body:has(.layout) {
+    font-size: 16px;
+  }
+
+  .sidebar {
+    width: 280px;
+  }
+
+  .sidebar-logo img {
+    width: 78px;
+  }
+
+  .sidebar-logo h2 {
+    font-size: 20px;
+  }
+
+  .menu-item {
+    font-size: 16px;
+    padding: 15px 26px;
+  }
+
+  .main {
+    margin-left: 280px;
+    padding: 32px 48px;
+  }
+
+  .topbar h1,
+  #tituloSeccion {
+    font-size: clamp(1.65rem, 2vw, 2rem);
+  }
+
+  .card h2 {
+    font-size: 2.1rem;
+  }
+
+  .card p {
+    font-size: 15px;
+  }
+
+  .panel h2,
+  .panel h3 {
+    font-size: 1.2rem;
+  }
+
+  .consultas-tabla-wrap table {
+    font-size: 15px;
+  }
+
+  .consulta-card-title {
+    font-size: 1.05rem;
+  }
+}
+
+@media (min-width: 1800px) {
+  :root {
+    --ituarte-ancho: min(1540px, calc(100% - 64px));
+    --ituarte-header: 82px;
+  }
+
+  body.pagina-institucional {
+    font-size: 18px;
+  }
+
+  .hero-swiper {
+    height: clamp(440px, 60vh, 740px);
+  }
+
+  .hero-overlay h1 {
+    font-size: clamp(2rem, 2.5vw, 3.25rem);
+  }
+
+  .pagina-categoria .filas-imagenes,
+  .pagina-categoria .resultados-busqueda {
+    max-width: 1800px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+
+  .pagina-categoria .link-producto,
+  .pagina-categoria .imagen img {
+    max-width: 280px;
+  }
+
+  .caja-informacion {
+    max-width: 1480px;
+    gap: 80px;
+  }
+
+  .swiper-container-custom,
+  .caja-informacion .swiper-producto {
+    width: 560px;
+  }
+
+  .titulo {
+    font-size: 52px;
+  }
+
+  .otrosSwiper .swiper-slide {
+    width: 260px;
+  }
+
+  .otrosSwiper .swiper-slide a,
+  .otrosSwiper .swiper-slide img {
+    max-width: 260px;
+  }
+
+  .main {
+    padding: 36px 56px;
+  }
+}
+
+@media (min-width: 2200px) {
+  :root {
+    --ituarte-ancho: min(1720px, calc(100% - 80px));
+  }
+
+  .pagina-categoria .filas-imagenes,
+  .pagina-categoria .resultados-busqueda {
+    max-width: 1920px;
+  }
+
+  .caja-informacion {
+    max-width: 1620px;
+  }
+}

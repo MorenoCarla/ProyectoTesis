@@ -11,12 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  insertarBloquePerfilComercial(document.getElementById("formTecnico"), "Tecnico");
-  insertarBloquePerfilComercial(document.getElementById("formComercial"), "Comercial");
-  insertarBloquePerfilComercial(document.getElementById("formAsesoramiento"), "Asesoramiento");
-  insertarBloquePerfilComercial(document.getElementById("formQueja"), "Queja");
-
-  configurarFormulario("formTecnico", "Tecnico", () => ({
+  configurarFormulario("formTecnico", () => ({
     nombre: val("nombre"),
     apellido: val("apellido"),
     email: val("email"),
@@ -27,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mensaje: `[Equipo/instalación: ${val("productoTecnico") || "No especificado"}]\n\n${val("mensaje")}`
   }));
 
-  configurarFormulario("formComercial", "Comercial", () => ({
+  configurarFormulario("formComercial", () => ({
     nombre: val("nombreComercial"),
     apellido: val("apellidoComercial"),
     email: val("emailComercial"),
@@ -38,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mensaje: `[Cantidad aprox.: ${val("cantidadComercial") || "No indicada"}]\n\n${val("mensajeComercial")}`
   }));
 
-  configurarFormulario("formAsesoramiento", "Asesoramiento", () => ({
+  configurarFormulario("formAsesoramiento", () => ({
     nombre: val("nombreAsesoramiento"),
     apellido: val("apellidoAsesoramiento"),
     email: val("emailAsesoramiento"),
@@ -49,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mensaje: `[Sucursal: ${val("sucursalAsesoramiento")} | Tipo de espacio: ${val("tipoEspacio")}]\n\n${val("mensajeAsesoramiento")}`
   }));
 
-  configurarFormulario("formQueja", "Queja", () => ({
+  configurarFormulario("formQueja", () => ({
     nombre: val("nombreQueja"),
     apellido: val("apellidoQueja"),
     email: val("emailQueja"),
@@ -78,34 +73,23 @@ async function enviarAlCRM(datos) {
   return data;
 }
 
-function configurarFormulario(formId, sufijoPerfil, obtenerDatos) {
+function configurarFormulario(formId, obtenerDatos) {
   const form = document.getElementById(formId);
   if (!form) return;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    const errorPerfil = validarPerfilComercialFront(sufijoPerfil);
-    if (errorPerfil) {
-      alert(errorPerfil);
-      return;
-    }
-
     const btn = form.querySelector('button[type="submit"]');
     const textoOriginal = btn.textContent;
     btn.disabled = true;
     btn.textContent = "Enviando...";
 
     try {
-      await enviarAlCRM({
-        ...obtenerDatos(),
-        ...leerPerfilComercial(sufijoPerfil)
-      });
-      alert("Consulta enviada correctamente. Nos comunicaremos a la brevedad.");
+      await enviarAlCRM(obtenerDatos());
+      alert("¡Mensaje enviado correctamente! Nos comunicaremos a la brevedad.");
       form.reset();
-      const tipoEl = document.getElementById(`tipoCliente${sufijoPerfil}`);
-      if (tipoEl) tipoEl.dispatchEvent(new Event("change"));
     } catch (err) {
+      console.error(err);
       alert(err.message || "No se pudo enviar. Verificá que el servidor esté corriendo.");
     } finally {
       btn.disabled = false;
@@ -113,3 +97,12 @@ function configurarFormulario(formId, sufijoPerfil, obtenerDatos) {
     }
   });
 }
+function revealOnScroll() {
+  document.querySelectorAll(".reveal").forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    if (top < window.innerHeight - 100) el.classList.add("active");
+    else el.classList.remove("active");
+  });
+}
+window.addEventListener("scroll", revealOnScroll);
+

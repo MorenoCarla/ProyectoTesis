@@ -1,6 +1,8 @@
 /**
  * Header, footer y utilidades compartidas — páginas institucionales
  */
+@import url("large-screens.css");
+
 :root {
   --ituarte-rojo: rgb(255, 12, 12);
   --ituarte-rojo-header: rgb(253, 17, 17);

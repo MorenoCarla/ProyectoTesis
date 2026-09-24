@@ -1,6 +1,5 @@
 @import url("mobile-ux.css");
 @import url("category-catalog.css");
-@import url("../vendor/fonts/work-sans.css");
 
 html {
   scroll-behavior: smooth;
@@ -9,7 +8,6 @@ html {
 html, body {
   margin: 0;
   padding: 0;
-  font-family: "Work Sans", system-ui, sans-serif;
 }
 
 .main {
@@ -235,7 +233,7 @@ header {
 .nav-links li a {
   text-decoration: none;
   color: white;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: 'Work Sans';
   font-weight: bold;
   transition: color 0.3s;
   font-size: 18px;
@@ -248,7 +246,7 @@ header {
 .titulo-espejos {
   color: rgb(218, 0, 0);
   font-size: 30px;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: 'Work Sans';
   font-weight: 400;
   text-align: center;
   margin-bottom: 10px; 
@@ -261,7 +259,7 @@ header {
 .titulo-artefactos {
   color: rgb(218, 0, 0);
   font-size: 30px;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: 'Work Sans';
   font-weight: 400;
   text-align: center;
   margin-bottom: 10px; 
@@ -274,7 +272,7 @@ header {
 .titulo {
   color: rgb(218, 0, 0);
   font-size: 30px;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: 'Work Sans';
   font-weight: 400;
   text-align: start;
   margin-bottom: 10px; 
@@ -321,7 +319,7 @@ body.fondo-lamparasdepie .titulo {
   width: 100%;
   margin: 0;
   padding: 20px 0;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: 'Work Sans';
   font-size: 18px;
   color: rgb(59, 59, 59);
   font-weight: 700;
@@ -434,7 +432,7 @@ body.fondo-lamparasdepie .titulo {
   width: 100%;
   margin: 0;
   padding: 20px 0;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: 'Work Sans';
   font-size: 18px;
   color: rgb(59, 59, 59);
   font-weight: 700;
@@ -522,7 +520,7 @@ footer:not(.site-footer) {
   transition: color 0.3s;
   font-size: 20px;
   margin-right: 70px;
-  font-family: "Work Sans", system-ui, sans-serif;
+  font-family: 'Work Sans';
 }
 
 .footer-right:hover {

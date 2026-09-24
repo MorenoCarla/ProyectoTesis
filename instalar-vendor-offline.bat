@@ -1,3 +1,0 @@
-@echo off
-echo Instalando archivos offline (Chart, Font Awesome, Swiper, Work Sans)...
-powershell -ExecutionPolicy Bypass -File "%~dp0instalar-vendor-offline.ps1"

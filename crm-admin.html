@@ -7,9 +7,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel CRM - Ituarte</title>
-  <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="css/crm.css">
-  <script src="vendor/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="layout">
@@ -114,14 +115,14 @@
                 <h2>Consultas para atender</h2>
                 <button type="button" class="btn btn-secondary btn-sm" onclick="irASeccion('consultas')">Ver todas</button>
               </div>
-              <div id="listaConsultasOperativas" class="lista-operativa-consultas"></div>
+              <div id="listaConsultasOperativas"></div>
             </div>
             <div class="panel">
               <div class="panel-header-inline">
                 <h2>Próximos seguimientos</h2>
                 <button type="button" class="btn btn-secondary btn-sm" onclick="irASeccion('seguimientos')">Registrar</button>
               </div>
-              <div id="listaSeguimientosOperativos" class="lista-operativa-seguimientos"></div>
+              <div id="listaSeguimientosOperativos"></div>
             </div>
           </div>
           <div class="panel">
@@ -130,6 +131,10 @@
               <button type="button" class="btn btn-secondary btn-sm" onclick="irASeccion('marketing', 'oportunidades')">Ir a oportunidades</button>
             </div>
             <p id="resumenMarketingOperativo" class="consultas-resumen"></p>
+          </div>
+          <div class="panel">
+            <h2>Mis últimos seguimientos registrados</h2>
+            <div id="listaMisSeguimientosRecientes"></div>
           </div>
         </div>
       </section>
@@ -408,27 +413,20 @@
       <!-- SEGUIMIENTOS -->
       <section id="seguimientos" class="section">
         <div class="panel" id="panelSeguimientosRecientes" style="display:none;">
-          <h2>Actividad reciente (consultas activas)</h2>
-          <p class="panel-intro-operativo" style="margin-bottom:12px;">
-            Solo los últimos 7 días en consultas pendientes o en proceso. Al finalizar una consulta deja de aparecer acá; el historial completo queda en esa consulta.
-          </p>
+          <h2>Mis seguimientos recientes</h2>
           <div id="listaSeguimientosEmpleado"></div>
         </div>
         <div class="panel">
           <h2>Registrar seguimiento</h2>
           <p id="introSeguimientos" class="panel-intro-operativo" style="display:none;">
-            Registrá llamadas, presupuestos enviados y próximos contactos. Solo podés elegir consultas activas (no finalizadas ni canceladas).
+            Registrá llamadas, presupuestos enviados y próximos contactos sobre tus consultas asignadas.
           </p>
           <form id="formSeguimiento" onsubmit="guardarSeguimiento(event)">
             <div class="form-grupo">
-              <label>Buscar consulta</label>
-              <input type="hidden" id="segConsultaId">
-              <div class="seg-consulta-picker">
-                <input type="text" id="segConsultaBuscar" autocomplete="off" placeholder="Nombre del cliente, # de consulta o tipo...">
-                <div id="segConsultaResultados" class="seg-consulta-resultados" hidden></div>
-              </div>
-              <p id="segConsultaSeleccionada" class="seg-consulta-seleccionada" style="display:none;"></p>
-              <small class="form-hint">Solo consultas activas. Escribí para buscar; no carga toda la base.</small>
+              <label>Seleccionar consulta</label>
+              <select id="segConsultaId" required>
+                <option value="">Elegí una consulta...</option>
+              </select>
             </div>
             <div class="form-grupo">
               <label>Nota del seguimiento</label>
@@ -505,8 +503,7 @@
             </select>
           </div>
           <p id="resumenEmpleados" class="consultas-resumen"></p>
-          <div id="empleadosLista" class="empleados-lista-movil clientes-lista-plana"></div>
-          <div class="consultas-tabla-wrap empleados-tabla-desktop">
+          <div class="consultas-tabla-wrap">
             <table>
               <thead>
                 <tr>
@@ -648,14 +645,9 @@
       <button class="btn btn-primary btn-sm" id="btnTomarConsulta" onclick="tomarConsulta()" style="display:none;margin-bottom:12px;">
         <i class="fa fa-hand-pointer"></i> Tomar esta consulta
       </button>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
-        <button class="btn btn-primary btn-sm" onclick="guardarCambiosModal()">
-          Guardar cambios
-        </button>
-        <button class="btn btn-danger btn-sm" id="btnDesactivarConsulta" onclick="desactivarConsulta()" style="display:none;">
-          <i class="fa fa-ban"></i> Desactivar consulta
-        </button>
-      </div>
+      <button class="btn btn-primary btn-sm" onclick="guardarCambiosModal()" style="margin-bottom:20px;">
+        Guardar cambios
+      </button>
 
       <h3 style="margin-bottom:10px;font-size:15px;">Historial de estados</h3>
       <div id="modalHistorial"></div>

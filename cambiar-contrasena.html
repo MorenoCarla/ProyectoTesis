@@ -2,50 +2,25 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cambiar contraseña - CRM Ituarte</title>
-  <link rel="stylesheet" href="vendor/fonts/work-sans.css">
-  <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="css/crm.css">
   <style>
-    body {
-      background: #f0f2f5;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
+    body { background: #f0f2f5; min-height: 100vh; }
     .pagina {
-      width: 100%;
       max-width: 480px;
-      margin: 0 auto;
+      margin: 40px auto;
+      padding: 0 20px;
     }
-
     .panel-cuenta {
       background: #fff;
       border-radius: 16px;
       padding: 32px;
       box-shadow: 0 2px 12px rgba(0,0,0,.08);
     }
-
-    .panel-cuenta h1 { font-size: 24px; margin-bottom: 8px; color: #1e293b; }
-    .panel-cuenta p { color: #64748b; font-size: 15px; margin-bottom: 24px; line-height: 1.5; }
-
-    .form-grupo input {
-      width: 100%;
-      padding: 14px;
-      font-size: 16px;
-      border-radius: 10px;
-    }
-
-    .panel-cuenta .btn-primary {
-      padding: 14px;
-      font-size: 16px;
-    }
+    .panel-cuenta h1 { font-size: 22px; margin-bottom: 8px; }
+    .panel-cuenta p { color: #64748b; font-size: 14px; margin-bottom: 24px; }
     .volver-link {
       display: inline-block;
       margin-bottom: 20px;
@@ -71,22 +46,6 @@
     .msg { margin-top: 16px; padding: 12px; border-radius: 8px; font-size: 14px; display: none; }
     .msg.ok { display: block; background: #d4edda; color: #155724; }
     .msg.err { display: block; background: #f8d7da; color: #721c24; }
-
-    @media (max-width: 768px) {
-      body {
-        align-items: flex-start;
-        padding: 16px;
-        padding-top: 6vh;
-      }
-
-      .panel-cuenta {
-        padding: 24px 20px;
-        border-radius: 14px;
-      }
-
-      .panel-cuenta h1 { font-size: 22px; }
-      .volver-link { font-size: 15px; margin-bottom: 16px; }
-    }
   </style>
 </head>
 <body>

@@ -6,8 +6,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro - CRM Ituarte</title>
-  <link rel="stylesheet" href="vendor/fonts/work-sans.css">
-  <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Work Sans', sans-serif;
@@ -20,36 +19,21 @@
     }
     .box {
       background: #fff;
-      padding: 36px 32px;
+      padding: 40px;
       border-radius: 20px;
-      width: 480px;
+      width: 420px;
       max-width: 100%;
-      max-height: 94vh;
-      overflow-y: auto;
     }
     h2 { text-align: center; margin-bottom: 8px; }
-    p.sub { text-align: center; color: #64748b; font-size: 14px; margin-bottom: 20px; line-height: 1.45; }
-    .seccion-titulo {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #c62828;
-      margin: 18px 0 10px;
-    }
-    input, select {
+    p.sub { text-align: center; color: #64748b; font-size: 14px; margin-bottom: 20px; }
+    input {
       width: 100%;
       padding: 12px;
       border: 1px solid #ddd;
       border-radius: 10px;
       margin-bottom: 12px;
       box-sizing: border-box;
-      font-family: inherit;
     }
-    .fila { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .fila input, .fila select { margin-bottom: 0; }
-    .fila + .fila, .fila + input, input + .fila { margin-top: 12px; }
-    .campo-extra[hidden] { display: none !important; }
     button {
       width: 100%;
       padding: 14px;
@@ -60,74 +44,74 @@
       font-weight: 600;
       cursor: pointer;
       margin-top: 8px;
-      font-family: inherit;
     }
     .msg { margin-top: 12px; font-size: 14px; text-align: center; }
     .ok { color: #2e7d32; }
     .err { color: #c62828; }
     .links { text-align: center; margin-top: 16px; font-size: 14px; }
     .links a { color: #c62828; }
-    label { display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 4px; }
-    @media (max-width: 640px) {
-      .fila { grid-template-columns: 1fr; }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+        align-items: flex-start;
+        padding-top: 4vh;
+      }
+
+      .box {
+        width: 100%;
+        max-width: 100%;
+        padding: 36px 28px;
+        border-radius: 16px;
+      }
+
+      h2 {
+        font-size: 1.85rem;
+        margin-bottom: 10px;
+      }
+
+      p.sub {
+        font-size: 1.05rem;
+        margin-bottom: 24px;
+      }
+
+      input,
+      button {
+        font-size: 17px;
+        padding: 16px;
+        margin-bottom: 14px;
+        border-radius: 14px;
+      }
+
+      button {
+        margin-top: 10px;
+        padding: 17px;
+      }
+
+      .msg {
+        font-size: 1rem;
+        margin-top: 16px;
+      }
+
+      .links {
+        margin-top: 20px;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="box">
-    <h2>Crear cuenta</h2>
-    <p class="sub">Registrate para ver tus consultas y completar tu perfil comercial en Ituarte.</p>
+    <h2>Registrarse</h2>
+    <p class="sub">Creá tu cuenta de cliente para ver tus consultas</p>
 
     <form onsubmit="registrar(event)">
-      <div class="seccion-titulo">Datos de acceso</div>
-      <input type="text" id="nombre" placeholder="Nombre *" required>
+      <input type="text" id="nombre" placeholder="Nombre" required>
       <input type="text" id="apellido" placeholder="Apellido">
-      <input type="email" id="email" placeholder="Email *" required>
-      <input type="password" id="password" placeholder="Contraseña (mín. 6 caracteres) *" required minlength="6">
-
-      <div class="seccion-titulo">Contacto</div>
-      <div class="fila">
-        <div>
-          <label for="telefono">Teléfono *</label>
-          <input type="tel" id="telefono" required placeholder="3865...">
-        </div>
-        <div>
-          <label for="ciudad">Ciudad *</label>
-          <input type="text" id="ciudad" required placeholder="Concepción">
-        </div>
-      </div>
-
-      <div class="seccion-titulo">Perfil comercial</div>
-      <label for="tipoCliente">Tipo de cliente *</label>
-      <select id="tipoCliente" required>
-        <option value="" disabled selected hidden>Seleccioná...</option>
-        <option value="particular">Particular / Hogar</option>
-        <option value="profesional">Profesional</option>
-        <option value="empresa">Empresa / Comercio</option>
-        <option value="municipalidad">Municipalidad / Institución</option>
-      </select>
-
-      <div id="wrapRubroRegistro" class="campo-extra" hidden>
-        <label for="rubro">Rubro o actividad *</label>
-        <select id="rubro">
-          <option value="" disabled selected hidden>Seleccioná...</option>
-          <option value="arquitecto">Arquitecto</option>
-          <option value="ingeniero">Ingeniero</option>
-          <option value="electricista">Electricista</option>
-          <option value="diseñador_interiores">Diseñador de interiores</option>
-          <option value="constructor">Constructor</option>
-          <option value="municipalidad">Municipalidad / Alumbrado público</option>
-          <option value="empresa_industrial">Empresa industrial</option>
-          <option value="comercio">Comercio</option>
-          <option value="otro">Otro</option>
-        </select>
-        <label for="empresa">Empresa, estudio u organización</label>
-        <input type="text" id="empresa" placeholder="Opcional">
-      </div>
-
-      <label for="fechaNacimiento">Fecha de nacimiento <span style="font-weight:400;color:#94a3b8;">(opcional · beneficios)</span></label>
-      <input type="date" id="fechaNacimiento">
-
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="tel" id="telefono" placeholder="Teléfono">
+      <input type="text" id="ciudad" placeholder="Ciudad">
+      <input type="password" id="password" placeholder="Contraseña (mín. 6 caracteres)" required minlength="6">
       <button type="submit">Crear cuenta</button>
     </form>
 
@@ -138,28 +122,9 @@
   </div>
 
   <script>
-    const tipoCliente = document.getElementById("tipoCliente");
-    const wrapRubro = document.getElementById("wrapRubroRegistro");
-    const rubro = document.getElementById("rubro");
-
-    tipoCliente.addEventListener("change", () => {
-      const pro = ["profesional", "empresa", "municipalidad"].includes(tipoCliente.value);
-      wrapRubro.hidden = !pro;
-      rubro.required = pro;
-      if (tipoCliente.value === "municipalidad") rubro.value = rubro.value || "municipalidad";
-    });
-
     async function registrar(e) {
       e.preventDefault();
       const msg = document.getElementById("mensaje");
-      const tipo = tipoCliente.value;
-      const pro = ["profesional", "empresa", "municipalidad"].includes(tipo);
-
-      if (pro && !rubro.value) {
-        msg.className = "msg err";
-        msg.innerText = "Seleccioná tu rubro o actividad";
-        return;
-      }
 
       const body = {
         nombre: document.getElementById("nombre").value,
@@ -167,11 +132,7 @@
         email: document.getElementById("email").value,
         telefono: document.getElementById("telefono").value,
         ciudad: document.getElementById("ciudad").value,
-        password: document.getElementById("password").value,
-        tipo_cliente: tipo,
-        rubro: tipo === "particular" ? null : rubro.value,
-        empresa: document.getElementById("empresa").value.trim() || null,
-        fecha_nacimiento: document.getElementById("fechaNacimiento").value || null
+        password: document.getElementById("password").value
       };
 
       try {

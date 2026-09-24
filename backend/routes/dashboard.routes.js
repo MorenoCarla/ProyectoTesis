@@ -192,17 +192,14 @@ async function dashboardOperativo(empleadoId) {
 
   const [seguimientosRecientes] = await pool.query(
     `SELECT s.nota, s.creado_en, s.proximo_contacto,
-            co.id AS consulta_id, co.estado AS consulta_estado,
+            co.id AS consulta_id,
             cl.nombre AS cliente_nombre, cl.apellido AS cliente_apellido
      FROM seguimientos s
      JOIN consultas co ON co.id = s.consulta_id
      JOIN clientes cl ON cl.id = co.cliente_id
      WHERE s.empleado_id = ?
-       AND co.activo = 1
-       AND co.estado IN ('pendiente', 'en_proceso')
-       AND s.creado_en >= DATE_SUB(NOW(), INTERVAL 7 DAY)
      ORDER BY s.creado_en DESC
-     LIMIT 5`,
+     LIMIT 6`,
     [empleadoId]
   );
 

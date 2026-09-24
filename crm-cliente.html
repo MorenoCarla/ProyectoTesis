@@ -7,11 +7,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi cuenta - CRM Ituarte</title>
-  <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="css/crm.css">
-  <link rel="stylesheet" href="css/crm-cliente.css">
 </head>
-<body class="portal-cliente">
+<body>
   <div class="layout">
     <aside class="sidebar">
       <div class="sidebar-logo">
@@ -20,7 +20,6 @@
         <p>Portal del cliente</p>
       </div>
       <button class="menu-item active" data-section="mis-consultas"><i class="fa fa-inbox"></i> Mis consultas</button>
-      <button class="menu-item" data-section="mi-perfil"><i class="fa fa-user"></i> Mi perfil</button>
       <button class="menu-item" data-section="nueva-consulta"><i class="fa fa-plus"></i> Nueva consulta</button>
       <a href="cambiar-contrasena.html" class="menu-item" style="text-decoration:none;"><i class="fa fa-key"></i> Cambiar contraseña</a>
       <button class="menu-item" onclick="cerrarSesion()"><i class="fa fa-sign-out-alt"></i> Cerrar sesión</button>
@@ -35,78 +34,29 @@
         </div>
       </div>
 
-      <div id="avisoPerfilIncompleto" class="alerta-perfil-incompleto" style="display:none;">
-        <strong>Completá tu perfil comercial</strong>
-        <p>Así podemos asesorarte mejor y avisarte de beneficios según tu rubro.</p>
-        <button type="button" class="btn btn-secondary btn-sm" onclick="irSeccion('mi-perfil')">Completar ahora</button>
-      </div>
-
       <section id="mis-consultas" class="section active">
-        <div class="cliente-bienvenida">
-          <div class="cliente-bienvenida-texto">
-            <span class="cliente-bienvenida-etiqueta">Portal del cliente</span>
-            <h2>Hola, <span id="clienteSaludoNombre"></span></h2>
-            <p>Seguí el estado de tus consultas y escribinos cuando necesites asesoramiento en iluminación.</p>
-          </div>
-          <button type="button" class="btn btn-primary cliente-btn-nueva" onclick="irSeccion('nueva-consulta')">
-            <i class="fa fa-plus" aria-hidden="true"></i> Nueva consulta
-          </button>
-        </div>
-
-        <div class="panel cliente-panel-consultas">
-          <div class="panel-header-inline">
-            <h2>Mis consultas</h2>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="irSeccion('nueva-consulta')">+ Nueva</button>
-          </div>
-          <div id="listaConsultasCliente" class="cliente-consultas-lista"></div>
-        </div>
-      </section>
-
-      <section id="mi-perfil" class="section">
-        <div class="panel panel-perfil-cliente">
-          <h2>Mi perfil comercial</h2>
-          <p class="panel-intro-operativo">Estos datos alimentan el CRM de Ituarte: segmentación, marketing y asesoramiento personalizado.</p>
-          <form id="formMiPerfil" class="cliente-formulario" onsubmit="guardarMiPerfil(event)">
-            <div class="form-grupo"><label>Nombre *</label><input type="text" id="perfilNombre" required></div>
-            <div class="form-grupo"><label>Apellido</label><input type="text" id="perfilApellido"></div>
-            <div class="form-grupo form-grupo-full"><label>Email</label><input type="email" id="perfilEmail" disabled></div>
-            <div class="form-grupo"><label>Teléfono *</label><input type="tel" id="perfilTelefono" required></div>
-            <div class="form-grupo"><label>Ciudad *</label><input type="text" id="perfilCiudad" required></div>
-            <div class="form-grupo"><label>Empresa / estudio</label><input type="text" id="perfilEmpresa" placeholder="Opcional"></div>
-            <div class="form-grupo">
-              <label>Tipo de cliente *</label>
-              <select id="perfilTipoCliente" required>
-                <option value="particular">Particular</option>
-                <option value="profesional">Profesional</option>
-                <option value="empresa">Empresa</option>
-                <option value="municipalidad">Municipalidad</option>
-              </select>
-            </div>
-            <div class="form-grupo" id="wrapPerfilRubro">
-              <label>Rubro / profesión *</label>
-              <select id="perfilRubro">
-                <option value="">Sin especificar</option>
-                <option value="arquitecto">Arquitecto</option>
-                <option value="ingeniero">Ingeniero</option>
-                <option value="electricista">Electricista</option>
-                <option value="diseñador_interiores">Diseñador de interiores</option>
-                <option value="constructor">Constructor</option>
-                <option value="municipalidad">Municipalidad / Alumbrado público</option>
-                <option value="empresa_industrial">Empresa industrial</option>
-                <option value="comercio">Comercio</option>
-                <option value="otro">Otro</option>
-              </select>
-            </div>
-            <div class="form-grupo"><label>Fecha de nacimiento</label><input type="date" id="perfilNacimiento"></div>
-            <button type="submit" class="btn btn-primary cliente-form-submit">Guardar perfil</button>
-          </form>
+        <div class="panel">
+          <h2>Historial de mis consultas</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tipo</th>
+                <th>Producto</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaConsultasCliente"></tbody>
+          </table>
         </div>
       </section>
 
       <section id="nueva-consulta" class="section">
         <div class="panel">
           <h2>Enviar nueva consulta</h2>
-          <form id="formNuevaConsulta" class="cliente-formulario cliente-formulario-consulta" onsubmit="enviarConsulta(event)">
+          <form id="formNuevaConsulta" onsubmit="enviarConsulta(event)">
             <div class="form-grupo">
               <label>Tipo de consulta</label>
               <select id="tipoConsulta" required></select>
@@ -115,11 +65,11 @@
               <label>Producto de interés (opcional)</label>
               <input type="text" id="productoInteres" placeholder="Ej: Reflectores LED">
             </div>
-            <div class="form-grupo form-grupo-full">
+            <div class="form-grupo">
               <label>Mensaje</label>
               <textarea id="mensajeConsulta" rows="4" required placeholder="Describí tu consulta..."></textarea>
             </div>
-            <button type="submit" class="btn btn-primary cliente-form-submit">Enviar consulta</button>
+            <button type="submit" class="btn btn-primary">Enviar consulta</button>
           </form>
         </div>
       </section>
@@ -138,7 +88,6 @@
 
   <script src="js/crm-api.js"></script>
   <script src="js/crm-responsive.js"></script>
-  <script src="js/perfil-comercial.js"></script>
   <script src="js/crm-cliente.js"></script>
 </body>
 </html>
