@@ -1,8 +1,6 @@
 /**
  * Header, footer y utilidades compartidas — páginas institucionales
  */
-@import url("large-screens.css");
-
 :root {
   --ituarte-rojo: rgb(255, 12, 12);
   --ituarte-rojo-header: rgb(253, 17, 17);
@@ -427,5 +425,113 @@ body.pagina-institucional {
   body.producto-exterior .site-footer-links ul {
     display: inline-block;
     text-align: center;
+  }
+}
+
+/* ── Pantallas grandes (GitHub Pages / monitores anchos) ── */
+@media (min-width: 1280px) {
+  :root {
+    --ituarte-ancho: min(94vw, 1380px);
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --ituarte-ancho: min(92vw, 1720px);
+    --ituarte-header: 80px;
+  }
+
+  html {
+    font-size: 112.5%;
+  }
+
+  .site-logo img {
+    height: 64px;
+  }
+
+  .site-nav a {
+    font-size: 16px;
+    padding: 10px 16px;
+  }
+
+  .section-title {
+    font-size: clamp(2.1rem, 3vw, 3.25rem);
+  }
+
+  .section-lead {
+    font-size: clamp(1.08rem, 1.35vw, 1.35rem);
+    max-width: 820px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 14px 28px;
+  }
+
+  .hero-swiper {
+    height: clamp(460px, 65vh, 820px);
+  }
+
+  .hero-overlay h1 {
+    font-size: clamp(2.2rem, 3.5vw, 3.75rem);
+    max-width: 920px;
+  }
+
+  .hero-overlay p {
+    font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+    max-width: 720px;
+  }
+
+  .banner-seccion h2 {
+    font-size: clamp(1.75rem, 2.8vw, 2.65rem);
+  }
+
+  .card-body h3 {
+    font-size: 1.5rem;
+  }
+
+  .pagina-categoria .filas-imagenes,
+  .pagina-categoria .resultados-busqueda {
+    max-width: min(94vw, 1800px);
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  }
+
+  .pagina-categoria .imagen img {
+    max-width: 290px;
+  }
+
+  .pagina-categoria .imagen p {
+    font-size: 22px;
+  }
+
+  .caja-informacion {
+    max-width: min(92vw, 1500px);
+    margin-left: auto;
+    margin-right: auto;
+    gap: 80px;
+  }
+
+  .swiper-container-custom,
+  .caja-informacion .swiper-producto {
+    width: 560px;
+  }
+
+  .titulo {
+    font-size: 3.25rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --ituarte-ancho: min(88vw, 1860px);
+    --ituarte-header: 84px;
+  }
+
+  html {
+    font-size: 118.75%;
+  }
+
+  .hero-swiper {
+    height: clamp(500px, 68vh, 880px);
   }
 }
