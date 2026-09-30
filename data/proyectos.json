@@ -1,0 +1,38 @@
+{
+  "intro": "Obras de iluminación e instalación eléctrica que realizamos junto a clientes de Tucumán y la región.",
+  "proyectos": [
+    {
+      "titulo": "HAMMER | Proyecto de iluminación e instalación eléctrica",
+      "descripcion": "En la nueva sede de Hammer, acompañamos el desarrollo del proyecto con una amplia selección de soluciones para iluminación e instalación eléctrica, participando en gran parte de las necesidades de la obra.\n\nLa propuesta incluyó desde materiales esenciales para la instalación, como cables y teclas, hasta diferentes soluciones de iluminación destinadas a los distintos espacios del gimnasio. Entre ellas, se destacan las soluciones LED integradas en los espejos del sector de Pilates, junto con tachos, perfiles y otros recursos de iluminación.\n\nUn proyecto en el que la variedad de productos y la atención a cada detalle permitieron acompañar una obra de gran escala, integrando funcionalidad, diseño y calidad en los diferentes ambientes.\n\nDesde Ituarte, brindamos el acompañamiento necesario para materializar las soluciones de iluminación y electricidad requeridas por el proyecto.",
+      "video": "img/proyectos/hammer.mp4",
+      "tipo": "Gimnasio",
+      "ubicacion": "Yerba Buena - Tucumán"
+    },
+    {
+      "titulo": "YOHANA ABREGÚ | Proyecto Gastronómico",
+      "descripcion": "Para la creación de este nuevo espacio gastronómico, acompañamos el proyecto de Yohana Abregu con soluciones de iluminación y materiales eléctricos destinados a su puesta en funcionamiento.\n\nLa propuesta incluyó luminarias, tableros y materiales para la instalación eléctrica, seleccionados de acuerdo con las necesidades funcionales del espacio y su dinámica de atención.\n\nEl resultado es un ambiente pensado para combinar funcionalidad, confort y una iluminación adecuada para la experiencia del cliente, acompañando la identidad de este nuevo espacio gastronómico.\n\nDesde Ituarte, participamos en el proyecto aportando las soluciones necesarias para llevar adelante su instalación eléctrica y de iluminación.",
+      "video": "img/proyectos/yohanaabregu.mp4",
+      "videoAlternativos": [
+        "img/proyectos/yohanaabregu.MP4",
+        "img/proyectos/YohanaAbregu.mp4",
+        "img/proyectos/yohana-abregu.mp4"
+      ],
+      "tipo": "Comercial",
+      "ubicacion": "Concepción - Tucumán"
+    },
+    {
+      "titulo": "ZURICH | Renovación e iluminación",
+      "descripcion": "En la renovación de las oficinas de Zurich, desarrollamos una propuesta integral que abarcó tanto la instalación eléctrica como la iluminación de los distintos espacios.\n\nEl proyecto incorporó soluciones de iluminación y teclas Kinetic, un sistema inalámbrico que permite controlar las luces sin necesidad de realizar nuevas canalizaciones ni incorporar cableado adicional, facilitando la adaptación de la instalación existente.\n\nUna intervención pensada para acompañar la renovación del espacio con soluciones modernas, funcionales y eficientes, adaptadas a las necesidades de un entorno de trabajo actual.\n\nDesde Ituarte, aportamos las soluciones eléctricas y de iluminación necesarias para transformar el espacio y optimizar su funcionamiento.",
+      "video": "img/proyectos/zurich.mp4",
+      "tipo": "Oficinas",
+      "ubicacion": "Concepción - Tucumán"
+    },
+    {
+      "titulo": "PÉREZ CURBELO NEUMÁTICOS | Iluminación integral",
+      "descripcion": "Para la renovación de las instalaciones de Pérez Curbelo Neumáticos, desarrollamos una propuesta de iluminación que contempló las distintas necesidades de sus espacios de trabajo.\n\nEn sus oficinas se incorporaron luminarias LED, apliques y embutidos, combinando funcionalidad y diseño para generar ambientes de trabajo confortables y correctamente iluminados.\n\nPara el área de taller, se seleccionaron galponeras y luminarias de alta potencia, pensadas para responder a las exigencias propias de un espacio de trabajo técnico y de grandes dimensiones.\n\nUna propuesta integral que permitió abordar la iluminación de cada sector de acuerdo con su uso y requerimientos, combinando eficiencia, rendimiento y funcionalidad.\n\nDesde Ituarte, acompañamos a Pérez Curbelo en la renovación de sus espacios, aportando soluciones de iluminación adaptadas a las necesidades de cada área.",
+      "video": "img/proyectos/perezcurbelo.mp4",
+      "tipo": "Comercial",
+      "ubicacion": "Concepción - Tucumán"
+    }
+  ]
+}
