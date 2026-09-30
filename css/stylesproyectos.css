@@ -74,6 +74,33 @@ body.proyectos-scrolled .proyectos-hero-bar {
   color: var(--ituarte-rojo);
 }
 
+/* Botón volver (flotante sobre el hero, sin franja) */
+.proyectos-hero-topnav {
+  position: absolute;
+  top: clamp(10px, 2vw, 18px);
+  left: 0;
+  right: 0;
+  z-index: 25;
+  pointer-events: none;
+}
+
+.proyectos-hero-topnav .container {
+  display: flex;
+  justify-content: flex-start;
+  pointer-events: none;
+}
+
+.proyectos-hero-topnav .btn-home-back {
+  pointer-events: auto;
+}
+
+body.proyectos-scrolled .proyectos-hero-topnav {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s ease, visibility 0.35s;
+}
+
 /* ── Hero presentación (pantalla inicial) ── */
 .proyectos-hero--intro {
   position: relative;

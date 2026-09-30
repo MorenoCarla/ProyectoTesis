@@ -289,14 +289,14 @@ body.pagina-institucional {
 .barra-home-back {
   width: 100%;
   box-sizing: border-box;
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.92);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 12px 0 0;
+  background: transparent;
+  border: none;
 }
 
 .pagina-conocenos .barra-home-back {
-  background: rgba(0, 0, 0, 0.35);
-  border-bottom-color: rgba(255, 255, 255, 0.12);
+  background: transparent;
+  border: none;
 }
 
 .btn-home-back {
@@ -306,21 +306,30 @@ body.pagina-institucional {
   font-size: 13px;
   font-weight: 600;
   font-family: "Work Sans", sans-serif;
-  color: var(--ituarte-rojo);
+  color: #fff;
+  background: var(--ituarte-rojo);
   text-decoration: none;
-  transition: color 0.2s;
+  padding: 8px 14px;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(198, 40, 40, 0.28);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
 .btn-home-back:hover {
-  color: var(--ituarte-rojo-oscuro);
+  color: #fff;
+  background: var(--ituarte-rojo-oscuro);
+  box-shadow: 0 6px 18px rgba(198, 40, 40, 0.35);
+  transform: translateY(-1px);
 }
 
 .pagina-conocenos .btn-home-back {
   color: #fff;
+  background: var(--ituarte-rojo);
 }
 
 .pagina-conocenos .btn-home-back:hover {
-  color: #fecaca;
+  color: #fff;
+  background: var(--ituarte-rojo-oscuro);
 }
 
 .scroll-top {
