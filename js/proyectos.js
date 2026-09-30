@@ -91,27 +91,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function rutasVideo(p) {
-    var rutas = [];
-    function push(u) {
-      if (u && rutas.indexOf(u) === -1) rutas.push(u);
+    if (window.ItuarteProyectoVideo && window.ItuarteProyectoVideo.rutasVideo) {
+      return window.ItuarteProyectoVideo.rutasVideo(p);
     }
-    push(p.video);
-    if (Array.isArray(p.videoAlternativos)) {
-      p.videoAlternativos.forEach(push);
-    }
-    if (p.video) {
-      var v = p.video;
-      if (/\.mp4$/i.test(v)) {
-        push(v.replace(/\.mp4$/i, ".MP4"));
-        push(v.replace(/\.mp4$/i, ".mov"));
-        push(v.replace(/\.mp4$/i, ".MOV"));
-      }
-      if (/\.mov$/i.test(v)) {
-        push(v.replace(/\.mov$/i, ".mp4"));
-        push(v.replace(/\.mov$/i, ".MP4"));
-      }
-    }
-    return rutas;
+    return p.video ? [p.video] : [];
   }
 
   function montarVideo(frame, rutas) {

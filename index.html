@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="css/institucional-mobile-bg.css">
   <script src="vendor/swiper/swiper-bundle.min.js" defer></script>
   <script src="js/site-chrome.js" defer></script>
+  <script src="js/proyecto-video-utils.js" defer></script>
   <script src="js/script.js" defer></script>
 </head>
 <body class="pagina-institucional pagina-home">
@@ -125,11 +126,9 @@
             </h2>
             <p class="proyectos-home-lead">¡Conocé los proyectos que confiaron en nuestros productos de iluminación y electricidad!</p>
           </header>
-          <div class="proyectos-home-grid">
-            <a class="proyectos-home-tile" href="proyectos.html">
-              <video autoplay loop muted playsinline preload="metadata">
-                <source src="img/proyectos/hammer.mp4" type="video/mp4">
-              </video>
+          <div class="proyectos-home-grid" id="proyectos-home-grid">
+            <a class="proyectos-home-tile" href="proyectos.html" data-proyecto-index="0">
+              <video class="proyectos-home-video" muted loop playsinline preload="metadata"></video>
               <span class="proyectos-home-tile-shade"></span>
               <span class="proyectos-home-tile-body">
                 <span class="proyectos-home-tile-type">Gimnasio</span>
@@ -137,10 +136,8 @@
                 <span class="proyectos-home-tile-loc">Yerba Buena</span>
               </span>
             </a>
-            <a class="proyectos-home-tile" href="proyectos.html">
-              <video autoplay loop muted playsinline preload="metadata">
-                <source src="img/proyectos/yohanaabregu.mp4" type="video/mp4">
-              </video>
+            <a class="proyectos-home-tile" href="proyectos.html" data-proyecto-index="1">
+              <video class="proyectos-home-video" muted loop playsinline preload="metadata"></video>
               <span class="proyectos-home-tile-shade"></span>
               <span class="proyectos-home-tile-body">
                 <span class="proyectos-home-tile-type">Gastronomía</span>
@@ -148,10 +145,8 @@
                 <span class="proyectos-home-tile-loc">Concepción</span>
               </span>
             </a>
-            <a class="proyectos-home-tile" href="proyectos.html">
-              <video autoplay loop muted playsinline preload="metadata">
-                <source src="img/proyectos/zurich.mp4" type="video/mp4">
-              </video>
+            <a class="proyectos-home-tile" href="proyectos.html" data-proyecto-index="2">
+              <video class="proyectos-home-video" muted loop playsinline preload="metadata"></video>
               <span class="proyectos-home-tile-shade"></span>
               <span class="proyectos-home-tile-body">
                 <span class="proyectos-home-tile-type">Oficinas</span>
@@ -159,10 +154,8 @@
                 <span class="proyectos-home-tile-loc">Concepción</span>
               </span>
             </a>
-            <a class="proyectos-home-tile" href="proyectos.html">
-              <video autoplay loop muted playsinline preload="metadata">
-                <source src="img/proyectos/perezcurbelo.mp4" type="video/mp4">
-              </video>
+            <a class="proyectos-home-tile" href="proyectos.html" data-proyecto-index="3">
+              <video class="proyectos-home-video" muted loop playsinline preload="metadata"></video>
               <span class="proyectos-home-tile-shade"></span>
               <span class="proyectos-home-tile-body">
                 <span class="proyectos-home-tile-type">Comercial</span>

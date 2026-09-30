@@ -1,0 +1,16 @@
+Videos de la sección Proyectos (home y proyectos.html)
+
+Para que se vean en GitHub Pages, estos archivos tienen que estar en el repo y subidos con git:
+
+  hammer.mp4
+  yohanaabregu.mp4   (o yohanaabregu.MP4 — en Linux importan mayúsculas/minúsculas)
+  zurich.mp4
+  perezcurbelo.mp4
+
+Desde la carpeta del proyecto:
+
+  git add img/proyectos/*.mp4 img/proyectos/*.MP4
+  git commit -m "Agregar videos de proyectos"
+  git push
+
+Si un archivo pesa más de 100 MB, GitHub no lo acepta: hay que comprimir el video o usar Git LFS.
