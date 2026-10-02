@@ -155,7 +155,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       var altoTexto = texto.offsetHeight;
-      var maxAlto = Math.max(minAlto, Math.min(altoTexto, topeAlto));
+      var maxAlto = mobile
+        ? topeAlto
+        : Math.max(minAlto, Math.min(altoTexto, topeAlto));
 
       var vw = video.videoWidth;
       var vh = video.videoHeight;

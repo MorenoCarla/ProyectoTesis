@@ -1,6 +1,11 @@
 @import url("backgrounds-mobile.css");
 @import url("backgrounds-mobile-imagenes.css");
 
+body.pagina-institucional.pagina-proyectos {
+  background-color: var(--proy-oscuro, #121212);
+  color: #f4f4f5;
+}
+
 .pagina-proyectos {
   --proy-oscuro: #121212;
   --proy-panel: #1e1e20;
@@ -10,6 +15,12 @@
   --ease-breathe: cubic-bezier(0.4, 0, 0.6, 1);
   background-color: var(--proy-oscuro);
   color: #f4f4f5;
+}
+
+.pagina-proyectos main,
+.pagina-proyectos .proyectos-lista,
+.pagina-proyectos .container {
+  background-color: transparent;
 }
 
 @media (min-width: 769px) {
@@ -857,13 +868,15 @@ body.proyectos-scrolled .proyectos-hero-inner {
     grid-template-columns: 1fr;
   }
 
-  .proyecto-showcase .proyecto-media,
+  .proyecto-showcase:nth-child(odd) .proyecto-media,
   .proyecto-showcase:nth-child(even) .proyecto-media {
     grid-column: 1;
     grid-row: 1;
+    width: 100%;
+    max-width: 100%;
   }
 
-  .proyecto-showcase .proyecto-texto,
+  .proyecto-showcase:nth-child(odd) .proyecto-texto,
   .proyecto-showcase:nth-child(even) .proyecto-texto {
     grid-column: 1;
     grid-row: 2;
