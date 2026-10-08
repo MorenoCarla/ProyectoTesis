@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Tabs
   document.querySelectorAll(".tab-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const target = btn.getAttribute("data-tab");
@@ -19,7 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ciudad: val("ciudad"),
     producto: val("productoTecnico") || "Consulta técnica",
     tipo_consulta: "Consulta técnica",
-    mensaje: `[Equipo/instalación: ${val("productoTecnico") || "No especificado"}]\n\n${val("mensaje")}`
+    mensaje: `[Equipo/instalación: ${val("productoTecnico") || "No especificado"}]\n\n${val("mensaje")}`,
+    ...leerPerfilComercial("")
   }));
 
   configurarFormulario("formComercial", () => ({
@@ -30,7 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ciudad: val("ciudadComercial"),
     producto: val("productoComercial") || "Consulta comercial",
     tipo_consulta: "Consulta comercial",
-    mensaje: `[Cantidad aprox.: ${val("cantidadComercial") || "No indicada"}]\n\n${val("mensajeComercial")}`
+    mensaje: `[Cantidad aprox.: ${val("cantidadComercial") || "No indicada"}]\n\n${val("mensajeComercial")}`,
+    ...leerPerfilComercial("Comercial")
   }));
 
   configurarFormulario("formAsesoramiento", () => ({
@@ -41,7 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ciudad: val("ciudadAsesoramiento"),
     producto: "Asesoramiento lumínico",
     tipo_consulta: "Asesoramiento lumínico",
-    mensaje: `[Sucursal: ${val("sucursalAsesoramiento")} | Tipo de espacio: ${val("tipoEspacio")}]\n\n${val("mensajeAsesoramiento")}`
+    mensaje: `[Sucursal: ${val("sucursalAsesoramiento")} | Tipo de espacio: ${val("tipoEspacio")}]\n\n${val("mensajeAsesoramiento")}`,
+    ...leerPerfilComercial("Asesoramiento")
   }));
 
   configurarFormulario("formQueja", () => ({
@@ -53,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
     producto: val("productoQueja") || "Queja / reclamo",
     tipo_consulta: "Queja o reclamo",
     prioridad: "alta",
-    mensaje: `[Sucursal: ${val("sucursalQueja")} | N° factura/pedido: ${val("nroReferencia") || "No indicado"}]\n\n${val("mensajeQueja")}`
+    mensaje: `[Sucursal: ${val("sucursalQueja")} | N° factura/pedido: ${val("nroReferencia") || "No indicado"}]\n\n${val("mensajeQueja")}`,
+    ...leerPerfilComercial("Queja")
   }));
 });
 
@@ -63,7 +66,7 @@ function val(id) {
 }
 
 async function enviarAlCRM(datos) {
-  const res = await fetch("http://localhost:3000/public/consulta", {
+  const res = await fetch("/public/consulta", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(datos)
@@ -97,12 +100,16 @@ function configurarFormulario(formId, obtenerDatos) {
     }
   });
 }
+
 function revealOnScroll() {
   document.querySelectorAll(".reveal").forEach(el => {
-    const top = el.getBoundingClientRect().top;
-    if (top < window.innerHeight - 100) el.classList.add("active");
-    else el.classList.remove("active");
+    const windowHeight = window.innerHeight;
+    const elementTop = el.getBoundingClientRect().top;
+    if (elementTop < windowHeight - 100) {
+      el.classList.add("active");
+    } else {
+      el.classList.remove("active");
+    }
   });
 }
 window.addEventListener("scroll", revealOnScroll);
-

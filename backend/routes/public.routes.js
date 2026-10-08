@@ -4,11 +4,83 @@ const { normalizarDatosPersonales } = require("../utils/texto");
 
 const router = express.Router();
 
+async function upsertClienteWeb(pool, datos) {
+  const {
+    emailNorm,
+    normalizado,
+    telefono,
+    tipo_cliente,
+    rubro,
+    empresa
+  } = datos;
+
+  const tipo = tipo_cliente || "particular";
+  const rubroVal = rubro || null;
+  const empresaVal = normalizado.empresa ?? empresa ?? null;
+
+  const [existente] = await pool.query(
+    "SELECT id FROM clientes WHERE email = ? AND activo = 1",
+    [emailNorm]
+  );
+
+  if (existente.length > 0) {
+    const clienteId = existente[0].id;
+    await pool.query(
+      `UPDATE clientes SET
+         nombre = ?, apellido = ?, telefono = ?, ciudad = ?,
+         tipo_cliente = ?, rubro = ?, empresa = ?
+       WHERE id = ?`,
+      [
+        normalizado.nombre,
+        normalizado.apellido || "",
+        telefono || null,
+        normalizado.ciudad,
+        tipo,
+        rubroVal,
+        empresaVal,
+        clienteId
+      ]
+    );
+    return clienteId;
+  }
+
+  const [nuevo] = await pool.query(
+    `INSERT INTO clientes (
+       nombre, apellido, email, telefono, ciudad,
+       tipo_cliente, rubro, empresa
+     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      normalizado.nombre,
+      normalizado.apellido || "",
+      emailNorm,
+      telefono || null,
+      normalizado.ciudad,
+      tipo,
+      rubroVal,
+      empresaVal
+    ]
+  );
+  return nuevo.insertId;
+}
+
 // Formularios del sitio web (contacto, productos) — sin login
 // POST /public/consulta
 router.post("/consulta", async (req, res) => {
   try {
-    const { nombre, apellido, email, telefono, ciudad, mensaje, producto, tipo_consulta, prioridad } = req.body;
+    const {
+      nombre,
+      apellido,
+      email,
+      telefono,
+      ciudad,
+      mensaje,
+      producto,
+      tipo_consulta,
+      prioridad,
+      tipo_cliente,
+      rubro,
+      empresa
+    } = req.body;
 
     if (!nombre || !email || !mensaje) {
       return res.status(400).json({ error: "Nombre, email y mensaje son obligatorios" });
@@ -19,31 +91,17 @@ router.post("/consulta", async (req, res) => {
     const prioridadFinal = prioridad || (esQueja ? "alta" : "media");
     const productoFinal = producto || tipoNombre;
 
-    const normalizado = normalizarDatosPersonales({ nombre, apellido, ciudad });
+    const normalizado = normalizarDatosPersonales({ nombre, apellido, ciudad, empresa });
     const emailNorm = email.trim().toLowerCase();
 
-    // Buscar o crear cliente por email
-    let clienteId;
-
-    const [existente] = await pool.query(
-      "SELECT id FROM clientes WHERE email = ? AND activo = 1",
-      [emailNorm]
-    );
-
-    if (existente.length > 0) {
-      clienteId = existente[0].id;
-      await pool.query(
-        "UPDATE clientes SET nombre = ?, apellido = ?, telefono = ?, ciudad = ? WHERE id = ?",
-        [normalizado.nombre, normalizado.apellido || "", telefono || null, normalizado.ciudad, clienteId]
-      );
-    } else {
-      const [nuevo] = await pool.query(
-        `INSERT INTO clientes (nombre, apellido, email, telefono, ciudad)
-         VALUES (?, ?, ?, ?, ?)`,
-        [normalizado.nombre, normalizado.apellido || "", emailNorm, telefono || null, normalizado.ciudad]
-      );
-      clienteId = nuevo.insertId;
-    }
+    const clienteId = await upsertClienteWeb(pool, {
+      emailNorm,
+      normalizado,
+      telefono,
+      tipo_cliente,
+      rubro,
+      empresa
+    });
 
     // Buscar tipo de consulta por nombre
     const [tipo] = await pool.query(

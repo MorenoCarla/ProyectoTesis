@@ -4,12 +4,67 @@
 // ============================================================
 
 document.addEventListener("DOMContentLoaded", () => {
+  inyectarFormularioProductoCompleto();
   initSwiperProducto();
   initSwiperOtros();
   syncVerMasHeights();
   window.addEventListener("resize", syncVerMasHeights);
   cargarResponsiveNav();
 });
+
+function inyectarFormularioProductoCompleto() {
+  const form = document.querySelector(".formulario form");
+  if (!form || form.querySelector("[data-form-producto-extendido]")) return;
+  if (!form.querySelector("#nombre")) return;
+
+  const bloque = document.createElement("div");
+  bloque.setAttribute("data-form-producto-extendido", "1");
+  bloque.innerHTML = `
+    <label>Apellido</label>
+    <input type="text" id="apellido" placeholder="Tu apellido">
+    <label>Teléfono</label>
+    <input type="tel" id="telefono" placeholder="3865...">
+    <label>Ciudad</label>
+    <input type="text" id="ciudad" placeholder="Ej: Concepción">
+    <label>Tipo de cliente</label>
+    <select id="tipoCliente">
+      <option value="particular">Particular</option>
+      <option value="profesional">Profesional</option>
+      <option value="empresa">Empresa</option>
+      <option value="municipalidad">Municipalidad</option>
+    </select>
+    <label>Rubro / Profesión</label>
+    <select id="rubro">
+      <option value="">Sin especificar</option>
+      <option value="arquitecto">Arquitecto</option>
+      <option value="ingeniero">Ingeniero</option>
+      <option value="electricista">Electricista</option>
+      <option value="diseñador_interiores">Diseñador de interiores</option>
+      <option value="constructor">Constructor</option>
+      <option value="municipalidad">Municipalidad / Alumbrado público</option>
+      <option value="empresa_industrial">Empresa industrial</option>
+      <option value="comercio">Comercio</option>
+      <option value="otro">Otro</option>
+    </select>
+    <label>Empresa / Estudio</label>
+    <input type="text" id="empresa" placeholder="Opcional">
+  `;
+
+  const mensaje = form.querySelector("#mensaje");
+  if (mensaje) form.insertBefore(bloque, mensaje);
+  else form.appendChild(bloque);
+}
+
+function leerPerfilProducto() {
+  const tipo = document.getElementById("tipoCliente");
+  const rubro = document.getElementById("rubro");
+  const empresa = document.getElementById("empresa");
+  return {
+    tipo_cliente: tipo && tipo.value ? tipo.value : "particular",
+    rubro: rubro && rubro.value ? rubro.value : null,
+    empresa: empresa && empresa.value.trim() ? empresa.value.trim() : null
+  };
+}
 
 function cargarResponsiveNav() {
   if (window.__responsiveNavRequested) return;
@@ -184,7 +239,7 @@ if (formProducto) {
     btn.textContent = "Enviando...";
 
     try {
-      const res = await fetch("http://localhost:3000/public/consulta", {
+      const res = await fetch("/public/consulta", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -192,9 +247,11 @@ if (formProducto) {
           apellido,
           email,
           telefono,
+          ciudad: document.getElementById("ciudad")?.value.trim() || null,
           producto: producto,
           tipo_consulta: "Solicitud de producto",
-          mensaje: `[${categoria}] Consulta sobre: ${producto}\n\n${mensaje}`
+          mensaje: `[${categoria}] Consulta sobre: ${producto}\n\n${mensaje}`,
+          ...leerPerfilProducto()
         })
       });
 

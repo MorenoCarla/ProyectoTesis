@@ -111,6 +111,27 @@
       <input type="email" id="email" placeholder="Email" required>
       <input type="tel" id="telefono" placeholder="Teléfono">
       <input type="text" id="ciudad" placeholder="Ciudad">
+      <label style="display:block;margin:8px 0 4px;font-size:13px;color:#475569;">Tipo de cliente</label>
+      <select id="tipoCliente" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-bottom:12px;box-sizing:border-box;">
+        <option value="particular">Particular</option>
+        <option value="profesional">Profesional</option>
+        <option value="empresa">Empresa</option>
+        <option value="municipalidad">Municipalidad</option>
+      </select>
+      <label style="display:block;margin:8px 0 4px;font-size:13px;color:#475569;">Rubro / Profesión</label>
+      <select id="rubro" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-bottom:12px;box-sizing:border-box;">
+        <option value="">Sin especificar</option>
+        <option value="arquitecto">Arquitecto</option>
+        <option value="ingeniero">Ingeniero</option>
+        <option value="electricista">Electricista</option>
+        <option value="diseñador_interiores">Diseñador de interiores</option>
+        <option value="constructor">Constructor</option>
+        <option value="municipalidad">Municipalidad / Alumbrado público</option>
+        <option value="empresa_industrial">Empresa industrial</option>
+        <option value="comercio">Comercio</option>
+        <option value="otro">Otro</option>
+      </select>
+      <input type="text" id="empresa" placeholder="Empresa / Estudio (opcional)">
       <input type="password" id="password" placeholder="Contraseña (mín. 6 caracteres)" required minlength="6">
       <button type="submit">Crear cuenta</button>
     </form>
@@ -132,11 +153,14 @@
         email: document.getElementById("email").value,
         telefono: document.getElementById("telefono").value,
         ciudad: document.getElementById("ciudad").value,
+        tipo_cliente: document.getElementById("tipoCliente").value,
+        rubro: document.getElementById("rubro").value || null,
+        empresa: document.getElementById("empresa").value.trim() || null,
         password: document.getElementById("password").value
       };
 
       try {
-        const res = await fetch("http://localhost:3000/auth/registro", {
+        const res = await fetch("/auth/registro", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body)

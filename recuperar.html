@@ -137,7 +137,7 @@
       const msg = document.getElementById("mensaje");
 
       try {
-        const res = await fetch("http://localhost:3000/auth/recuperar", {
+        const res = await fetch("/auth/recuperar", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email })

@@ -66,7 +66,17 @@ router.post("/login", async (req, res) => {
 // POST /auth/registro  (clientes que se registran desde el sitio)
 router.post("/registro", async (req, res) => {
   try {
-    const { nombre, apellido, email, password, telefono, ciudad } = req.body;
+    const {
+      nombre,
+      apellido,
+      email,
+      password,
+      telefono,
+      ciudad,
+      tipo_cliente,
+      rubro,
+      empresa
+    } = req.body;
 
     if (!nombre || !email || !password) {
       return res.status(400).json({ error: "Nombre, email y contraseña son obligatorios" });
@@ -83,8 +93,11 @@ router.post("/registro", async (req, res) => {
 
     const hash = await bcrypt.hash(password, 10);
 
-    const normalizado = normalizarDatosPersonales({ nombre, apellido, ciudad });
+    const normalizado = normalizarDatosPersonales({ nombre, apellido, ciudad, empresa });
     const emailNorm = email.trim().toLowerCase();
+    const tipoCliente = tipo_cliente || "particular";
+    const rubroVal = rubro || null;
+    const empresaVal = normalizado.empresa ?? empresa ?? null;
 
     const [rolCliente] = await pool.query(
       "SELECT id FROM roles WHERE nombre = 'cliente'"
@@ -97,9 +110,21 @@ router.post("/registro", async (req, res) => {
     );
 
     await pool.query(
-      `INSERT INTO clientes (usuario_id, nombre, apellido, email, telefono, ciudad)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [resultado.insertId, normalizado.nombre, normalizado.apellido || "", emailNorm, telefono || null, normalizado.ciudad]
+      `INSERT INTO clientes (
+         usuario_id, nombre, apellido, email, telefono, ciudad,
+         tipo_cliente, rubro, empresa
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        resultado.insertId,
+        normalizado.nombre,
+        normalizado.apellido || "",
+        emailNorm,
+        telefono || null,
+        normalizado.ciudad,
+        tipoCliente,
+        rubroVal,
+        empresaVal
+      ]
     );
 
     res.status(201).json({ mensaje: "Registro exitoso. Ya podés iniciar sesión." });
