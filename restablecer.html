@@ -131,6 +131,7 @@
     <div id="mensaje" class="msg"></div>
   </div>
 
+  <script src="js/crm-public-api.js"></script>
   <script>
     document.querySelectorAll(".toggle-password").forEach(icon => {
       icon.addEventListener("click", () => {
@@ -166,7 +167,7 @@
       }
 
       try {
-        const res = await fetch("/auth/restablecer", {
+        const res = await fetch(crmPublicUrl("/auth/restablecer"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token, password })

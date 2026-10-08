@@ -12,8 +12,9 @@
   <link rel="stylesheet" href="css/site-chrome.css">
   <link rel="stylesheet" href="css/stylescontacto.css">
   <link rel="stylesheet" href="css/institucional-mobile-bg.css">
-  <script src="js/site-chrome.js" defer></script>
+  <script src="js/crm-public-api.js" defer></script>
   <script src="js/form-perfil-comercial.js" defer></script>
+  <script src="js/site-chrome.js" defer></script>
   <script src="js/scriptcontacto.js" defer></script>
 </head>
 <body class="pagina-institucional pagina-contacto">
@@ -70,6 +71,21 @@
               <div class="form-campo"><label>Ciudad *</label><input type="text" id="ciudad" required placeholder="Ej: Concepción"></div>
               <div class="form-campo"><label>Producto o equipo</label><input type="text" id="productoTecnico" placeholder="Ej: Reflector LED 100W"></div>
             </div>
+            <div class="form-perfil-seccion">
+              <p class="form-perfil-kicker">Perfil comercial <span>(opcional — nos ayuda a atenderte mejor)</span></p>
+              <div class="form-fila">
+                <div class="form-campo"><label>Tipo de cliente</label>
+                  <select id="tipoCliente"><option value="particular">Particular</option><option value="profesional">Profesional</option><option value="empresa">Empresa</option><option value="municipalidad">Municipalidad</option></select>
+                </div>
+                <div class="form-campo"><label>Rubro / Profesión</label>
+                  <select id="rubro"><option value="">Sin especificar</option><option value="arquitecto">Arquitecto</option><option value="ingeniero">Ingeniero</option><option value="electricista">Electricista</option><option value="diseñador_interiores">Diseñador de interiores</option><option value="constructor">Constructor</option><option value="municipalidad">Municipalidad / Alumbrado público</option><option value="empresa_industrial">Empresa industrial</option><option value="comercio">Comercio</option><option value="otro">Otro</option></select>
+                </div>
+              </div>
+              <div class="form-fila">
+                <div class="form-campo"><label>Fecha de nacimiento <span class="form-opc-label">(opcional)</span></label><input type="date" id="fechaNacimiento"></div>
+                <div class="form-campo"><label>Empresa / Estudio</label><input type="text" id="empresa" placeholder="Opcional"></div>
+              </div>
+            </div>
             <div class="form-campo"><label>Detalle de la consulta *</label><textarea id="mensaje" rows="5" required placeholder="Describí tu consulta técnica..."></textarea></div>
             <button type="submit" class="btn btn-primary">Enviar consulta técnica</button>
           </form>
@@ -92,6 +108,21 @@
               <div class="form-campo"><label>Producto de interés</label><input type="text" id="productoComercial" placeholder="Ej: Iluminación de local"></div>
             </div>
             <div class="form-campo"><label>Cantidad aproximada</label><input type="text" id="cantidadComercial" placeholder="Ej: 20 unidades"></div>
+            <div class="form-perfil-seccion">
+              <p class="form-perfil-kicker">Perfil comercial <span>(opcional — nos ayuda a atenderte mejor)</span></p>
+              <div class="form-fila">
+                <div class="form-campo"><label>Tipo de cliente</label>
+                  <select id="tipoClienteComercial"><option value="particular">Particular</option><option value="profesional">Profesional</option><option value="empresa">Empresa</option><option value="municipalidad">Municipalidad</option></select>
+                </div>
+                <div class="form-campo"><label>Rubro / Profesión</label>
+                  <select id="rubroComercial"><option value="">Sin especificar</option><option value="arquitecto">Arquitecto</option><option value="ingeniero">Ingeniero</option><option value="electricista">Electricista</option><option value="diseñador_interiores">Diseñador de interiores</option><option value="constructor">Constructor</option><option value="municipalidad">Municipalidad / Alumbrado público</option><option value="empresa_industrial">Empresa industrial</option><option value="comercio">Comercio</option><option value="otro">Otro</option></select>
+                </div>
+              </div>
+              <div class="form-fila">
+                <div class="form-campo"><label>Fecha de nacimiento <span class="form-opc-label">(opcional)</span></label><input type="date" id="fechaNacimientoComercial"></div>
+                <div class="form-campo"><label>Empresa / Estudio</label><input type="text" id="empresaComercial" placeholder="Opcional"></div>
+              </div>
+            </div>
             <div class="form-campo"><label>Detalle del pedido *</label><textarea id="mensajeComercial" rows="5" required placeholder="Contanos qué necesitás cotizar..."></textarea></div>
             <button type="submit" class="btn btn-primary">Solicitar cotización</button>
           </form>
@@ -131,6 +162,21 @@
                 <option value="Otro">Otro</option>
               </select>
             </div>
+            <div class="form-perfil-seccion">
+              <p class="form-perfil-kicker">Perfil comercial <span>(opcional — nos ayuda a atenderte mejor)</span></p>
+              <div class="form-fila">
+                <div class="form-campo"><label>Tipo de cliente</label>
+                  <select id="tipoClienteAsesoramiento"><option value="particular">Particular</option><option value="profesional">Profesional</option><option value="empresa">Empresa</option><option value="municipalidad">Municipalidad</option></select>
+                </div>
+                <div class="form-campo"><label>Rubro / Profesión</label>
+                  <select id="rubroAsesoramiento"><option value="">Sin especificar</option><option value="arquitecto">Arquitecto</option><option value="ingeniero">Ingeniero</option><option value="electricista">Electricista</option><option value="diseñador_interiores">Diseñador de interiores</option><option value="constructor">Constructor</option><option value="municipalidad">Municipalidad / Alumbrado público</option><option value="empresa_industrial">Empresa industrial</option><option value="comercio">Comercio</option><option value="otro">Otro</option></select>
+                </div>
+              </div>
+              <div class="form-fila">
+                <div class="form-campo"><label>Fecha de nacimiento <span class="form-opc-label">(opcional)</span></label><input type="date" id="fechaNacimientoAsesoramiento"></div>
+                <div class="form-campo"><label>Empresa / Estudio</label><input type="text" id="empresaAsesoramiento" placeholder="Opcional"></div>
+              </div>
+            </div>
             <div class="form-campo"><label>Descripción del proyecto *</label><textarea id="mensajeAsesoramiento" rows="5" required placeholder="Metraje, ambiente, estilo deseado..."></textarea></div>
             <button type="submit" class="btn btn-primary">Solicitar asesoramiento</button>
           </form>
@@ -162,6 +208,21 @@
             <div class="form-fila">
               <div class="form-campo"><label>Producto relacionado</label><input type="text" id="productoQueja" placeholder="Ej: Reflector LED"></div>
               <div class="form-campo"><label>N° factura o pedido</label><input type="text" id="nroReferencia" placeholder="Si lo tenés, ayuda a agilizar"></div>
+            </div>
+            <div class="form-perfil-seccion">
+              <p class="form-perfil-kicker">Perfil comercial <span>(opcional — nos ayuda a atenderte mejor)</span></p>
+              <div class="form-fila">
+                <div class="form-campo"><label>Tipo de cliente</label>
+                  <select id="tipoClienteQueja"><option value="particular">Particular</option><option value="profesional">Profesional</option><option value="empresa">Empresa</option><option value="municipalidad">Municipalidad</option></select>
+                </div>
+                <div class="form-campo"><label>Rubro / Profesión</label>
+                  <select id="rubroQueja"><option value="">Sin especificar</option><option value="arquitecto">Arquitecto</option><option value="ingeniero">Ingeniero</option><option value="electricista">Electricista</option><option value="diseñador_interiores">Diseñador de interiores</option><option value="constructor">Constructor</option><option value="municipalidad">Municipalidad / Alumbrado público</option><option value="empresa_industrial">Empresa industrial</option><option value="comercio">Comercio</option><option value="otro">Otro</option></select>
+                </div>
+              </div>
+              <div class="form-fila">
+                <div class="form-campo"><label>Fecha de nacimiento <span class="form-opc-label">(opcional)</span></label><input type="date" id="fechaNacimientoQueja"></div>
+                <div class="form-campo"><label>Empresa / Estudio</label><input type="text" id="empresaQueja" placeholder="Opcional"></div>
+              </div>
             </div>
             <div class="form-campo"><label>Descripción del problema *</label><textarea id="mensajeQueja" rows="5" required placeholder="Contanos qué pasó..."></textarea></div>
             <button type="submit" class="btn btn-queja">Enviar queja o reclamo</button>

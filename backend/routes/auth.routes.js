@@ -75,7 +75,8 @@ router.post("/registro", async (req, res) => {
       ciudad,
       tipo_cliente,
       rubro,
-      empresa
+      empresa,
+      fecha_nacimiento
     } = req.body;
 
     if (!nombre || !email || !password) {
@@ -112,8 +113,8 @@ router.post("/registro", async (req, res) => {
     await pool.query(
       `INSERT INTO clientes (
          usuario_id, nombre, apellido, email, telefono, ciudad,
-         tipo_cliente, rubro, empresa
-       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         tipo_cliente, rubro, empresa, fecha_nacimiento
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         resultado.insertId,
         normalizado.nombre,
@@ -123,7 +124,8 @@ router.post("/registro", async (req, res) => {
         normalizado.ciudad,
         tipoCliente,
         rubroVal,
-        empresaVal
+        empresaVal,
+        fecha_nacimiento || null
       ]
     );
 

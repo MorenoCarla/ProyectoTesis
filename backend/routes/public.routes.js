@@ -11,12 +11,14 @@ async function upsertClienteWeb(pool, datos) {
     telefono,
     tipo_cliente,
     rubro,
-    empresa
+    empresa,
+    fecha_nacimiento
   } = datos;
 
   const tipo = tipo_cliente || "particular";
   const rubroVal = rubro || null;
   const empresaVal = normalizado.empresa ?? empresa ?? null;
+  const fechaNac = fecha_nacimiento || null;
 
   const [existente] = await pool.query(
     "SELECT id FROM clientes WHERE email = ? AND activo = 1",
@@ -28,7 +30,8 @@ async function upsertClienteWeb(pool, datos) {
     await pool.query(
       `UPDATE clientes SET
          nombre = ?, apellido = ?, telefono = ?, ciudad = ?,
-         tipo_cliente = ?, rubro = ?, empresa = ?
+         tipo_cliente = ?, rubro = ?, empresa = ?,
+         fecha_nacimiento = COALESCE(?, fecha_nacimiento)
        WHERE id = ?`,
       [
         normalizado.nombre,
@@ -38,6 +41,7 @@ async function upsertClienteWeb(pool, datos) {
         tipo,
         rubroVal,
         empresaVal,
+        fechaNac,
         clienteId
       ]
     );
@@ -47,8 +51,8 @@ async function upsertClienteWeb(pool, datos) {
   const [nuevo] = await pool.query(
     `INSERT INTO clientes (
        nombre, apellido, email, telefono, ciudad,
-       tipo_cliente, rubro, empresa
-     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+       tipo_cliente, rubro, empresa, fecha_nacimiento
+     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       normalizado.nombre,
       normalizado.apellido || "",
@@ -57,7 +61,8 @@ async function upsertClienteWeb(pool, datos) {
       normalizado.ciudad,
       tipo,
       rubroVal,
-      empresaVal
+      empresaVal,
+      fechaNac
     ]
   );
   return nuevo.insertId;
@@ -79,7 +84,8 @@ router.post("/consulta", async (req, res) => {
       prioridad,
       tipo_cliente,
       rubro,
-      empresa
+      empresa,
+      fecha_nacimiento
     } = req.body;
 
     if (!nombre || !email || !mensaje) {
@@ -100,7 +106,8 @@ router.post("/consulta", async (req, res) => {
       telefono,
       tipo_cliente,
       rubro,
-      empresa
+      empresa,
+      fecha_nacimiento: fecha_nacimiento || null
     });
 
     // Buscar tipo de consulta por nombre

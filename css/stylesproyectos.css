@@ -461,7 +461,7 @@ body.proyectos-scrolled .proyectos-hero-inner {
 
 .proyectos-hero-title {
   margin: 0 0 16px;
-  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-size: clamp(1.65rem, 5vw, 2.35rem);
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.03em;

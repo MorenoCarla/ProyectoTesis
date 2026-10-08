@@ -1,0 +1,193 @@
+/**
+ * Escala compacta — laptops y desktops (1366–1920).
+ * Evita que el sitio se agrande en pantallas "grandes" que son notebooks comunes.
+ */
+
+html {
+  font-size: 93.75%; /* 15px base */
+}
+
+:root {
+  --ituarte-ancho: min(1080px, calc(100% - 32px));
+  --ituarte-header: 64px;
+}
+
+body.pagina-institucional {
+  font-size: 0.9375rem;
+}
+
+.section-block {
+  padding: 48px 0;
+}
+
+.section-title {
+  font-size: clamp(1.4rem, 2.6vw, 1.95rem);
+}
+
+.section-lead {
+  font-size: clamp(0.88rem, 1.5vw, 0.98rem);
+  max-width: 580px;
+  margin-bottom: 22px;
+}
+
+.btn {
+  font-size: 14px;
+  padding: 11px 20px;
+}
+
+.site-logo img {
+  height: 48px;
+}
+
+.site-nav a {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+.site-footer h3 {
+  font-size: 15px;
+}
+
+.site-footer p,
+.site-footer li,
+.site-footer-links a {
+  font-size: 13px;
+}
+
+.hero-swiper {
+  height: clamp(300px, 48vh, 480px);
+}
+
+.hero-overlay h1 {
+  font-size: clamp(1.35rem, 3.2vw, 2rem);
+}
+
+.hero-overlay p {
+  font-size: clamp(0.85rem, 1.6vw, 0.98rem);
+}
+
+.cat-catalog-title {
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+}
+
+.caja-informacion {
+  max-width: 940px;
+  gap: 40px;
+  padding-top: 32px;
+  padding-bottom: 28px;
+}
+
+.swiper-container-custom,
+.caja-informacion .swiper-producto {
+  width: 360px;
+}
+
+.titulo {
+  font-size: 30px;
+}
+
+.textodescripcion,
+.descripcion .textodescripcion {
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.otros-apliques h2 {
+  font-size: 1.5rem;
+}
+
+.otrosSwiper .swiper-slide p {
+  font-size: 14px;
+}
+
+.pagina-categoria .filas-imagenes,
+.pagina-categoria .resultados-busqueda {
+  max-width: min(96vw, 1100px);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.pagina-categoria .imagen img {
+  max-width: 220px;
+}
+
+.pagina-categoria .imagen p {
+  font-size: 16px;
+}
+
+.form-profesional input,
+.form-profesional textarea,
+.form-profesional select {
+  font-size: 13px;
+  padding: 10px 12px;
+}
+
+.form-campo label {
+  font-size: 12px;
+}
+
+.tab-btn {
+  font-size: 13px;
+  padding: 9px 14px;
+}
+
+.card-body h3 {
+  font-size: 1.2rem;
+}
+
+.card-body p {
+  font-size: 0.92rem;
+}
+
+/* CRM (misma escala compacta) */
+body:has(.layout) {
+  font-size: 14px;
+}
+
+body:has(.layout) .sidebar {
+  width: 252px;
+}
+
+body:has(.layout) .main {
+  margin-left: 252px;
+  padding: 24px 28px;
+}
+
+body:has(.layout) .topbar h1,
+body:has(.layout) #tituloSeccion {
+  font-size: clamp(1.35rem, 2vw, 1.65rem);
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --ituarte-ancho: min(1120px, calc(100% - 36px));
+  }
+}
+
+/* Monitores muy anchos: leve aumento (no notebooks) */
+@media (min-width: 2200px) {
+  html {
+    font-size: 100%;
+  }
+
+  :root {
+    --ituarte-ancho: min(1280px, calc(100% - 48px));
+    --ituarte-header: 70px;
+  }
+
+  .section-title {
+    font-size: clamp(1.55rem, 2.4vw, 2.25rem);
+  }
+
+  .caja-informacion {
+    max-width: 1100px;
+  }
+
+  .swiper-container-custom,
+  .caja-informacion .swiper-producto {
+    width: 400px;
+  }
+
+  .titulo {
+    font-size: 34px;
+  }
+}

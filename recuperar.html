@@ -130,6 +130,7 @@
     <a href="login.html" class="volver">← Volver al login</a>
   </div>
 
+  <script src="js/crm-public-api.js"></script>
   <script>
     async function recuperar(e) {
       e.preventDefault();
@@ -137,7 +138,7 @@
       const msg = document.getElementById("mensaje");
 
       try {
-        const res = await fetch("/auth/recuperar", {
+        const res = await fetch(crmPublicUrl("/auth/recuperar"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email })

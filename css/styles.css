@@ -23,7 +23,7 @@
 
 .hero-swiper {
   width: 100%;
-  height: clamp(320px, 52vh, 560px);
+  height: clamp(280px, 46vh, 480px);
 }
 
 .hero-swiper .swiper-slide {
@@ -55,17 +55,17 @@
 
 .hero-overlay h1 {
   margin: 0 0 10px;
-  font-size: clamp(1.45rem, 4vw, 2.5rem);
+  font-size: clamp(1.3rem, 3.2vw, 1.95rem);
   font-weight: 700;
   line-height: 1.15;
-  max-width: 640px;
+  max-width: 560px;
 }
 
 .hero-overlay p {
   margin: 0 0 18px;
-  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  font-size: clamp(0.85rem, 1.6vw, 0.96rem);
   color: #e5e7eb;
-  max-width: 520px;
+  max-width: 480px;
 }
 
 .hero-swiper .swiper-button-prev,

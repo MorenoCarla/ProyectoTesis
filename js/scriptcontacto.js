@@ -66,7 +66,7 @@ function val(id) {
 }
 
 async function enviarAlCRM(datos) {
-  const res = await fetch("/public/consulta", {
+  const res = await fetch(crmPublicUrl("/public/consulta"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(datos)

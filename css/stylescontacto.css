@@ -145,6 +145,37 @@
   border: none;
 }
 
+.form-perfil-seccion {
+  margin-top: 20px;
+  padding: 18px 18px 6px 22px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fffafa 0%, #ffffff 55%);
+  border: 1px solid rgba(198, 40, 40, 0.14);
+  border-left: 4px solid var(--ituarte-rojo);
+  box-shadow: 0 2px 8px rgba(198, 40, 40, 0.06);
+}
+
+.form-perfil-kicker {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #b71c1c;
+  border-bottom: 2px solid rgba(255, 12, 12, 0.22);
+}
+
+.form-perfil-kicker span {
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--ituarte-gris);
+}
+
+.form-opc-label {
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: var(--ituarte-gris);
+}
+
 .btn-queja {
   display: inline-flex;
   align-items: center;

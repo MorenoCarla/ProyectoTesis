@@ -3,68 +3,47 @@
 // El nombre del producto se lee del atributo data-producto en <body>
 // ============================================================
 
-document.addEventListener("DOMContentLoaded", () => {
-  inyectarFormularioProductoCompleto();
+function crmPublicUrl(path) {
+  const p = path.startsWith("/") ? path : "/" + path;
+  if (
+    typeof window !== "undefined" &&
+    window.location.protocol.startsWith("http") &&
+    String(window.location.port) === "3000"
+  ) {
+    return p;
+  }
+  return "http://localhost:3000" + p;
+}
+
+function cargarScriptProducto(src) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) {
+      resolve();
+      return;
+    }
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error(src));
+    document.head.appendChild(s);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    await cargarScriptProducto("js/form-perfil-comercial.js");
+    if (typeof inyectarPerfilComercialEnFormularioProducto === "function") {
+      inyectarPerfilComercialEnFormularioProducto();
+    }
+  } catch (e) {
+    console.warn("Perfil comercial no cargado en producto", e);
+  }
   initSwiperProducto();
   initSwiperOtros();
   syncVerMasHeights();
   window.addEventListener("resize", syncVerMasHeights);
   cargarResponsiveNav();
 });
-
-function inyectarFormularioProductoCompleto() {
-  const form = document.querySelector(".formulario form");
-  if (!form || form.querySelector("[data-form-producto-extendido]")) return;
-  if (!form.querySelector("#nombre")) return;
-
-  const bloque = document.createElement("div");
-  bloque.setAttribute("data-form-producto-extendido", "1");
-  bloque.innerHTML = `
-    <label>Apellido</label>
-    <input type="text" id="apellido" placeholder="Tu apellido">
-    <label>Teléfono</label>
-    <input type="tel" id="telefono" placeholder="3865...">
-    <label>Ciudad</label>
-    <input type="text" id="ciudad" placeholder="Ej: Concepción">
-    <label>Tipo de cliente</label>
-    <select id="tipoCliente">
-      <option value="particular">Particular</option>
-      <option value="profesional">Profesional</option>
-      <option value="empresa">Empresa</option>
-      <option value="municipalidad">Municipalidad</option>
-    </select>
-    <label>Rubro / Profesión</label>
-    <select id="rubro">
-      <option value="">Sin especificar</option>
-      <option value="arquitecto">Arquitecto</option>
-      <option value="ingeniero">Ingeniero</option>
-      <option value="electricista">Electricista</option>
-      <option value="diseñador_interiores">Diseñador de interiores</option>
-      <option value="constructor">Constructor</option>
-      <option value="municipalidad">Municipalidad / Alumbrado público</option>
-      <option value="empresa_industrial">Empresa industrial</option>
-      <option value="comercio">Comercio</option>
-      <option value="otro">Otro</option>
-    </select>
-    <label>Empresa / Estudio</label>
-    <input type="text" id="empresa" placeholder="Opcional">
-  `;
-
-  const mensaje = form.querySelector("#mensaje");
-  if (mensaje) form.insertBefore(bloque, mensaje);
-  else form.appendChild(bloque);
-}
-
-function leerPerfilProducto() {
-  const tipo = document.getElementById("tipoCliente");
-  const rubro = document.getElementById("rubro");
-  const empresa = document.getElementById("empresa");
-  return {
-    tipo_cliente: tipo && tipo.value ? tipo.value : "particular",
-    rubro: rubro && rubro.value ? rubro.value : null,
-    empresa: empresa && empresa.value.trim() ? empresa.value.trim() : null
-  };
-}
 
 function cargarResponsiveNav() {
   if (window.__responsiveNavRequested) return;
@@ -231,6 +210,12 @@ if (formProducto) {
     const mensaje = document.getElementById("mensaje").value.trim();
     const telefonoEl = document.getElementById("telefono");
     const telefono = telefonoEl ? telefonoEl.value.trim() : "";
+    const ciudadEl = document.getElementById("ciudad");
+    const ciudad = ciudadEl ? ciudadEl.value.trim() : "";
+    const perfil =
+      typeof leerPerfilComercial === "function"
+        ? leerPerfilComercial("Producto")
+        : {};
     const { producto, categoria } = obtenerDatosProducto();
 
     const btn = formProducto.querySelector('button[type="submit"]');
@@ -239,7 +224,7 @@ if (formProducto) {
     btn.textContent = "Enviando...";
 
     try {
-      const res = await fetch("/public/consulta", {
+      const res = await fetch(crmPublicUrl("/public/consulta"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -247,11 +232,11 @@ if (formProducto) {
           apellido,
           email,
           telefono,
-          ciudad: document.getElementById("ciudad")?.value.trim() || null,
+          ciudad,
           producto: producto,
           tipo_consulta: "Solicitud de producto",
           mensaje: `[${categoria}] Consulta sobre: ${producto}\n\n${mensaje}`,
-          ...leerPerfilProducto()
+          ...perfil
         })
       });
 

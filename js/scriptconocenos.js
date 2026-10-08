@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (el) {
     new Swiper(".testimonial-swiper", {
       loop: true,
+      autoHeight: true,
       navigation: {
         nextEl: ".testimonial-swiper .swiper-button-next",
         prevEl: ".testimonial-swiper .swiper-button-prev",

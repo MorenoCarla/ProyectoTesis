@@ -26,13 +26,36 @@
     }
     h2 { text-align: center; margin-bottom: 8px; }
     p.sub { text-align: center; color: #64748b; font-size: 14px; margin-bottom: 20px; }
-    input {
+    input, select {
       width: 100%;
       padding: 12px;
       border: 1px solid #ddd;
       border-radius: 10px;
       margin-bottom: 12px;
       box-sizing: border-box;
+      font-family: inherit;
+    }
+    .perfil-seccion {
+      margin: 16px 0 8px;
+      padding: 16px 16px 4px 20px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #fffafa 0%, #fff 55%);
+      border: 1px solid rgba(198, 40, 40, 0.14);
+      border-left: 4px solid #c62828;
+      box-shadow: 0 2px 8px rgba(198, 40, 40, 0.06);
+    }
+    .perfil-seccion h3 {
+      font-size: 15px;
+      margin: 0 0 6px;
+      padding-bottom: 8px;
+      font-weight: 700;
+      color: #b71c1c;
+      border-bottom: 2px solid rgba(198, 40, 40, 0.22);
+    }
+    .perfil-seccion .hint {
+      font-size: 13px;
+      color: #64748b;
+      margin: 0 0 12px;
     }
     button {
       width: 100%;
@@ -111,27 +134,31 @@
       <input type="email" id="email" placeholder="Email" required>
       <input type="tel" id="telefono" placeholder="Teléfono">
       <input type="text" id="ciudad" placeholder="Ciudad">
-      <label style="display:block;margin:8px 0 4px;font-size:13px;color:#475569;">Tipo de cliente</label>
-      <select id="tipoCliente" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-bottom:12px;box-sizing:border-box;">
-        <option value="particular">Particular</option>
-        <option value="profesional">Profesional</option>
-        <option value="empresa">Empresa</option>
-        <option value="municipalidad">Municipalidad</option>
-      </select>
-      <label style="display:block;margin:8px 0 4px;font-size:13px;color:#475569;">Rubro / Profesión</label>
-      <select id="rubro" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-bottom:12px;box-sizing:border-box;">
-        <option value="">Sin especificar</option>
-        <option value="arquitecto">Arquitecto</option>
-        <option value="ingeniero">Ingeniero</option>
-        <option value="electricista">Electricista</option>
-        <option value="diseñador_interiores">Diseñador de interiores</option>
-        <option value="constructor">Constructor</option>
-        <option value="municipalidad">Municipalidad / Alumbrado público</option>
-        <option value="empresa_industrial">Empresa industrial</option>
-        <option value="comercio">Comercio</option>
-        <option value="otro">Otro</option>
-      </select>
-      <input type="text" id="empresa" placeholder="Empresa / Estudio (opcional)">
+      <div class="perfil-seccion">
+        <h3>Perfil comercial</h3>
+        <p class="hint">Opcional — nos ayuda a atenderte mejor</p>
+        <select id="tipoClienteRegistro" aria-label="Tipo de cliente">
+          <option value="particular">Particular</option>
+          <option value="profesional">Profesional</option>
+          <option value="empresa">Empresa</option>
+          <option value="municipalidad">Municipalidad</option>
+        </select>
+        <select id="rubroRegistro" aria-label="Rubro">
+          <option value="">Rubro / profesión (opcional)</option>
+          <option value="arquitecto">Arquitecto</option>
+          <option value="ingeniero">Ingeniero</option>
+          <option value="electricista">Electricista</option>
+          <option value="diseñador_interiores">Diseñador de interiores</option>
+          <option value="constructor">Constructor</option>
+          <option value="municipalidad">Municipalidad / Alumbrado público</option>
+          <option value="empresa_industrial">Empresa industrial</option>
+          <option value="comercio">Comercio</option>
+          <option value="otro">Otro</option>
+        </select>
+        <input type="text" id="empresaRegistro" placeholder="Empresa / estudio (opcional)">
+        <label for="fechaNacimientoRegistro" class="sr-only">Fecha de nacimiento</label>
+        <input type="date" id="fechaNacimientoRegistro" aria-label="Fecha de nacimiento (opcional)">
+      </div>
       <input type="password" id="password" placeholder="Contraseña (mín. 6 caracteres)" required minlength="6">
       <button type="submit">Crear cuenta</button>
     </form>
@@ -142,10 +169,16 @@
     </div>
   </div>
 
+  <script src="js/crm-public-api.js"></script>
+  <script src="js/form-perfil-comercial.js"></script>
   <script>
     async function registrar(e) {
       e.preventDefault();
       const msg = document.getElementById("mensaje");
+
+      const perfil = typeof leerPerfilComercial === "function"
+        ? leerPerfilComercial("Registro")
+        : {};
 
       const body = {
         nombre: document.getElementById("nombre").value,
@@ -153,14 +186,12 @@
         email: document.getElementById("email").value,
         telefono: document.getElementById("telefono").value,
         ciudad: document.getElementById("ciudad").value,
-        tipo_cliente: document.getElementById("tipoCliente").value,
-        rubro: document.getElementById("rubro").value || null,
-        empresa: document.getElementById("empresa").value.trim() || null,
-        password: document.getElementById("password").value
+        password: document.getElementById("password").value,
+        ...perfil
       };
 
       try {
-        const res = await fetch("/auth/registro", {
+        const res = await fetch(crmPublicUrl("/auth/registro"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body)
