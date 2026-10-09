@@ -30,7 +30,7 @@ body.pagina-institucional.pagina-proyectos {
       url("../img/fondogrisoscuro.png");
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: scroll;
   }
 }
 

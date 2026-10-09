@@ -18,7 +18,7 @@ body.fondo-cada-producto {
   background-image: url('../img/fondoapliques.png');  
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; 
+  background-attachment: scroll; 
   margin: 0;
   padding: 0;
 }
@@ -63,7 +63,7 @@ body.producto-exterior {
   background-image: url('../img/fondobifocales.png');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: scroll;
   margin: 0;
   padding: 0;
 }
