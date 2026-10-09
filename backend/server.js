@@ -3,6 +3,8 @@ require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const express = require("express");
 const cors = require("cors");
+const compression = require("compression");
+const { setStaticCacheHeaders } = require("./middleware/static-cache");
 
 const authRoutes = require("./routes/auth.routes");
 const clientesRoutes = require("./routes/clientes.routes");
@@ -18,6 +20,7 @@ const presupuestosRoutes = require("./routes/presupuestos.routes");
 const app = express();
 
 app.use(cors());
+app.use(compression());
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -46,10 +49,15 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+const staticRoot = path.join(__dirname, "..");
+const staticOpts = {
+  setHeaders: setStaticCacheHeaders
+};
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads"), { setHeaders: setStaticCacheHeaders }));
 
 // Sitio web + CRM (abrir login desde acá, no con doble clic al HTML)
-app.use(express.static(path.join(__dirname, "..")));
+app.use(express.static(staticRoot, staticOpts));
 
 app.use((err, req, res, next) => {
   console.error(err);
