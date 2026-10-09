@@ -15,14 +15,40 @@ const JPEG_QUALITY = 82;
 const PNG_QUALITY = 80;
 const apply = process.argv.includes("--apply");
 
-let sharp;
-try {
-  sharp = require("sharp");
-} catch {
-  console.log("Instalá sharp una vez:");
-  console.log("  cd backend && npm install sharp --save-dev");
-  console.log("  node ../scripts/optimizar-imagenes.js");
+function loadSharp() {
+  const searchPaths = [
+    path.join(__dirname, "..", "backend", "node_modules"),
+    path.join(__dirname, "..", "node_modules"),
+  ];
+  for (const base of searchPaths) {
+    try {
+      return require(require.resolve("sharp", { paths: [base] }));
+    } catch (_) {
+      /* siguiente ruta */
+    }
+  }
+  return null;
+}
+
+const sharp = loadSharp();
+if (!sharp) {
+  console.log("Falta instalar sharp (una sola vez):");
+  console.log("  cd backend");
+  console.log("  npm install sharp --save-dev");
+  console.log("  npm run optimizar-imagenes");
   process.exit(1);
+}
+
+function esFondoDePagina(name) {
+  const n = name.toLowerCase();
+  return (
+    n.startsWith("fondo") ||
+    n.includes("fondogris") ||
+    n === "fondo1.png" ||
+    n.includes("fondointerior") ||
+    n.includes("fondoexterior") ||
+    n.includes("fondoprincipal")
+  );
 }
 
 function walk(dir, out = []) {
@@ -31,8 +57,12 @@ function walk(dir, out = []) {
     if (name === ".backup-paso4") continue;
     const p = path.join(dir, name);
     const st = fs.statSync(p);
-    if (st.isDirectory()) walk(p, out);
-    else if (/\.(png|jpe?g)$/i.test(name)) out.push(p);
+    if (st.isDirectory()) {
+      if (path.basename(p).toLowerCase() === "mobile") continue;
+      walk(p, out);
+    } else if (/\.(png|jpe?g)$/i.test(name) && !esFondoDePagina(name)) {
+      out.push(p);
+    }
   }
   return out;
 }

@@ -1,0 +1,17 @@
+/**
+ * Fondos a pantalla completa: en desktop vuelven a fixed (cover al viewport).
+ * Con scroll el fondo escala al alto de toda la pagina y se ve "mega zoom".
+ * En movil sigue scroll (mobile-ux / fondos-mobile-capas).
+ */
+@media (min-width: 993px) {
+  .pagina-home,
+  .pagina-conocenos,
+  .pagina-contacto,
+  .pagina-catalogo,
+  .pagina-productos,
+  body[class*="fondo"],
+  body.fondo-cada-producto,
+  body.producto-exterior {
+    background-attachment: fixed !important;
+  }
+}

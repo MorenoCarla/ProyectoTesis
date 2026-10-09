@@ -2,6 +2,7 @@
  * Header, footer y utilidades compartidas — páginas institucionales
  */
 @import url("sitio-escala-compacta.css");
+@import url("fondos-desktop-fixed.css");
 
 :root {
   --ituarte-rojo: rgb(255, 12, 12);
