@@ -1,0 +1,47 @@
+SUBIR FONDOS AL DROPLET (sin enloquecer con scp)
+
+=== METODO 1 — RECOMENDADO: Git (no pide contraseña SSH) ===
+
+1) En PowerShell:
+   cd C:\Users\Estudiante\Desktop\ProyectoTesis\scripts
+   .\empaquetar-fondos.ps1
+
+2) Si el zip pesa menos de ~100 MB:
+   cd ..
+   git add img/fondo*.png img/fondogris*.png css js index.html
+   git add fondos-para-servidor.zip
+   git commit -m "Restaurar PNG de fondo en alta calidad"
+   git push origin master
+
+3) En consola DigitalOcean (la del navegador, donde ya entraste):
+   cd /var/www/ProyectoTesis
+   git pull origin master
+   ls -lh img/fondo1.png
+
+   Si fondo1.png pesa varios MB, OK.
+
+   Si usaste el zip y no queres commitear cada png:
+   unzip -o fondos-para-servidor.zip -d img/
+   pm2 restart crm-ituarte
+
+4) Probar en incognito: http://165.22.151.229:3000/
+
+=== METODO 2 — scp (solo si Git no alcanza) ===
+
+La contraseña NO se ve al tipear. Es normal.
+
+NO es la contraseña de MySQL (.env).
+Es la contraseña de usuario root del servidor Linux.
+
+Si nunca la tuviste:
+  DigitalOcean -> tu Droplet -> Access -> Reset root password
+  Te llega por MAIL. Esa clave usala UNA vez en scp (invisible).
+
+=== METODO 3 — Resetear y un solo archivo ===
+
+Despues de empaquetar-fondos.ps1:
+  scp fondos-para-servidor.zip root@165.22.151.229:/var/www/ProyectoTesis/
+
+En consola DO:
+  cd /var/www/ProyectoTesis
+  unzip -o fondos-para-servidor.zip -d img/
