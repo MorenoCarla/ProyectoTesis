@@ -1,0 +1,31 @@
+MARKETING — arreglar base de datos en DigitalOcean
+===============================================
+
+1) Subir el SQL a GitHub (en tu PC):
+   git add backend/database/marketing-produccion-completo.sql
+   git commit -m "SQL marketing completo para produccion"
+   git push origin master
+
+2) En consola DigitalOcean:
+   cd /var/www/ProyectoTesis
+   git pull origin master
+
+3) Ejecutar SQL (probar PRIMERO esta — suele funcionar sin contraseña MySQL):
+
+   sudo mysql crm_ituarte < backend/database/marketing-produccion-completo.sql
+
+   Deberías ver al final:
+   - Marketing producción OK
+   - dias_especiales = 4 (o más si ya tenías)
+   - plantillas = 3
+
+4) Si sudo mysql falla, usar usuario del .env:
+   mysql -u crm_ituarte -p crm_ituarte < backend/database/marketing-produccion-completo.sql
+   (contraseña invisible = DB_PASSWORD del backend/.env)
+
+5) Reiniciar CRM:
+   pm2 restart crm-ituarte
+   pm2 flush crm-ituarte
+   pm2 logs crm-ituarte --lines 10
+
+6) Probar: login CRM -> Marketing (no debería error dias_especiales)
