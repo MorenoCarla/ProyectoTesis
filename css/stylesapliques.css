@@ -1,5 +1,6 @@
 @import url("mobile-ux.css");
 @import url("category-catalog.css");
+@import url("fondos-desktop-fixed.css");
 
 html {
   scroll-behavior: smooth;
@@ -15,7 +16,7 @@ html, body {
 }
 
 body.fondo-paneles {
-  background-image: url('../img/fondopaneles.png');  
+  background-image: url('../img/fondopaneles.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -24,7 +25,7 @@ body.fondo-paneles {
 }
 
 body.fondo-smart {
-  background-image: url('../img/fondosmartpagina.png');  
+  background-image: url('../img/fondosmartpagina.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -33,7 +34,7 @@ body.fondo-smart {
 }
 
 body.fondo-camaras {
-  background-image: url('../img/fondocamaraspagina.png');  
+  background-image: url('../img/fondocamaraspagina.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -42,7 +43,7 @@ body.fondo-camaras {
 }
 
 body.fondo-ventiladores {
-  background-image: url('../img/fondoventiladorespagina.png');  
+  background-image: url('../img/fondoventiladorespagina.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -51,7 +52,7 @@ body.fondo-ventiladores {
 }
 
 body.fondo-artefactos {
-  background-image: url('../img/fondoartefactos.png');  
+  background-image: url('../img/fondoartefactos.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -60,7 +61,7 @@ body.fondo-artefactos {
 }
 
 body.fondo-solares {
-  background-image: url('../img/fondosolares.png');  
+  background-image: url('../img/fondosolares.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -69,7 +70,7 @@ body.fondo-solares {
 }
 
 body.fondo-piletas {
-  background-image: url('../img/fondopiletas.png');  
+  background-image: url('../img/fondopiletas.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -78,7 +79,7 @@ body.fondo-piletas {
 }
 
 body.fondo-reflectores {
-  background-image: url('../img/fondoreflectores.png');  
+  background-image: url('../img/fondoreflectores.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -87,7 +88,7 @@ body.fondo-reflectores {
 }
 
 body.fondo-tortugas {
-  background-image: url('../img/fondotortugas.png');  
+  background-image: url('../img/fondotortugas.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -96,7 +97,7 @@ body.fondo-tortugas {
 }
 
 body.fondo-estacas {
-  background-image: url('../img/fondoestacas.png');  
+  background-image: url('../img/fondoestacas.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -105,7 +106,7 @@ body.fondo-estacas {
 }
 
 body.fondo-farolas {
-  background-image: url('../img/fondofarolas.png');  
+  background-image: url('../img/fondofarolas.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -114,7 +115,7 @@ body.fondo-farolas {
 }
 
 body.fondo-bifocales {
-  background-image: url('../img/fondobifocales.png');  
+  background-image: url('../img/fondobifocales.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -123,7 +124,7 @@ body.fondo-bifocales {
 }
 
 body.fondo-unifocales {
-  background-image: url('../img/fondounifocales.png');  
+  background-image: url('../img/fondounifocales.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -132,7 +133,7 @@ body.fondo-unifocales {
 }
 
 body.fondo-lamparasdepie {
-  background-image: url('../img/fondolamparas.png');  
+  background-image: url('../img/fondolamparas.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -141,7 +142,7 @@ body.fondo-lamparasdepie {
 }
 
 body.fondo-espejos {
-  background-image: url('../img/fondoespejos.png');  
+  background-image: url('../img/fondoespejos.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -150,7 +151,7 @@ body.fondo-espejos {
 }
 
 body.fondo-plafones {
-  background-image: url('../img/fondoplafones.png');  
+  background-image: url('../img/fondoplafones.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -159,7 +160,7 @@ body.fondo-plafones {
 }
 
 body.fondo-veladores {
-  background-image: url('../img/fondoveladores.png');  
+  background-image: url('../img/fondoveladores.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -168,7 +169,7 @@ body.fondo-veladores {
 }
 
 body.fondo-principal-colgantes {
-  background-image: url('../img/fondo-colgantes.png');  
+  background-image: url('../img/fondo-colgantes.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 
@@ -177,7 +178,7 @@ body.fondo-principal-colgantes {
 }
 
 body.fondo-principal-apliques {
-  background-image: url('../img/fondoapliques2.png');  
+  background-image: url('../img/fondoapliques2.png?v=hd2');  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; 

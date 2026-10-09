@@ -1,6 +1,7 @@
 /* Productos — categorías (layout nuevo, mismas imágenes de fondo) */
 
 @import url("mobile-ux.css");
+@import url("fondos-desktop-fixed.css");
 
 .pagina-productos {
   background-color: #e8e8e8;
@@ -104,7 +105,7 @@
 }
 
 .cat-section--interior {
-  background-image: url("../img/fondointeriores.png");
+  background-image: url("../img/fondointeriores.png?v=hd2");
 }
 
 .cat-section--interior::before {
@@ -112,7 +113,7 @@
 }
 
 .cat-section--exterior {
-  background-image: url("../img/fondoexteriores3.png");
+  background-image: url("../img/fondoexteriores3.png?v=hd2");
 }
 
 .cat-section--feature::before {
@@ -120,23 +121,23 @@
 }
 
 .cat-section--embutidos {
-  background-image: url("../img/fondoembutidos.png");
+  background-image: url("../img/fondoembutidos.png?v=hd2");
 }
 
 .cat-section--smarts {
-  background-image: url("../img/fondosmart.png");
+  background-image: url("../img/fondosmart.png?v=hd2");
 }
 
 .cat-section--alumbrado {
-  background-image: url("../img/fondoalumbradopublico.png");
+  background-image: url("../img/fondoalumbradopublico.png?v=hd2");
 }
 
 .cat-section--ventiladores {
-  background-image: url("../img/fondoventiladores.png");
+  background-image: url("../img/fondoventiladores.png?v=hd2");
 }
 
 .cat-section--camaras {
-  background-image: url("../img/fondocamaras.png");
+  background-image: url("../img/fondocamaras.png?v=hd2");
 }
 
 .cat-section .container {

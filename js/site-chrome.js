@@ -1,9 +1,11 @@
 (function () {
-  /* Fuerza CSS actualizado en GitHub Pages (evita caché vieja) */
+  /* Versión del chrome: subir número cuando cambie site-chrome.css */
+  var SITE_CHROME_CSS_V = "11";
   document.querySelectorAll('link[href*="site-chrome.css"]').forEach(function (link) {
     var href = link.getAttribute("href") || "";
-    if (!href.includes("v=7")) {
-      link.setAttribute("href", href.split("?")[0] + "?v=7");
+    var base = href.split("?")[0];
+    if (!href.includes("v=" + SITE_CHROME_CSS_V)) {
+      link.setAttribute("href", base + "?v=" + SITE_CHROME_CSS_V);
     }
   });
 

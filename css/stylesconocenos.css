@@ -1,11 +1,12 @@
 @import url("backgrounds-mobile.css");
 @import url("backgrounds-mobile-imagenes.css");
+@import url("fondos-desktop-fixed.css");
 
 /* Conócenos — colores y fondos originales, layout nuevo */
 
 @media (min-width: 769px) {
   .pagina-conocenos {
-    background-image: url("../img/fondogrisoscuro.png");
+    background-image: url("../img/fondogrisoscuro.png?v=hd2");
     background-size: cover;
     background-position: center;
     background-attachment: scroll;
