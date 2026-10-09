@@ -1,9 +1,11 @@
-// Si abrís el CRM desde http://localhost:3000/login.html usa la misma URL.
-// Si lo abrís con doble clic o Live Server, apunta al backend en el puerto 3000.
-const API_URL =
-  window.location.port === "3000" && window.location.protocol.startsWith("http")
-    ? ""
-    : "http://localhost:3000";
+// Mismo origen en :3000 o con dominio (Nginx 80/443). Live Server → localhost:3000.
+const API_URL = (function () {
+  if (typeof crmApiBaseUrl === "function") return crmApiBaseUrl();
+  const { protocol, port } = window.location;
+  if (!protocol.startsWith("http")) return "http://localhost:3000";
+  if (port === "3000" || port === "" || port === "80" || port === "443") return "";
+  return "http://localhost:3000";
+})();
 
 async function leerRespuesta(res) {
   const texto = await res.text();

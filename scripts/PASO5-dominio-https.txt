@@ -1,0 +1,61 @@
+PASO 5 — Dominio + HTTPS (DigitalOcean)
+========================================
+
+Antes de empezar: dominio comprado (.com.ar en NIC o DonWeb, etc.)
+Reemplazá DOMINIO por el tuyo (ej. electricidadituarte.com.ar)
+
+--- A) DNS (en el panel del dominio) ---
+
+Registro A:
+  Nombre: @     →  165.22.151.229
+Registro A:
+  Nombre: www   →  165.22.151.229
+
+Esperá 15 min – 48 h (a veces 1–2 h alcanza).
+Probar: ping DOMINIO  (debe responder la IP del droplet)
+
+--- B) Subir código (tu PC) — formularios con dominio sin :3000 ---
+
+git add js/api-base.js js/crm-api.js js/crm-public-api.js js/scriptcadaproducto.js scripts/
+git commit -m "Paso 5: API mismo origen con dominio y Nginx"
+git push origin master
+
+En droplet:
+  cd /var/www/ProyectoTesis && git pull && pm2 restart crm-ituarte
+
+--- C) Nginx + HTTPS (consola DigitalOcean del droplet) ---
+
+sudo apt update
+sudo apt install -y nginx certbot python3-certbot-nginx
+
+sudo cp /var/www/ProyectoTesis/scripts/nginx-ituarte.conf /etc/nginx/sites-available/ituarte
+sudo sed -i 's/DOMINIO/tu-dominio-real.com.ar/g' /etc/nginx/sites-available/ituarte
+
+sudo ln -sf /etc/nginx/sites-available/ituarte /etc/nginx/sites-enabled/ituarte
+sudo rm -f /etc/nginx/sites-enabled/default
+sudo nginx -t && sudo systemctl reload nginx
+
+sudo certbot --nginx -d tu-dominio-real.com.ar -d www.tu-dominio-real.com.ar
+
+(Elegí redirect HTTP → HTTPS cuando pregunte.)
+
+--- D) Firewall ---
+
+sudo ufw allow OpenSSH
+sudo ufw allow 'Nginx Full'
+sudo ufw enable
+
+(Puerto 3000 ya no hace falta abrir al público; solo Nginx 80/443.)
+
+--- E) Probar ---
+
+https://tu-dominio-real.com.ar/
+https://tu-dominio-real.com.ar/login.html
+Enviar consulta desde contacto / producto.
+
+Renovación SSL (automática): certbot timer en Ubuntu.
+
+--- F) Google (cuando esté estable) ---
+
+Search Console → propiedad con https://tu-dominio...
+Sitemap opcional si lo agregan después.

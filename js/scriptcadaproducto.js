@@ -5,14 +5,16 @@
 
 function crmPublicUrl(path) {
   const p = path.startsWith("/") ? path : "/" + path;
-  if (
-    typeof window !== "undefined" &&
-    window.location.protocol.startsWith("http") &&
-    String(window.location.port) === "3000"
-  ) {
-    return p;
-  }
-  return "http://localhost:3000" + p;
+  const base =
+    typeof crmApiBaseUrl === "function"
+      ? crmApiBaseUrl()
+      : (function () {
+          const { protocol, port } = window.location;
+          if (!protocol.startsWith("http")) return "http://localhost:3000";
+          if (port === "3000" || port === "" || port === "80" || port === "443") return "";
+          return "http://localhost:3000";
+        })();
+  return base ? base + p : p;
 }
 
 function cargarScriptProducto(src) {
