@@ -75,6 +75,30 @@
       barra.innerHTML = '<a href="index.html" class="btn-home-back"><i class="fa fa-house" aria-hidden="true"></i> Volver a Home</a>';
       header.insertAdjacentElement("afterend", barra);
     }
+
+    initLazyImages();
+  }
+
+  /** Paso 4: no descargar de golpe fotos que están abajo del scroll */
+  function initLazyImages() {
+    function esImagenPrioritaria(img) {
+      if (img.closest(".site-logo, .hero, .hero-swiper")) return true;
+      if (img.getAttribute("loading") === "eager" || img.dataset.lcp === "eager") return true;
+      const slide = img.closest(".swiper-slide");
+      if (slide && slide.parentElement && slide.parentElement.querySelector(".swiper-slide") === slide) {
+        return true;
+      }
+      return false;
+    }
+
+    document.querySelectorAll("img").forEach((img) => {
+      if (img.closest(".site-logo") && "fetchPriority" in img) {
+        img.fetchPriority = "high";
+      }
+      if (esImagenPrioritaria(img)) return;
+      if (!img.hasAttribute("loading")) img.loading = "lazy";
+      if (!img.hasAttribute("decoding")) img.decoding = "async";
+    });
   }
 
   if (document.readyState === "loading") {

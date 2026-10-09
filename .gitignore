@@ -28,3 +28,6 @@ Thumbs.db
 
 # Catálogo PDF (muy pesado para GitHub; usar Google Drive — ver catalogo/LEEME.txt)
 catalogo/*.pdf
+
+# Backup local al comprimir imágenes (paso 4)
+img/.backup-paso4/
