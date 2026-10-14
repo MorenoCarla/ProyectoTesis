@@ -1,0 +1,32 @@
+CHECKLIST — SUBIR TODO JUNTO (código + rendimiento)
+===================================================
+
+EN TU PC (antes de push)
+------------------------
+[ ] Comprimir videos (ver INSTRUCCIONES-COMPRIMIR-VIDEOS.txt)
+[ ] Probar local: http://localhost:3000/ — Red → Disable cache → home sin scroll: pocos MB
+[ ] git status → commit con mensaje claro (ej. "Rendimiento: videos lazy load home y proyectos")
+[ ] git push origin master
+
+ARCHIVOS GRANDES (no van en git si están en .gitignore)
+-------------------------------------------------------
+[ ] Copiar .mp4 comprimidos al servidor (WinSCP / FileZilla):
+    img/productos.mp4, ubicConcep.mp4, ubicAlberdi.mp4
+    img/proyectos/*.mp4
+
+EN EL DROPLET
+-------------
+[ ] cd /var/www/ProyectoTesis && git pull
+[ ] pm2 restart crm-ituarte
+[ ] Probar https o http://165.22.151.229:3000/ en celular
+
+CÓDIGO INCLUIDO EN ESTE PAQUETE
+-------------------------------
+- index.html: videos con carga al hacer scroll
+- js/script.js, js/proyecto-video-utils.js, js/proyectos.js
+- data/proyectos.json: menos rutas duplicadas de video
+
+DESPUÉS (cuando haya dominio)
+-----------------------------
+[ ] PASO5-dominio-https.txt (Nginx + certbot)
+[ ] Fichas Google: URL https://electricidadituartesur.com.ar

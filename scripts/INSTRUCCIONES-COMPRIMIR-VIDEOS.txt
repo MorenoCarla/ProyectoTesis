@@ -1,0 +1,40 @@
+COMPRIMIR VIDEOS ANTES DE SUBIR AL SERVIDOR
+============================================
+Los .mp4 pesados (ej. hammer ~15 MB) son la causa #1 de lentitud en la home.
+
+Archivos típicos:
+  img/productos.mp4
+  img/ubicConcep.mp4
+  img/ubicAlberdi.mp4
+  img/proyectos/hammer.mp4
+  img/proyectos/yohanaabregu.mp4
+  img/proyectos/zurich.mp4
+  img/proyectos/perezcurbelo.mp4
+
+Objetivo: ~1–4 MB por video (720p, web), sin perder calidad de más en celular.
+
+--- Opción A: HandBrake (recomendado, sin comandos) ---
+1. Descargar HandBrake: https://handbrake.fr/
+2. Abrir cada .mp4
+3. Preset: "Fast 720p30" o "Web" / General → Very Fast
+4. Resolución máx. ancho 1280 (720p)
+5. Video: H.264, RF/quality ~22–26 (subir número = archivo más chico)
+6. Audio: AAC 128 kbps (o quitar audio si el clip es mudo en la web)
+7. Exportar SOBRE el mismo nombre (hacer backup del original en otra carpeta antes)
+
+--- Opción B: ffmpeg (si lo tenés instalado) ---
+Desde la carpeta del video, en PowerShell:
+
+ffmpeg -i hammer.mp4 -c:v libx264 -crf 26 -preset slow -vf "scale='min(1280,iw)':-2" -movflags +faststart -an hammer-web.mp4
+
+(-an = sin audio; sacalo si necesitás sonido)
+Renombrar hammer-web.mp4 → hammer.mp4 después de guardar backup.
+
+--- Después de comprimir ---
+1. Probar en local: npm start → home y proyectos.html
+2. Red → Disable cache → recargar home: "Transferido" debería bajar mucho
+3. Subir los .mp4 al servidor (git LFS no; copiar por scp/winscp o incluir si entran en repo)
+
+Los videos NO están en GitHub por tamaño; hay que subirlos al droplet en:
+  /var/www/ProyectoTesis/img/...
+  /var/www/ProyectoTesis/img/proyectos/...

@@ -17,7 +17,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   initHomeProyectosVideos();
+  initLazySectionVideos();
 });
+
+function initLazySectionVideos() {
+  const utils = window.ItuarteProyectoVideo;
+  const whenVisible = utils && utils.whenVisible ? utils.whenVisible.bind(utils) : null;
+
+  document.querySelectorAll("video[data-lazy-src]").forEach((video) => {
+    video.preload = "none";
+    const start = () => {
+      video.src = video.getAttribute("data-lazy-src");
+      video.load();
+      video.play().catch(() => {});
+    };
+    if (whenVisible) whenVisible(video, start);
+    else start();
+  });
+}
 
 function initHomeProyectosVideos() {
   const grid = document.getElementById("proyectos-home-grid");
@@ -36,7 +53,10 @@ function initHomeProyectosVideos() {
         const p = items[i];
         const video = tile.querySelector("video");
         if (!p || !video) return;
-        utils.attachPreviewVideo(video, utils.rutasVideo(p));
+        video.preload = "none";
+        utils.whenVisible(video, () => {
+          utils.attachPreviewVideo(video, utils.rutasVideo(p));
+        });
       });
     })
     .catch(() => {});

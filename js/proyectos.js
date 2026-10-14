@@ -81,7 +81,15 @@ document.addEventListener("DOMContentLoaded", function () {
     if (p.video) {
       var frame = document.createElement("div");
       frame.className = "proyecto-video-frame";
-      montarVideo(frame, rutasVideo(p));
+      var rutas = rutasVideo(p);
+      var utils = window.ItuarteProyectoVideo;
+      if (utils && utils.whenVisible) {
+        utils.whenVisible(frame, function () {
+          montarVideo(frame, rutas);
+        });
+      } else {
+        montarVideo(frame, rutas);
+      }
       media.appendChild(frame);
     }
 
@@ -103,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
     video.className = "proyecto-video";
     video.controls = true;
     video.playsInline = true;
-    video.preload = "metadata";
+    video.preload = "none";
 
     function mostrarError() {
       frame.innerHTML = "";
