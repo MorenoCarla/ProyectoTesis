@@ -280,7 +280,11 @@
   max-height: none;
   object-fit: cover;
   display: block;
-  background: #e4e4e7;
+  /* Solo color: "background:" corto borra background-image del poster */
+  background-color: #e4e4e7;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .sucursal-card .mapa-link img {
