@@ -27,7 +27,16 @@ function initLazySectionVideos() {
   document.querySelectorAll("video[data-lazy-src]").forEach((video, idx) => {
     video.preload = "none";
     const poster = video.getAttribute("data-poster");
-    if (poster) video.poster = poster;
+    if (poster) {
+      video.poster = poster;
+      video.setAttribute("poster", poster);
+    }
+    const shell = video.closest(".lazy-video-shell");
+    const markPlaying = () => {
+      if (shell) shell.classList.add("is-playing");
+    };
+    video.addEventListener("playing", markPlaying, { once: true });
+
     const start = () => {
       const go = () => {
         video.src = video.getAttribute("data-lazy-src");
@@ -36,7 +45,8 @@ function initLazySectionVideos() {
       };
       setTimeout(go, idx * 500);
     };
-    if (whenVisible) whenVisible(video, start);
+    const target = shell || video;
+    if (whenVisible) whenVisible(target, start);
     else start();
   });
 }
