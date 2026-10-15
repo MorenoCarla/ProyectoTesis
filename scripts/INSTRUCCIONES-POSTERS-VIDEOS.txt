@@ -1,0 +1,41 @@
+PORTADAS (POSTER) PARA VIDEOS — sin pantalla negra mientras carga
+================================================================
+
+NOMBRE DE ARCHIVO (importante)
+------------------------------
+Por cada video, una foto JPG con el mismo nombre + "-poster":
+
+  hammer.mp4          →  hammer-poster.jpg
+  yohanaabregu.mp4    →  yohanaabregu-poster.jpg
+  productos.mp4       →  productos-poster.jpg   (en img/)
+  ubicConcep.mp4      →  ubicConcep-poster.jpg
+  etc.
+
+Carpeta: misma que el .mp4 (proyectos/ o img/).
+
+OPCIÓN A — Automático (ffmpeg)
+------------------------------
+1. Instalar ffmpeg (Windows): https://www.gyan.dev/ffmpeg/builds/
+   Descomprimir y agregar la carpeta "bin" al PATH.
+2. En PowerShell:
+   cd C:\Users\Estudiante\Desktop\ProyectoTesis
+   .\scripts\extraer-posters-videos.ps1
+3. Revisar que existan los .jpg en img/ e img/proyectos/
+
+OPCIÓN B — HandBrake (manual)
+-----------------------------
+1. Abrir el .mp4 en HandBrake.
+2. Pestaña Previsualizar → reproducir → pausar en un frame lindo.
+3. No hay "exportar frame" en todas las versiones: usar el reproductor de Windows,
+   pausar el video, Win+Shift+S captura, guardar como JPG (menos ideal).
+   Mejor: VLC → Video → Tomar instantánea.
+4. Guardar como hammer-poster.jpg en img/proyectos/
+
+SUBIR AL SERVIDOR
+-----------------
+WinSCP: subir todos *-poster.jpg junto a los mp4 (misma ruta).
+
+CÓDIGO
+------
+Ya configurado en index.html, proyectos.json y script.js.
+Si falta un poster.jpg, se ve fondo gris (#e4e4e7) en lugar de negro.

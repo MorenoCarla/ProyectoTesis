@@ -22,6 +22,14 @@ window.ItuarteProyectoVideo = {
     io.observe(el);
   },
 
+  /** Portada mientras carga el MP4 (nombre: hammer.mp4 → hammer-poster.png). */
+  posterForProyecto: function (p) {
+    if (!p) return "";
+    if (p.poster) return p.poster;
+    if (p.video) return p.video.replace(/\.(mp4|mov)$/i, "-poster.png");
+    return "";
+  },
+
   /** Rutas a probar si falla la carga (solo la principal + alternativos explícitos en JSON). */
   rutasVideo: function (p) {
     var rutas = [];

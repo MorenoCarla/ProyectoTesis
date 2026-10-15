@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!lista) return;
 
-  fetch("data/proyectos.json?v=3")
+  fetch("data/proyectos.json?v=5")
     .then(function (res) {
       if (!res.ok) throw new Error("No se pudo cargar proyectos.json");
       return res.json();
@@ -112,7 +112,13 @@ document.addEventListener("DOMContentLoaded", function () {
     video.controls = true;
     video.playsInline = true;
     video.preload = "metadata";
-    if (p && p.poster) video.poster = p.poster;
+    var posterUrl =
+      window.ItuarteProyectoVideo && window.ItuarteProyectoVideo.posterForProyecto
+        ? window.ItuarteProyectoVideo.posterForProyecto(p)
+        : p && p.poster
+          ? p.poster
+          : "";
+    if (posterUrl) video.poster = posterUrl;
 
     function mostrarError() {
       frame.innerHTML = "";

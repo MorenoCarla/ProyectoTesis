@@ -26,6 +26,8 @@ function initLazySectionVideos() {
 
   document.querySelectorAll("video[data-lazy-src]").forEach((video, idx) => {
     video.preload = "none";
+    const poster = video.getAttribute("data-poster");
+    if (poster) video.poster = poster;
     const start = () => {
       const go = () => {
         video.src = video.getAttribute("data-lazy-src");
@@ -44,7 +46,7 @@ function initHomeProyectosVideos() {
   const utils = window.ItuarteProyectoVideo;
   if (!grid || !utils) return;
 
-  fetch("data/proyectos.json?v=4")
+  fetch("data/proyectos.json?v=5")
     .then((res) => {
       if (!res.ok) throw new Error("proyectos.json");
       return res.json();
@@ -57,7 +59,8 @@ function initHomeProyectosVideos() {
         const video = tile.querySelector("video");
         if (!p || !video) return;
         video.preload = "none";
-        if (p.poster) video.poster = p.poster;
+        const poster = utils.posterForProyecto(p);
+        if (poster) video.poster = poster;
         utils.whenVisible(video, () => {
           setTimeout(() => {
             utils.attachPreviewVideo(video, utils.rutasVideo(p));
