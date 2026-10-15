@@ -38,6 +38,14 @@ function initLazySectionVideos() {
   document.querySelectorAll("video[data-lazy-src]").forEach((video, idx) => {
     video.preload = "none";
     applyVideoPosterBackground(video);
+    const slot = video.closest(".sucursal-video-slot");
+    video.addEventListener(
+      "playing",
+      () => {
+        if (slot) slot.classList.add("is-playing");
+      },
+      { once: true }
+    );
     const start = () => {
       const go = () => {
         video.src = video.getAttribute("data-lazy-src");

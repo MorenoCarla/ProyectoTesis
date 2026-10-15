@@ -1,0 +1,71 @@
+GOOGLE — Fichas + búsqueda (Electricidad Ituarte Sur)
+=====================================================
+
+IMPORTANTE: Nadie garantiza "primero en Google" al instante. Lo que sí acelera:
+ficha completa, web en HTTPS, reseñas reales, y Search Console.
+
+--- PARTE 1: Google Business (Perfil de empresa) ---
+
+Entrá con la cuenta mk@... (la que ya tiene las fichas):
+https://business.google.com/
+
+CONCEPCIÓN (ya verificada)
+1. Editar perfil → Sitio web: https://electricidadituartesur.com.ar
+2. Categoría principal: Tienda de materiales eléctricos / Iluminación
+3. Horarios reales, teléfono, dirección San Martín 721
+4. Descripción (ejemplo corto):
+   "Materiales eléctricos e iluminación en Concepción. Asesoramiento, presupuestos,
+    sucursal Ituarte Sur. Más info en electricidadituartesur.com.ar"
+5. Fotos: fachada, interior, productos (10+ si podés)
+6. Servicios: venta, asesoramiento iluminación, materiales eléctricos
+7. Instagram: enlace a electricidadituarte.sur si el panel lo permite
+
+ALBERDI (si falta verificar)
+1. Clic "Verificar" → llamada o SMS al local
+2. Mismo sitio web HTTPS en ambas fichas
+3. Rivadavia 518, horarios y fotos
+
+RESEÑAS (después de verificar)
+- Pedir a 3–5 clientes de confianza que dejen reseña (sin pagar, sin falsas)
+- Responder cada reseña con agradecimiento breve
+
+--- PARTE 2: Google Search Console ---
+
+1. https://search.google.com/search-console
+2. Agregar propiedad → Prefijo de URL:
+   https://electricidadituartesur.com.ar
+3. Verificación recomendada: registro DNS TXT en DonWeb
+   (Search Console te da un registro tipo google-site-verification=...)
+   DonWeb → Zona DNS → Agregar TXT con el valor que indica Google
+4. Cuando verifique → Sitemaps → agregar:
+   https://electricidadituartesur.com.ar/sitemap.xml
+5. Pedir indexación de la home (Inspección de URL → Solicitar indexación)
+
+--- PARTE 3: En el servidor (después de generar sitemap en PC) ---
+
+En PC:
+  cd ProyectoTesis
+  node scripts/generar-sitemap.js
+  git add robots.txt sitemap.xml scripts/
+  git commit -m "SEO: robots.txt y sitemap"
+  git push origin master
+
+En droplet:
+  cd /var/www/ProyectoTesis && git pull
+
+Probar:
+  https://electricidadituartesur.com.ar/robots.txt
+  https://electricidadituartesur.com.ar/sitemap.xml
+
+--- PARTE 4: Redes y enlaces ---
+
+- Instagram bio: https://electricidadituartesur.com.ar
+- LinkedIn / CV: misma URL
+- No uses más la IP :3000 en público
+
+--- PARTE 5: Qué esperar ---
+
+- Mapa local ("cerca mío"): 2–8 semanas con ficha completa + reseñas
+- Búsqueda "electricidad concepción tucumán": compite con otros; mejorar título
+  y descripción de la ficha ayuda
+- El sitio con 300+ productos indexará de a poco vía sitemap

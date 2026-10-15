@@ -268,27 +268,50 @@
   color: var(--ituarte-gris);
 }
 
-.sucursal-card video,
-.sucursal-card img {
+.sucursal-video-slot {
+  position: relative;
   width: 100%;
-  border-radius: 10px;
+  height: clamp(200px, 22vw, 280px);
   margin-top: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #e4e4e7;
 }
 
-.sucursal-card video {
-  height: clamp(200px, 22vw, 280px);
-  max-height: none;
+.sucursal-video-slot .sucursal-video-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  margin: 0;
+  border-radius: 0;
+  pointer-events: none;
+}
+
+.sucursal-video-slot video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
   object-fit: cover;
   display: block;
-  /* Solo color: "background:" corto borra background-image del poster */
-  background-color: #e4e4e7;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  z-index: 1;
+  background-color: transparent;
+}
+
+.sucursal-video-slot.is-playing .sucursal-video-cover {
+  opacity: 0;
+  transition: opacity 0.35s ease;
 }
 
 .sucursal-card .mapa-link img {
-  display: block;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 8px;
 }
 
 .mapa-link {

@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+Disallow: /login.html
+Disallow: /registro.html
+Disallow: /recuperar.html
+Disallow: /restablecer.html
+Disallow: /cambiar-contrasena.html
+Disallow: /crm.html
+Disallow: /crm-admin.html
+Disallow: /crm-cliente.html
+Disallow: /backend/
+
+Sitemap: https://electricidadituartesur.com.ar/sitemap.xml
