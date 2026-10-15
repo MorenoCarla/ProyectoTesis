@@ -20,17 +20,25 @@ document.addEventListener("DOMContentLoaded", () => {
   initLazySectionVideos();
 });
 
+function applyVideoPosterBackground(video) {
+  const poster = video.getAttribute("data-poster") || video.getAttribute("poster");
+  if (!poster) return;
+  video.poster = poster;
+  video.setAttribute("poster", poster);
+  /* Móvil: a veces no muestra poster sin src; el fondo CSS sí se ve */
+  video.style.backgroundImage = 'url("' + poster.replace(/"/g, "") + '")';
+  video.style.backgroundSize = "cover";
+  video.style.backgroundPosition = "center";
+  video.style.backgroundRepeat = "no-repeat";
+}
+
 function initLazySectionVideos() {
   const utils = window.ItuarteProyectoVideo;
   const whenVisible = utils && utils.whenVisible ? utils.whenVisible.bind(utils) : null;
 
   document.querySelectorAll("video[data-lazy-src]").forEach((video, idx) => {
     video.preload = "none";
-    const poster = video.getAttribute("data-poster");
-    if (poster) {
-      video.poster = poster;
-      video.setAttribute("poster", poster);
-    }
+    applyVideoPosterBackground(video);
     const start = () => {
       const go = () => {
         video.src = video.getAttribute("data-lazy-src");
