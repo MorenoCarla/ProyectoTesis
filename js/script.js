@@ -22,28 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function applyVideoPosterBackground(video) {
   const poster = video.getAttribute("data-poster") || video.getAttribute("poster");
-  const fallback = video.getAttribute("data-poster-fallback");
-  if (!poster && !fallback) return;
-
-  function paint(url) {
-    if (!url) return;
-    video.poster = url;
-    video.setAttribute("poster", url);
-    video.style.backgroundImage = 'url("' + url.replace(/"/g, "") + '")';
-    video.style.backgroundSize = "cover";
-    video.style.backgroundPosition = "center";
-    video.style.backgroundRepeat = "no-repeat";
-  }
-
-  if (!poster) {
-    paint(fallback);
-    return;
-  }
-  paint(poster);
-  if (!fallback || fallback === poster) return;
-  const probe = new Image();
-  probe.onerror = () => paint(fallback);
-  probe.src = poster;
+  if (!poster) return;
+  video.poster = poster;
+  video.setAttribute("poster", poster);
+  video.style.backgroundImage = 'url("' + poster.replace(/"/g, "") + '")';
+  video.style.backgroundSize = "cover";
+  video.style.backgroundPosition = "center";
+  video.style.backgroundRepeat = "no-repeat";
 }
 
 function initLazySectionVideos() {
