@@ -24,12 +24,15 @@ function initLazySectionVideos() {
   const utils = window.ItuarteProyectoVideo;
   const whenVisible = utils && utils.whenVisible ? utils.whenVisible.bind(utils) : null;
 
-  document.querySelectorAll("video[data-lazy-src]").forEach((video) => {
+  document.querySelectorAll("video[data-lazy-src]").forEach((video, idx) => {
     video.preload = "none";
     const start = () => {
-      video.src = video.getAttribute("data-lazy-src");
-      video.load();
-      video.play().catch(() => {});
+      const go = () => {
+        video.src = video.getAttribute("data-lazy-src");
+        video.load();
+        video.play().catch(() => {});
+      };
+      setTimeout(go, idx * 500);
     };
     if (whenVisible) whenVisible(video, start);
     else start();
@@ -54,8 +57,11 @@ function initHomeProyectosVideos() {
         const video = tile.querySelector("video");
         if (!p || !video) return;
         video.preload = "none";
+        if (p.poster) video.poster = p.poster;
         utils.whenVisible(video, () => {
-          utils.attachPreviewVideo(video, utils.rutasVideo(p));
+          setTimeout(() => {
+            utils.attachPreviewVideo(video, utils.rutasVideo(p));
+          }, i * 800);
         });
       });
     })

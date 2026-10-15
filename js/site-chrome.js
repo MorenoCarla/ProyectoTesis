@@ -1,6 +1,6 @@
 (function () {
   /* Versión del chrome: subir número cuando cambie site-chrome.css */
-  var SITE_CHROME_CSS_V = "11";
+  var SITE_CHROME_CSS_V = "12";
   document.querySelectorAll('link[href*="site-chrome.css"]').forEach(function (link) {
     var href = link.getAttribute("href") || "";
     var base = href.split("?")[0];
@@ -83,17 +83,30 @@
 
   /** Paso 4: no descargar de golpe fotos que están abajo del scroll */
   function initLazyImages() {
+    var gridImgs = document.querySelectorAll(".cat-catalog-grid img");
+    gridImgs.forEach(function (img, idx) {
+      if (idx < 6) {
+        img.loading = "eager";
+        img.decoding = "async";
+      } else {
+        img.loading = "lazy";
+        img.decoding = "async";
+        if ("fetchPriority" in img) img.fetchPriority = "low";
+      }
+    });
+
     function esImagenPrioritaria(img) {
+      if (img.closest(".cat-catalog-grid")) return true;
       if (img.closest(".site-logo, .hero, .hero-swiper")) return true;
       if (img.getAttribute("loading") === "eager" || img.dataset.lcp === "eager") return true;
-      const slide = img.closest(".swiper-slide");
+      var slide = img.closest(".swiper-slide");
       if (slide && slide.parentElement && slide.parentElement.querySelector(".swiper-slide") === slide) {
         return true;
       }
       return false;
     }
 
-    document.querySelectorAll("img").forEach((img) => {
+    document.querySelectorAll("img").forEach(function (img) {
       if (img.closest(".site-logo") && "fetchPriority" in img) {
         img.fetchPriority = "high";
       }

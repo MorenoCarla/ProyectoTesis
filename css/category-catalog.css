@@ -6,6 +6,13 @@
   flex-direction: column;
 }
 
+/* Fondos de categoría: scroll en lugar de fixed (menos trabas al scrollear) */
+@media (min-width: 993px) {
+  body.pagina-categoria {
+    background-attachment: scroll !important;
+  }
+}
+
 .pagina-categoria .cat-catalog-main {
   flex: 1;
 }

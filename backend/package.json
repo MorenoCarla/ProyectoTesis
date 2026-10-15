@@ -7,7 +7,9 @@
     "passwords": "node scripts/actualizar-passwords.js",
     "arreglar-accesos": "node scripts/arreglar-accesos.js",
     "optimizar-imagenes": "node ../scripts/optimizar-imagenes.js",
-    "optimizar-imagenes:apply": "node ../scripts/optimizar-imagenes.js --apply"
+    "optimizar-imagenes:apply": "node ../scripts/optimizar-imagenes.js --apply",
+    "optimizar-catalogo": "node ../scripts/optimizar-imagenes-catalogo.js",
+    "optimizar-catalogo:apply": "node ../scripts/optimizar-imagenes-catalogo.js --apply"
   },
   "keywords": [],
   "author": "",

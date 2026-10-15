@@ -85,10 +85,10 @@ document.addEventListener("DOMContentLoaded", function () {
       var utils = window.ItuarteProyectoVideo;
       if (utils && utils.whenVisible) {
         utils.whenVisible(frame, function () {
-          montarVideo(frame, rutas);
+          montarVideo(frame, rutas, p);
         });
       } else {
-        montarVideo(frame, rutas);
+        montarVideo(frame, rutas, p);
       }
       media.appendChild(frame);
     }
@@ -105,13 +105,14 @@ document.addEventListener("DOMContentLoaded", function () {
     return p.video ? [p.video] : [];
   }
 
-  function montarVideo(frame, rutas) {
+  function montarVideo(frame, rutas, p) {
     var idx = 0;
     var video = document.createElement("video");
     video.className = "proyecto-video";
     video.controls = true;
     video.playsInline = true;
-    video.preload = "none";
+    video.preload = "metadata";
+    if (p && p.poster) video.poster = p.poster;
 
     function mostrarError() {
       frame.innerHTML = "";

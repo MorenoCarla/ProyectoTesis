@@ -1,0 +1,29 @@
+IMÁGENES LENTAS EN CATEGORÍAS (apliques, colgantes, etc.)
+=========================================================
+
+Causa: cada producto usa un PNG/JPG grande; el navegador baja muchos a la vez.
+
+PASO 1 — Comprimir miniaturas (en tu PC, una vez)
+-------------------------------------------------
+  cd C:\Users\Estudiante\Desktop\ProyectoTesis\backend
+  npm run optimizar-catalogo
+  (mirá la lista; si te convence:)
+  npm run optimizar-catalogo:apply
+
+Backup automático en img\.backup-paso4\
+
+PASO 2 — Subir img al servidor
+------------------------------
+WinSCP: carpeta img\ completa (o solo los PNG que cambiaron) → /var/www/ProyectoTesis/img/
+
+PASO 3 — Código (git pull en droplet)
+--------------------------------------
+Incluye lazy load: primeras 6 fotos primero, resto al hacer scroll.
+
+VIDEOS DE PROYECTOS (opcional, se ve más rápido)
+------------------------------------------------
+En HandBrake: captura un frame → guardar como hammer-poster.jpg en img/proyectos/
+En data/proyectos.json, en cada proyecto:
+  "poster": "img/proyectos/hammer-poster.jpg"
+
+Se muestra la foto al instante; el MP4 sigue cargando detrás.
