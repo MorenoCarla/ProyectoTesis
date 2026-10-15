@@ -23,7 +23,7 @@ app.use(cors());
 app.use(compression());
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("/api/health", (req, res) => {
   res.json({ mensaje: "API CRM Ituarte funcionando correctamente" });
 });
 
