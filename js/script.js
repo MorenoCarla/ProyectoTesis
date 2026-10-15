@@ -31,12 +31,6 @@ function initLazySectionVideos() {
       video.poster = poster;
       video.setAttribute("poster", poster);
     }
-    const shell = video.closest(".lazy-video-shell");
-    const markPlaying = () => {
-      if (shell) shell.classList.add("is-playing");
-    };
-    video.addEventListener("playing", markPlaying, { once: true });
-
     const start = () => {
       const go = () => {
         video.src = video.getAttribute("data-lazy-src");
@@ -45,8 +39,7 @@ function initLazySectionVideos() {
       };
       setTimeout(go, idx * 500);
     };
-    const target = shell || video;
-    if (whenVisible) whenVisible(target, start);
+    if (whenVisible) whenVisible(video, start);
     else start();
   });
 }
