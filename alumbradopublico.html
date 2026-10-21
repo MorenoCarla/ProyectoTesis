@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="css/site-chrome.css">
   <link rel="stylesheet" href="css/stylesapliques.css">
   <script src="js/site-chrome.js" defer></script>
-  <script src="js/scriptapliques.js" defer></script>
+  <script src="js/scriptapliques.js?v=cat2" defer></script>
+  <script src="js/catalogo-publico.js?v=2" defer></script>
 </head>
 <body class="pagina-institucional pagina-categoria fondo-artefactos">
   <header class="site-header">
@@ -43,33 +44,8 @@
   <main class="cat-catalog-main">
     <div class="container">
       <div class="mensaje-no-encontrado" style="display: none;">Producto no encontrado😢 Intenta nuevamente con otro nombre o código.</div>
-<section class="filas-imagenes cat-catalog-grid">
-                <div class="fila uno">
-                    <a href="artefactoalumbpubli50.html" class="link-producto">
-                        <div class="imagen exterior 1" data-nombre="Artefacto Alumbrado Público 50" data-codigo="23038">
-                            <img src="img/artefacto50w.png" alt="artefacto alumbrado publico 50w">
-                            <p class="p1-ext">Artefacto 50</p>
-                        </div>
-                    </a>
-                    <a href="artefactoalumbpubliapc.html" class="link-producto">
-                        <div class="imagen exterior 2" data-nombre="Artefacto Alumbrado Público APC" data-codigo="22430">
-                            <img src="img/artefactoAPC.png" alt="artefacto alumbrado publico APC">
-                            <p class="p2-ext">Artefacto APC</p>
-                        </div>
-                    </a>
-                    <a href="artefactoalumbpubli150.html" class="link-producto">
-                        <div class="imagen exterior 3" data-nombre="Artefacto Alumbrado Público 150" data-codigo="22622">
-                            <img src="img/artefacto150w.png" alt="artefacto alumbrado publico 150w">
-                            <p class="p3-ext">Artefacto 150</p>
-                        </div>
-                    </a>
-                    <a href="artefactoalumbpubliking.html" class="link-producto">
-                        <div class="imagen exterior 4" data-nombre="Artefacto Alumbrado Público King" data-codigo="23855">
-                            <img src="img/artefactosking.png" alt="artefactos alumbrado publico king">
-                            <p class="p4-ext">Artefacto King</p>
-                        </div>
-                    </a>
-                </div>    
+<section class="filas-imagenes cat-catalog-grid" data-catalogo-dinamico data-catalogo-listado="alumbradopublico.html">
+                <p class="catalogo-grilla-cargando">Cargando productos…</p>
             </section>
     </div>
   </main>

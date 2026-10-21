@@ -1,0 +1,54 @@
+/**
+ * Solo grilla de la ficha — NO tocar overflow/height del Swiper (rompe el carrusel).
+ */
+body.fondo-cada-producto .caja-informacion,
+body.producto-exterior .caja-informacion {
+  display: grid !important;
+  grid-template-columns: minmax(260px, 420px) minmax(0, 1fr);
+  align-items: start;
+  column-gap: clamp(28px, 4vw, 56px);
+}
+
+body.fondo-cada-producto .caja-informacion > *,
+body.producto-exterior .caja-informacion > * {
+  min-width: 0;
+}
+
+body.fondo-cada-producto .caja-informacion .swiper-container-custom,
+body.producto-exterior .caja-informacion .swiper-container-custom {
+  width: 100%;
+  max-width: 420px;
+  min-width: 0;
+  justify-self: center;
+}
+
+body.fondo-cada-producto .caja-informacion .swiper.swiper-producto,
+body.producto-exterior .caja-informacion .swiper.swiper-producto {
+  min-width: 0;
+  max-width: 100%;
+}
+
+body.fondo-cada-producto .caja-informacion .descripcion,
+body.producto-exterior .caja-informacion .descripcion {
+  max-width: none;
+  width: 100%;
+}
+
+body.fondo-cada-producto .descripcion > br,
+body.producto-exterior .descripcion > br {
+  display: none !important;
+}
+
+body.fondo-cada-producto .swiper-container-custom > .swiper-pagination,
+body.producto-exterior .swiper-container-custom > .swiper-pagination {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+  body.fondo-cada-producto .caja-informacion,
+  body.producto-exterior .caja-informacion {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+  }
+}

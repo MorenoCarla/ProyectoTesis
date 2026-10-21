@@ -219,6 +219,10 @@ document.querySelectorAll(".menu-item[data-section]").forEach(btn => {
     document.getElementById("tituloSeccion").textContent =
       btn.textContent.trim();
     if (btn.dataset.section === "marketing") cambiarTabMarketing(marketingTabActiva || "calendario");
+    if (btn.dataset.section === "catalogo") {
+      volverListaCatalogo(false);
+      cargarCategoriasCatalogo().then(() => cargarCatalogoProductos());
+    }
   });
 });
 
@@ -2358,6 +2362,1164 @@ async function desactivarEmpleado(id, nombre) {
   }
 }
 
+/* ——— Catálogo web (productos del sitio) ——— */
+let catalogoBuscarTimer = null;
+let categoriasCatalogo = [];
+let productosCatalogoCache = [];
+let catalogoPaginaActual = 1;
+const CATALOGO_LIMITE_POR_PAGINA = 24;
+let catalogoListadoMeta = { total: 0, paginas: 0, pagina: 1, limite: CATALOGO_LIMITE_POR_PAGINA };
+
+function urlPaginaPublica(archivo) {
+  if (!archivo) return "#";
+  const file = String(archivo).trim().replace(/^\//, "");
+  if (!file) return "#";
+  return `${window.location.origin}/${encodeURI(file)}`;
+}
+
+function urlFichaProducto(producto) {
+  if (producto && typeof producto === "object") {
+    const slug = (producto.slug || "").trim();
+    if (slug) {
+      return `${window.location.origin}/p/${encodeURIComponent(slug)}`;
+    }
+    return urlPaginaPublica(producto.pagina_html);
+  }
+  return urlPaginaPublica(producto);
+}
+
+function paginaListadoDeCategoria(categoriaId) {
+  if (!categoriaId || !categoriasCatalogo?.length) return null;
+  const id = Number(categoriaId);
+  const cat = categoriasCatalogo.find((c) => Number(c.id) === id);
+  return cat?.pagina_listado || null;
+}
+
+async function cargarCategoriasCatalogo() {
+  try {
+    categoriasCatalogo = await apiGet("/catalogo-productos/categorias");
+    const opts = categoriasCatalogo
+      .map((c) => `<option value="${c.id}">${c.nombre} (${c.total_productos || 0})</option>`)
+      .join("");
+    const filtro = document.getElementById("filtroCategoriaCatalogo");
+    const selEdit = document.getElementById("catalogoCategoriaId");
+    if (filtro) {
+      filtro.innerHTML = `<option value="">Todas las categorías</option>${opts}`;
+    }
+    if (selEdit) {
+      selEdit.innerHTML = opts;
+    }
+    bindCatalogoCategoriaGrillaLink();
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
+}
+
+function imagenMiniCatalogoCrm(p) {
+  let src = (p.imagen_portada || "").trim();
+  if (!src && Array.isArray(p.imagenes) && p.imagenes[0]) src = String(p.imagenes[0]).trim();
+  if (!src) return "/img/LOGO.png";
+  if (/^https?:\/\//i.test(src)) return src;
+  return src.startsWith("/") ? src : "/" + src.replace(/^\//, "");
+}
+
+function escHtmlCatalogo(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+async function cargarCatalogoProductos(opciones) {
+  try {
+    const resetPagina = opciones && opciones.resetPagina;
+    if (resetPagina) catalogoPaginaActual = 1;
+
+    const params = new URLSearchParams();
+    const buscar = (document.getElementById("buscarCatalogo")?.value || "").trim();
+    const cat = document.getElementById("filtroCategoriaCatalogo")?.value || "";
+    const pub = document.getElementById("filtroPublicadoCatalogo")?.value || "";
+
+    if (buscar) params.set("buscar", buscar);
+    if (cat) params.set("categoria_id", cat);
+    if (pub === "0" || pub === "1") params.set("publicado", pub);
+    params.set("pagina", String(catalogoPaginaActual));
+    params.set("limite", String(CATALOGO_LIMITE_POR_PAGINA));
+
+    const data = await apiGet("/catalogo-productos?" + params.toString());
+    if (Array.isArray(data)) {
+      productosCatalogoCache = data;
+      catalogoListadoMeta = {
+        total: data.length,
+        paginas: 1,
+        pagina: 1,
+        limite: data.length
+      };
+    } else {
+      productosCatalogoCache = data.items || [];
+      catalogoListadoMeta = {
+        total: data.total ?? productosCatalogoCache.length,
+        paginas: data.paginas ?? 1,
+        pagina: data.pagina ?? 1,
+        limite: data.limite ?? CATALOGO_LIMITE_POR_PAGINA
+      };
+      catalogoPaginaActual = catalogoListadoMeta.pagina;
+    }
+    renderCatalogoLista(productosCatalogoCache);
+    renderResumenCatalogo();
+    renderPaginacionCatalogo();
+    renderCatalogoStatsChips();
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
+}
+
+function renderCatalogoStatsChips() {
+  const el = document.getElementById("catalogoStatsChips");
+  if (!el) return;
+  const { total, pagina, paginas } = catalogoListadoMeta;
+  const enPagina = productosCatalogoCache.length;
+  el.innerHTML = `
+    <span class="catalogo-stat-chip"><strong>${total}</strong> en catálogo</span>
+    <span class="catalogo-stat-chip">Página <strong>${pagina}</strong> / ${paginas || 1}</span>
+    <span class="catalogo-stat-chip"><strong>${enPagina}</strong> visibles</span>`;
+}
+
+function renderResumenCatalogo() {
+  const el = document.getElementById("resumenCatalogo");
+  if (!el) return;
+  const buscar = (document.getElementById("buscarCatalogo")?.value || "").trim();
+  const { total, pagina, paginas, limite } = catalogoListadoMeta;
+  const desde = total ? (pagina - 1) * limite + 1 : 0;
+  const hasta = Math.min(pagina * limite, total);
+  if (!total) {
+    el.textContent = buscar
+      ? "Sin resultados. Probá otro término o quitá filtros."
+      : "No hay productos con estos filtros.";
+    return;
+  }
+  el.textContent = buscar
+    ? `Resultados para «${buscar}»: ${total} producto${total !== 1 ? "s" : ""} (mostrando ${desde}–${hasta}).`
+    : `Mostrando ${desde}–${hasta} de ${total} productos. Usá el buscador para ir directo a uno.`;
+}
+
+function renderPaginacionCatalogo() {
+  const nav = document.getElementById("catalogoPaginacion");
+  if (!nav) return;
+  const { paginas, pagina, total } = catalogoListadoMeta;
+  if (!total || paginas <= 1) {
+    nav.hidden = true;
+    nav.innerHTML = "";
+    return;
+  }
+  nav.hidden = false;
+  nav.innerHTML = `
+    <button type="button" class="btn btn-secondary btn-sm" data-catalogo-pag="prev" ${pagina <= 1 ? "disabled" : ""}>
+      <i class="fa fa-chevron-left"></i> Anterior
+    </button>
+    <span class="catalogo-paginacion-info">Página ${pagina} de ${paginas}</span>
+    <button type="button" class="btn btn-secondary btn-sm" data-catalogo-pag="next" ${pagina >= paginas ? "disabled" : ""}>
+      Siguiente <i class="fa fa-chevron-right"></i>
+    </button>`;
+  nav.querySelector('[data-catalogo-pag="prev"]')?.addEventListener("click", () => {
+    if (catalogoPaginaActual > 1) {
+      catalogoPaginaActual--;
+      cargarCatalogoProductos();
+    }
+  });
+  nav.querySelector('[data-catalogo-pag="next"]')?.addEventListener("click", () => {
+    if (catalogoPaginaActual < paginas) {
+      catalogoPaginaActual++;
+      cargarCatalogoProductos();
+    }
+  });
+}
+
+function renderCatalogoLista(lista) {
+  const cont = document.getElementById("catalogoLista");
+  if (!cont) return;
+
+  if (!lista.length) {
+    cont.innerHTML = `<p class="catalogo-listado-vacio"><i class="fa fa-box-open"></i> No hay productos con esos filtros.</p>`;
+    return;
+  }
+
+  cont.innerHTML = lista
+    .map((p) => {
+      const codigos = (p.codigos || []).slice(0, 3).join(", ");
+      const extraCod = (p.codigos || []).length > 3 ? "…" : "";
+      const pub = p.publicado === 1 || p.publicado === true;
+      const grilla = (p.nombre_grilla || "").trim();
+      const slug = (p.slug || "").trim();
+      const img = escAttrCatalogo(imagenMiniCatalogoCrm(p));
+      const accionesGerente = esGerente
+        ? `
+          <button type="button" class="btn btn-secondary btn-sm" data-editar-catalogo-id="${p.id}">Editar</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-toggle-pub-catalogo="${p.id}" data-toggle-pub-val="${pub ? 0 : 1}">${pub ? "Ocultar" : "Publicar"}</button>
+          <button type="button" class="btn btn-danger btn-sm" data-baja-catalogo-id="${p.id}" data-baja-catalogo-nombre="${escAttrCatalogo(p.nombre)}">Baja</button>`
+        : "";
+      return `
+    <article class="catalogo-producto-card ${pub ? "is-publicado" : "is-oculto"}">
+      <div class="catalogo-producto-card-media">
+        <img src="${img}" alt="" loading="lazy" width="120" height="120">
+        <span class="catalogo-producto-estado ${pub ? "catalogo-producto-estado--pub" : "catalogo-producto-estado--oculto"}">${pub ? "En web" : "Oculto"}</span>
+      </div>
+      <div class="catalogo-producto-card-body">
+        <p class="catalogo-producto-categoria">${escHtmlCatalogo(p.categoria_nombre || "—")}</p>
+        <h3 class="catalogo-producto-nombre">${escHtmlCatalogo(p.nombre)}</h3>
+        ${grilla ? `<p class="catalogo-producto-grilla">Grilla: ${escHtmlCatalogo(grilla)}</p>` : ""}
+        ${slug ? `<p class="catalogo-producto-slug">/p/${escHtmlCatalogo(slug)}</p>` : ""}
+        <p class="catalogo-producto-codigos">${codigos ? `Cód. ${escHtmlCatalogo(codigos + extraCod)}` : "Sin códigos"}</p>
+      </div>
+      <div class="catalogo-producto-card-acciones">
+        <a class="btn btn-primary btn-sm" href="${urlFichaProducto(p)}" target="_blank" rel="noopener">
+          <i class="fa fa-external-link-alt"></i> Ver ficha
+        </a>
+        ${accionesGerente}
+      </div>
+    </article>`;
+    })
+    .join("");
+
+  cont.querySelectorAll("[data-editar-catalogo-id]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      abrirEditarCatalogo(btn.getAttribute("data-editar-catalogo-id"));
+    });
+  });
+  cont.querySelectorAll("[data-toggle-pub-catalogo]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      alternarPublicadoCatalogo(
+        btn.getAttribute("data-toggle-pub-catalogo"),
+        btn.getAttribute("data-toggle-pub-val") === "1"
+      );
+    });
+  });
+  cont.querySelectorAll("[data-baja-catalogo-id]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const id = btn.getAttribute("data-baja-catalogo-id");
+      const nombre = btn.getAttribute("data-baja-catalogo-nombre") || "";
+      desactivarProductoCatalogo(id, nombre);
+    });
+  });
+}
+
+const CATALOGO_ETIQUETAS_IMAGEN = ["Foto cruda", "Fotomontaje"];
+
+function escAttrCatalogo(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;");
+}
+
+function normalizarTextoDescripcionCrm(text) {
+  const raw = String(text || "")
+    .replace(/<br\s*\/?>/gi, " ")
+    .replace(/<[^>]+>/g, " ");
+  return raw.replace(/\s+/g, " ").trim();
+}
+
+/** Separa "50w 6000k" o "50w|6000k" en varias etiquetas para inputs distintos. */
+function splitCaracteristicaToken(text) {
+  const raw = String(text || "").trim();
+  if (!raw) return [];
+  let parts = raw.split(/[\n|;]+/).map((s) => s.trim()).filter(Boolean);
+  if (parts.length === 1) {
+    const one = parts[0];
+    if (/\s{2,}/.test(one)) {
+      parts = one.split(/\s{2,}/).map((s) => s.trim()).filter(Boolean);
+    } else if (/^(\S+(?:\s+\S+)?)$/.test(one) && one.length <= 48 && /\s/.test(one)) {
+      const tokens = one.split(/\s+/).filter(Boolean);
+      if (tokens.length >= 2 && tokens.length <= 6) parts = tokens;
+    }
+  }
+  return parts;
+}
+
+function parseCaracteristicasProducto(p) {
+  let list = [];
+  if (Array.isArray(p.caracteristicas_list) && p.caracteristicas_list.length) {
+    list = p.caracteristicas_list.flatMap((item) => splitCaracteristicaToken(item));
+  } else if (p.caracteristicas) {
+    list = splitCaracteristicaToken(p.caracteristicas);
+  }
+  return list.length ? list : [""];
+}
+
+function actualizarPreviewCaracteristicas() {
+  const prev = document.getElementById("catalogoCaracteristicasPreview");
+  if (!prev) return;
+  const vals = leerCaracteristicasForm();
+  if (!vals.length) {
+    prev.innerHTML = "";
+    prev.hidden = true;
+    return;
+  }
+  prev.hidden = false;
+  prev.innerHTML = vals.map((v) => `<span class="catalogo-carac-pill">${escAttrCatalogo(v)}</span>`).join("");
+}
+
+function renderCatalogoCaracteristicas(valores) {
+  const cont = document.getElementById("catalogoCaracteristicasLista");
+  if (!cont) return;
+  const list = valores?.length ? valores : [""];
+  cont.innerHTML = list
+    .map(
+      (v, i) => `
+    <div class="catalogo-fila-input">
+      <span class="catalogo-fila-num">${i + 1}</span>
+      <input type="text" class="catalogo-caracteristica-input" value="${escAttrCatalogo(v)}" placeholder="Ej. 50w">
+      <button type="button" class="btn btn-secondary btn-sm catalogo-btn-quitar" title="Quitar">&times;</button>
+    </div>`
+    )
+    .join("");
+  cont.querySelectorAll(".catalogo-btn-quitar").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btn.closest(".catalogo-fila-input")?.remove();
+      if (!cont.querySelector(".catalogo-caracteristica-input")) {
+        renderCatalogoCaracteristicas([""]);
+      } else {
+        actualizarPreviewCaracteristicas();
+      }
+    });
+  });
+  cont.querySelectorAll(".catalogo-caracteristica-input").forEach((inp) => {
+    inp.addEventListener("input", actualizarPreviewCaracteristicas);
+  });
+  actualizarPreviewCaracteristicas();
+}
+
+function leerCaracteristicasForm() {
+  return [...document.querySelectorAll(".catalogo-caracteristica-input")]
+    .map((i) => i.value.trim())
+    .filter(Boolean);
+}
+
+function bindSubidaImagenFila(fila) {
+  const input = fila.querySelector(".catalogo-imagen-file");
+  if (!input || input.dataset.bound) return;
+  input.dataset.bound = "1";
+  input.addEventListener("change", async () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    try {
+      const data = await apiSubirImagenCatalogo(file);
+      fila.querySelector(".catalogo-imagen-ruta").value = data.ruta;
+      const wrap = fila.querySelector(".catalogo-imagen-preview-wrap");
+      if (wrap) {
+        wrap.innerHTML = `<img src="${escAttrCatalogo(data.ruta)}" alt="" class="catalogo-imagen-preview">`;
+      }
+      mostrarToast("Imagen subida al sitio");
+    } catch (e) {
+      mostrarToast(e.message, true);
+    } finally {
+      input.value = "";
+    }
+  });
+  fila.querySelector("[data-quitar-img]")?.addEventListener("click", () => {
+    fila.querySelector(".catalogo-imagen-ruta").value = "";
+    const wrap = fila.querySelector(".catalogo-imagen-preview-wrap");
+    if (wrap) wrap.innerHTML = `<div class="catalogo-imagen-vacio"><i class="fa fa-image"></i></div>`;
+  });
+}
+
+function crearFilaImagenCatalogo(ruta, indice) {
+  const etiqueta =
+    CATALOGO_ETIQUETAS_IMAGEN[indice] || `Imagen ${indice + 1}`;
+  const preview = ruta ? escAttrCatalogo(ruta) : "";
+  const div = document.createElement("div");
+  div.className = "catalogo-fila-imagen";
+  div.innerHTML = `
+    <div class="catalogo-imagen-preview-wrap">
+      ${preview ? `<img src="${preview}" alt="" class="catalogo-imagen-preview">` : `<div class="catalogo-imagen-vacio"><i class="fa fa-image"></i></div>`}
+    </div>
+    <div class="catalogo-imagen-datos">
+      <span class="catalogo-fila-label">${escAttrCatalogo(etiqueta)}</span>
+      <input type="text" class="catalogo-imagen-ruta" value="${escAttrCatalogo(ruta)}" readonly placeholder="Sin archivo — Subir imagen">
+      <div class="catalogo-imagen-acciones">
+        <label class="btn btn-secondary btn-sm catalogo-btn-subir">Subir imagen
+          <input type="file" accept="image/*" hidden class="catalogo-imagen-file">
+        </label>
+        <button type="button" class="btn btn-secondary btn-sm" data-quitar-img title="Quitar">Quitar</button>
+      </div>
+    </div>`;
+  bindSubidaImagenFila(div);
+  return div;
+}
+
+function renderCatalogoImagenes(rutas) {
+  const cont = document.getElementById("catalogoImagenesLista");
+  if (!cont) return;
+  const list = Array.isArray(rutas) ? [...rutas] : [];
+  while (list.length < 2) list.push("");
+  cont.innerHTML = "";
+  list.forEach((ruta, i) => cont.appendChild(crearFilaImagenCatalogo(ruta, i)));
+}
+
+function leerImagenesForm() {
+  return [...document.querySelectorAll("#catalogoImagenesLista .catalogo-imagen-ruta")]
+    .map((i) => i.value.trim())
+    .filter(Boolean);
+}
+
+function etiquetaGrillaDesdeNombre(nombre) {
+  let s = String(nombre || "").trim();
+  s = s
+    .replace(/^aplique\s+/i, "")
+    .replace(/^colgante\s+/i, "")
+    .replace(/^velador\s+/i, "")
+    .replace(/^plaf[oó]n\s+/i, "");
+  return s || String(nombre || "").trim();
+}
+
+function slugifyCatalogoNombre(nombre) {
+  return String(nombre || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function setCatalogoEditorModo(modo, producto) {
+  const slugWrap = document.getElementById("catalogoSlugWrap");
+  const link = document.getElementById("catalogoLinkWeb");
+  const pag = document.getElementById("catalogoPaginaHtml");
+  const btnGuardar = document.getElementById("btnGuardarCatalogo");
+  const esNuevo = modo === "new";
+  if (slugWrap) slugWrap.hidden = !esNuevo;
+  if (link) link.hidden = esNuevo;
+  if (btnGuardar) {
+    btnGuardar.innerHTML = esNuevo
+      ? '<i class="fa fa-check-circle"></i> Crear y publicar'
+      : '<i class="fa fa-check-circle"></i> Guardar y publicar';
+  }
+  if (pag) {
+    if (esNuevo) pag.textContent = "(automático: slug.html)";
+    else if (producto) {
+      const slug = (producto.slug || "").trim();
+      pag.textContent = producto.pagina_html
+        ? `${producto.pagina_html}${slug ? " · /p/" + slug : ""}`
+        : slug
+          ? "/p/" + slug
+          : "—";
+    }
+  }
+  actualizarCatalogoEditorAccionesVisibilidad(esNuevo ? null : producto);
+}
+
+function bindSlugCatalogoDesdeNombre() {
+  const nom = document.getElementById("catalogoNombre");
+  const slug = document.getElementById("catalogoSlug");
+  if (!nom || !slug || nom.dataset.slugSync) return;
+  nom.dataset.slugSync = "1";
+  nom.addEventListener("input", () => {
+    if (slug.dataset.manual === "1") return;
+    slug.value = slugifyCatalogoNombre(nom.value);
+  });
+  slug.addEventListener("input", () => {
+    if (slug.value.trim()) slug.dataset.manual = "1";
+    else delete slug.dataset.manual;
+    slug.value = slugifyCatalogoNombre(slug.value);
+  });
+}
+
+function mostrarVistaEditorCatalogo(tituloSeccionTexto) {
+  const editor = document.getElementById("catalogoVistaEditor");
+  const lista = document.getElementById("catalogoVistaLista");
+  if (!editor || !lista) {
+    mostrarToast("Actualizá crm-admin.html (Ctrl+F5).", true);
+    return false;
+  }
+  lista.hidden = true;
+  editor.hidden = false;
+  const tituloSeccion = document.getElementById("tituloSeccion");
+  if (tituloSeccion) tituloSeccion.textContent = tituloSeccionTexto;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  return true;
+}
+
+function bindSyncTitulosEditorCatalogo() {
+  const nomInp = document.getElementById("catalogoNombre");
+  const titHdr = document.getElementById("catalogoEditorTitulo");
+  const subHdr = document.getElementById("catalogoEditorSubtitulo");
+  const subInp = document.getElementById("catalogoSubtitulo");
+  if (nomInp && titHdr && !nomInp.dataset.syncHdr) {
+    nomInp.dataset.syncHdr = "1";
+    nomInp.addEventListener("input", () => {
+      titHdr.textContent = nomInp.value.trim() || "Producto";
+    });
+  }
+  if (subInp && subHdr && !subInp.dataset.syncHdr) {
+    subInp.dataset.syncHdr = "1";
+    subInp.addEventListener("input", () => {
+      subHdr.textContent = subInp.value.trim() || "";
+    });
+  }
+}
+
+async function abrirNuevoCatalogo() {
+  if (!esGerente) {
+    mostrarToast("Solo administradores pueden dar de alta productos.", true);
+    return;
+  }
+  if (!categoriasCatalogo?.length) {
+    await cargarCategoriasCatalogo();
+  }
+  if (!mostrarVistaEditorCatalogo("Nuevo producto")) return;
+
+  const setVal = (elId, val) => {
+    const el = document.getElementById(elId);
+    if (el) el.value = val;
+  };
+
+  setVal("catalogoProductoId", "");
+  setVal("catalogoNombre", "");
+  setVal("catalogoSubtitulo", "");
+  setVal("catalogoDescripcion", "");
+
+  const slugInp = document.getElementById("catalogoSlug");
+  if (slugInp) {
+    slugInp.value = "";
+    delete slugInp.dataset.manual;
+  }
+
+  const grillaInp = document.getElementById("catalogoNombreGrilla");
+  if (grillaInp) {
+    delete grillaInp.dataset.manual;
+    grillaInp.value = "";
+  }
+
+  const catPref = document.getElementById("filtroCategoriaCatalogo")?.value || "";
+  setVal("catalogoCategoriaId", catPref || categoriasCatalogo[0]?.id || "");
+  setVal("catalogoPublicado", "1");
+
+  bindSyncNombreGrillaCatalogo();
+  bindSlugCatalogoDesdeNombre();
+  renderCatalogoImagenPortada("");
+  bindCatalogoImagenPortadaUpload();
+  actualizarEnlaceListadoCatalogo(document.getElementById("catalogoCategoriaId")?.value);
+
+  renderCatalogoCaracteristicas([]);
+  renderCatalogoImagenes([]);
+  const chkSin = document.getElementById("catalogoSinColores");
+  if (chkSin) chkSin.checked = false;
+  renderCatalogoColores([]);
+  toggleCatalogoSinColores();
+
+  const tit = document.getElementById("catalogoEditorTitulo");
+  const sub = document.getElementById("catalogoEditorSubtitulo");
+  if (tit) tit.textContent = "Nuevo producto";
+  if (sub) {
+    const catId = document.getElementById("catalogoCategoriaId")?.value;
+    const cat = categoriasCatalogo.find((c) => String(c.id) === String(catId));
+    sub.textContent = cat?.nombre || "Elegí categoría";
+  }
+
+  setCatalogoEditorModo("new");
+  bindSyncTitulosEditorCatalogo();
+}
+
+function etiquetaGrillaSugerida(p) {
+  if (p.nombre_grilla && String(p.nombre_grilla).trim()) return String(p.nombre_grilla).trim();
+  return etiquetaGrillaDesdeNombre(p.nombre);
+}
+
+function bindSyncNombreGrillaCatalogo() {
+  const nomInp = document.getElementById("catalogoNombre");
+  const grillaInp = document.getElementById("catalogoNombreGrilla");
+  if (!nomInp || !grillaInp) return;
+
+  if (!grillaInp.dataset.boundManual) {
+    grillaInp.dataset.boundManual = "1";
+    grillaInp.addEventListener("input", () => {
+      grillaInp.dataset.manual = "1";
+    });
+  }
+
+  if (nomInp.dataset.boundGrillaSync) return;
+  nomInp.dataset.boundGrillaSync = "1";
+  nomInp.addEventListener("input", () => {
+    if (grillaInp.dataset.manual === "1") return;
+    grillaInp.value = etiquetaGrillaDesdeNombre(nomInp.value);
+  });
+}
+
+function pesoOrdenImagenFichaCrm(src) {
+  const s = String(src || "").toLowerCase();
+  if (/fotomont|foto-?mont|montaje|ambientad/.test(s)) return 100;
+  if (/crudo|negrocrudo|blancocrudo/.test(s)) return 0;
+  return 10;
+}
+
+function ordenarImagenesFichaCrm(imagenes) {
+  const list = Array.isArray(imagenes) ? imagenes.filter(Boolean) : [];
+  if (list.length < 2) return list;
+  return list
+    .map((src, index) => ({ src, index, w: pesoOrdenImagenFichaCrm(src) }))
+    .sort((a, b) => a.w - b.w || a.index - b.index)
+    .map((x) => x.src);
+}
+
+function renderCatalogoImagenPortada(ruta) {
+  const prev = document.getElementById("catalogoImagenPortadaPreview");
+  const inp = document.getElementById("catalogoImagenPortadaRuta");
+  if (inp) inp.value = ruta || "";
+  if (!prev) return;
+  prev.innerHTML = ruta
+    ? `<img src="${escAttrCatalogo(ruta)}" alt="" class="catalogo-imagen-preview">`
+    : `<div class="catalogo-imagen-vacio"><i class="fa fa-image"></i></div>`;
+}
+
+function actualizarEnlaceListadoCatalogo(categoriaId) {
+  const link = document.getElementById("catalogoEnlaceListado");
+  if (!link) return;
+  const pagina =
+    paginaListadoDeCategoria(categoriaId) ||
+    paginaListadoDeCategoria(document.getElementById("catalogoCategoriaId")?.value);
+  if (pagina) {
+    link.href = urlPaginaPublica(pagina);
+    link.textContent = pagina;
+    link.hidden = false;
+  } else {
+    link.href = "#";
+    link.textContent = "Sin página de listado en la categoría";
+    link.hidden = false;
+  }
+}
+
+function bindCatalogoCategoriaGrillaLink() {
+  const sel = document.getElementById("catalogoCategoriaId");
+  if (!sel || sel.dataset.grillaLinkBound) return;
+  sel.dataset.grillaLinkBound = "1";
+  sel.addEventListener("change", () => {
+    actualizarEnlaceListadoCatalogo(sel.value);
+  });
+}
+
+function bindCatalogoImagenPortadaUpload() {
+  const input = document.getElementById("catalogoImagenPortadaFile");
+  if (!input || input.dataset.bound) return;
+  input.dataset.bound = "1";
+  input.addEventListener("change", async () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    try {
+      const data = await apiSubirImagenCatalogo(file);
+      renderCatalogoImagenPortada(data.ruta);
+      mostrarToast("Miniatura de grilla actualizada");
+    } catch (e) {
+      mostrarToast(e.message, true);
+    } finally {
+      input.value = "";
+    }
+  });
+
+  const btnQuitar = document.getElementById("btnQuitarImagenPortada");
+  if (btnQuitar && !btnQuitar.dataset.bound) {
+    btnQuitar.dataset.bound = "1";
+    btnQuitar.addEventListener("click", () => {
+      renderCatalogoImagenPortada("");
+      mostrarToast("Miniatura quitada (guardá para aplicar en la web)");
+    });
+  }
+}
+
+function actualizarCatalogoEditorAccionesVisibilidad(producto) {
+  const wrap = document.getElementById("catalogoEditorAccionesWeb");
+  const btnPub = document.getElementById("btnCatalogoEditorTogglePub");
+  if (!wrap || !btnPub) return;
+
+  if (!esGerente || !producto) {
+    wrap.hidden = true;
+    return;
+  }
+  wrap.hidden = false;
+  wrap.dataset.productoId = String(producto.id);
+  wrap.dataset.productoNombre = producto.nombre || "";
+
+  const pub = producto.publicado === 1 || producto.publicado === true;
+  if (pub) {
+    btnPub.innerHTML = '<i class="fa fa-eye-slash" aria-hidden="true"></i> Ocultar de la web';
+    btnPub.dataset.siguientePub = "0";
+  } else {
+    btnPub.innerHTML = '<i class="fa fa-eye" aria-hidden="true"></i> Publicar en la web';
+    btnPub.dataset.siguientePub = "1";
+  }
+}
+
+async function catalogoEditorTogglePublicado() {
+  const wrap = document.getElementById("catalogoEditorAccionesWeb");
+  const id = wrap?.dataset.productoId || document.getElementById("catalogoProductoId")?.value;
+  if (!id) return;
+  const siguiente = document.getElementById("btnCatalogoEditorTogglePub")?.dataset.siguientePub === "1";
+  await alternarPublicadoCatalogo(id, siguiente);
+  const sel = document.getElementById("catalogoPublicado");
+  if (sel) sel.value = siguiente ? "1" : "0";
+  const nombre = document.getElementById("catalogoEditorTitulo")?.textContent || "";
+  actualizarCatalogoEditorAccionesVisibilidad({
+    id: Number(id),
+    nombre,
+    publicado: siguiente ? 1 : 0
+  });
+}
+
+function catalogoEditorDarDeBaja() {
+  const wrap = document.getElementById("catalogoEditorAccionesWeb");
+  const id = wrap?.dataset.productoId || document.getElementById("catalogoProductoId")?.value;
+  const nombre =
+    wrap?.dataset.productoNombre ||
+    document.getElementById("catalogoEditorTitulo")?.textContent ||
+    "";
+  if (!id) return;
+  desactivarProductoCatalogo(id, nombre).then(() => volverListaCatalogo());
+}
+
+function bindSubidaColorFila(fila) {
+  const input = fila.querySelector(".catalogo-color-file");
+  if (input && !input.dataset.bound) {
+    input.dataset.bound = "1";
+    input.addEventListener("change", async () => {
+      const file = input.files?.[0];
+      if (!file) return;
+      try {
+        const data = await apiSubirImagenCatalogo(file);
+        fila.querySelector(".catalogo-color-ruta").value = data.ruta;
+        refrescarVistaColorFila(fila);
+        mostrarToast("Muestra de color subida");
+      } catch (e) {
+        mostrarToast(e.message, true);
+      } finally {
+        input.value = "";
+      }
+    });
+  }
+  fila.querySelector("[data-quitar-color]")?.addEventListener("click", () => {
+    fila.remove();
+    if (!document.querySelector(".catalogo-color-fila")) {
+      renderCatalogoColores([{ codigo: "", imagen: "", hex: "", etiqueta: "" }]);
+    }
+  });
+}
+
+function hexValidoInputColor(v) {
+  const s = String(v || "").trim();
+  if (/^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/.test(s)) return s;
+  return "#bdbdbd";
+}
+
+function syncOpcionesColorFila(fila) {
+  const tienePng = !!fila.querySelector(".catalogo-color-ruta")?.value.trim();
+  const btn = fila.querySelector(".catalogo-color-limpiar-img");
+  const ley = fila.querySelector(".catalogo-color-picker-leyenda");
+  if (btn) btn.hidden = !tienePng;
+  if (ley) ley.hidden = tienePng;
+}
+
+function bindHexPreviewFila(fila) {
+  if (fila.dataset.hexPreviewBound) return;
+  fila.dataset.hexPreviewBound = "1";
+  const upd = (e) => {
+    if (!e.target.classList?.contains("catalogo-color-hex")) return;
+    const swatch = fila.querySelector(".catalogo-color-swatch");
+    if (swatch) swatch.style.background = hexValidoInputColor(e.target.value);
+  };
+  fila.addEventListener("input", upd);
+  fila.addEventListener("change", upd);
+}
+
+function refrescarVistaColorFila(fila) {
+  if (!fila) return;
+  const rutaEl = fila.querySelector(".catalogo-color-ruta");
+  const hexEl = fila.querySelector(".catalogo-color-hex");
+  const vista = fila.querySelector(".catalogo-color-vista");
+  const wrap = fila.querySelector(".catalogo-color-vista-wrap");
+  if (!vista || !hexEl) return;
+  const ruta = rutaEl?.value.trim() || "";
+  const hex = hexValidoInputColor(hexEl.value);
+  hexEl.value = hex;
+
+  if (ruta) {
+    hexEl.hidden = true;
+    wrap?.classList.add("catalogo-color-vista-wrap--png");
+    vista.innerHTML = `<img src="${escAttrCatalogo(ruta)}" alt="" class="catalogo-color-preview" title="Muestra PNG (como en la web)">`;
+  } else {
+    hexEl.hidden = false;
+    wrap?.classList.remove("catalogo-color-vista-wrap--png");
+    vista.innerHTML = `<span class="catalogo-color-swatch" style="background:${hex}" aria-hidden="true"></span>`;
+    bindHexPreviewFila(fila);
+  }
+  syncOpcionesColorFila(fila);
+}
+
+function crearFilaColorCatalogo(item) {
+  const c = item || { codigo: "", imagen: "", hex: "#bdbdbd", etiqueta: "" };
+  const div = document.createElement("div");
+  div.className = "catalogo-color-fila";
+  const hexInput = hexValidoInputColor(c.hex);
+  div.innerHTML = `
+    <div class="catalogo-color-cuerpo">
+      <label class="catalogo-color-label">Código de artículo</label>
+      <input type="text" class="catalogo-color-codigo" value="${escAttrCatalogo(c.codigo)}" placeholder="Ej. 23038">
+      <label class="catalogo-color-label">Nombre del color (opcional, alt de la imagen)</label>
+      <input type="text" class="catalogo-color-etiqueta" value="${escAttrCatalogo(c.etiqueta)}" placeholder="Cromo, negro…">
+      <div class="catalogo-color-opciones">
+        <div class="catalogo-color-vista-wrap" title="Así se verá el círculo en la ficha">
+          <input type="color" class="catalogo-color-hex" value="${hexInput}" aria-label="Color del círculo en la web">
+          <div class="catalogo-color-vista"></div>
+        </div>
+        <label class="btn btn-secondary btn-sm catalogo-btn-subir"><i class="fa fa-upload"></i> PNG de muestra
+          <input type="file" accept="image/*" hidden class="catalogo-color-file">
+        </label>
+        <span class="catalogo-color-o">o</span>
+        <span class="catalogo-color-picker-leyenda">tocá el círculo para elegir color</span>
+        <button type="button" class="btn btn-secondary btn-sm catalogo-color-limpiar-img" title="Volver al color plano, sin PNG" hidden>Sin PNG</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-quitar-color title="Quitar fila">Eliminar</button>
+      </div>
+      <input type="hidden" class="catalogo-color-ruta" value="${escAttrCatalogo(c.imagen)}">
+    </div>`;
+  div.querySelector(".catalogo-color-limpiar-img")?.addEventListener("click", () => {
+    const rutaEl = div.querySelector(".catalogo-color-ruta");
+    if (rutaEl) rutaEl.value = "";
+    refrescarVistaColorFila(div);
+  });
+  bindHexPreviewFila(div);
+  refrescarVistaColorFila(div);
+  bindSubidaColorFila(div);
+  return div;
+}
+
+function renderCatalogoColores(colores) {
+  const cont = document.getElementById("catalogoColoresLista");
+  if (!cont) return;
+  const list = colores?.length ? colores : [{ codigo: "", imagen: "", hex: "#bdbdbd", etiqueta: "" }];
+  cont.innerHTML = "";
+  list.forEach((item) => cont.appendChild(crearFilaColorCatalogo(item)));
+}
+
+function leerColoresForm() {
+  return [...document.querySelectorAll(".catalogo-color-fila")]
+    .map((fila) => ({
+      codigo: fila.querySelector(".catalogo-color-codigo")?.value.trim() || "",
+      etiqueta: fila.querySelector(".catalogo-color-etiqueta")?.value.trim() || "",
+      hex: fila.querySelector(".catalogo-color-hex")?.value.trim() || "",
+      imagen: fila.querySelector(".catalogo-color-ruta")?.value.trim() || ""
+    }))
+    .filter((c) => c.codigo);
+}
+
+function toggleCatalogoSinColores() {
+  const sin = document.getElementById("catalogoSinColores")?.checked;
+  const wrap = document.getElementById("catalogoColoresWrap");
+  if (wrap) wrap.style.display = sin ? "none" : "block";
+}
+
+function volverListaCatalogo(actualizarTitulo) {
+  const lista = document.getElementById("catalogoVistaLista");
+  const editor = document.getElementById("catalogoVistaEditor");
+  if (lista) lista.hidden = false;
+  if (editor) editor.hidden = true;
+  if (actualizarTitulo !== false) {
+    const titulo = document.getElementById("tituloSeccion");
+    if (titulo) titulo.textContent = "Catálogo";
+  }
+}
+
+async function abrirEditarCatalogo(id) {
+  try {
+    const pid = Number(id);
+    let p = productosCatalogoCache.find((x) => Number(x.id) === pid);
+    if (!p) {
+      try {
+        p = await apiGet("/catalogo-productos/" + pid);
+      } catch (_) {
+        p = null;
+      }
+    }
+    if (!p) {
+      mostrarToast("Producto no encontrado. Buscá por nombre o slug en el listado.", true);
+      return;
+    }
+
+    const editor = document.getElementById("catalogoVistaEditor");
+    const lista = document.getElementById("catalogoVistaLista");
+    if (!editor || !lista) {
+      mostrarToast("Actualizá crm-admin.html (Ctrl+F5).", true);
+      return;
+    }
+
+    const setVal = (elId, val) => {
+      const el = document.getElementById(elId);
+      if (el) el.value = val;
+    };
+
+    setVal("catalogoProductoId", p.id);
+    setVal("catalogoNombre", p.nombre || "");
+    const grillaInp = document.getElementById("catalogoNombreGrilla");
+    const grillaSugerida = etiquetaGrillaDesdeNombre(p.nombre);
+    const grillaGuardada =
+      (p.nombre_grilla && String(p.nombre_grilla).trim()) || grillaSugerida;
+    if (grillaInp) {
+      const custom =
+        p.nombre_grilla &&
+        String(p.nombre_grilla).trim() &&
+        String(p.nombre_grilla).trim().toLowerCase() !== grillaSugerida.toLowerCase();
+      if (custom) grillaInp.dataset.manual = "1";
+      else delete grillaInp.dataset.manual;
+    }
+    setVal("catalogoNombreGrilla", grillaGuardada);
+    bindSyncNombreGrillaCatalogo();
+    renderCatalogoImagenPortada(p.imagen_portada || "");
+    bindCatalogoImagenPortadaUpload();
+    actualizarEnlaceListadoCatalogo(p.categoria_id);
+    setVal("catalogoCategoriaId", p.categoria_id || "");
+    setVal("catalogoPublicado", p.publicado ? "1" : "0");
+    setVal("catalogoSubtitulo", p.subtitulo || "");
+
+    renderCatalogoCaracteristicas(parseCaracteristicasProducto(p));
+
+    setVal(
+      "catalogoDescripcion",
+      normalizarTextoDescripcionCrm(p.descripcion_texto || p.descripcion_html || "")
+    );
+    renderCatalogoImagenes(ordenarImagenesFichaCrm(p.imagenes || []));
+
+    const chkSin = document.getElementById("catalogoSinColores");
+    if (chkSin) chkSin.checked = !!p.sin_colores;
+    renderCatalogoColores(p.colores || []);
+    toggleCatalogoSinColores();
+
+    const link = document.getElementById("catalogoLinkWeb");
+    if (link) {
+      link.href = urlFichaProducto(p);
+      link.hidden = false;
+    }
+
+    const tit = document.getElementById("catalogoEditorTitulo");
+    const sub = document.getElementById("catalogoEditorSubtitulo");
+    if (tit) tit.textContent = p.nombre || "Producto";
+    if (sub) sub.textContent = p.categoria_nombre || "";
+
+    if (!mostrarVistaEditorCatalogo("Editar producto")) return;
+    setCatalogoEditorModo("edit", p);
+    bindSyncTitulosEditorCatalogo();
+  } catch (err) {
+    console.error("abrirEditarCatalogo", err);
+    mostrarToast("No se pudo abrir el editor: " + (err.message || err), true);
+  }
+}
+
+function cerrarModalCatalogo() {
+  volverListaCatalogo();
+}
+
+async function guardarCatalogoProducto(ev) {
+  ev.preventDefault();
+  const id = (document.getElementById("catalogoProductoId")?.value || "").trim();
+  const esAlta = !id;
+  const sinColores = document.getElementById("catalogoSinColores")?.checked;
+  const desc = normalizarTextoDescripcionCrm(
+    document.getElementById("catalogoDescripcion").value || ""
+  );
+  let colores = sinColores ? [] : leerColoresForm();
+  if (!sinColores && !colores.length) {
+    mostrarToast("Agregá al menos un color con su código, o marcá «sin colores».", true);
+    return;
+  }
+
+  const grillaInp = document.getElementById("catalogoNombreGrilla");
+  const nombreGrillaRaw = grillaInp?.value.trim();
+  const nombreProducto = document.getElementById("catalogoNombre").value.trim();
+  if (!nombreProducto) {
+    mostrarToast("El nombre del producto es obligatorio.", true);
+    return;
+  }
+  let nombreGrilla = nombreGrillaRaw === "" ? null : nombreGrillaRaw;
+  if (grillaInp?.dataset.manual !== "1") {
+    nombreGrilla = etiquetaGrillaDesdeNombre(nombreProducto) || nombreGrilla;
+  }
+  const imagenPortadaRaw = document.getElementById("catalogoImagenPortadaRuta")?.value.trim();
+  const imagenPortada = imagenPortadaRaw === "" ? null : imagenPortadaRaw;
+
+  const body = {
+    nombre: nombreProducto,
+    nombre_grilla: nombreGrilla,
+    imagen_portada: imagenPortada,
+    categoria_id: parseInt(document.getElementById("catalogoCategoriaId").value, 10),
+    publicado: document.getElementById("catalogoPublicado").value === "1",
+    subtitulo: document.getElementById("catalogoSubtitulo").value.trim() || null,
+    caracteristicas_list: leerCaracteristicasForm(),
+    descripcion_texto: desc || null,
+    descripcion_html: desc || null,
+    imagenes: ordenarImagenesFichaCrm(leerImagenesForm()),
+    colores,
+    sin_colores: !!sinColores
+  };
+
+  if (esAlta) {
+    const slugRaw = document.getElementById("catalogoSlug")?.value.trim() || nombreProducto;
+    const slug = slugifyCatalogoNombre(slugRaw);
+    if (!slug) {
+      mostrarToast("Slug inválido. Usá letras, números y guiones.", true);
+      return;
+    }
+    if (!body.imagenes?.length) {
+      mostrarToast("Agregá al menos una foto del carrusel (cruda o fotomontaje).", true);
+      return;
+    }
+    body.slug = slug;
+  }
+
+  try {
+    const data = esAlta
+      ? await apiPost("/catalogo-productos", body)
+      : await apiPut("/catalogo-productos/" + id, body);
+    const web = data.web || {};
+    if (web.modo === "catalogo_dinamico") {
+      const url = web.ficha_url ? " · Web: " + web.ficha_url : "";
+      mostrarToast(
+        (esAlta ? "Producto creado. " : "") + (web.mensaje || "Guardado en catálogo.") + url
+      );
+    } else if (data.publicacion_error) {
+      mostrarToast("Guardado en base. " + data.publicacion_error, true);
+    } else {
+      mostrarToast("Guardado en catálogo.");
+    }
+    volverListaCatalogo();
+    await cargarCatalogoProductos();
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
+}
+
+async function alternarPublicadoCatalogo(id, publicado) {
+  try {
+    const data = await apiPut("/catalogo-productos/" + id, { publicado: !!publicado });
+    if (data.publicacion_error) {
+      mostrarToast(data.publicacion_error, true);
+    } else {
+      mostrarToast(publicado ? "Publicado en el sitio" : "Oculto (salió de la grilla)");
+    }
+    await cargarCatalogoProductos();
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
+}
+
+async function desactivarProductoCatalogo(id, nombre) {
+  if (!confirm(`¿Dar de baja "${nombre}"? Desaparecerá de la grilla en la web.`)) return;
+  try {
+    const data = await apiDelete("/catalogo-productos/" + id);
+    if (data.publicacion_error) {
+      mostrarToast("Baja en base. Grilla: " + data.publicacion_error, true);
+    } else {
+      mostrarToast("Baja aplicada y grilla actualizada");
+    }
+    await cargarCatalogoProductos();
+    await cargarCategoriasCatalogo();
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
+}
+
+async function republicarGrillasCatalogo() {
+  if (
+    !confirm(
+      "¿Sincronizar grillas con la base?\n\n" +
+        "Las categorías con grilla dinámica (API) no se reescriben en HTML; " +
+        "solo se actualizan las que siguen en modo estático."
+    )
+  ) {
+    return;
+  }
+  try {
+    const data = await apiPost("/catalogo-productos/publicar-grillas", {});
+    const list = data.resultados || [];
+    const din = list.filter((r) => r.modo === "dinamico").length;
+    const ok = list.filter((r) => r.productos != null && !r.error).length;
+    const err = list.filter((r) => r.error).length;
+    let msg = "Grillas procesadas.";
+    if (din) msg += ` ${din} dinámica(s) (solo BD/API).`;
+    if (ok) msg += ` ${ok} estática(s) regenerada(s).`;
+    if (err) msg += ` ${err} con error (ver consola).`;
+    mostrarToast(msg, err > 0);
+    console.log(data);
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
+}
+
+const buscarCatalogoEl = document.getElementById("buscarCatalogo");
+if (buscarCatalogoEl) {
+  buscarCatalogoEl.addEventListener("input", () => {
+    clearTimeout(catalogoBuscarTimer);
+    catalogoBuscarTimer = setTimeout(() => cargarCatalogoProductos({ resetPagina: true }), 350);
+  });
+}
+const filtroCatCatalogo = document.getElementById("filtroCategoriaCatalogo");
+if (filtroCatCatalogo) {
+  filtroCatCatalogo.addEventListener("change", () => cargarCatalogoProductos({ resetPagina: true }));
+}
+const filtroPubCatalogo = document.getElementById("filtroPublicadoCatalogo");
+if (filtroPubCatalogo) {
+  filtroPubCatalogo.addEventListener("change", () => cargarCatalogoProductos({ resetPagina: true }));
+}
+document.getElementById("btnAgregarCaracteristica")?.addEventListener("click", () => {
+  const cont = document.getElementById("catalogoCaracteristicasLista");
+  if (!cont) return;
+  const div = document.createElement("div");
+  div.className = "catalogo-fila-input";
+  const n = cont.querySelectorAll(".catalogo-caracteristica-input").length + 1;
+  div.innerHTML = `
+    <span class="catalogo-fila-num">${n}</span>
+    <input type="text" class="catalogo-caracteristica-input" placeholder="Ej. 6000k">
+    <button type="button" class="btn btn-secondary btn-sm catalogo-btn-quitar">&times;</button>`;
+  div.querySelector(".catalogo-btn-quitar")?.addEventListener("click", () => {
+    div.remove();
+    actualizarPreviewCaracteristicas();
+  });
+  div.querySelector(".catalogo-caracteristica-input")?.addEventListener("input", actualizarPreviewCaracteristicas);
+  cont.appendChild(div);
+  actualizarPreviewCaracteristicas();
+});
+
+document.getElementById("btnAgregarImagenCatalogo")?.addEventListener("click", () => {
+  const cont = document.getElementById("catalogoImagenesLista");
+  if (!cont) return;
+  const n = cont.querySelectorAll(".catalogo-fila-imagen").length;
+  cont.appendChild(crearFilaImagenCatalogo("", n));
+});
+
+document.getElementById("btnAgregarColorCatalogo")?.addEventListener("click", () => {
+  document.getElementById("catalogoColoresLista")?.appendChild(crearFilaColorCatalogo(null));
+});
+
+document.getElementById("catalogoSinColores")?.addEventListener("change", toggleCatalogoSinColores);
+
+document.getElementById("btnVolverCatalogoLista")?.addEventListener("click", () => volverListaCatalogo());
+document.getElementById("btnCatalogoEditorTogglePub")?.addEventListener("click", () => {
+  catalogoEditorTogglePublicado();
+});
+document.getElementById("btnCatalogoEditorBaja")?.addEventListener("click", () => {
+  catalogoEditorDarDeBaja();
+});
+const btnPubGrillas = document.getElementById("btnPublicarGrillasCatalogo");
+if (btnPubGrillas && esGerente) {
+  btnPubGrillas.style.display = "";
+  btnPubGrillas.addEventListener("click", republicarGrillasCatalogo);
+}
+const btnNuevoProductoCatalogo = document.getElementById("btnNuevoProductoCatalogo");
+if (btnNuevoProductoCatalogo && esGerente) {
+  btnNuevoProductoCatalogo.style.display = "";
+  btnNuevoProductoCatalogo.addEventListener("click", () => abrirNuevoCatalogo());
+}
+
 cargarEmpleados().then(() => {
   cargarTablaEmpleados();
 });
@@ -2373,3 +3535,11 @@ if (esGerente) {
 cargarDashboard();
 cargarConsultas();
 cargarRubrosClientes().then(() => cargarClientes());
+
+window.abrirEditarCatalogo = abrirEditarCatalogo;
+window.abrirNuevoCatalogo = abrirNuevoCatalogo;
+window.volverListaCatalogo = volverListaCatalogo;
+window.cerrarModalCatalogo = cerrarModalCatalogo;
+window.guardarCatalogoProducto = guardarCatalogoProducto;
+window.alternarPublicadoCatalogo = alternarPublicadoCatalogo;
+window.desactivarProductoCatalogo = desactivarProductoCatalogo;

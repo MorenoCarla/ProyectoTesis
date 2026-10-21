@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="css/site-chrome.css">
   <link rel="stylesheet" href="css/stylesapliques.css">
   <script src="js/site-chrome.js" defer></script>
-  <script src="js/scriptapliques.js" defer></script>
+  <script src="js/scriptapliques.js?v=cat2" defer></script>
+  <script src="js/catalogo-publico.js?v=2" defer></script>
 </head>
 <body class="pagina-institucional pagina-categoria fondo-camaras">
   <header class="site-header">
@@ -43,33 +44,8 @@
   <main class="cat-catalog-main">
     <div class="container">
       <div class="mensaje-no-encontrado" style="display: none;">Producto no encontrado😢 Intenta nuevamente con otro nombre o código.</div>
-<section class="filas-imagenes cat-catalog-grid">
-                <div class="fila uno">
-                    <a href="camarapandamini.html" class="link-producto">
-                        <div class="imagen exterior 1" data-nombre="cámara wi-fi panda mini" data-codigo="23072">
-                            <img src="img/camarapandamini.png" alt="cámara wi-fi panda mini">
-                            <p class="p1-ext">Cámara Wi-Fi <br>Panda Mini</p>
-                        </div>
-                    </a>
-                    <a href="camarawifiintext.html" class="link-producto">
-                        <div class="imagen exterior 2" data-nombre="Cámara IP Wi-Fi int/ext" data-codigo="22381">
-                            <img src="img/camaraipwifiintext.png" alt="Cámara IP Wi-Fi int/ext">
-                            <p class="p2-ext">Cámara IP Wi-Fi <br>int/ext</p>
-                        </div>
-                    </a>
-                    <a href="camaraipwifismarthome.html" class="link-producto">
-                        <div class="imagen exterior 3" data-nombre="Cámara IP Wi-Fi Smart Home" data-codigo="20840">
-                            <img src="img/camaraipwifismarthome.png" alt="Cámara IP Wi-Fi Smart Home">
-                            <p class="p3-ext">Cámara IP Wi-Fi <br>Smart Home</p>
-                        </div>
-                    </a>
-                    <a href="camarawifismarthome.html" class="link-producto">
-                        <div class="imagen exterior 4" data-nombre="Cámara Wi-Fi Smart Home" data-codigo="23070">
-                            <img src="img/camarawifismarthome.png" alt="Cámara Wi-Fi Smart Home">
-                            <p class="p4-ext">Cámara Wi-Fi <br>Smart Home</p>
-                        </div>
-                    </a>
-                </div>         
+<section class="filas-imagenes cat-catalog-grid" data-catalogo-dinamico data-catalogo-listado="camaras.html">
+                <p class="catalogo-grilla-cargando">Cargando productos…</p>
             </section>
     </div>
   </main>

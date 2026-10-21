@@ -9,7 +9,16 @@
     "optimizar-imagenes": "node ../scripts/optimizar-imagenes.js",
     "optimizar-imagenes:apply": "node ../scripts/optimizar-imagenes.js --apply",
     "optimizar-catalogo": "node ../scripts/optimizar-imagenes-catalogo.js",
-    "optimizar-catalogo:apply": "node ../scripts/optimizar-imagenes-catalogo.js --apply"
+    "optimizar-catalogo:apply": "node ../scripts/optimizar-imagenes-catalogo.js --apply",
+    "importar-productos": "node scripts/importar-productos-desde-html.js",
+    "importar-productos:dry": "node scripts/importar-productos-desde-html.js --dry-run",
+    "sync-orden-grilla": "node scripts/sync-orden-grilla-desde-html.js",
+    "asignar-paginas-categorias": "node scripts/asignar-pagina-listado-categorias.js",
+    "auditar-catalogo": "node scripts/auditar-catalogo-publico.js",
+    "backup-db": "node scripts/backup-db.js",
+    "reparar-imagenes-html": "node scripts/reparar-imagenes-desde-html.js",
+    "verificar-pdfs": "node scripts/verificar-pdfs-catalogo.js",
+    "reparar-descripcion-html": "node scripts/reparar-descripcion-desde-html.js"
   },
   "keywords": [],
   "author": "",

@@ -79,7 +79,8 @@ body.pagina-institucional {
 
 .swiper-container-custom,
 .caja-informacion .swiper-producto {
-  width: 360px;
+  width: 100%;
+  max-width: 440px;
 }
 
 .titulo {
@@ -138,23 +139,25 @@ body.pagina-institucional {
   font-size: 0.92rem;
 }
 
-/* CRM (misma escala compacta) */
+/* CRM (misma escala compacta) — solo desktop; en móvil manda crm.css */
 body:has(.layout) {
   font-size: 14px;
-}
-
-body:has(.layout) .sidebar {
-  width: 252px;
-}
-
-body:has(.layout) .main {
-  margin-left: 252px;
-  padding: 24px 28px;
 }
 
 body:has(.layout) .topbar h1,
 body:has(.layout) #tituloSeccion {
   font-size: clamp(1.35rem, 2vw, 1.65rem);
+}
+
+@media (min-width: 769px) {
+  body:has(.layout) .sidebar {
+    width: 252px;
+  }
+
+  body:has(.layout) .main {
+    margin-left: 252px;
+    padding: 24px 28px;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -184,7 +187,8 @@ body:has(.layout) #tituloSeccion {
 
   .swiper-container-custom,
   .caja-informacion .swiper-producto {
-    width: 400px;
+    width: 100%;
+    max-width: 440px;
   }
 
   .titulo {

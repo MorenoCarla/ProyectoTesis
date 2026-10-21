@@ -133,6 +133,24 @@ async function apiSubirArchivos(ruta, inputArchivos) {
   return data;
 }
 
+async function apiSubirImagenCatalogo(file) {
+  const fd = new FormData();
+  fd.append("imagen", file);
+  let res;
+  try {
+    res = await fetch(API_URL + "/catalogo-productos/upload-imagen", {
+      method: "POST",
+      headers: { Authorization: "Bearer " + obtenerToken() },
+      body: fd
+    });
+  } catch {
+    throw new Error("Sin conexión al servidor");
+  }
+  const data = await leerRespuesta(res);
+  if (!res.ok) throw new Error(data.error || "Error al subir imagen");
+  return data;
+}
+
 async function apiSubirPresupuesto(formData) {
   let res;
   try {

@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="css/site-chrome.css">
   <link rel="stylesheet" href="css/stylesapliques.css">
   <script src="js/site-chrome.js" defer></script>
-  <script src="js/scriptapliques.js" defer></script>
+  <script src="js/scriptapliques.js?v=cat2" defer></script>
+  <script src="js/catalogo-publico.js?v=2" defer></script>
 </head>
 <body class="pagina-institucional pagina-categoria fondo-paneles">
   <header class="site-header">
@@ -43,59 +44,8 @@
   <main class="cat-catalog-main">
     <div class="container">
       <div class="mensaje-no-encontrado" style="display: none;">Producto no encontrado😢 Intenta nuevamente con otro nombre o código.</div>
-<section class="filas-imagenes cat-catalog-grid">
-                <div class="fila uno">
-                    <a href="panelcuadrado6.html" class="link-producto">
-                        <div class="imagen 1" data-nombre="Panel Cuadrado 6" data-codigo="17465, 16836">
-                            <img src="img/cuadrado6w.png" alt="panel cuadrado 6w">
-                            <p class="p1">Cuadrado 6</p>
-                        </div>
-                    </a>
-                    <a href="panelredondo6.html" class="link-producto">
-                        <div class="imagen 2" data-nombre="Panel Redondo 6" data-codigo="17457, 16830">
-                            <img src="img/redondo6w.png" alt="panel redondo 6w">
-                            <p class="p2">Redondo 6</p>
-                        </div>
-                    </a>
-                    <a href="panelcuadrado12.html" class="link-producto">
-                        <div class="imagen 3" data-nombre="Panel Cuadrado 12" data-codigo="17467, 16838">
-                            <img src="img/cuadrado12w.png" alt="panel cuadrado 12w">
-                            <p class="p3">Cuadrado 12</p>
-                        </div>
-                    </a>
-                    <a href="panelredondo12.html" class="link-producto">
-                        <div class="imagen 4" data-nombre="Panel Redondo 12" data-codigo="17459, 16843">
-                            <img src="img/redondo12w.png" alt="panel redondo 12w">
-                            <p class="p4">Redondo 12</p>
-                        </div>
-                    </a>
-                    <a href="panelcuadrado18.html" class="link-producto">
-                        <div class="imagen 5" data-nombre="Panel Cuadrado 18" data-codigo="17469, 16840">
-                            <img src="img/cuadrado18w.png" alt="panel cuadrado 18w">
-                            <p class="p5">Cuadrado 18</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="fila dos">
-                    <a href="panelredondo18.html" class="link-producto">
-                        <div class="imagen 7" data-nombre="Panel Redondo 18" data-codigo="17461, 16832">
-                            <img src="img/redondo18w.png" alt="panel redondo 18w">
-                            <p class="p1">Redondo 18</p>
-                        </div>
-                    </a>
-                    <a href="panelcuadrado24.html" class="link-producto">
-                        <div class="imagen 8" data-nombre="Panel Cuadrado 24" data-codigo="17471, 16842">
-                            <img src="img/cuadrado24w.png" alt="panel cuadrado 24w">
-                            <p class="p2">Cuadrado 24</p>
-                        </div>
-                    </a>
-                    <a href="panelredondo24.html" class="link-producto">
-                        <div class="imagen 9" data-nombre="Panel Redondo 24" data-codigo="17463, 16834">
-                            <img src="img/redondo24w.png" alt="panel redondo 24w">
-                            <p class="p5">Redondo 24</p>
-                        </div>
-                    </a>
-                </div>
+<section class="filas-imagenes cat-catalog-grid" data-catalogo-dinamico data-catalogo-listado="paneles.html">
+                <p class="catalogo-grilla-cargando">Cargando productos…</p>
             </section>
     </div>
   </main>

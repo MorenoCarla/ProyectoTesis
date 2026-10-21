@@ -43,7 +43,8 @@ body.fondo-cada-producto[data-categoria="Espejos"] {
   background-image: url('../img/fondoespejos.png');
 }
 
-body.fondo-cada-producto[data-categoria="Lámparas de pie"] {
+body.fondo-cada-producto[data-categoria="Lámparas de pie"],
+body.fondo-cada-producto[data-categoria="Lámparas de Pie"] {
   background-image: url('../img/fondolamparas.png');
 }
 
@@ -211,35 +212,48 @@ header:not(.site-header) {
 
 .caja-informacion {
   background-color: rgba(255, 255, 255, 0.836);
-  color:  rgb(54, 54, 54);
-  display: flex;
-  align-items: flex-start;
+  color: rgb(54, 54, 54);
+  display: grid;
+  grid-template-columns: minmax(260px, 440px) minmax(280px, 1fr);
+  align-items: start;
   justify-content: center;
-  gap: 60px;
-  padding-bottom: 30px;
-  padding-top: 45px;
+  gap: clamp(24px, 4vw, 60px);
+  padding: 45px clamp(20px, 3vw, 40px) 30px;
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .swiper-container-custom {
-  width: 440px;
+  width: 100%;
+  max-width: 440px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  justify-self: center;
 }
 
 .caja-informacion .swiper-producto {
-  width: 440px;
+  width: 100%;
+  max-width: 440px;
   border-radius: 20px;
   overflow: hidden;
+  flex-shrink: 0;
+  isolation: isolate;
 }
 
-.swiper-container-custom > .swiper-pagination,
-.caja-informacion .swiper-producto .swiper-pagination {
+.caja-informacion .swiper-producto .swiper-wrapper {
+  box-sizing: border-box;
+}
+
+.caja-informacion .swiper-producto .swiper-slide {
+  box-sizing: border-box;
+  height: auto;
+}
+
+.swiper-container-custom > .swiper-pagination {
   position: static !important;
   margin-top: 14px;
   width: 100%;
@@ -251,11 +265,23 @@ header:not(.site-header) {
   top: auto !important;
 }
 
+.caja-informacion .swiper-producto .swiper-pagination {
+  position: absolute !important;
+  bottom: 10px !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  text-align: center;
+  transform: none !important;
+  z-index: 3;
+}
+
 .swiper-container-custom > .swiper-pagination {
   flex-shrink: 0;
 }
 
-.swiper-slide img {
+.caja-informacion .swiper-slide img {
   width: 100%;
   height: auto;
   display: block;
@@ -281,6 +307,17 @@ header:not(.site-header) {
 
 .descripcion {
   font-family: "Work Sans", system-ui, sans-serif;
+  min-width: 0;
+  width: 100%;
+  max-width: 540px;
+  justify-self: start;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.descripcion > br {
+  display: none;
 }
 
 .titulo {
@@ -298,37 +335,82 @@ header:not(.site-header) {
 .caja-informacion .descripcion .titulo {
   margin: 0 0 10px;
   line-height: 1.15;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .caracteristicas {
   display: flex;
-  gap: 15px;
-  margin: 10px 0;
+  flex-wrap: wrap;
+  gap: 10px 15px;
+  margin: 10px 0 4px;
+  align-items: center;
 }
-.caracteristicas p{
+.caracteristicas p {
   border-radius: 3px;
   background-color: rgb(228, 5, 5);
   color: white;
   font-weight: bold;
-  padding: 5px;
+  padding: 5px 10px;
+  margin: 0;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .titulodescripcion,
 .codigo,
 .descargas {
   font-size: 18px;
-  margin: 20px 0 2px 0; 
+  margin: 0;
+}
+
+.descripcion .titulodescripcion {
+  margin-top: 1.35rem;
+}
+
+.descripcion .codigo,
+.descripcion .descargas {
+  margin-top: 1.5rem;
 }
 
 .linea {
   width: 100%;
   height: 2px;
   background-color: rgb(54, 54, 54);
-  margin: 0 0 12px 0;
+  margin: 8px 0 12px;
+  flex-shrink: 0;
 }
 
 .textodescripcion {
-  margin: 0 0 0 0;
+  margin: 0;
+  line-height: 1.55;
+  max-width: 42em;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.descripcion .imagenes-colores,
+.descripcion .imagenes-luces,
+.descripcion .imagenes-medidas,
+.descripcion .texto-codigos,
+.descripcion .texto-codigos-luces {
+  margin-top: 0.35rem;
+}
+
+.descripcion .boton-descargas {
+  margin-top: 0.75rem;
+  align-self: flex-start;
+}
+
+@media (min-width: 901px) {
+  body.fondo-cada-producto .caja-informacion .swiper-container-custom,
+  body.producto-exterior .caja-informacion .swiper-container-custom {
+    position: sticky;
+    top: calc(var(--ituarte-header, 68px) + 24px);
+    align-self: start;
+  }
 }
 
 .imagenes-colores,
@@ -392,6 +474,9 @@ header:not(.site-header) {
   transition: transform 0.3s ease;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
 }
 
 .boton-descargas:hover {
@@ -742,8 +827,12 @@ header:not(.site-header) {
 .p5-ext { background-color: #5d5d5d; color: #fff; }
 
 body.producto-exterior .otrosSwiper .swiper-slide p {
-  color: #fff;
+  color: rgb(59, 59, 59);
   text-shadow: none;
+}
+
+body.producto-exterior .otrosSwiper .swiper-slide a:hover p {
+  color: rgb(255, 15, 15);
 }
 
 body.producto-exterior .otrosSwiper .swiper-slide a:has(> p.p4-ext) p {
@@ -1213,8 +1302,8 @@ footer:not(.site-footer) {
   }
 
   .caja-informacion {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr;
+    justify-items: center;
     gap: 28px;
     padding: 28px 20px 32px;
   }
@@ -1229,6 +1318,7 @@ footer:not(.site-footer) {
     width: 100%;
     max-width: 520px;
     text-align: center;
+    justify-self: center;
   }
 
   .subtitulo,
@@ -1250,6 +1340,10 @@ footer:not(.site-footer) {
 
   .descripcion .titulo {
     text-align: center;
+  }
+
+  .descripcion .boton-descargas {
+    align-self: center;
   }
 
   .imagenes-colores,
@@ -1548,4 +1642,38 @@ body.producto-exterior > header:not(.site-header) .nav-links li a .fab {
     font-size: 12px;
     padding: 6px 8px;
   }
+}
+
+/* ── Carrusel ficha (al final: pisa reglas viejas de paginación static) ── */
+body.fondo-cada-producto .caja-informacion .swiper.swiper-producto,
+body.producto-exterior .caja-informacion .swiper.swiper-producto {
+  overflow: hidden !important;
+  width: 100% !important;
+  max-width: 440px !important;
+  position: relative;
+}
+
+body.fondo-cada-producto .caja-informacion .swiper-producto .swiper-wrapper,
+body.producto-exterior .caja-informacion .swiper-producto .swiper-wrapper {
+  flex-wrap: nowrap !important;
+}
+
+body.fondo-cada-producto .caja-informacion .swiper-producto .swiper-slide,
+body.producto-exterior .caja-informacion .swiper-producto .swiper-slide {
+  flex-shrink: 0 !important;
+  box-sizing: border-box;
+  /* No width:100% aquí: el % es respecto al wrapper ancho y muestra 2+ fotos a la vez */
+}
+
+
+body.fondo-cada-producto .caja-informacion .swiper-producto .swiper-pagination,
+body.producto-exterior .caja-informacion .swiper-producto .swiper-pagination {
+  position: absolute !important;
+  bottom: 10px !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  transform: none !important;
+  z-index: 3;
 }

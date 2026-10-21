@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="css/site-chrome.css">
   <link rel="stylesheet" href="css/stylesapliques.css">
   <script src="js/site-chrome.js" defer></script>
-  <script src="js/scriptapliques.js" defer></script>
+  <script src="js/scriptapliques.js?v=cat2" defer></script>
+  <script src="js/catalogo-publico.js?v=2" defer></script>
 </head>
 <body class="pagina-institucional pagina-categoria fondo-estacas">
   <header class="site-header">
@@ -43,27 +44,8 @@
   <main class="cat-catalog-main">
     <div class="container">
       <div class="mensaje-no-encontrado" style="display: none;">Producto no encontrado😢 Intenta nuevamente con otro nombre o código.</div>
-<section class="filas-imagenes cat-catalog-grid">
-                <div class="fila uno">
-                    <a href="aluminioestaca.html" class="link-producto">
-                        <div class="imagen exterior 1" data-nombre="Aluminio" data-codigo="21075">
-                            <img src="img/aluminioestaca.png" alt="aluminio">
-                            <p class="p1-ext">Aluminio</p>
-                        </div>
-                    </a>
-                    <a href="spot.html" class="link-producto">
-                        <div class="imagen exterior 2" data-nombre="Spot" data-codigo="19934">
-                            <img src="img/spot.png" alt="spot">
-                            <p class="p2-ext">Spot</p>
-                        </div>
-                    </a>
-                    <a href="farolita.html" class="link-producto">
-                        <div class="imagen exterior 3" data-nombre="Farolita" data-codigo="21022">
-                            <img src="img/estacafarolita.png" alt="farolita">
-                            <p class="p3-ext">Farolita</p>
-                        </div>
-                    </a>
-                </div>         
+<section class="filas-imagenes cat-catalog-grid" data-catalogo-dinamico data-catalogo-listado="estacas.html">
+                <p class="catalogo-grilla-cargando">Cargando productos…</p>
             </section>
     </div>
   </main>

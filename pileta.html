@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="css/site-chrome.css">
   <link rel="stylesheet" href="css/stylesapliques.css">
   <script src="js/site-chrome.js" defer></script>
-  <script src="js/scriptapliques.js" defer></script>
+  <script src="js/scriptapliques.js?v=cat2" defer></script>
+  <script src="js/catalogo-publico.js?v=2" defer></script>
 </head>
 <body class="pagina-institucional pagina-categoria fondo-piletas">
   <header class="site-header">
@@ -43,39 +44,8 @@
   <main class="cat-catalog-main">
     <div class="container">
       <div class="mensaje-no-encontrado" style="display: none;">Producto no encontrado😢 Intenta nuevamente con otro nombre o código.</div>
-<section class="filas-imagenes cat-catalog-grid">
-                <div class="fila uno">
-                    <a href="artefacto10.html" class="link-producto">
-                        <div class="imagen exterior 1" data-nombre="Artefacto 10" data-codigo="18084">
-                            <img src="img/artefacto10w.png" alt="artefacto 10">
-                            <p class="p1-ext">Artefacto 10</p>
-                        </div>
-                    </a>
-                    <a href="laguna50.html" class="link-producto">
-                        <div class="imagen exterior 2" data-nombre="Laguna50" data-codigo="3849">
-                            <img src="img/laguna50.png" alt="laguna 50">
-                            <p class="p2-ext">Laguna50</p>
-                        </div>
-                    </a>
-                    <a href="barrasumergible.html" class="link-producto">
-                        <div class="imagen exterior 3" data-nombre="Barra Sumergible" data-codigo="19642">
-                            <img src="img/barrasumergible.png" alt="barra sumergible">
-                            <p class="p3-ext">Barra Sumergible</p>
-                        </div>
-                    </a>
-                    <a href="encapsulado.html" class="link-producto">
-                        <div class="imagen exterior 4" data-nombre="Encapsulado" data-codigo="22076">
-                            <img src="img/artefactoencapsulado.png" alt="encapsulado">
-                            <p class="p4-ext">Encapsulado</p>
-                        </div>
-                    </a>
-                    <a href="artefacto3.html" class="link-producto">
-                        <div class="imagen exterior 5" data-nombre="Artefacto 3" data-codigo="18086">
-                            <img src="img/artefacto3w.png" alt="artefacto 3">
-                            <p class="p5-ext">Artefacto 3</p>
-                        </div>
-                    </a>
-                </div>    
+<section class="filas-imagenes cat-catalog-grid" data-catalogo-dinamico data-catalogo-listado="pileta.html">
+                <p class="catalogo-grilla-cargando">Cargando productos…</p>
             </section>
     </div>
   </main>

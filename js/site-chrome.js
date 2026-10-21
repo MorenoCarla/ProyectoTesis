@@ -1,6 +1,9 @@
 (function () {
   /* Versión del chrome: subir número cuando cambie site-chrome.css */
-  var SITE_CHROME_CSS_V = "12";
+  var SITE_CHROME_CSS_V = "15";
+  var FICHA_LAYOUT_CSS_V = "18";
+  var bodyEl = document.body;
+
   document.querySelectorAll('link[href*="site-chrome.css"]').forEach(function (link) {
     var href = link.getAttribute("href") || "";
     var base = href.split("?")[0];
@@ -8,6 +11,27 @@
       link.setAttribute("href", base + "?v=" + SITE_CHROME_CSS_V);
     }
   });
+
+  if (
+    bodyEl &&
+    (bodyEl.classList.contains("fondo-cada-producto") || bodyEl.classList.contains("producto-exterior"))
+  ) {
+    document.querySelectorAll('link[href*="stylescadaproducto.css"]').forEach(function (link) {
+      var href = link.getAttribute("href") || "";
+      var base = href.split("?")[0];
+      if (!href.includes("v=" + FICHA_LAYOUT_CSS_V)) {
+        link.setAttribute("href", base + "?v=" + FICHA_LAYOUT_CSS_V);
+      }
+    });
+    if (!document.querySelector('link[href*="ficha-producto-layout.css"]')) {
+      var fichaLink = document.createElement("link");
+      fichaLink.rel = "stylesheet";
+      fichaLink.href = "css/ficha-producto-layout.css?v=" + FICHA_LAYOUT_CSS_V;
+      document.head.appendChild(fichaLink);
+    }
+    /* No cambiar src de scriptcadaproducto.js: al ejecutarse site-chrome después del defer,
+       reasignar src vuelve a cargar el JS y rompe el Swiper (doble init, dos fotos a la vez). */
+  }
 
   function initSiteChrome() {
     const header = document.querySelector(".site-header");
@@ -79,6 +103,43 @@
     }
 
     initLazyImages();
+    initBotonesCatalogoCategoria();
+  }
+
+  /** Fichas de producto: botón Catálogo → PDF (por si el HTML sigue siendo <button>) */
+  function initBotonesCatalogoCategoria() {
+    var ARCHIVO = { "Luminaria de Pileta": "catalogo/catalogo-luminaria-pileta.pdf" };
+    function slug(n) {
+      return n
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "");
+    }
+    function pdfUrl(cat) {
+      if (!cat) return "";
+      if (ARCHIVO[cat]) return ARCHIVO[cat];
+      return "catalogo/catalogo-" + slug(cat) + ".pdf";
+    }
+    document.querySelectorAll(".boton-descargas").forEach(function (el) {
+      if (el.tagName === "A" && el.getAttribute("href")) return;
+      if (el.dataset.catalogoListo === "1") return;
+      var text = (el.textContent || "").trim();
+      var cat = text.indexOf("Catálogo ") === 0 ? text.slice(9).trim() : "";
+      if (!cat) cat = (document.body.getAttribute("data-categoria") || "").trim();
+      var pdf = pdfUrl(cat);
+      if (!pdf) return;
+      var a = document.createElement("a");
+      a.href = pdf;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.className = el.className;
+      a.textContent = text || "Catálogo " + cat;
+      a.dataset.catalogoListo = "1";
+      el.replaceWith(a);
+    });
   }
 
   /** Paso 4: no descargar de golpe fotos que están abajo del scroll */

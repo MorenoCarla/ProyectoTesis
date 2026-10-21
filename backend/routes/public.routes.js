@@ -2,7 +2,11 @@ const express = require("express");
 const pool = require("../config/db");
 const { normalizarDatosPersonales } = require("../utils/texto");
 
+const publicCatalogoRoutes = require("./public-catalogo.routes");
+
 const router = express.Router();
+
+router.use("/catalogo", publicCatalogoRoutes);
 
 async function upsertClienteWeb(pool, datos) {
   const {

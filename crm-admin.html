@@ -6,7 +6,7 @@
   <title>Panel CRM - Ituarte</title>
     <link rel="stylesheet" href="vendor/fonts/work-sans.css">
   <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
-<link rel="stylesheet" href="css/crm.css">
+<link rel="stylesheet" href="css/crm.css?v=cat11">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -22,6 +22,7 @@
       </button>
       <button class="menu-item" data-section="consultas"><i class="fa fa-inbox"></i> Consultas</button>
       <button class="menu-item" data-section="clientes"><i class="fa fa-users"></i> Clientes</button>
+      <button class="menu-item" data-section="catalogo"><i class="fa fa-box-open"></i> Catálogo</button>
       <button class="menu-item" data-section="marketing"><i class="fa fa-bullhorn"></i> Marketing</button>
       <button class="menu-item" data-section="seguimientos"><i class="fa fa-clock"></i> Seguimientos</button>
       <button class="menu-item" data-section="empleados" id="menuEmpleados" style="display:none;"><i class="fa fa-id-badge"></i> Empleados</button>
@@ -205,6 +206,197 @@
           <div id="resultadosPresupuestoGlobal" class="presupuestos-busqueda-global" style="display:none;"></div>
           <div id="clientesLista" class="consultas-grupo-lista clientes-lista-plana"></div>
           <div id="paginacionClientes" class="marketing-paginacion"></div>
+        </div>
+      </section>
+
+      <!-- CATÁLOGO WEB -->
+      <section id="catalogo" class="section">
+        <div id="catalogoVistaLista">
+          <div class="panel catalogo-panel-listado">
+            <header class="catalogo-listado-hero">
+              <div class="catalogo-listado-hero-texto">
+                <h2>Catálogo web</h2>
+                <p class="catalogo-listado-lead">
+                  Alta y baja de productos, edición de fichas en <code>/p/slug</code> y cajitas en la grilla. Al guardar, la web lee desde la base.
+                </p>
+              </div>
+              <div class="catalogo-listado-hero-acciones">
+                <button type="button" class="catalogo-btn-nuevo" id="btnNuevoProductoCatalogo" style="display:none;">
+                  <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                  <span>Nuevo producto</span>
+                </button>
+                <div id="catalogoStatsChips" class="catalogo-stats-chips" aria-live="polite"></div>
+              </div>
+            </header>
+            <div class="catalogo-toolbar">
+              <div class="catalogo-toolbar-buscar">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <input type="search" id="buscarCatalogo" placeholder="Buscar por nombre, slug, código o archivo…" autocomplete="off">
+              </div>
+              <select id="filtroCategoriaCatalogo" title="Categoría" class="catalogo-toolbar-select">
+                <option value="">Todas las categorías</option>
+              </select>
+              <select id="filtroPublicadoCatalogo" title="Visibilidad" class="catalogo-toolbar-select">
+                <option value="">Todos</option>
+                <option value="1" selected>Solo publicados</option>
+                <option value="0">Solo ocultos</option>
+              </select>
+              <button type="button" class="btn btn-secondary btn-sm" id="btnPublicarGrillasCatalogo" style="display:none;">
+                <i class="fa fa-sync"></i> Republicar grillas
+              </button>
+            </div>
+            <p id="resumenCatalogo" class="catalogo-listado-resumen"></p>
+            <div id="catalogoLista" class="catalogo-grid-productos"></div>
+            <nav id="catalogoPaginacion" class="catalogo-paginacion" aria-label="Paginación catálogo" hidden></nav>
+          </div>
+        </div>
+
+        <div id="catalogoVistaEditor" class="catalogo-editor" hidden>
+          <button type="button" class="catalogo-volver-listado" id="btnVolverCatalogoLista">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver al listado
+          </button>
+          <header class="catalogo-editor-header">
+            <div class="catalogo-editor-header-texto">
+              <p id="catalogoEditorSubtitulo" class="catalogo-editor-categoria"></p>
+              <h2 id="catalogoEditorTitulo">Editar producto</h2>
+              <p class="catalogo-editor-meta">
+                Archivo: <code id="catalogoPaginaHtml"></code>
+              </p>
+            </div>
+            <div class="catalogo-editor-header-acciones">
+              <a id="catalogoLinkWeb" class="btn btn-secondary" href="#" target="_blank" rel="noopener" hidden>
+                <i class="fa fa-external-link-alt"></i> Ver ficha
+              </a>
+              <div id="catalogoEditorAccionesWeb" class="catalogo-editor-acciones-web" hidden>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnCatalogoEditorTogglePub">
+                  <i class="fa fa-eye-slash" aria-hidden="true"></i> Ocultar de la web
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" id="btnCatalogoEditorBaja">
+                  <i class="fa fa-trash-alt" aria-hidden="true"></i> Dar de baja
+                </button>
+              </div>
+              <button type="submit" form="formCatalogoProducto" class="btn btn-success" id="btnGuardarCatalogo">
+                <i class="fa fa-check-circle"></i> Guardar y publicar
+              </button>
+            </div>
+          </header>
+
+          <form id="formCatalogoProducto" class="catalogo-editor-form" onsubmit="guardarCatalogoProducto(event)">
+            <input type="hidden" id="catalogoProductoId">
+
+            <div class="catalogo-admin-bar">
+              <div class="form-grupo">
+                <label for="catalogoCategoriaId">Categoría (grilla y PDF)</label>
+                <select id="catalogoCategoriaId" required></select>
+              </div>
+              <div class="form-grupo catalogo-form-slug" id="catalogoSlugWrap" hidden>
+                <label for="catalogoSlug">Slug (URL pública)</label>
+                <input type="text" id="catalogoSlug" placeholder="mi-producto-nuevo" autocomplete="off" spellcheck="false">
+                <p class="form-desc">Quedará en <code>/p/slug</code>. Solo letras minúsculas, números y guiones.</p>
+              </div>
+              <div class="form-grupo">
+                <label for="catalogoPublicado">Visible en web</label>
+                <select id="catalogoPublicado">
+                  <option value="1">Sí (publicado)</option>
+                  <option value="0">No (oculto)</option>
+                </select>
+              </div>
+              <div class="form-grupo catalogo-form-listado">
+                <label>Página de listado (web pública)</label>
+                <a id="catalogoEnlaceListado" class="catalogo-enlace-listado" href="#" target="_blank" rel="noopener">—</a>
+              </div>
+            </div>
+
+            <section class="catalogo-panel-grilla" aria-labelledby="catalogoGrillaTitulo">
+              <h3 id="catalogoGrillaTitulo">Cajita en la grilla</h3>
+              <p class="catalogo-panel-grilla-desc">Nombre e imagen de la miniatura en esa página (no usa las fotos del carrusel de abajo).</p>
+              <div class="catalogo-panel-grilla-campos">
+                <div class="form-grupo">
+                  <label for="catalogoNombreGrilla">Nombre en la grilla</label>
+                  <input type="text" id="catalogoNombreGrilla" placeholder="Ej. Virgo, Brazo L, Globo Opal">
+                </div>
+                <div class="form-grupo">
+                  <label for="catalogoImagenPortadaRuta">Imagen en la grilla</label>
+                  <div class="catalogo-grilla-imagen-row">
+                    <div id="catalogoImagenPortadaPreview" class="catalogo-imagen-preview-wrap catalogo-grilla-preview"></div>
+                    <div class="catalogo-imagen-datos">
+                      <input type="text" id="catalogoImagenPortadaRuta" class="catalogo-imagen-ruta" readonly placeholder="Ej. img/virgo.png">
+                      <div class="catalogo-grilla-imagen-acciones">
+                        <label class="btn btn-secondary btn-sm catalogo-btn-subir" id="labelCatalogoImagenPortadaFile">
+                          <i class="fa fa-sync-alt" aria-hidden="true"></i> Cambiar imagen
+                          <input type="file" accept="image/*" hidden id="catalogoImagenPortadaFile">
+                        </label>
+                        <button type="button" class="btn btn-secondary btn-sm" id="btnQuitarImagenPortada">
+                          <i class="fa fa-times" aria-hidden="true"></i> Eliminar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <p class="catalogo-ficha-leyenda">
+              <i class="fa fa-eye"></i> Ficha del producto (página individual): fotos del carrusel, subtítulo, título, características, descripción y códigos.
+            </p>
+
+            <div class="catalogo-ficha-espejo">
+              <aside class="catalogo-ficha-media">
+                <h3 class="catalogo-bloque-titulo">Fotos del carrusel</h3>
+                <p class="form-desc">1ª cruda · 2ª fotomontaje · podés sumar más.</p>
+                <div id="catalogoImagenesLista" class="catalogo-lista-imagenes"></div>
+                <button type="button" class="btn btn-secondary btn-sm catalogo-btn-add" id="btnAgregarImagenCatalogo">
+                  <i class="fa fa-plus"></i> Agregar imagen
+                </button>
+              </aside>
+
+              <div class="catalogo-ficha-datos">
+                <div class="catalogo-bloque-ficha">
+                  <label class="catalogo-label-ficha" for="catalogoSubtitulo">Subtítulo (rojo en la web)</label>
+                  <input type="text" id="catalogoSubtitulo" class="catalogo-input-ficha catalogo-input-subtitulo" placeholder="ALUMBRADO PÚBLICO">
+                </div>
+
+                <div class="catalogo-bloque-ficha">
+                  <label class="catalogo-label-ficha" for="catalogoNombre">Título del producto</label>
+                  <input type="text" id="catalogoNombre" class="catalogo-input-ficha catalogo-input-titulo" required placeholder="Nombre en mayúsculas en la ficha">
+                </div>
+
+                <div class="catalogo-bloque-ficha">
+                  <span class="catalogo-label-ficha">Características</span>
+                  <p class="form-desc">Un input por etiqueta roja (ej. una fila para <strong>50w</strong> y otra para <strong>6000k</strong>).</p>
+                  <div id="catalogoCaracteristicasPreview" class="catalogo-carac-preview" aria-hidden="true"></div>
+                  <div id="catalogoCaracteristicasLista" class="catalogo-lista-inputs"></div>
+                  <button type="button" class="btn btn-secondary btn-sm catalogo-btn-add" id="btnAgregarCaracteristica">
+                    <i class="fa fa-plus"></i> Agregar otra característica
+                  </button>
+                </div>
+
+                <div class="catalogo-bloque-ficha">
+                  <label class="catalogo-label-ficha" for="catalogoDescripcion">Descripción</label>
+                  <div class="catalogo-linea-ficha"></div>
+                  <textarea id="catalogoDescripcion" rows="10" class="catalogo-textarea catalogo-textarea-grande" placeholder="Texto del producto…"></textarea>
+                </div>
+
+                <div class="catalogo-bloque-ficha">
+                  <span class="catalogo-label-ficha">Código</span>
+                  <div class="catalogo-linea-ficha"></div>
+                  <label class="catalogo-check-sin-colores">
+                    <input type="checkbox" id="catalogoSinColores">
+                    Este producto no lleva colores ni códigos en la ficha
+                  </label>
+                  <div id="catalogoColoresWrap">
+                    <p class="form-desc catalogo-colores-ayuda">
+                      Cada fila = un círculo en la web + su código debajo. <strong>Tocá el círculo</strong> para previsualizar y elegir el color, o subí un <strong>PNG de muestra</strong> (como coloracero.png).
+                    </p>
+                    <div id="catalogoColoresLista" class="catalogo-lista-colores"></div>
+                    <button type="button" class="btn btn-secondary btn-sm catalogo-btn-add" id="btnAgregarColorCatalogo">
+                      <i class="fa fa-plus"></i> Agregar otro color / código
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </section>
 
@@ -769,8 +961,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="js/crm-api.js"></script>
+  <script src="js/crm-api.js?v=cat1"></script>
   <script src="js/crm-responsive.js"></script>
-  <script src="js/crm-admin.js"></script>
+  <script src="js/crm-admin.js?v=cat11"></script>
 </body>
 </html>

@@ -1,0 +1,37 @@
+PDF por categoría (páginas de producto)
+======================================
+
+Subí cada PDF comprimido a:
+  /var/www/ProyectoTesis/catalogo/
+
+El nombre del archivo DEBE ser exactamente como abajo.
+(Los botones dicen "Catálogo Apliques", etc. → el JS abre catalogo-apliques.pdf)
+
+GENERAL (página Catálogo)
+  catalogo-ituarte-2025.pdf
+
+POR CATEGORÍA (botones en productos)
+  catalogo-apliques.pdf
+  catalogo-colgantes.pdf
+  catalogo-veladores.pdf
+  catalogo-plafones.pdf
+  catalogo-bifocales.pdf
+  catalogo-unifocales.pdf
+  catalogo-farolas.pdf
+  catalogo-estacas.pdf
+  catalogo-tortugas.pdf
+  catalogo-reflectores.pdf
+  catalogo-lamparas-de-pie.pdf
+  catalogo-luminaria-pileta.pdf
+  catalogo-paneles.pdf
+  catalogo-smart.pdf
+  catalogo-ventiladores.pdf
+  catalogo-solares.pdf
+  catalogo-espejos.pdf
+  catalogo-camaras.pdf
+  catalogo-alumbrado-publico.pdf
+
+Comprimí cada uno como el general (~15–40 MB ideal).
+No van en GitHub → WinSCP al servidor.
+
+Probar: abrir un producto → Descargas → Catálogo … → debe abrir el PDF en pestaña nueva.

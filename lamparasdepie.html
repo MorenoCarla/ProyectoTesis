@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="css/site-chrome.css">
   <link rel="stylesheet" href="css/stylesapliques.css">
   <script src="js/site-chrome.js" defer></script>
-  <script src="js/scriptapliques.js" defer></script>
+  <script src="js/scriptapliques.js?v=cat2" defer></script>
+  <script src="js/catalogo-publico.js?v=2" defer></script>
 </head>
 <body class="pagina-institucional pagina-categoria fondo-lamparasdepie">
   <header class="site-header">
@@ -43,39 +44,8 @@
   <main class="cat-catalog-main">
     <div class="container">
       <div class="mensaje-no-encontrado" style="display: none;">Producto no encontrado😢 Intenta nuevamente con otro nombre o código.</div>
-<section class="filas-imagenes cat-catalog-grid">
-                <div class="fila uno">
-                    <a href="diam.html" class="link-producto">
-                        <div class="imagen 1" data-nombre="diam" data-codigo="23850, 23851">
-                            <img src="img/diam.png" alt="diam">
-                            <p class="p1">Diam</p>
-                        </div>
-                    </a>
-                    <a href="tresesferas.html" class="link-producto">
-                        <div class="imagen 2" data-nombre="tres esferas" data-codigo="20167">
-                            <img src="img/tresesferas.png" alt="tres esferas">
-                            <p class="p2">Tres esferas</p>
-                        </div>
-                    </a>
-                    <a href="gesta.html" class="link-producto">
-                        <div class="imagen 3" data-nombre="gesta" data-codigo="20167">
-                            <img src="img/gesta.png" alt="gesta">
-                            <p class="p3">Gesta</p>
-                        </div>
-                    </a>
-                    <a href="kinu.html" class="link-producto">
-                        <div class="imagen 3" data-nombre="kinu" data-codigo="21437">
-                            <img src="img/kinulampara.png" alt="kinu">
-                            <p class="p4">Kinu</p>
-                        </div>
-                    </a>
-                    <a href="bubble.html" class="link-producto">
-                        <div class="imagen 3" data-nombre="bubble" data-codigo="21100">
-                            <img src="img/bubble.png" alt="bubble">
-                            <p class="p5">Bubble</p>
-                        </div>
-                    </a>
-                </div>    
+<section class="filas-imagenes cat-catalog-grid" data-catalogo-dinamico data-catalogo-listado="lamparasdepie.html">
+                <p class="catalogo-grilla-cargando">Cargando productos…</p>
             </section>
     </div>
   </main>

@@ -25,6 +25,12 @@ function applyVideoPosterBackground(video) {
   if (!poster) return;
   video.poster = poster;
   video.setAttribute("poster", poster);
+  const slot = video.closest(".sucursal-video-slot, .proyectos-home-video-slot");
+  const cover = slot && slot.querySelector(".sucursal-video-cover, .proyectos-home-video-cover");
+  if (cover) {
+    cover.src = poster;
+    return;
+  }
   video.style.backgroundImage = 'url("' + poster.replace(/"/g, "") + '")';
   video.style.backgroundSize = "cover";
   video.style.backgroundPosition = "center";
@@ -75,10 +81,20 @@ function initHomeProyectosVideos() {
         const i = Number(tile.getAttribute("data-proyecto-index"));
         const p = items[i];
         const video = tile.querySelector("video");
+        const slot = tile.querySelector(".proyectos-home-video-slot");
         if (!p || !video) return;
         video.preload = "none";
         const poster = utils.posterForProyecto(p);
-        if (poster) video.poster = poster;
+        if (poster) {
+          applyVideoPosterBackground(video);
+        }
+        video.addEventListener(
+          "playing",
+          () => {
+            if (slot) slot.classList.add("is-playing");
+          },
+          { once: true }
+        );
         utils.whenVisible(video, () => {
           setTimeout(() => {
             utils.attachPreviewVideo(video, utils.rutasVideo(p));

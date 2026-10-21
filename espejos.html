@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="css/site-chrome.css">
   <link rel="stylesheet" href="css/stylesapliques.css">
   <script src="js/site-chrome.js" defer></script>
-  <script src="js/scriptapliques.js" defer></script>
+  <script src="js/scriptapliques.js?v=cat2" defer></script>
+  <script src="js/catalogo-publico.js?v=2" defer></script>
 </head>
 <body class="pagina-institucional pagina-categoria fondo-espejos">
   <header class="site-header">
@@ -43,27 +44,8 @@
   <main class="cat-catalog-main">
     <div class="container">
       <div class="mensaje-no-encontrado" style="display: none;">Producto no encontrado😢 Intenta nuevamente con otro nombre o código.</div>
-<section class="filas-imagenes cat-catalog-grid">
-                <div class="fila uno">
-                    <a href="espejo3.html" class="link-producto">
-                        <div class="imagen 1" data-nombre="espejo3" data-codigo="20122">
-                            <img src="img/espejo3.png" alt="espejo3">
-                            <p class="p1">Espejo 3</p>
-                        </div>
-                    </a>
-                    <a href="espejo4.html" class="link-producto">
-                        <div class="imagen 2" data-nombre="espejo 4" data-codigo="18515">
-                            <img src="img/espejo4.png" alt="espejo4">
-                            <p class="p2">Espejo 4</p>
-                        </div>
-                    </a>
-                    <a href="espejosensor.html" class="link-producto">
-                        <div class="imagen 3" data-nombre="espejo sensor, enertech" data-codigo="21248">
-                            <img src="img/enertech.png" alt="espejo sensor">
-                            <p class="p3">Espejo Sensor</p>
-                        </div>
-                    </a>
-                </div>    
+<section class="filas-imagenes cat-catalog-grid" data-catalogo-dinamico data-catalogo-listado="espejos.html">
+                <p class="catalogo-grilla-cargando">Cargando productos…</p>
             </section>
     </div>
   </main>

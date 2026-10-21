@@ -1,0 +1,24 @@
+/* Work Sans — fichas y CRM (antes faltaba el archivo y el servidor devolvía HTML 404) */
+@font-face {
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Work Sans"), local("WorkSans-Regular");
+}
+
+@font-face {
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local("Work Sans Bold"), local("WorkSans-Bold");
+}
+
+@font-face {
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: local("Work Sans ExtraBold"), local("WorkSans-ExtraBold");
+}

@@ -1,0 +1,27 @@
+CATÁLOGO PDF EN PRODUCCIÓN (WinSCP)
+====================================
+
+En tu PC el PDF está acá:
+  ProyectoTesis\catalogo\catalogo-ituarte-2025.pdf
+
+En el servidor tiene que quedar acá:
+  /var/www/ProyectoTesis/catalogo/catalogo-ituarte-2025.pdf
+
+PASOS
+-----
+1. WinSCP → conectar al droplet.
+2. Derecha: /var/www/ProyectoTesis
+3. Si no existe la carpeta "catalogo", créala (clic derecho → Nuevo → Directorio → catalogo).
+4. Entrá a catalogo/
+5. Subí catalogo-ituarte-2025.pdf (puede tardar mucho si pesa ~1 GB).
+6. Subí también catalogo.html a la RAÍZ (/var/www/ProyectoTesis/), junto a index.html.
+
+PROBAR
+------
+https://electricidadituartesur.com.ar/catalogo/catalogo-ituarte-2025.pdf
+  → tiene que abrir o descargar el PDF (no 404).
+
+https://electricidadituartesur.com.ar/catalogo.html
+  → Descargar / Ver online
+
+NOTA: El PDF NO va en GitHub (.gitignore). Cada cambio de catálogo = subir de nuevo con WinSCP.

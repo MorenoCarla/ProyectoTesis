@@ -157,7 +157,8 @@
     background-image: url("../img/mobile/fondoplafones.png");
   }
 
-  body.fondo-cada-producto[data-categoria="Lámparas de pie"]::after {
+  body.fondo-cada-producto[data-categoria="Lámparas de pie"]::after,
+  body.fondo-cada-producto[data-categoria="Lámparas de Pie"]::after {
     background-image: url("../img/mobile/fondolamparasdepie.png");
   }
 
