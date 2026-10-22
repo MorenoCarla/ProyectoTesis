@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Próximamente — Electricidad Ituarte Sur</title>
+  <meta name="description" content="Novedades de luminaria que estamos por incorporar. Dejanos tu interés y te avisamos.">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link href="vendor/fonts/work-sans.css" rel="stylesheet">
+  <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="css/site-chrome.css?v=15">
+  <link rel="stylesheet" href="vendor/swiper/swiper-bundle.min.css">
+  <link rel="stylesheet" href="css/proximamente.css?v=19">
+  <script src="vendor/swiper/swiper-bundle.min.js" defer></script>
+  <script src="js/site-chrome.js" defer></script>
+  <script src="js/proximamente-publico.js?v=16" defer></script>
+</head>
+<body class="pagina-institucional pagina-proximamente">
+
+  <header class="site-header">
+    <a href="index.html" class="site-logo">
+      <img src="img/LOGO.png" alt="Electricidad Ituarte Sur">
+    </a>
+    <button type="button" class="site-nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+    </button>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="conócenos.html">Conócenos</a>
+      <a href="productos.html">Productos</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="catalogo.html">Catálogo</a>
+      <a href="proximamente.html" class="active">Próximamente</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank" class="nav-instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </nav>
+  </header>
+
+  <main class="prox-main">
+    <section class="prox-hero" id="proxInicio">
+      <div class="prox-hero-bg" aria-hidden="true"></div>
+      <p class="prox-hero-watermark" aria-hidden="true">Próximamente</p>
+      <div class="prox-hero-wrap container-wide prox-hero-layout">
+        <div class="prox-hero-copy prox-reveal">
+          <span class="prox-kicker">Próximamente en Ituarte</span>
+          <h1 class="prox-hero-title">La iluminación<br><em>alcanza otro nivel</em></h1>
+          <p class="prox-hero-lead">Tecnología lumínica que estamos evaluando traer al sur de Tucumán. Marcá interés, consultanos o pedinos aviso cuando llegue.</p>
+          <div class="prox-hero-actions">
+            <a href="#proxVitrina" class="prox-btn prox-btn--red">Explorar novedades <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+            <a href="contacto.html" class="prox-btn prox-btn--red prox-btn--red-outline">Consultanos</a>
+          </div>
+        </div>
+        <figure class="prox-hero-media prox-reveal">
+          <!-- Hero fijo: img/proximamente-hero.png -->
+          <img
+            id="proxHeroImage"
+            class="prox-hero-photo"
+            src="img/proximamente-hero.png"
+            alt="Luminaria — Próximamente en Ituarte"
+            decoding="async"
+            fetchpriority="high"
+            onerror="this.onerror=null;this.src='img/img2.png';">
+        </figure>
+      </div>
+      <a href="#proxVitrina" class="prox-scroll-hint" aria-label="Ir a productos">
+        <span class="prox-scroll-line"></span>
+      </a>
+    </section>
+
+    <div class="prox-marquee" aria-hidden="true">
+      <div class="prox-marquee-track" id="proxMarqueeTrack"></div>
+    </div>
+
+    <section class="prox-vitrina" id="proxVitrina">
+      <div class="container-wide prox-vitrina-head prox-reveal">
+        <span class="prox-kicker">Vitrina interactiva</span>
+        <h2 class="prox-section-title">Elegí · Enamorate · Avisanos</h2>
+        <p class="prox-section-lead">Una selección de luminaria que estamos por traer a Ituarte Sur. Recorre la vitrina, descubrí cada pieza y dejanos tu interés para cuando llegue al local.</p>
+      </div>
+
+      <div class="prox-vitrina-estado" id="proxEstado" aria-live="polite">
+        <p class="prox-loading"><i class="fa fa-circle-notch fa-spin" aria-hidden="true"></i> Cargando…</p>
+      </div>
+
+      <div class="prox-carousel-stage" id="proxCarouselStage" hidden>
+        <div class="prox-stage-bg" aria-hidden="true">
+          <span class="prox-stage-glow prox-stage-glow--left"></span>
+          <span class="prox-stage-glow prox-stage-glow--right"></span>
+          <span class="prox-stage-glow prox-stage-glow--center"></span>
+          <span class="prox-stage-glow prox-stage-glow--spot-a"></span>
+          <span class="prox-stage-glow prox-stage-glow--spot-b"></span>
+          <span class="prox-stage-glow prox-stage-glow--spot-c"></span>
+          <span class="prox-stage-beam prox-stage-beam--left"></span>
+          <span class="prox-stage-beam prox-stage-beam--right"></span>
+          <span class="prox-stage-floor"></span>
+        </div>
+        <div class="prox-swiper-shell">
+          <button type="button" class="prox-deck-nav prox-deck-nav--prev" id="proxDeckPrev" aria-label="Siguiente producto">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <div class="swiper prox-swiper" id="proxSwiper">
+            <div class="swiper-wrapper" id="proxSwiperWrapper"></div>
+          </div>
+          <button type="button" class="prox-deck-nav prox-deck-nav--next" id="proxDeckNext" aria-label="Producto anterior">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="prox-band prox-reveal">
+      <div class="container-wide prox-band-inner">
+        <h2>¿Querés que traigamos algo?</h2>
+        <p>Contanos qué buscás y lo evaluamos con proveedores.</p>
+        <a href="contacto.html" class="prox-btn prox-btn--red">Ir a contacto</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer prox-site-footer">
+    <div class="site-footer-grid">
+      <div>
+        <h3>Electricidad Ituarte Sur</h3>
+        <p>Concepción · J. B. Alberdi — Tucumán</p>
+      </div>
+    </div>
+    <p class="site-footer-copy">© Electricidad Ituarte Sur</p>
+  </footer>
+
+  <dialog class="prox-dialog" id="proxDialogConsulta" aria-labelledby="proxDialogTitulo">
+    <form method="dialog" class="prox-dialog-form" id="proxFormConsulta">
+      <button type="button" class="prox-dialog-close" id="proxDialogCerrar" aria-label="Cerrar">&times;</button>
+      <span class="prox-kicker">Te avisamos</span>
+      <h2 id="proxDialogTitulo">Quiero que me contacten</h2>
+      <p class="prox-dialog-producto" id="proxDialogProducto"></p>
+      <label class="prox-field">
+        <span>Nombre</span>
+        <input type="text" id="proxInputNombre" autocomplete="name" required minlength="2" placeholder="Tu nombre">
+      </label>
+      <label class="prox-field">
+        <span>Teléfono / WhatsApp</span>
+        <input type="tel" id="proxInputTelefono" autocomplete="tel" required placeholder="Ej. 3865 123456">
+      </label>
+      <label class="prox-field">
+        <span>Nota (opcional)</span>
+        <textarea id="proxInputMensaje" rows="2" placeholder="Cantidad, uso, color…"></textarea>
+      </label>
+      <p class="prox-dialog-error" id="proxDialogError" hidden></p>
+      <button type="submit" class="prox-btn prox-btn--red prox-btn--block" id="proxBtnEnviarConsulta">Enviar consulta</button>
+    </form>
+  </dialog>
+
+  <div class="prox-toast" id="proxToast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -2495,3 +2495,235 @@ select.estado-select {
     grid-template-columns: 1fr;
   }
 }
+
+.prox-imagen-hero {
+  min-height: 200px;
+  max-width: none;
+  width: 100%;
+}
+
+.prox-imagen-hero .catalogo-imagen-preview {
+  width: 100%;
+  height: auto;
+  max-height: 280px;
+  object-fit: contain;
+}
+
+/* —— CRM Próximamente —— */
+.proximamente-panel {
+  background: linear-gradient(165deg, #fff5f5 0%, #ffffff 28%, #f8fafc 100%);
+  border: 1px solid #fecaca;
+  box-shadow: 0 8px 32px rgba(228, 5, 5, 0.08);
+}
+
+.proximamente-listado-hero {
+  border-bottom-color: rgba(228, 5, 5, 0.15);
+  padding: 4px 0 18px;
+}
+
+.proximamente-listado-hero h2 {
+  color: rgb(228, 5, 5);
+}
+
+.proximamente-grid {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.proxim-crm-card {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: unset;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #e8ecf1;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.proxim-crm-card.is-publicado {
+  border-color: rgba(46, 125, 50, 0.35);
+  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.1);
+}
+
+.proxim-crm-card.is-oculto {
+  border-color: #e2e8f0;
+  opacity: 0.92;
+}
+
+.proxim-crm-card-media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 168px;
+  padding: 12px;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+  border-bottom: 1px solid #e8ecf1;
+}
+
+.proxim-crm-thumb {
+  width: 100%;
+  max-height: 152px;
+  object-fit: contain;
+}
+
+.proxim-crm-estado {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  left: auto;
+  bottom: auto;
+  width: auto;
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15);
+}
+
+.proxim-crm-estado--pub {
+  background: #15803d;
+}
+
+.proxim-crm-estado--oculto {
+  background: #64748b;
+}
+
+.proxim-crm-card-body {
+  padding: 14px 16px 8px;
+  position: relative;
+  background: #fff;
+}
+
+.proxim-crm-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 0;
+}
+
+.proxim-crm-stat {
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+.proxim-crm-stat--likes {
+  background: #fff1f2;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+}
+
+.proxim-crm-stat--consultas {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.proxim-crm-card-acciones {
+  padding: 0 14px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#proximamenteVistaEditor.catalogo-editor {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #e8ecf1;
+  border-radius: 16px;
+  padding: 20px 24px 28px;
+  box-shadow: 0 6px 28px rgba(15, 23, 42, 0.07);
+}
+
+#proximamenteVistaEditor .catalogo-editor-form,
+#proximamenteVistaEditor .catalogo-editor-header {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+.proximamente-editor-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.proximamente-editor-galeria {
+  width: 100%;
+}
+
+#proximamenteVistaEditor .catalogo-ficha-datos {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+  border: 1px solid #fecaca;
+  background: linear-gradient(180deg, #ffffff 0%, #fffbfb 100%);
+}
+
+#proximamenteVistaEditor .catalogo-bloque-ficha:nth-child(2),
+#proximamenteVistaEditor .catalogo-bloque-ficha:nth-child(4) {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+  #proximamenteVistaEditor .catalogo-ficha-datos {
+    grid-template-columns: 1fr;
+  }
+
+  #proximamenteVistaEditor .catalogo-bloque-ficha:nth-child(2),
+  #proximamenteVistaEditor .catalogo-bloque-ficha:nth-child(4) {
+    grid-column: auto;
+  }
+}
+
+.prox-crm-imagenes-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .prox-crm-imagenes-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.prox-crm-imagen-col {
+  background: linear-gradient(180deg, #fef2f2 0%, #fff 100%);
+  border: 1px solid #fecaca;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.prox-crm-imagen-label {
+  margin: 0 0 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgb(228, 5, 5);
+}
+
+.prox-crm-btn-subir {
+  margin-top: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.catalogo-editor-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e8ecf1;
+}

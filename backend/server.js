@@ -20,6 +20,8 @@ const empleadosRoutes = require("./routes/empleados.routes");
 const marketingRoutes = require("./routes/marketing.routes");
 const presupuestosRoutes = require("./routes/presupuestos.routes");
 const catalogoProductosRoutes = require("./routes/catalogo-productos.routes");
+const proximamenteRoutes = require("./routes/proximamente.routes");
+const publicProximamenteRoutes = require("./routes/public-proximamente.routes");
 
 const app = express();
 
@@ -28,13 +30,18 @@ app.use(compression());
 app.use(express.json());
 
 app.get("/api/health", (req, res) => {
-  res.json({ mensaje: "API CRM Ituarte funcionando correctamente" });
+  res.json({
+    mensaje: "API CRM Ituarte funcionando correctamente",
+    modulos: { proximamente: true }
+  });
 });
 
 app.use("/auth", authRoutes);
 app.use("/clientes", clientesRoutes);
 app.use("/consultas", consultasRoutes);
 app.use("/seguimientos", seguimientosRoutes);
+/* Montaje explícito (antes de /public) para que no falle si public.routes quedó viejo */
+app.use("/public/proximamente", publicProximamenteRoutes);
 app.use("/public", publicRoutes);
 app.use("/dashboard", dashboardRoutes);
 app.use("/exportar", exportRoutes);
@@ -42,10 +49,11 @@ app.use("/empleados", empleadosRoutes);
 app.use("/marketing", marketingRoutes);
 app.use("/presupuestos", presupuestosRoutes);
 app.use("/catalogo-productos", catalogoProductosRoutes);
+app.use("/proximamente-items", proximamenteRoutes);
 
 // Respuestas JSON para rutas API inexistentes (evita el error confuso de HTML)
 app.use((req, res, next) => {
-  const esApi = /^\/(auth|clientes|consultas|seguimientos|public|dashboard|exportar|empleados|marketing|presupuestos|catalogo-productos)\b/.test(req.path);
+  const esApi = /^\/(auth|clientes|consultas|seguimientos|public|dashboard|exportar|empleados|marketing|presupuestos|catalogo-productos|proximamente-items)\b/.test(req.path);
   if (esApi) {
     return res.status(404).json({
       error: `Ruta no encontrada: ${req.method} ${req.originalUrl}. Reiniciá el backend con npm start.`
@@ -84,5 +92,6 @@ app.listen(process.env.PORT || 3000, () => {
   console.log(`  Servidor CRM corriendo en puerto ${port}`);
   console.log(`  CRM:  http://localhost:${port}/login.html`);
   console.log(`  API:  http://localhost:${port}`);
+  console.log(`  Próximamente: http://localhost:${port}/public/proximamente/items`);
   console.log("========================================");
 });

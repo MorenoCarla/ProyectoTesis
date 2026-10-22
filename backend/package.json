@@ -16,6 +16,7 @@
     "asignar-paginas-categorias": "node scripts/asignar-pagina-listado-categorias.js",
     "auditar-catalogo": "node scripts/auditar-catalogo-publico.js",
     "backup-db": "node scripts/backup-db.js",
+    "migrate-proximamente": "node scripts/migrate-proximamente.js",
     "reparar-imagenes-html": "node scripts/reparar-imagenes-desde-html.js",
     "verificar-pdfs": "node scripts/verificar-pdfs-catalogo.js",
     "reparar-descripcion-html": "node scripts/reparar-descripcion-desde-html.js"

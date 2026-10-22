@@ -40,6 +40,18 @@
     const toggle = header.querySelector(".site-nav-toggle");
     const nav = header.querySelector(".site-nav");
 
+    if (nav && !nav.querySelector('a[href*="proximamente.html"]')) {
+      const contactoLink = nav.querySelector('a[href*="contacto.html"]');
+      const proxLink = document.createElement("a");
+      proxLink.href = "proximamente.html";
+      proxLink.textContent = "Próximamente";
+      if (document.body.classList.contains("pagina-proximamente")) {
+        proxLink.className = "active";
+      }
+      if (contactoLink) contactoLink.before(proxLink);
+      else nav.insertBefore(proxLink, nav.querySelector(".nav-instagram"));
+    }
+
     if (toggle && nav) {
       toggle.addEventListener("click", (e) => {
         e.stopPropagation();

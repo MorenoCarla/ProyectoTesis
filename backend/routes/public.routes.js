@@ -3,10 +3,12 @@ const pool = require("../config/db");
 const { normalizarDatosPersonales } = require("../utils/texto");
 
 const publicCatalogoRoutes = require("./public-catalogo.routes");
+const publicProximamenteRoutes = require("./public-proximamente.routes");
 
 const router = express.Router();
 
 router.use("/catalogo", publicCatalogoRoutes);
+router.use("/proximamente", publicProximamenteRoutes);
 
 async function upsertClienteWeb(pool, datos) {
   const {

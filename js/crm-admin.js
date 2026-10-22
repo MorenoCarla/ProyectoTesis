@@ -223,6 +223,10 @@ document.querySelectorAll(".menu-item[data-section]").forEach(btn => {
       volverListaCatalogo(false);
       cargarCategoriasCatalogo().then(() => cargarCatalogoProductos());
     }
+    if (btn.dataset.section === "proximamente") {
+      volverListaProximamente(false);
+      cargarProximamenteItems();
+    }
   });
 });
 
@@ -3520,6 +3524,240 @@ if (btnNuevoProductoCatalogo && esGerente) {
   btnNuevoProductoCatalogo.addEventListener("click", () => abrirNuevoCatalogo());
 }
 
+/* ——— Próximamente (vitrina web) ——— */
+function escHtmlProx(s) {
+  return escaparHtml(s);
+}
+function escAttrProx(s) {
+  return escaparHtml(s).replace(/"/g, "&quot;");
+}
+
+function volverListaProximamente(actualizar) {
+  const lista = document.getElementById("proximamenteVistaLista");
+  const editor = document.getElementById("proximamenteVistaEditor");
+  if (lista) lista.hidden = false;
+  if (editor) editor.hidden = true;
+  if (actualizar !== false) cargarProximamenteItems();
+}
+
+async function cargarProximamenteItems() {
+  const cont = document.getElementById("proximamenteLista");
+  const resumen = document.getElementById("proximamenteResumen");
+  if (!cont) return;
+  cont.innerHTML = "<p class='catalogo-listado-vacio'><i class='fa fa-circle-notch fa-spin'></i> Cargando…</p>";
+  try {
+    const rows = await apiGet("/proximamente-items");
+    if (resumen) {
+      resumen.textContent = rows.length
+        ? `${rows.length} ítem${rows.length !== 1 ? "s" : ""} activo${rows.length !== 1 ? "s" : ""}`
+        : "Todavía no hay ítems. Creá el primero para la vitrina.";
+    }
+    if (!rows.length) {
+      cont.innerHTML =
+        "<p class='catalogo-listado-vacio'><i class='fa fa-hourglass-half'></i> Sin ítems en Próximamente.</p>";
+      return;
+    }
+    cont.innerHTML = rows
+      .map((p) => {
+        const pub = p.publicado;
+        const accionesAdmin = esGerente
+          ? `<button type="button" class="btn btn-secondary btn-sm" data-editar-prox-id="${p.id}">Editar</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-toggle-prox-pub="${p.id}" data-toggle-prox-val="${pub ? 0 : 1}">${pub ? "Ocultar" : "Publicar"}</button>
+          <button type="button" class="btn btn-danger btn-sm" data-baja-prox-id="${p.id}">Baja</button>`
+          : "";
+        return `
+    <article class="catalogo-producto-card proxim-crm-card ${pub ? "is-publicado" : "is-oculto"}">
+      <div class="proxim-crm-card-media">
+        <img src="${escAttrProx(p.imagen)}" alt="" class="proxim-crm-thumb">
+        <span class="proxim-crm-estado ${pub ? "proxim-crm-estado--pub" : "proxim-crm-estado--oculto"}">${pub ? "En web" : "Borrador"}</span>
+      </div>
+      <div class="catalogo-producto-card-body proxim-crm-card-body">
+        <p class="catalogo-producto-categoria">${escHtmlProx(p.categoria_etiqueta || "Sin categoría")}</p>
+        <h3 class="catalogo-producto-nombre">${escHtmlProx(p.titulo)}</h3>
+        <p class="proxim-crm-stats"><span class="proxim-crm-stat proxim-crm-stat--likes"><i class="fa fa-heart"></i> ${p.likes_count || 0}</span><span class="proxim-crm-stat proxim-crm-stat--consultas"><i class="fa fa-inbox"></i> ${p.consultas_count || 0}</span></p>
+      </div>
+      <div class="catalogo-producto-card-acciones proxim-crm-card-acciones">${accionesAdmin}</div>
+    </article>`;
+      })
+      .join("");
+
+    cont.querySelectorAll("[data-editar-prox-id]").forEach((btn) => {
+      btn.addEventListener("click", () => abrirEditarProximamente(btn.getAttribute("data-editar-prox-id")));
+    });
+    cont.querySelectorAll("[data-toggle-prox-pub]").forEach((btn) => {
+      btn.addEventListener("click", () =>
+        alternarPublicadoProximamente(btn.getAttribute("data-toggle-prox-pub"), btn.getAttribute("data-toggle-prox-val") === "1")
+      );
+    });
+    cont.querySelectorAll("[data-baja-prox-id]").forEach((btn) => {
+      btn.addEventListener("click", () => darDeBajaProximamente(btn.getAttribute("data-baja-prox-id")));
+    });
+  } catch (e) {
+    cont.innerHTML = `<p class='catalogo-listado-vacio'>${escaparHtml(e.message)}</p>`;
+  }
+}
+
+function setProximamentePreview(ruta) {
+  const wrap = document.getElementById("proximamentePreviewWrap");
+  const hidden = document.getElementById("proximamenteImagen");
+  if (hidden) hidden.value = ruta || "";
+  if (!wrap) return;
+  wrap.innerHTML = ruta
+    ? `<img src="${escAttrProx(ruta)}" alt="" class="catalogo-imagen-preview">`
+    : `<div class="catalogo-imagen-vacio"><i class="fa fa-image"></i></div>`;
+}
+
+function setProximamenteHoverPreview(ruta) {
+  const wrap = document.getElementById("proximamenteHoverPreviewWrap");
+  const hidden = document.getElementById("proximamenteImagenHover");
+  if (hidden) hidden.value = ruta || "";
+  if (!wrap) return;
+  wrap.innerHTML = ruta
+    ? `<img src="${escAttrProx(ruta)}" alt="" class="catalogo-imagen-preview">`
+    : `<div class="catalogo-imagen-vacio"><i class="fa fa-images"></i></div>`;
+}
+
+function abrirNuevoProximamente() {
+  if (!esGerente) {
+    mostrarToast("Solo administradores pueden crear ítems.", true);
+    return;
+  }
+  document.getElementById("proximamenteVistaLista").hidden = true;
+  document.getElementById("proximamenteVistaEditor").hidden = false;
+  document.getElementById("proximamenteItemId").value = "";
+  document.getElementById("proximamenteEditorTitulo").textContent = "Nuevo ítem Próximamente";
+  document.getElementById("proximamenteOrden").value = "0";
+  document.getElementById("proximamentePublicado").value = "1";
+  document.getElementById("proximamenteCategoria").value = "";
+  document.getElementById("proximamenteTitulo").value = "";
+  document.getElementById("proximamenteSubtitulo").value = "";
+  document.getElementById("proximamenteDescripcion").value = "";
+  setProximamentePreview("");
+  setProximamenteHoverPreview("");
+  const btnBaja = document.getElementById("btnBajaProximamente");
+  if (btnBaja) btnBaja.style.display = "none";
+}
+
+async function abrirEditarProximamente(id) {
+  try {
+    const p = await apiGet("/proximamente-items/" + id);
+    document.getElementById("proximamenteVistaLista").hidden = true;
+    document.getElementById("proximamenteVistaEditor").hidden = false;
+    document.getElementById("proximamenteItemId").value = p.id;
+    document.getElementById("proximamenteEditorTitulo").textContent = p.titulo;
+    document.getElementById("proximamenteOrden").value = String(p.orden ?? 0);
+    document.getElementById("proximamentePublicado").value = p.publicado ? "1" : "0";
+    document.getElementById("proximamenteCategoria").value = p.categoria_etiqueta || "";
+    document.getElementById("proximamenteTitulo").value = p.titulo || "";
+    document.getElementById("proximamenteSubtitulo").value = p.subtitulo || "";
+    document.getElementById("proximamenteDescripcion").value = p.descripcion || "";
+    setProximamentePreview(p.imagen || "");
+    setProximamenteHoverPreview(p.imagen_hover || "");
+    const btnBaja = document.getElementById("btnBajaProximamente");
+    if (btnBaja) btnBaja.style.display = esGerente ? "" : "none";
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
+}
+
+async function guardarProximamenteItem(e) {
+  e.preventDefault();
+  if (!esGerente) {
+    mostrarToast("Solo administradores pueden guardar.", true);
+    return;
+  }
+  const id = document.getElementById("proximamenteItemId").value.trim();
+  const body = {
+    titulo: document.getElementById("proximamenteTitulo").value.trim(),
+    subtitulo: document.getElementById("proximamenteSubtitulo").value.trim(),
+    descripcion: document.getElementById("proximamenteDescripcion").value.trim(),
+    imagen: document.getElementById("proximamenteImagen").value.trim(),
+    imagen_hover: document.getElementById("proximamenteImagenHover")?.value.trim() || null,
+    categoria_etiqueta: document.getElementById("proximamenteCategoria").value.trim(),
+    orden: parseInt(document.getElementById("proximamenteOrden").value, 10) || 0,
+    publicado: document.getElementById("proximamentePublicado").value === "1"
+  };
+  if (!body.titulo || !body.imagen) {
+    mostrarToast("Título e imagen son obligatorios.", true);
+    return;
+  }
+  const btn = document.getElementById("btnGuardarProximamente");
+  if (btn) btn.disabled = true;
+  try {
+    if (id) {
+      await apiPut("/proximamente-items/" + id, body);
+      mostrarToast("Ítem actualizado");
+    } else {
+      await apiPost("/proximamente-items", body);
+      mostrarToast("Ítem creado y publicado");
+    }
+    volverListaProximamente(true);
+  } catch (err) {
+    mostrarToast(err.message, true);
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+async function alternarPublicadoProximamente(id, publicar) {
+  if (!esGerente) return;
+  try {
+    await apiPut("/proximamente-items/" + id, { publicado: !!publicar });
+    mostrarToast(publicar ? "Publicado en web" : "Oculto de la web");
+    cargarProximamenteItems();
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
+}
+
+async function darDeBajaProximamente(id) {
+  if (!esGerente || !confirm("¿Dar de baja este ítem de Próximamente?")) return;
+  try {
+    await apiDelete("/proximamente-items/" + id);
+    mostrarToast("Ítem dado de baja");
+    volverListaProximamente(true);
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
+}
+
+document.getElementById("btnVolverProximamenteLista")?.addEventListener("click", () => volverListaProximamente());
+document.getElementById("btnBajaProximamente")?.addEventListener("click", () => {
+  const id = document.getElementById("proximamenteItemId").value;
+  if (id) darDeBajaProximamente(id);
+});
+document.getElementById("proximamenteImagenFile")?.addEventListener("change", async (ev) => {
+  const file = ev.target.files?.[0];
+  if (!file) return;
+  try {
+    const data = await apiSubirImagenCatalogo(file);
+    setProximamentePreview(data.ruta);
+    mostrarToast("Imagen subida");
+  } catch (e) {
+    mostrarToast(e.message, true);
+  } finally {
+    ev.target.value = "";
+  }
+});
+document.getElementById("proximamenteImagenHoverFile")?.addEventListener("change", async (ev) => {
+  const file = ev.target.files?.[0];
+  if (!file) return;
+  try {
+    const data = await apiSubirImagenCatalogo(file);
+    setProximamenteHoverPreview(data.ruta);
+    mostrarToast("Fotomontaje subido");
+  } catch (e) {
+    mostrarToast(e.message, true);
+  } finally {
+    ev.target.value = "";
+  }
+});
+const btnNuevoProximamente = document.getElementById("btnNuevoProximamente");
+if (btnNuevoProximamente && esGerente) {
+  btnNuevoProximamente.style.display = "";
+  btnNuevoProximamente.addEventListener("click", () => abrirNuevoProximamente());
+}
+
 cargarEmpleados().then(() => {
   cargarTablaEmpleados();
 });
@@ -3543,3 +3781,4 @@ window.cerrarModalCatalogo = cerrarModalCatalogo;
 window.guardarCatalogoProducto = guardarCatalogoProducto;
 window.alternarPublicadoCatalogo = alternarPublicadoCatalogo;
 window.desactivarProductoCatalogo = desactivarProductoCatalogo;
+window.guardarProximamenteItem = guardarProximamenteItem;
