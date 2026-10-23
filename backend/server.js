@@ -73,9 +73,15 @@ app.get("/p/:slug", (req, res) => {
   res.sendFile(path.join(SITE_ROOT, "producto.html"));
 });
 
+/** Google y navegadores piden /favicon.ico aunque el HTML declare PNG */
+app.get("/favicon.ico", (req, res) => {
+  res.type("image/png");
+  res.sendFile(path.join(staticRoot, "favicon.png"));
+});
+
 app.use(createLegacyProductoRedirectMiddleware());
 
-// Fichas de producto: inyectar js/ficha-swiper-init.js en todas las páginas con carrusel
+// HTML del sitio: favicon en todas las páginas + parches de fichas con carrusel
 app.use(createFichaHtmlMiddleware(staticRoot));
 
 // Sitio web + CRM (abrir login desde acá, no con doble clic al HTML)

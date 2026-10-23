@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel CRM - Ituarte</title>
     <link rel="stylesheet" href="vendor/fonts/work-sans.css">
   <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
-<link rel="stylesheet" href="css/crm.css?v=prox4">
+<link rel="stylesheet" href="css/crm.css?v=prox5">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -422,7 +427,19 @@
               </div>
             </header>
             <p id="proximamenteResumen" class="catalogo-listado-resumen"></p>
+            <div class="proxim-crm-toolbar" id="proximamenteToolbar" hidden>
+              <label class="proxim-crm-search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <input type="search" id="proximamenteBuscar" placeholder="Buscar por título o categoría…" autocomplete="off">
+              </label>
+              <select id="proximamenteFiltroPub" class="proxim-crm-select" aria-label="Filtrar por estado">
+                <option value="todos">Todos</option>
+                <option value="pub">Publicados en web</option>
+                <option value="borrador">Borradores</option>
+              </select>
+            </div>
             <div id="proximamenteLista" class="catalogo-grid-productos proximamente-grid"></div>
+            <nav class="proxim-crm-pager" id="proximamentePager" hidden aria-label="Paginación Próximamente"></nav>
           </div>
         </div>
 

@@ -1,4 +1,20 @@
 (function () {
+  if (!document.querySelector('link[rel="icon"][href="/favicon.ico"]')) {
+    [
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/site.webmanifest" },
+    ].forEach(function (spec) {
+      var link = document.createElement("link");
+      link.rel = spec.rel;
+      link.href = spec.href;
+      if (spec.type) link.type = spec.type;
+      if (spec.sizes) link.sizes = spec.sizes;
+      document.head.appendChild(link);
+    });
+  }
+
   /* Versión del chrome: subir número cuando cambie site-chrome.css */
   var SITE_CHROME_CSS_V = "15";
   var FICHA_LAYOUT_CSS_V = "18";

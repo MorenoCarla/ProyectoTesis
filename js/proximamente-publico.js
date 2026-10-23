@@ -170,6 +170,7 @@
           <div class="prox-deck-media">
             <img class="prox-deck-img prox-deck-img--main" src="${imgMain}" alt="${escAttr(item.titulo)}" loading="${index < 4 ? "eager" : "lazy"}" decoding="async">
             ${hasHover ? `<img class="prox-deck-img prox-deck-img--hover" src="${imgHover}" alt="" decoding="async">` : ""}
+            ${hasHover ? `<span class="prox-deck-hint-montaje">Tocá: ver ambiente</span>` : ""}
           </div>
           <footer class="prox-deck-foot">
             <div class="prox-deck-meta-row">
@@ -246,6 +247,11 @@
       on: {
         slideChange(s) {
           deckIndex = s.activeIndex;
+          el.querySelectorAll(".prox-deck-card.is-showing-montaje").forEach((card) => {
+            card.classList.remove("is-showing-montaje");
+            const hint = card.querySelector(".prox-deck-hint-montaje");
+            if (hint) hint.textContent = "Tocá: ver ambiente";
+          });
         }
       }
     });
@@ -261,6 +267,20 @@
       const likeBtn = ev.target.closest("[data-prox-like]");
       if (likeBtn) {
         toggleLike(likeBtn.getAttribute("data-prox-like"), likeBtn);
+        return;
+      }
+      const media = ev.target.closest(".prox-deck-media");
+      if (media) {
+        const card = media.closest(".prox-deck-card.has-hover-image");
+        if (card) {
+          card.classList.toggle("is-showing-montaje");
+          const hint = card.querySelector(".prox-deck-hint-montaje");
+          if (hint) {
+            hint.textContent = card.classList.contains("is-showing-montaje")
+              ? "Tocá: ver producto"
+              : "Tocá: ver ambiente";
+          }
+        }
         return;
       }
       const consultaBtn = ev.target.closest("[data-prox-consulta]");

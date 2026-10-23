@@ -5,15 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Próximamente — Electricidad Ituarte Sur</title>
   <meta name="description" content="Novedades de luminaria que estamos por incorporar. Dejanos tu interés y te avisamos.">
+  <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
   <link href="vendor/fonts/work-sans.css" rel="stylesheet">
   <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="css/site-chrome.css?v=15">
   <link rel="stylesheet" href="vendor/swiper/swiper-bundle.min.css">
-  <link rel="stylesheet" href="css/proximamente.css?v=19">
+  <link rel="stylesheet" href="css/proximamente.css?v=20">
   <script src="vendor/swiper/swiper-bundle.min.js" defer></script>
   <script src="js/site-chrome.js" defer></script>
-  <script src="js/proximamente-publico.js?v=16" defer></script>
+  <script src="js/proximamente-publico.js?v=17" defer></script>
 </head>
 <body class="pagina-institucional pagina-proximamente">
 
@@ -39,6 +42,12 @@
   <main class="prox-main">
     <section class="prox-hero" id="proxInicio">
       <div class="prox-hero-bg" aria-hidden="true"></div>
+      <div class="prox-hero-lights" aria-hidden="true">
+        <span class="prox-hero-light prox-hero-light--red-l"></span>
+        <span class="prox-hero-light prox-hero-light--red-r"></span>
+        <span class="prox-hero-light prox-hero-light--warm"></span>
+        <span class="prox-hero-light prox-hero-light--beam"></span>
+      </div>
       <p class="prox-hero-watermark" aria-hidden="true">Próximamente</p>
       <div class="prox-hero-wrap container-wide prox-hero-layout">
         <div class="prox-hero-copy prox-reveal">
@@ -120,12 +129,41 @@
   <footer class="site-footer prox-site-footer">
     <div class="site-footer-grid">
       <div>
-        <h3>Electricidad Ituarte Sur</h3>
-        <p>Concepción · J. B. Alberdi — Tucumán</p>
+        <h3>Electricidad Ituarte</h3>
+        <p>Más de 50 años iluminando proyectos en Tucumán.</p>
+        <div class="site-footer-social">
+          <a href="https://www.instagram.com/electricidadituarte.sur?" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/share/19tbHw23mm/?" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="https://www.tiktok.com/@ituarte.electricidad?" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="site-footer-links">
+        <h3>Navegación</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="conócenos.html">Conócenos</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="proyectos.html">Proyectos</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="registro.html">Registrarse</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Horarios de atención</h3>
+        <ul>
+          <li>Lunes a viernes: 8:30 a 12:30 hs / 16:30 a 20:30 hs</li>
+          <li>Sábados: 8:30 a 13:00 hs</li>
+        </ul>
       </div>
     </div>
-    <p class="site-footer-copy">© Electricidad Ituarte Sur</p>
+    <p class="site-footer-copy">© Electricidad Ituarte — Concepción &amp; J. B. Alberdi, Tucumán</p>
   </footer>
+
+  <button type="button" class="scroll-top" id="scroll-top" aria-label="Volver arriba">↑</button>
+  <a href="https://wa.me/5493865601388" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
 
   <dialog class="prox-dialog" id="proxDialogConsulta" aria-labelledby="proxDialogTitulo">
     <form method="dialog" class="prox-dialog-form" id="proxFormConsulta">

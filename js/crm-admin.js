@@ -3540,32 +3540,19 @@ function volverListaProximamente(actualizar) {
   if (actualizar !== false) cargarProximamenteItems();
 }
 
-async function cargarProximamenteItems() {
-  const cont = document.getElementById("proximamenteLista");
-  const resumen = document.getElementById("proximamenteResumen");
-  if (!cont) return;
-  cont.innerHTML = "<p class='catalogo-listado-vacio'><i class='fa fa-circle-notch fa-spin'></i> Cargando…</p>";
-  try {
-    const rows = await apiGet("/proximamente-items");
-    if (resumen) {
-      resumen.textContent = rows.length
-        ? `${rows.length} ítem${rows.length !== 1 ? "s" : ""} activo${rows.length !== 1 ? "s" : ""}`
-        : "Todavía no hay ítems. Creá el primero para la vitrina.";
-    }
-    if (!rows.length) {
-      cont.innerHTML =
-        "<p class='catalogo-listado-vacio'><i class='fa fa-hourglass-half'></i> Sin ítems en Próximamente.</p>";
-      return;
-    }
-    cont.innerHTML = rows
-      .map((p) => {
-        const pub = p.publicado;
-        const accionesAdmin = esGerente
-          ? `<button type="button" class="btn btn-secondary btn-sm" data-editar-prox-id="${p.id}">Editar</button>
+let proxCrmItemsAll = [];
+let proxCrmPage = 1;
+const PROX_CRM_PAGE_SIZE = 6;
+let proxCrmToolbarBound = false;
+
+function htmlProximamenteCard(p) {
+  const pub = p.publicado;
+  const accionesAdmin = esGerente
+    ? `<button type="button" class="btn btn-secondary btn-sm" data-editar-prox-id="${p.id}">Editar</button>
           <button type="button" class="btn btn-secondary btn-sm" data-toggle-prox-pub="${p.id}" data-toggle-prox-val="${pub ? 0 : 1}">${pub ? "Ocultar" : "Publicar"}</button>
           <button type="button" class="btn btn-danger btn-sm" data-baja-prox-id="${p.id}">Baja</button>`
-          : "";
-        return `
+    : "";
+  return `
     <article class="catalogo-producto-card proxim-crm-card ${pub ? "is-publicado" : "is-oculto"}">
       <div class="proxim-crm-card-media">
         <img src="${escAttrProx(p.imagen)}" alt="" class="proxim-crm-thumb">
@@ -3578,20 +3565,122 @@ async function cargarProximamenteItems() {
       </div>
       <div class="catalogo-producto-card-acciones proxim-crm-card-acciones">${accionesAdmin}</div>
     </article>`;
-      })
-      .join("");
+}
 
-    cont.querySelectorAll("[data-editar-prox-id]").forEach((btn) => {
-      btn.addEventListener("click", () => abrirEditarProximamente(btn.getAttribute("data-editar-prox-id")));
-    });
-    cont.querySelectorAll("[data-toggle-prox-pub]").forEach((btn) => {
-      btn.addEventListener("click", () =>
-        alternarPublicadoProximamente(btn.getAttribute("data-toggle-prox-pub"), btn.getAttribute("data-toggle-prox-val") === "1")
-      );
-    });
-    cont.querySelectorAll("[data-baja-prox-id]").forEach((btn) => {
-      btn.addEventListener("click", () => darDeBajaProximamente(btn.getAttribute("data-baja-prox-id")));
-    });
+function proxCrmFiltrados() {
+  const q = (document.getElementById("proximamenteBuscar")?.value || "").trim().toLowerCase();
+  const f = document.getElementById("proximamenteFiltroPub")?.value || "todos";
+  return proxCrmItemsAll.filter((p) => {
+    if (f === "pub" && !p.publicado) return false;
+    if (f === "borrador" && p.publicado) return false;
+    if (!q) return true;
+    const hay = [p.titulo, p.subtitulo, p.categoria_etiqueta].filter(Boolean).join(" ").toLowerCase();
+    return hay.includes(q);
+  });
+}
+
+function bindProximamenteListaAcciones(cont) {
+  cont.querySelectorAll("[data-editar-prox-id]").forEach((btn) => {
+    btn.addEventListener("click", () => abrirEditarProximamente(btn.getAttribute("data-editar-prox-id")));
+  });
+  cont.querySelectorAll("[data-toggle-prox-pub]").forEach((btn) => {
+    btn.addEventListener("click", () =>
+      alternarPublicadoProximamente(btn.getAttribute("data-toggle-prox-pub"), btn.getAttribute("data-toggle-prox-val") === "1")
+    );
+  });
+  cont.querySelectorAll("[data-baja-prox-id]").forEach((btn) => {
+    btn.addEventListener("click", () => darDeBajaProximamente(btn.getAttribute("data-baja-prox-id")));
+  });
+}
+
+function renderProximamentePager(totalFiltrados) {
+  const pager = document.getElementById("proximamentePager");
+  if (!pager) return;
+  const totalPages = Math.max(1, Math.ceil(totalFiltrados / PROX_CRM_PAGE_SIZE));
+  if (proxCrmPage > totalPages) proxCrmPage = totalPages;
+  if (totalFiltrados <= PROX_CRM_PAGE_SIZE) {
+    pager.hidden = true;
+    pager.innerHTML = "";
+    return;
+  }
+  pager.hidden = false;
+  pager.innerHTML = `
+    <button type="button" class="btn btn-secondary btn-sm" data-prox-page="prev" ${proxCrmPage <= 1 ? "disabled" : ""}><i class="fa fa-chevron-left"></i> Anterior</button>
+    <span class="proxim-crm-pager-info">Página ${proxCrmPage} de ${totalPages} · ${totalFiltrados} ítems</span>
+    <button type="button" class="btn btn-secondary btn-sm" data-prox-page="next" ${proxCrmPage >= totalPages ? "disabled" : ""}>Siguiente <i class="fa fa-chevron-right"></i></button>`;
+  pager.querySelector("[data-prox-page=prev]")?.addEventListener("click", () => {
+    if (proxCrmPage > 1) {
+      proxCrmPage -= 1;
+      pintarProximamenteLista();
+    }
+  });
+  pager.querySelector("[data-prox-page=next]")?.addEventListener("click", () => {
+    const tp = Math.max(1, Math.ceil(proxCrmFiltrados().length / PROX_CRM_PAGE_SIZE));
+    if (proxCrmPage < tp) {
+      proxCrmPage += 1;
+      pintarProximamenteLista();
+    }
+  });
+}
+
+function pintarProximamenteLista() {
+  const cont = document.getElementById("proximamenteLista");
+  const resumen = document.getElementById("proximamenteResumen");
+  const toolbar = document.getElementById("proximamenteToolbar");
+  if (!cont) return;
+
+  const filtrados = proxCrmFiltrados();
+  if (resumen) {
+    const total = proxCrmItemsAll.length;
+    resumen.textContent = total
+      ? `${total} ítem${total !== 1 ? "s" : ""} activo${total !== 1 ? "s" : ""}${filtrados.length !== total ? ` · mostrando ${filtrados.length} con filtro` : ""}`
+      : "Todavía no hay ítems. Creá el primero para la vitrina.";
+  }
+  if (toolbar) toolbar.hidden = !proxCrmItemsAll.length;
+
+  if (!filtrados.length) {
+    cont.innerHTML =
+      "<p class='catalogo-listado-vacio'><i class='fa fa-search'></i> Ningún ítem coincide con la búsqueda o filtro.</p>";
+    renderProximamentePager(0);
+    return;
+  }
+
+  const start = (proxCrmPage - 1) * PROX_CRM_PAGE_SIZE;
+  const pagina = filtrados.slice(start, start + PROX_CRM_PAGE_SIZE);
+  cont.innerHTML = pagina.map(htmlProximamenteCard).join("");
+  bindProximamenteListaAcciones(cont);
+  renderProximamentePager(filtrados.length);
+}
+
+function ensureProximamenteToolbar() {
+  if (proxCrmToolbarBound) return;
+  proxCrmToolbarBound = true;
+  const onFilter = () => {
+    proxCrmPage = 1;
+    pintarProximamenteLista();
+  };
+  document.getElementById("proximamenteBuscar")?.addEventListener("input", onFilter);
+  document.getElementById("proximamenteFiltroPub")?.addEventListener("change", onFilter);
+}
+
+async function cargarProximamenteItems() {
+  const cont = document.getElementById("proximamenteLista");
+  if (!cont) return;
+  cont.innerHTML = "<p class='catalogo-listado-vacio'><i class='fa fa-circle-notch fa-spin'></i> Cargando…</p>";
+  try {
+    proxCrmItemsAll = await apiGet("/proximamente-items");
+    proxCrmPage = 1;
+    ensureProximamenteToolbar();
+    if (!proxCrmItemsAll.length) {
+      document.getElementById("proximamenteToolbar")?.setAttribute("hidden", "");
+      document.getElementById("proximamenteResumen").textContent =
+        "Todavía no hay ítems. Creá el primero para la vitrina.";
+      cont.innerHTML =
+        "<p class='catalogo-listado-vacio'><i class='fa fa-hourglass-half'></i> Sin ítems en Próximamente.</p>";
+      renderProximamentePager(0);
+      return;
+    }
+    pintarProximamenteLista();
   } catch (e) {
     cont.innerHTML = `<p class='catalogo-listado-vacio'>${escaparHtml(e.message)}</p>`;
   }

@@ -37,9 +37,125 @@ body.pagina-proximamente {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 90% 70% at 100% 0%, rgba(253, 17, 17, 0.06), transparent 50%),
-    radial-gradient(ellipse 60% 50% at 0% 100%, rgba(255, 200, 120, 0.1), transparent 55%);
+    radial-gradient(ellipse 90% 70% at 100% 0%, rgba(253, 17, 17, 0.14), transparent 50%),
+    radial-gradient(ellipse 60% 50% at 0% 100%, rgba(255, 200, 120, 0.16), transparent 55%);
   z-index: 0;
+}
+
+.prox-hero-lights {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.prox-hero-light {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(64px);
+  opacity: 0.75;
+}
+
+.prox-hero-light--red-l {
+  width: min(50vw, 420px);
+  height: min(50vw, 420px);
+  left: -8%;
+  top: 18%;
+  background: rgba(253, 17, 17, 0.55);
+}
+
+.prox-hero-light--red-r {
+  width: min(44vw, 360px);
+  height: min(44vw, 360px);
+  right: -6%;
+  top: 28%;
+  background: rgba(255, 90, 60, 0.45);
+}
+
+.prox-hero-light--warm {
+  width: min(70vw, 520px);
+  height: min(36vw, 280px);
+  left: 50%;
+  top: 5%;
+  transform: translateX(-50%);
+  background: rgba(255, 220, 160, 0.22);
+  filter: blur(80px);
+}
+
+.prox-hero-light--beam {
+  width: 40%;
+  height: 120%;
+  left: 30%;
+  top: -20%;
+  border-radius: 40%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 70%);
+  filter: blur(40px);
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .prox-hero-light--red-l {
+    animation: prox-hero-shine-a 4.2s ease-in-out infinite;
+  }
+
+  .prox-hero-light--red-r {
+    animation: prox-hero-shine-b 5.1s ease-in-out infinite;
+  }
+
+  .prox-hero-light--warm {
+    animation: prox-hero-shine-c 6s ease-in-out infinite;
+  }
+
+  .prox-hero-light--beam {
+    animation: prox-hero-shine-beam 7s ease-in-out infinite;
+  }
+}
+
+@keyframes prox-hero-shine-a {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes prox-hero-shine-b {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes prox-hero-shine-c {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes prox-hero-shine-beam {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: rotate(-6deg);
+  }
+  50% {
+    opacity: 0.65;
+    transform: rotate(6deg);
+  }
 }
 
 .prox-hero-watermark {
@@ -345,8 +461,26 @@ body.pagina-proximamente {
   position: relative;
   margin: -20px 0 0;
   width: 100%;
-  padding: 28px 0 56px;
+  padding: 28px 0 72px;
   overflow: hidden;
+}
+
+.prox-carousel-stage::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 140px;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(6, 6, 8, 0.35) 35%,
+    rgba(5, 5, 8, 0.92) 72%,
+    #050508 100%
+  );
 }
 
 .prox-carousel-stage::before {
@@ -363,7 +497,7 @@ body.pagina-proximamente {
 
 .prox-swiper-shell {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: min(1180px, calc(100% - 24px));
   margin-inline: auto;
   padding: 24px 52px 8px;
@@ -577,13 +711,45 @@ body.pagina-proximamente {
 }
 
 @media (hover: none) {
-  .prox-swiper .swiper-slide-active .prox-deck-card.has-hover-image .prox-deck-img--main {
+  .prox-deck-media {
+    cursor: pointer;
+  }
+
+  .prox-deck-hint-montaje {
+    display: flex;
+  }
+
+  .prox-deck-card.has-hover-image.is-showing-montaje .prox-deck-img--main {
     opacity: 0;
   }
 
-  .prox-swiper .swiper-slide-active .prox-deck-card.has-hover-image .prox-deck-img--hover {
+  .prox-deck-card.has-hover-image.is-showing-montaje .prox-deck-img--hover {
     opacity: 1;
   }
+}
+
+.prox-deck-hint-montaje {
+  display: none;
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.prox-deck-card.is-showing-montaje .prox-deck-hint-montaje {
+  background: rgba(253, 17, 17, 0.75);
+  border-color: rgba(255, 255, 255, 0.35);
 }
 
 .prox-deck-foot {
@@ -843,8 +1009,11 @@ body.pagina-proximamente {
   background: #050508;
   color: #fff;
   padding: 56px 0;
-  margin-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: -56px;
+  padding-top: 88px;
+  border-top: none;
+  position: relative;
+  z-index: 0;
 }
 
 .prox-band-inner {
@@ -982,6 +1151,7 @@ body.pagina-proximamente {
   .prox-hero-media,
   .prox-hero-media::before,
   .prox-hero-photo,
+  .prox-hero-light,
   .prox-scroll-line {
     animation: none;
   }

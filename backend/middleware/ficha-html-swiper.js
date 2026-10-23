@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const { loadApliquesCatalog, patchApliquesCarouselInHtml } = require("../services/apliques-carousel-html");
+const { patchHtmlFavicon } = require("../lib/patch-html-favicon");
 
 
 
@@ -122,17 +123,14 @@ function createFichaHtmlMiddleware(staticRoot) {
 
 
 
-    if (!html.includes("swiper-producto")) return next();
+    let patched = patchHtmlFavicon(html);
 
-
-
-    const patched = patchProductFichaHtml(html, {
-
-      staticRoot,
-
-      currentFile: path.basename(filePath),
-
-    });
+    if (patched.includes("swiper-producto")) {
+      patched = patchProductFichaHtml(patched, {
+        staticRoot,
+        currentFile: path.basename(filePath),
+      });
+    }
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
 
