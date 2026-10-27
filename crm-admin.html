@@ -11,7 +11,7 @@
   <title>Panel CRM - Ituarte</title>
     <link rel="stylesheet" href="vendor/fonts/work-sans.css">
   <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
-<link rel="stylesheet" href="css/crm.css?v=prox5">
+<link rel="stylesheet" href="css/crm.css?v=home-banner1">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -338,6 +338,72 @@
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="catalogo-panel-grilla catalogo-panel-home-vitrina" aria-labelledby="catalogoHomeVitrinaTitulo">
+              <h3 id="catalogoHomeVitrinaTitulo">Vitrina en la Home</h3>
+              <p class="catalogo-panel-grilla-desc">Elegí productos <strong>ya publicados</strong> para destacar en el inicio. Todos enlazan a la misma ficha <code>/p/slug</code>.</p>
+              <div class="catalogo-home-vitrina-grid">
+                <label class="catalogo-home-vitrina-check">
+                  <input type="checkbox" id="catalogoHomeNovedades">
+                  Carrusel <strong>Novedades</strong>
+                </label>
+                <div class="form-grupo catalogo-home-vitrina-orden">
+                  <label for="catalogoHomeNovedadesOrden">Orden novedades</label>
+                  <input type="number" id="catalogoHomeNovedadesOrden" min="0" step="1" value="0">
+                </div>
+                <div class="form-grupo catalogo-home-vitrina-lead">
+                  <label for="catalogoHomeNovedadesLead">Texto del slide (solo si no usás banner)</label>
+                  <input type="text" id="catalogoHomeNovedadesLead" maxlength="255" placeholder="Ej. Sumá calidez a tu living">
+                </div>
+                <div class="form-grupo catalogo-home-vitrina-banner">
+                  <label>Banner Novedades (Canva / diseño propio)</label>
+                  <p class="form-desc">Tamaño del banner: <strong>1400×560 px</strong> (PNG o JPG). Si subís banner, en el home se muestra la imagen entera (clic → ficha).</p>
+                  <div class="catalogo-grilla-imagen-row">
+                    <div id="catalogoHomeBannerPreview" class="catalogo-imagen-preview-wrap catalogo-home-banner-preview"></div>
+                    <div class="catalogo-imagen-datos">
+                      <input type="text" id="catalogoHomeBannerRuta" class="catalogo-imagen-ruta" readonly placeholder="Sin banner — diseño automático">
+                      <div class="catalogo-grilla-imagen-acciones">
+                        <label class="btn btn-secondary btn-sm catalogo-btn-subir">
+                          <i class="fa fa-upload" aria-hidden="true"></i> Subir banner
+                          <input type="file" accept="image/*" hidden id="catalogoHomeBannerFile">
+                        </label>
+                        <button type="button" class="btn btn-secondary btn-sm" id="btnQuitarHomeBanner">
+                          <i class="fa fa-times" aria-hidden="true"></i> Quitar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <label class="catalogo-home-vitrina-check">
+                  <input type="checkbox" id="catalogoHomeIdeasHero">
+                  Ideas — <strong>foto grande arriba</strong> (autoplay, distinta del carrusel)
+                </label>
+                <div class="form-grupo catalogo-home-vitrina-orden">
+                  <label for="catalogoHomeIdeasHeroOrden">Orden foto grande</label>
+                  <input type="number" id="catalogoHomeIdeasHeroOrden" min="0" step="1" value="0">
+                </div>
+                <div class="form-grupo catalogo-home-vitrina-lead">
+                  <label for="catalogoHomeIdeasLead">Texto bajo el nombre (arriba)</label>
+                  <input type="text" id="catalogoHomeIdeasLead" maxlength="255" placeholder="Ej. Apto para cocina, living y dormitorio">
+                </div>
+                <label class="catalogo-home-vitrina-check">
+                  <input type="checkbox" id="catalogoHomeIdeas">
+                  Ideas — <strong>carrusel abajo</strong> (otros fotomontajes)
+                </label>
+                <div class="form-grupo catalogo-home-vitrina-orden">
+                  <label for="catalogoHomeIdeasOrden">Orden carrusel abajo</label>
+                  <input type="number" id="catalogoHomeIdeasOrden" min="0" step="1" value="0">
+                </div>
+                <label class="catalogo-home-vitrina-check">
+                  <input type="checkbox" id="catalogoHomeNuevos">
+                  Fila <strong>Nuevos ingresos</strong> (home)
+                </label>
+                <div class="form-grupo catalogo-home-vitrina-orden">
+                  <label for="catalogoHomeNuevosOrden">Orden destacados</label>
+                  <input type="number" id="catalogoHomeNuevosOrden" min="0" step="1" value="0">
                 </div>
               </div>
             </section>

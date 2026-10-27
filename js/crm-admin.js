@@ -2917,6 +2917,19 @@ async function abrirNuevoCatalogo() {
   renderCatalogoColores([]);
   toggleCatalogoSinColores();
 
+  const chkNov = document.getElementById("catalogoHomeNovedades");
+  const chkIdeas = document.getElementById("catalogoHomeIdeas");
+  const chkNuevos = document.getElementById("catalogoHomeNuevos");
+  if (chkNov) chkNov.checked = false;
+  if (chkIdeas) chkIdeas.checked = false;
+  if (chkNuevos) chkNuevos.checked = false;
+  setVal("catalogoHomeNovedadesOrden", "0");
+  setVal("catalogoHomeIdeasOrden", "0");
+  setVal("catalogoHomeNuevosOrden", "0");
+  setVal("catalogoHomeNovedadesLead", "");
+  renderCatalogoHomeBanner("");
+  bindCatalogoHomeBannerUpload();
+
   const tit = document.getElementById("catalogoEditorTitulo");
   const sub = document.getElementById("catalogoEditorSubtitulo");
   if (tit) tit.textContent = "Nuevo producto";
@@ -3063,7 +3076,7 @@ async function catalogoEditorTogglePublicado() {
   const id = wrap?.dataset.productoId || document.getElementById("catalogoProductoId")?.value;
   if (!id) return;
   const siguiente = document.getElementById("btnCatalogoEditorTogglePub")?.dataset.siguientePub === "1";
-  await alternarPublicadoCatalogo(id, siguiente);
+  await alternarPublicadoCatalogo(id, siguiente, { includeVitrinaFromForm: true });
   const sel = document.getElementById("catalogoPublicado");
   if (sel) sel.value = siguiente ? "1" : "0";
   const nombre = document.getElementById("catalogoEditorTitulo")?.textContent || "";
@@ -3299,6 +3312,23 @@ async function abrirEditarCatalogo(id) {
     renderCatalogoColores(p.colores || []);
     toggleCatalogoSinColores();
 
+    const chkNov = document.getElementById("catalogoHomeNovedades");
+    const chkIdeasHero = document.getElementById("catalogoHomeIdeasHero");
+    const chkIdeas = document.getElementById("catalogoHomeIdeas");
+    const chkNuevos = document.getElementById("catalogoHomeNuevos");
+    if (chkNov) chkNov.checked = !!p.home_novedades;
+    if (chkIdeasHero) chkIdeasHero.checked = !!p.home_ideas_hero;
+    if (chkIdeas) chkIdeas.checked = !!p.home_ideas;
+    if (chkNuevos) chkNuevos.checked = !!p.home_nuevos;
+    setVal("catalogoHomeNovedadesOrden", String(p.home_novedades_orden ?? 0));
+    setVal("catalogoHomeIdeasHeroOrden", String(p.home_ideas_hero_orden ?? 0));
+    setVal("catalogoHomeIdeasOrden", String(p.home_ideas_orden ?? 0));
+    setVal("catalogoHomeIdeasLead", p.home_ideas_lead || "");
+    setVal("catalogoHomeNuevosOrden", String(p.home_nuevos_orden ?? 0));
+    setVal("catalogoHomeNovedadesLead", p.home_novedades_lead || "");
+    renderCatalogoHomeBanner(p.home_novedades_banner || "");
+    bindCatalogoHomeBannerUpload();
+
     const link = document.getElementById("catalogoLinkWeb");
     if (link) {
       link.href = urlFichaProducto(p);
@@ -3321,6 +3351,62 @@ async function abrirEditarCatalogo(id) {
 
 function cerrarModalCatalogo() {
   volverListaCatalogo();
+}
+
+function homeVitrinaFieldsFromForm() {
+  const bannerRaw = document.getElementById("catalogoHomeBannerRuta")?.value.trim();
+  return {
+    home_novedades: !!document.getElementById("catalogoHomeNovedades")?.checked,
+    home_novedades_orden: parseInt(document.getElementById("catalogoHomeNovedadesOrden")?.value, 10) || 0,
+    home_novedades_lead:
+      document.getElementById("catalogoHomeNovedadesLead")?.value.trim() || null,
+    home_novedades_banner: bannerRaw === "" ? null : bannerRaw,
+    home_ideas_hero: !!document.getElementById("catalogoHomeIdeasHero")?.checked,
+    home_ideas_hero_orden: parseInt(document.getElementById("catalogoHomeIdeasHeroOrden")?.value, 10) || 0,
+    home_ideas_lead: document.getElementById("catalogoHomeIdeasLead")?.value.trim() || null,
+    home_ideas: !!document.getElementById("catalogoHomeIdeas")?.checked,
+    home_ideas_orden: parseInt(document.getElementById("catalogoHomeIdeasOrden")?.value, 10) || 0,
+    home_nuevos: !!document.getElementById("catalogoHomeNuevos")?.checked,
+    home_nuevos_orden: parseInt(document.getElementById("catalogoHomeNuevosOrden")?.value, 10) || 0,
+  };
+}
+
+function renderCatalogoHomeBanner(ruta) {
+  const prev = document.getElementById("catalogoHomeBannerPreview");
+  const inp = document.getElementById("catalogoHomeBannerRuta");
+  if (inp) inp.value = ruta || "";
+  if (!prev) return;
+  prev.innerHTML = ruta
+    ? `<img src="${escAttrCatalogo(ruta)}" alt="" class="catalogo-imagen-preview catalogo-home-banner-img">`
+    : `<div class="catalogo-imagen-vacio"><i class="fa fa-panorama"></i></div>`;
+}
+
+function bindCatalogoHomeBannerUpload() {
+  const input = document.getElementById("catalogoHomeBannerFile");
+  if (!input || input.dataset.bound) return;
+  input.dataset.bound = "1";
+  input.addEventListener("change", async () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    try {
+      const data = await apiSubirHomeBanner(file);
+      renderCatalogoHomeBanner(data.ruta);
+      mostrarToast("Banner subido — guardá el producto para aplicarlo en el home");
+    } catch (e) {
+      mostrarToast(e.message, true);
+    } finally {
+      input.value = "";
+    }
+  });
+
+  const btnQuitar = document.getElementById("btnQuitarHomeBanner");
+  if (btnQuitar && !btnQuitar.dataset.bound) {
+    btnQuitar.dataset.bound = "1";
+    btnQuitar.addEventListener("click", () => {
+      renderCatalogoHomeBanner("");
+      mostrarToast("Banner quitado (guardá para aplicar)");
+    });
+  }
 }
 
 async function guardarCatalogoProducto(ev) {
@@ -3363,7 +3449,8 @@ async function guardarCatalogoProducto(ev) {
     descripcion_html: desc || null,
     imagenes: ordenarImagenesFichaCrm(leerImagenesForm()),
     colores,
-    sin_colores: !!sinColores
+    sin_colores: !!sinColores,
+    ...homeVitrinaFieldsFromForm(),
   };
 
   if (esAlta) {
@@ -3402,9 +3489,13 @@ async function guardarCatalogoProducto(ev) {
   }
 }
 
-async function alternarPublicadoCatalogo(id, publicado) {
+async function alternarPublicadoCatalogo(id, publicado, opts) {
   try {
-    const data = await apiPut("/catalogo-productos/" + id, { publicado: !!publicado });
+    const body = { publicado: !!publicado };
+    if (opts && opts.includeVitrinaFromForm) {
+      Object.assign(body, homeVitrinaFieldsFromForm());
+    }
+    const data = await apiPut("/catalogo-productos/" + id, body);
     if (data.publicacion_error) {
       mostrarToast(data.publicacion_error, true);
     } else {

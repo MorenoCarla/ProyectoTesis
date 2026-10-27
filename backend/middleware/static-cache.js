@@ -19,7 +19,8 @@ function setStaticCacheHeaders(res, filePath) {
       base.startsWith("ficha-producto") ||
       base.startsWith("apliques-catalog") ||
       base.startsWith("catalogo-publico") ||
-      base.startsWith("site-chrome");
+      base.startsWith("site-chrome") ||
+      base.startsWith("home-vitrinas");
     res.setHeader(
       "Cache-Control",
       fichasCriticas ? "no-store, no-cache, must-revalidate" : "public, max-age=0, must-revalidate"

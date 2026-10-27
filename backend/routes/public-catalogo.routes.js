@@ -4,8 +4,19 @@ const {
   listarProductosCategoriaPublico,
   obtenerProductoPublico
 } = require("../services/catalogo-publico");
+const { obtenerHomeVitrinas } = require("../services/home-vitrinas");
 
 const router = express.Router();
+
+router.get("/home-vitrinas", async (req, res) => {
+  try {
+    const data = await obtenerHomeVitrinas();
+    res.json(data);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "No se pudo cargar la vitrina del home" });
+  }
+});
 
 router.get("/categorias", async (req, res) => {
   try {

@@ -151,6 +151,24 @@ async function apiSubirImagenCatalogo(file) {
   return data;
 }
 
+async function apiSubirHomeBanner(file) {
+  const fd = new FormData();
+  fd.append("imagen", file);
+  let res;
+  try {
+    res = await fetch(API_URL + "/catalogo-productos/upload-home-banner", {
+      method: "POST",
+      headers: { Authorization: "Bearer " + obtenerToken() },
+      body: fd
+    });
+  } catch {
+    throw new Error("Sin conexión al servidor");
+  }
+  const data = await leerRespuesta(res);
+  if (!res.ok) throw new Error(data.error || "Error al subir banner");
+  return data;
+}
+
 async function apiSubirPresupuesto(formData) {
   let res;
   try {

@@ -7,7 +7,9 @@ const { verificarToken, soloRoles } = require("../middleware/auth");
 
 const SITE_ROOT = path.join(__dirname, "..", "..");
 const catalogoImgDir = path.join(SITE_ROOT, "img", "productos");
+const homeBannerDir = path.join(SITE_ROOT, "img", "home-banners");
 if (!fs.existsSync(catalogoImgDir)) fs.mkdirSync(catalogoImgDir, { recursive: true });
+if (!fs.existsSync(homeBannerDir)) fs.mkdirSync(homeBannerDir, { recursive: true });
 
 const uploadImagenCatalogo = multer({
   storage: multer.diskStorage({
@@ -27,6 +29,22 @@ const uploadImagenCatalogo = multer({
     else cb(new Error("Solo imágenes (PNG, JPG, WEBP…)"));
   }
 });
+
+const uploadHomeBanner = multer({
+  storage: multer.diskStorage({
+    destination: homeBannerDir,
+    filename: (req, file, cb) => {
+      const ext = path.extname(file.originalname || "").toLowerCase() || ".png";
+      cb(null, `home-banner-${Date.now()}${ext}`);
+    }
+  }),
+  limits: { fileSize: 8 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (/^image\//.test(file.mimetype)) cb(null, true);
+    else cb(new Error("Solo imágenes (PNG, JPG, WEBP…)"));
+  }
+});
+
 const {
   publicarProductoEnWeb,
   quitarCajitaProducto,
@@ -106,6 +124,56 @@ function normalizarColoresBody(colores) {
       etiqueta: (c.etiqueta || "").trim() || null
     }))
     .filter((c) => c.codigo);
+}
+
+function camposHomeVitrinaDesdeBody(body) {
+  const campos = [];
+  const valores = [];
+  if (body.home_novedades !== undefined) {
+    campos.push("home_novedades = ?");
+    valores.push(body.home_novedades ? 1 : 0);
+  }
+  if (body.home_novedades_orden !== undefined) {
+    campos.push("home_novedades_orden = ?");
+    valores.push(parseInt(body.home_novedades_orden, 10) || 0);
+  }
+  if (body.home_novedades_lead !== undefined) {
+    campos.push("home_novedades_lead = ?");
+    valores.push(String(body.home_novedades_lead || "").trim() || null);
+  }
+  if (body.home_novedades_banner !== undefined) {
+    campos.push("home_novedades_banner = ?");
+    valores.push(String(body.home_novedades_banner || "").trim() || null);
+  }
+  if (body.home_ideas !== undefined) {
+    campos.push("home_ideas = ?");
+    valores.push(body.home_ideas ? 1 : 0);
+  }
+  if (body.home_ideas_orden !== undefined) {
+    campos.push("home_ideas_orden = ?");
+    valores.push(parseInt(body.home_ideas_orden, 10) || 0);
+  }
+  if (body.home_ideas_hero !== undefined) {
+    campos.push("home_ideas_hero = ?");
+    valores.push(body.home_ideas_hero ? 1 : 0);
+  }
+  if (body.home_ideas_hero_orden !== undefined) {
+    campos.push("home_ideas_hero_orden = ?");
+    valores.push(parseInt(body.home_ideas_hero_orden, 10) || 0);
+  }
+  if (body.home_ideas_lead !== undefined) {
+    campos.push("home_ideas_lead = ?");
+    valores.push(body.home_ideas_lead ? String(body.home_ideas_lead).trim().slice(0, 255) : null);
+  }
+  if (body.home_nuevos !== undefined) {
+    campos.push("home_nuevos = ?");
+    valores.push(body.home_nuevos ? 1 : 0);
+  }
+  if (body.home_nuevos_orden !== undefined) {
+    campos.push("home_nuevos_orden = ?");
+    valores.push(parseInt(body.home_nuevos_orden, 10) || 0);
+  }
+  return { campos, valores };
 }
 
 function filtrosListadoCatalogo(query) {
@@ -316,6 +384,17 @@ router.post("/", verificarToken, soloRoles("admin"), async (req, res) => {
     );
 
     const nuevoId = ins.insertId;
+    const homePatch = camposHomeVitrinaDesdeBody(req.body);
+    if (homePatch.campos.length) {
+      try {
+        await pool.query(
+          `UPDATE productos_catalogo SET ${homePatch.campos.join(", ")} WHERE id = ?`,
+          [...homePatch.valores, nuevoId]
+        );
+      } catch (homeErr) {
+        if (homeErr.code !== "ER_BAD_FIELD_ERROR") throw homeErr;
+      }
+    }
     const [rows] = await pool.query(`${SQL_LISTA} AND p.id = ?`, [nuevoId]);
     const producto = mapProducto(rows[0]);
 
@@ -337,6 +416,25 @@ router.post("/", verificarToken, soloRoles("admin"), async (req, res) => {
     res.status(500).json({ error: "No se pudo crear el producto" });
   }
 });
+
+// POST /catalogo-productos/upload-home-banner — banner diseñado (Canva) para Novedades
+router.post(
+  "/upload-home-banner",
+  verificarToken,
+  soloRoles("admin"),
+  (req, res) => {
+    uploadHomeBanner.single("imagen")(req, res, (err) => {
+      if (err) {
+        return res.status(400).json({ error: err.message || "No se pudo subir el banner" });
+      }
+      if (!req.file) {
+        return res.status(400).json({ error: "Falta el archivo (campo imagen)" });
+      }
+      const ruta = "img/home-banners/" + req.file.filename;
+      res.json({ ruta, url: "/" + ruta.replace(/\\/g, "/") });
+    });
+  }
+);
 
 // POST /catalogo-productos/upload-imagen — sube a img/productos/ (ficha web)
 router.post(
@@ -503,6 +601,9 @@ router.put("/:id", verificarToken, soloRoles("admin"), async (req, res) => {
       campos.push("categoria_id = ?");
       valores.push(categoria_id);
     }
+    const homePatch = camposHomeVitrinaDesdeBody(req.body);
+    campos.push(...homePatch.campos);
+    valores.push(...homePatch.valores);
 
     if (!campos.length) {
       return res.status(400).json({ error: "No hay datos para actualizar" });

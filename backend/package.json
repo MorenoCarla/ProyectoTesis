@@ -23,7 +23,10 @@
     "verificar-pdfs": "node scripts/verificar-pdfs-catalogo.js",
     "reparar-descripcion-html": "node scripts/reparar-descripcion-desde-html.js",
     "inject-favicon-html": "node scripts/inject-favicon-en-html.js",
-    "generar-iconos-favicon": "node scripts/generar-iconos-favicon.js"
+    "generar-iconos-favicon": "node scripts/generar-iconos-favicon.js",
+    "migrate-catalogo-home-vitrinas": "node scripts/migrate-catalogo-home-vitrinas.js",
+    "migrate-catalogo-home-ideas-dual": "node scripts/migrate-catalogo-home-ideas-dual.js",
+    "check-home-vitrinas": "node scripts/check-home-vitrinas.js"
   },
   "keywords": [],
   "author": "",

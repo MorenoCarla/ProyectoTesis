@@ -6,7 +6,16 @@
 
 @media (max-width: 992px) {
 
-  body.pagina-home,
+  body.pagina-institucional.pagina-home {
+    background-image: none !important;
+    background-color: #d2d2d2 !important;
+  }
+
+  body.pagina-home::before {
+    content: none;
+    display: none;
+  }
+
   body.pagina-conocenos,
   body.pagina-catalogo,
   body.pagina-contacto {
@@ -14,7 +23,6 @@
     background-color: transparent !important;
   }
 
-  body.pagina-home::before,
   body.pagina-conocenos::before,
   body.pagina-catalogo::before,
   body.pagina-contacto::before {
@@ -28,7 +36,6 @@
     background-repeat: no-repeat;
   }
 
-  body.pagina-home::before,
   body.pagina-catalogo::before,
   body.pagina-contacto::before {
     background-image: url("../img/mobile/fondo1.png");

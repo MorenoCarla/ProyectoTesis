@@ -54,12 +54,14 @@
   <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="vendor/swiper/swiper-bundle.min.css">
   <link rel="stylesheet" href="css/site-chrome.css?v=11">
-  <link rel="stylesheet" href="css/styles.css?v=20261016-proyectos-slot">
+  <link rel="stylesheet" href="css/styles.css?v=20261026-contraste-home">
+  <link rel="stylesheet" href="css/home-vitrinas.css?v=49">
   <link rel="stylesheet" href="css/institucional-mobile-bg.css">
   <script src="vendor/swiper/swiper-bundle.min.js" defer></script>
   <script src="js/site-chrome.js" defer></script>
   <script src="js/proyecto-video-utils.js?v=20261015-posters" defer></script>
   <script src="js/script.js?v=20261016-proyectos-slot" defer></script>
+  <script src="js/home-vitrinas.js?v=39" defer></script>
 </head>
 <body class="pagina-institucional pagina-home">
 
@@ -105,15 +107,6 @@
             <a href="productos.html" class="btn btn-primary">Ver productos</a>
           </div>
         </div>
-        <div class="swiper-slide">
-          <img src="img/img3.png" alt="Catálogo 2025" loading="lazy" decoding="async">
-          <div class="hero-overlay">
-            <span class="section-kicker">Catálogo 2025</span>
-            <h1>Explorá nuestro catálogo online</h1>
-            <p>Descargalo o navegalo desde cualquier dispositivo.</p>
-            <a href="catalogo.html" class="btn btn-primary">Ver catálogo</a>
-          </div>
-        </div>
       </div>
       <div class="swiper-pagination"></div>
       <div class="swiper-button-prev"></div>
@@ -121,20 +114,47 @@
     </div>
   </section>
 
-  <main>
-    <section class="section-block section-block--panel" id="conocenos">
-      <div class="container reveal">
-        <span class="section-kicker">Nuestra empresa</span>
-        <h2 class="section-title">Un poco sobre nuestra historia...💕</h2>
-        <p class="section-lead">Somos una empresa con casi 50 años de trayectoria en soluciones eléctricas, iluminación y tecnología. Nacimos en Concepción y seguimos creciendo hoy.</p>
-        <a href="conócenos.html" class="banner-link">
-          <div class="banner-seccion banner-conocenos">
-            <h2>¿QUIÉNES SOMOS?</h2>
-          </div>
-        </a>
+  <!-- vitrinas-home v15-dual-ideas -->
+  <section class="home-vitrinas" id="home-vitrinas" hidden aria-label="Destacados de iluminación">
+    <div class="home-vitrinas-inner">
+      <p class="home-vitrinas-aviso" id="home-vitrinas-aviso" hidden role="status"></p>
+      <div id="home-vitrinas-novedades" class="home-vitrinas-block home-vitrinas-block--novedades" hidden>
+        <header class="home-vitrinas-intro home-vitrinas-intro--novedades home-vitrina-head-reveal">
+          <span class="section-kicker home-novedades-kicker">En vitrina ahora</span>
+          <h2 class="section-title home-novedades-title"><span class="home-novedades-title-accent">Novedades</span> del mes</h2>
+        </header>
+        <div id="home-novedades-swiper-shell" class="home-vitrinas-media home-vitrina-head-reveal"></div>
       </div>
-    </section>
+      <div id="home-vitrinas-nuevos" class="home-vitrinas-block home-vitrinas-block--ingresos" hidden>
+        <div class="home-vitrinas-ingresos-wrap">
+          <header class="home-vitrinas-intro home-vitrinas-intro--ingresos home-vitrina-head-reveal">
+            <span class="section-kicker home-ingresos-kicker">Recién llegados</span>
+            <h2 class="section-title home-ingresos-title">Nuevos ingresos</h2>
+            <p class="section-lead home-ingresos-lead">Lo último que entró al depósito: stock fresco, modelos que vuelan. Entrá a la ficha, elegí el tuyo y consultanos antes de que se agote.</p>
+          </header>
+          <div class="home-vitrinas-scroll home-vitrinas-scroll--ingresos" id="home-nuevos-grid"></div>
+        </div>
+      </div>
+      <div id="home-vitrinas-ideas" class="home-vitrinas-block home-vitrinas-block--ideas" hidden>
+        <header class="home-vitrinas-intro home-vitrinas-intro--ideas home-vitrina-head-reveal">
+          <span class="section-kicker home-ideas-kicker">Inspiración</span>
+          <h2 class="section-title home-ideas-title">
+            <span class="home-ideas-title-line">Ideas en</span>
+            <span class="home-ideas-title-em">ambiente</span>
+          </h2>
+          <p class="section-lead home-ideas-lead">Inspirate con espacios iluminados y llevate ideas concretas para tu hogar, oficina o local.</p>
+        </header>
+        <div class="home-ideas-stage home-vitrina-head-reveal" id="home-ideas-stage">
+          <div class="home-ideas-layout">
+            <div class="home-ideas-hero-wrap" id="home-ideas-hero-shell"></div>
+            <div class="home-ideas-thumbs-wrap" id="home-ideas-carrusel-shell"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <main>
     <section class="section-block section-block--gray section-block--home" id="productos">
       <div class="container reveal">
         <span class="section-kicker">Explorá</span>
@@ -157,6 +177,19 @@
             </div>
           </a>
         </div>
+      </div>
+    </section>
+
+    <section class="section-block section-block--panel" id="conocenos">
+      <div class="container reveal">
+        <span class="section-kicker">Nuestra empresa</span>
+        <h2 class="section-title">Un poco sobre nuestra historia...💕</h2>
+        <p class="section-lead">Somos una empresa con casi 50 años de trayectoria en soluciones eléctricas, iluminación y tecnología. Nacimos en Concepción y seguimos creciendo hoy.</p>
+        <a href="conócenos.html" class="banner-link">
+          <div class="banner-seccion banner-conocenos">
+            <h2>¿QUIÉNES SOMOS?</h2>
+          </div>
+        </a>
       </div>
     </section>
 

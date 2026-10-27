@@ -4,13 +4,14 @@
 
 /* Home — Electricidad Ituarte */
 
-@media (min-width: 769px) {
-  .pagina-home {
-    background-image: url("../img/fondo1.png?v=hd2");
-    background-size: cover;
-    background-position: center;
-    background-attachment: scroll;
-  }
+body.pagina-institucional.pagina-home {
+  /* Fondo gris visible; cajitas blancas encima (contraste claro) */
+  --ituarte-home-bg: #d2d2d2;
+  --ituarte-home-panel: #ffffff;
+  --ituarte-home-panel-borde: rgba(0, 0, 0, 0.1);
+  background-color: var(--ituarte-home-bg) !important;
+  background-image: none !important;
+  overflow-x: clip;
 }
 
 .pagina-home main {
@@ -78,24 +79,34 @@
   background: var(--ituarte-rojo);
 }
 
-/* ── Paneles grises sobre fondo1 (como ubicación) ── */
-.section-block--panel,
-.section-block--gray.section-block--home,
-.cta-contacto {
+/* ── Home: fondo gris continuo + paneles un tono más claro ── */
+.pagina-home .section-block--panel,
+.pagina-home .section-block--gray,
+.pagina-home .cta-contacto,
+.pagina-home .section-block--proyectos-home {
   background: transparent;
+}
+
+body.pagina-home main .section-block .container {
+  background: var(--ituarte-home-panel);
+  border: 1px solid var(--ituarte-home-panel-borde);
+  border-radius: var(--ituarte-radio);
+  padding: clamp(24px, 4vw, 36px);
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.65) inset,
+    0 10px 28px rgba(0, 0, 0, 0.1);
+}
+
+.pagina-home #proyectos .container {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .section-block--gray:not(.section-block--home) {
   background: rgba(230, 230, 230, 0.88);
-}
-
-.section-block--home .container,
-#conocenos .container,
-.cta-contacto .container {
-  background: rgba(230, 230, 230, 0.92);
-  border-radius: var(--ituarte-radio);
-  padding: clamp(24px, 4vw, 36px);
-  box-shadow: var(--ituarte-sombra);
 }
 
 /* Banner ¿Quiénes somos? / Contacto (como antes) */
@@ -404,6 +415,14 @@
   overflow: hidden;
   box-shadow: var(--ituarte-sombra);
   border: 1px solid rgba(255, 255, 255, 0.85);
+}
+
+body.pagina-home .proyectos-home-stage {
+  background: var(--ituarte-home-panel);
+  border: 1px solid var(--ituarte-home-panel-borde);
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.65) inset,
+    0 10px 28px rgba(0, 0, 0, 0.1);
 }
 
 .proyectos-home-beams {
