@@ -2610,7 +2610,8 @@ function renderCatalogoLista(lista) {
   });
 }
 
-const CATALOGO_ETIQUETAS_IMAGEN = ["Foto cruda", "Fotomontaje"];
+const CATALOGO_LISTA_CRUDAS_ID = "catalogoImagenesCrudasLista";
+const CATALOGO_LISTA_FOTOM_ID = "catalogoImagenesFotomLista";
 
 function escAttrCatalogo(s) {
   return String(s ?? "")
@@ -2730,9 +2731,34 @@ function bindSubidaImagenFila(fila) {
   });
 }
 
-function crearFilaImagenCatalogo(ruta, indice) {
-  const etiqueta =
-    CATALOGO_ETIQUETAS_IMAGEN[indice] || `Imagen ${indice + 1}`;
+function etiquetaFilaImagenCatalogo(tipo, indice) {
+  if (tipo === "fotom") return indice === 0 ? "Fotomontaje" : `Fotomontaje ${indice + 1}`;
+  return indice === 0 ? "Foto cruda" : `Foto cruda ${indice + 1}`;
+}
+
+function renumerarFilasImagenCatalogo(cont) {
+  if (!cont) return;
+  const tipo = cont.dataset.tipoImagen || "cruda";
+  cont.querySelectorAll(".catalogo-fila-imagen").forEach((fila, i) => {
+    const lab = fila.querySelector(".catalogo-fila-label");
+    if (lab) lab.textContent = etiquetaFilaImagenCatalogo(tipo, i);
+  });
+}
+
+function moverFilaImagenCatalogo(fila, delta) {
+  const cont = fila?.parentElement;
+  if (!cont) return;
+  const rows = [...cont.querySelectorAll(":scope > .catalogo-fila-imagen")];
+  const i = rows.indexOf(fila);
+  const j = i + delta;
+  if (j < 0 || j >= rows.length) return;
+  if (delta < 0) cont.insertBefore(fila, rows[j]);
+  else cont.insertBefore(rows[j], fila);
+  renumerarFilasImagenCatalogo(cont);
+}
+
+function crearFilaImagenCatalogo(ruta, tipo, indice) {
+  const etiqueta = etiquetaFilaImagenCatalogo(tipo, indice);
   const preview = ruta ? escAttrCatalogo(ruta) : "";
   const div = document.createElement("div");
   div.className = "catalogo-fila-imagen";
@@ -2744,29 +2770,68 @@ function crearFilaImagenCatalogo(ruta, indice) {
       <span class="catalogo-fila-label">${escAttrCatalogo(etiqueta)}</span>
       <input type="text" class="catalogo-imagen-ruta" value="${escAttrCatalogo(ruta)}" readonly placeholder="Sin archivo — Subir imagen">
       <div class="catalogo-imagen-acciones">
-        <label class="btn btn-secondary btn-sm catalogo-btn-subir">Subir imagen
+        <button type="button" class="btn btn-secondary btn-sm" data-mover-img-up title="Mover arriba en la lista">
+          <i class="fa fa-file-export" aria-hidden="true"></i>
+        </button>
+        <label class="btn btn-secondary btn-sm catalogo-btn-subir">
+          <i class="fa fa-upload" aria-hidden="true"></i> Subir imagen
           <input type="file" accept="image/*" hidden class="catalogo-imagen-file">
         </label>
-        <button type="button" class="btn btn-secondary btn-sm" data-quitar-img title="Quitar">Quitar</button>
+        <button type="button" class="btn btn-secondary btn-sm catalogo-btn-quitar-img" data-quitar-img title="Quitar esta foto">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
       </div>
     </div>`;
+  div.querySelector("[data-mover-img-up]")?.addEventListener("click", () => moverFilaImagenCatalogo(div, -1));
   bindSubidaImagenFila(div);
   return div;
 }
 
-function renderCatalogoImagenes(rutas) {
-  const cont = document.getElementById("catalogoImagenesLista");
+function renderCatalogoListaImagenes(contId, rutas, tipo) {
+  const cont = document.getElementById(contId);
   if (!cont) return;
   const list = Array.isArray(rutas) ? [...rutas] : [];
-  while (list.length < 2) list.push("");
+  if (tipo === "cruda" && list.length === 0) list.push("");
   cont.innerHTML = "";
-  list.forEach((ruta, i) => cont.appendChild(crearFilaImagenCatalogo(ruta, i)));
+  list.forEach((ruta, i) => cont.appendChild(crearFilaImagenCatalogo(ruta, tipo, i)));
+}
+
+function separarImagenesProductoParaEditor(imagenes) {
+  const crudas = [];
+  const fotom = [];
+  for (const src of imagenes || []) {
+    const s = String(src || "").trim();
+    if (!s) continue;
+    if (esImagenFotomontajeFichaCrm(s)) fotom.push(s);
+    else crudas.push(s);
+  }
+  return { crudas, fotom };
+}
+
+function renderCatalogoGaleriaFicha(imagenes) {
+  const { crudas, fotom } = separarImagenesProductoParaEditor(imagenes);
+  renderCatalogoListaImagenes(CATALOGO_LISTA_CRUDAS_ID, crudas, "cruda");
+  renderCatalogoListaImagenes(CATALOGO_LISTA_FOTOM_ID, fotom, "fotom");
+}
+
+function renderCatalogoImagenesVacias() {
+  renderCatalogoListaImagenes(CATALOGO_LISTA_CRUDAS_ID, [""], "cruda");
+  renderCatalogoListaImagenes(CATALOGO_LISTA_FOTOM_ID, [], "fotom");
+}
+
+function leerRutasListaImagen(contId) {
+  const cont = document.getElementById(contId);
+  if (!cont) return [];
+  return [...cont.querySelectorAll(".catalogo-imagen-ruta")]
+    .map((i) => i.value.trim())
+    .filter(Boolean);
 }
 
 function leerImagenesForm() {
-  return [...document.querySelectorAll("#catalogoImagenesLista .catalogo-imagen-ruta")]
-    .map((i) => i.value.trim())
-    .filter(Boolean);
+  return [
+    ...leerRutasListaImagen(CATALOGO_LISTA_CRUDAS_ID),
+    ...leerRutasListaImagen(CATALOGO_LISTA_FOTOM_ID)
+  ];
 }
 
 function etiquetaGrillaDesdeNombre(nombre) {
@@ -2911,7 +2976,7 @@ async function abrirNuevoCatalogo() {
   actualizarEnlaceListadoCatalogo(document.getElementById("catalogoCategoriaId")?.value);
 
   renderCatalogoCaracteristicas([]);
-  renderCatalogoImagenes([]);
+  renderCatalogoImagenesVacias();
   const chkSin = document.getElementById("catalogoSinColores");
   if (chkSin) chkSin.checked = false;
   renderCatalogoColores([]);
@@ -2968,20 +3033,9 @@ function bindSyncNombreGrillaCatalogo() {
   });
 }
 
-function pesoOrdenImagenFichaCrm(src) {
+function esImagenFotomontajeFichaCrm(src) {
   const s = String(src || "").toLowerCase();
-  if (/fotomont|foto-?mont|montaje|ambientad/.test(s)) return 100;
-  if (/crudo|negrocrudo|blancocrudo/.test(s)) return 0;
-  return 10;
-}
-
-function ordenarImagenesFichaCrm(imagenes) {
-  const list = Array.isArray(imagenes) ? imagenes.filter(Boolean) : [];
-  if (list.length < 2) return list;
-  return list
-    .map((src, index) => ({ src, index, w: pesoOrdenImagenFichaCrm(src) }))
-    .sort((a, b) => a.w - b.w || a.index - b.index)
-    .map((x) => x.src);
+  return /fotomont|foto-?mont|ambientad/.test(s);
 }
 
 function renderCatalogoImagenPortada(ruta) {
@@ -3305,7 +3359,7 @@ async function abrirEditarCatalogo(id) {
       "catalogoDescripcion",
       normalizarTextoDescripcionCrm(p.descripcion_texto || p.descripcion_html || "")
     );
-    renderCatalogoImagenes(ordenarImagenesFichaCrm(p.imagenes || []));
+    renderCatalogoGaleriaFicha(p.imagenes || []);
 
     const chkSin = document.getElementById("catalogoSinColores");
     if (chkSin) chkSin.checked = !!p.sin_colores;
@@ -3447,7 +3501,7 @@ async function guardarCatalogoProducto(ev) {
     caracteristicas_list: leerCaracteristicasForm(),
     descripcion_texto: desc || null,
     descripcion_html: desc || null,
-    imagenes: ordenarImagenesFichaCrm(leerImagenesForm()),
+    imagenes: leerImagenesForm(),
     colores,
     sin_colores: !!sinColores,
     ...homeVitrinaFieldsFromForm(),
@@ -3584,11 +3638,20 @@ document.getElementById("btnAgregarCaracteristica")?.addEventListener("click", (
   actualizarPreviewCaracteristicas();
 });
 
-document.getElementById("btnAgregarImagenCatalogo")?.addEventListener("click", () => {
-  const cont = document.getElementById("catalogoImagenesLista");
+document.getElementById("btnAgregarImagenCrudaCatalogo")?.addEventListener("click", () => {
+  const cont = document.getElementById(CATALOGO_LISTA_CRUDAS_ID);
   if (!cont) return;
   const n = cont.querySelectorAll(".catalogo-fila-imagen").length;
-  cont.appendChild(crearFilaImagenCatalogo("", n));
+  cont.appendChild(crearFilaImagenCatalogo("", "cruda", n));
+  renumerarFilasImagenCatalogo(cont);
+});
+
+document.getElementById("btnAgregarImagenFotomCatalogo")?.addEventListener("click", () => {
+  const cont = document.getElementById(CATALOGO_LISTA_FOTOM_ID);
+  if (!cont) return;
+  const n = cont.querySelectorAll(".catalogo-fila-imagen").length;
+  cont.appendChild(crearFilaImagenCatalogo("", "fotom", n));
+  renumerarFilasImagenCatalogo(cont);
 });
 
 document.getElementById("btnAgregarColorCatalogo")?.addEventListener("click", () => {

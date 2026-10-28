@@ -8,8 +8,7 @@ const fs = require("fs");
 const { SITE_ROOT } = require("../config/site-root");
 const {
   categoriaAtributoCss,
-  clasesBodyFicha,
-  ordenarImagenesFicha
+  clasesBodyFicha
 } = require("./ficha-producto-tema");
 const { pdfCatalogoParaCategoria } = require("./pdf-catalogo-categoria");
 
@@ -105,7 +104,7 @@ function mapProductoFicha(row) {
   if (!colores.length && !sin_colores && codigos.length) {
     colores = codigos.map((codigo) => ({ codigo, imagen: null, hex: null, etiqueta: null }));
   }
-  const imagenes = ordenarImagenesFicha(parseJson(row.imagenes_json, []));
+  const imagenes = parseJson(row.imagenes_json, []);
   const carac = partesCaracteristicas(row.caracteristicas_json || row.caracteristicas);
 
   const pdf = pdfCatalogoParaCategoria({

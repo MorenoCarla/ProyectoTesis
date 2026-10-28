@@ -56,19 +56,20 @@
     return "fondo-cada-producto";
   }
 
-  function pesoOrdenImagenFicha(src) {
+  function esImagenFotomontajeFicha(src) {
     const s = String(src || "").toLowerCase();
-    if (/fotomont|foto-?mont|montaje|ambientad/.test(s)) return 100;
-    if (/crudo|negrocrudo|blancocrudo/.test(s)) return 0;
-    return 10;
+    return /fotomont|foto-?mont|ambientad/.test(s);
   }
 
   function ordenarImagenesFicha(imagenes) {
     if (!Array.isArray(imagenes) || imagenes.length < 2) return imagenes || [];
-    return imagenes
-      .map((src, index) => ({ src, index, w: pesoOrdenImagenFicha(src) }))
-      .sort((a, b) => a.w - b.w || a.index - b.index)
-      .map((x) => x.src);
+    const crudas = [];
+    const fotom = [];
+    for (const src of imagenes) {
+      if (src && esImagenFotomontajeFicha(src)) fotom.push(src);
+      else if (src) crudas.push(src);
+    }
+    return [...crudas, ...fotom];
   }
 
   function aplicarTemaFichaProducto(producto) {

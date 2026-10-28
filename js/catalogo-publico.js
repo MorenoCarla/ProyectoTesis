@@ -193,13 +193,6 @@
     }
   }
 
-  function ordenarImagenesFichaLocal(imagenes) {
-    if (global.FichaProductoTema?.ordenarImagenesFicha) {
-      return global.FichaProductoTema.ordenarImagenesFicha(imagenes);
-    }
-    return imagenes || [];
-  }
-
   function finalizarFichaProducto(producto) {
     document.dispatchEvent(new CustomEvent("catalogo-ficha-ready", { detail: producto }));
   }
@@ -221,8 +214,6 @@
       root.dataset.producto = producto.nombre || "";
       root.dataset.categoria = producto.categoria?.nombre || "";
     }
-
-    producto.imagenes = ordenarImagenesFichaLocal(producto.imagenes || []);
 
     const volver = document.querySelector(".btn-volver");
     if (volver && producto.categoria?.pagina_listado) {

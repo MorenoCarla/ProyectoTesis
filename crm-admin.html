@@ -415,11 +415,23 @@
             <div class="catalogo-ficha-espejo">
               <aside class="catalogo-ficha-media">
                 <h3 class="catalogo-bloque-titulo">Fotos del carrusel</h3>
-                <p class="form-desc">1ª cruda · 2ª fotomontaje · podés sumar más.</p>
-                <div id="catalogoImagenesLista" class="catalogo-lista-imagenes"></div>
-                <button type="button" class="btn btn-secondary btn-sm catalogo-btn-add" id="btnAgregarImagenCatalogo">
-                  <i class="fa fa-plus"></i> Agregar imagen
-                </button>
+                <p class="form-desc">En la web van primero todas las <strong>crudas</strong> (en este orden) y después los <strong>fotomontajes</strong>. No hace falta renombrar archivos.</p>
+
+                <div class="catalogo-imagen-grupo">
+                  <h4 class="catalogo-imagen-grupo-titulo">Fotos crudas</h4>
+                  <div id="catalogoImagenesCrudasLista" class="catalogo-lista-imagenes" data-tipo-imagen="cruda"></div>
+                  <button type="button" class="btn btn-secondary btn-sm catalogo-btn-add" id="btnAgregarImagenCrudaCatalogo">
+                    <i class="fa fa-plus"></i> Agregar cruda
+                  </button>
+                </div>
+
+                <div class="catalogo-imagen-grupo">
+                  <h4 class="catalogo-imagen-grupo-titulo">Fotomontajes</h4>
+                  <div id="catalogoImagenesFotomLista" class="catalogo-lista-imagenes" data-tipo-imagen="fotom"></div>
+                  <button type="button" class="btn btn-secondary btn-sm catalogo-btn-add" id="btnAgregarImagenFotomCatalogo">
+                    <i class="fa fa-plus"></i> Agregar fotomontaje
+                  </button>
+                </div>
               </aside>
 
               <div class="catalogo-ficha-datos">

@@ -51,8 +51,6 @@ const {
   publicarGrillaCategoria,
   publicarTodasLasCategorias
 } = require("../services/catalogo-web");
-const { ordenarImagenesFicha } = require("../services/ficha-producto-tema");
-
 const router = express.Router();
 
 const SQL_LISTA = `
@@ -95,7 +93,7 @@ function mapProducto(row) {
   return {
     ...row,
     codigos,
-    imagenes: ordenarImagenesFicha(parseJsonField(row.imagenes_json, [])),
+    imagenes: parseJsonField(row.imagenes_json, []),
     colores,
     caracteristicas_list,
     sin_colores
@@ -332,9 +330,9 @@ router.post("/", verificarToken, soloRoles("admin"), async (req, res) => {
       });
     }
 
-    const imgs = ordenarImagenesFicha(
-      Array.isArray(imagenes) ? imagenes.map((s) => String(s).trim()).filter(Boolean) : []
-    );
+    const imgs = Array.isArray(imagenes)
+      ? imagenes.map((s) => String(s).trim()).filter(Boolean)
+      : [];
     if (!imgs.length) {
       return res.status(400).json({ error: "Agregá al menos una imagen del carrusel (ficha)." });
     }
@@ -581,11 +579,9 @@ router.put("/:id", verificarToken, soloRoles("admin"), async (req, res) => {
       valores.push(JSON.stringify(codigos));
     }
     if (imagenes !== undefined) {
-      const imgs = ordenarImagenesFicha(
-        Array.isArray(imagenes)
-          ? imagenes.map((s) => String(s).trim()).filter(Boolean)
-          : []
-      );
+      const imgs = Array.isArray(imagenes)
+        ? imagenes.map((s) => String(s).trim()).filter(Boolean)
+        : [];
       campos.push("imagenes_json = ?");
       valores.push(JSON.stringify(imgs));
     }

@@ -1823,6 +1823,21 @@ select.estado-select {
   box-sizing: border-box;
 }
 
+.catalogo-imagen-grupo {
+  margin-bottom: 20px;
+}
+
+.catalogo-imagen-grupo:last-of-type {
+  margin-bottom: 0;
+}
+
+.catalogo-imagen-grupo-titulo {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
 .catalogo-ficha-media .catalogo-lista-imagenes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
@@ -2030,6 +2045,11 @@ select.estado-select {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.catalogo-btn-quitar-img:hover {
+  border-color: #fecaca;
+  color: #b91c1c;
 }
 
 .catalogo-btn-subir {

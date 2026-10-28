@@ -56,19 +56,25 @@ function clasesBodyFicha(nombreCategoria) {
   return "fondo-cada-producto";
 }
 
-function pesoOrdenImagenFicha(src) {
+/** Fotomontaje / ambiente — va al final del carrusel. */
+function esImagenFotomontajeFicha(src) {
   const s = String(src || "").toLowerCase();
-  if (/fotomont|foto-?mont|montaje|ambientad/.test(s)) return 100;
-  if (/crudo|negrocrudo|blancocrudo/.test(s)) return 0;
-  return 10;
+  return /fotomont|foto-?mont|ambientad/.test(s);
 }
 
+/**
+ * Crudas (y cualquier otra) primero, en el orden del CRM; fotomontajes al final.
+ * No usamos "montaje" suelto en el nombre: muchas crudas lo traen y quedaban en el medio.
+ */
 function ordenarImagenesFicha(imagenes) {
   if (!Array.isArray(imagenes) || imagenes.length < 2) return imagenes || [];
-  return imagenes
-    .map((src, index) => ({ src, index, w: pesoOrdenImagenFicha(src) }))
-    .sort((a, b) => a.w - b.w || a.index - b.index)
-    .map((x) => x.src);
+  const crudas = [];
+  const fotom = [];
+  for (const src of imagenes) {
+    if (src && esImagenFotomontajeFicha(src)) fotom.push(src);
+    else if (src) crudas.push(src);
+  }
+  return [...crudas, ...fotom];
 }
 
 module.exports = {
@@ -76,5 +82,5 @@ module.exports = {
   categoriaAtributoCss,
   clasesBodyFicha,
   ordenarImagenesFicha,
-  pesoOrdenImagenFicha
+  esImagenFotomontajeFicha
 };
