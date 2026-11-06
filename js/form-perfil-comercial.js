@@ -10,6 +10,8 @@ const RUBRO_OPCIONES = [
   { value: "municipalidad", label: "Municipalidad / Alumbrado público" },
   { value: "empresa_industrial", label: "Empresa industrial" },
   { value: "comercio", label: "Comercio" },
+  { value: "cliente_mostrador", label: "Cliente mostrador" },
+  { value: "disenador_inmobiliario", label: "Diseñador inmobiliario" },
   { value: "otro", label: "Otro" }
 ];
 
@@ -54,8 +56,8 @@ function mejorarFormularioProducto() {
           <input type="text" id="apellido" placeholder="Tu apellido" autocomplete="family-name">
         </div>
         <div class="form-producto-campo">
-          <label for="email">Email <span class="form-req">*</span></label>
-          <input type="email" id="email" placeholder="tu@email.com" required autocomplete="email">
+          <label for="email">Email <span class="form-opc">(opcional)</span></label>
+          <input type="email" id="email" placeholder="tu@email.com" autocomplete="email">
         </div>
         <div class="form-producto-campo">
           <label for="telefono">Teléfono <span class="form-req">*</span></label>

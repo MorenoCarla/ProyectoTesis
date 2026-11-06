@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   cargarResponsiveNav();
   try {
     if (typeof inyectarPerfilComercialEnFormularioProducto !== "function") {
-      await cargarScriptProducto("js/form-perfil-comercial.js");
+      await cargarScriptProducto("js/form-perfil-comercial.js?v=3");
     }
     if (typeof inyectarPerfilComercialEnFormularioProducto === "function") {
       inyectarPerfilComercialEnFormularioProducto();
@@ -400,9 +400,9 @@ function bindFormularioConsultaProducto() {
     e.preventDefault();
 
     const nombreEl = document.getElementById("nombre");
-    const emailEl = document.getElementById("email");
     const mensajeEl = document.getElementById("mensaje");
-    if (!nombreEl || !emailEl || !mensajeEl) {
+    const telefonoEl = document.getElementById("telefono");
+    if (!nombreEl || !mensajeEl || !telefonoEl) {
       alert("No se pudo cargar el formulario. Recargá la página (Ctrl+F5).");
       return;
     }
@@ -410,10 +410,14 @@ function bindFormularioConsultaProducto() {
     const nombre = nombreEl.value.trim();
     const apellidoEl = document.getElementById("apellido");
     const apellido = apellidoEl ? apellidoEl.value.trim() : "";
-    const email = emailEl.value.trim();
+    const emailEl = document.getElementById("email");
+    const email = emailEl ? emailEl.value.trim() : "";
     const mensaje = mensajeEl.value.trim();
-    const telefonoEl = document.getElementById("telefono");
-    const telefono = telefonoEl ? telefonoEl.value.trim() : "";
+    const telefono = telefonoEl.value.trim();
+    if (telefono.replace(/\D/g, "").length < 6) {
+      alert("Indicá un teléfono válido (mínimo 6 dígitos).");
+      return;
+    }
     const ciudadEl = document.getElementById("ciudad");
     const ciudad = ciudadEl ? ciudadEl.value.trim() : "";
     const perfil =

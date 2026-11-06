@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="css/stylescontacto.css">
   <link rel="stylesheet" href="css/institucional-mobile-bg.css">
   <script src="js/crm-public-api.js" defer></script>
-  <script src="js/form-perfil-comercial.js" defer></script>
+  <script src="js/form-perfil-comercial.js?v=3" defer></script>
   <script src="js/site-chrome.js" defer></script>
   <script src="js/scriptcontacto.js" defer></script>
 </head>
@@ -67,7 +67,7 @@
               <div class="form-campo"><label>Apellido *</label><input type="text" id="apellido" required placeholder="Ej: Pérez"></div>
             </div>
             <div class="form-fila">
-              <div class="form-campo"><label>Email *</label><input type="email" id="email" required placeholder="tu@email.com"></div>
+              <div class="form-campo"><label>Email (opcional)</label><input type="email" id="email" placeholder="tu@email.com"></div>
               <div class="form-campo"><label>Teléfono *</label><input type="tel" id="telefono" required placeholder="3865..."></div>
             </div>
             <div class="form-fila">
@@ -81,7 +81,7 @@
                   <select id="tipoCliente"><option value="particular">Particular</option><option value="profesional">Profesional</option><option value="empresa">Empresa</option><option value="municipalidad">Municipalidad</option></select>
                 </div>
                 <div class="form-campo"><label>Rubro / Profesión</label>
-                  <select id="rubro"><option value="">Sin especificar</option><option value="arquitecto">Arquitecto</option><option value="ingeniero">Ingeniero</option><option value="electricista">Electricista</option><option value="diseñador_interiores">Diseñador de interiores</option><option value="constructor">Constructor</option><option value="municipalidad">Municipalidad / Alumbrado público</option><option value="empresa_industrial">Empresa industrial</option><option value="comercio">Comercio</option><option value="otro">Otro</option></select>
+                  <select id="rubro"><option value="">Sin especificar</option><option value="arquitecto">Arquitecto</option><option value="ingeniero">Ingeniero</option><option value="electricista">Electricista</option><option value="diseñador_interiores">Diseñador de interiores</option><option value="constructor">Constructor</option><option value="municipalidad">Municipalidad / Alumbrado público</option><option value="empresa_industrial">Empresa industrial</option><option value="comercio">Comercio</option><option value="cliente_mostrador">Cliente mostrador</option><option value="disenador_inmobiliario">Diseñador inmobiliario</option><option value="otro">Otro</option></select>
                 </div>
               </div>
               <div class="form-fila">
@@ -103,7 +103,7 @@
               <div class="form-campo"><label>Apellido *</label><input type="text" id="apellidoComercial" required></div>
             </div>
             <div class="form-fila">
-              <div class="form-campo"><label>Email *</label><input type="email" id="emailComercial" required></div>
+              <div class="form-campo"><label>Email (opcional)</label><input type="email" id="emailComercial"></div>
               <div class="form-campo"><label>Teléfono *</label><input type="tel" id="telefonoComercial" required></div>
             </div>
             <div class="form-fila">
@@ -118,7 +118,7 @@
                   <select id="tipoClienteComercial"><option value="particular">Particular</option><option value="profesional">Profesional</option><option value="empresa">Empresa</option><option value="municipalidad">Municipalidad</option></select>
                 </div>
                 <div class="form-campo"><label>Rubro / Profesión</label>
-                  <select id="rubroComercial"><option value="">Sin especificar</option><option value="arquitecto">Arquitecto</option><option value="ingeniero">Ingeniero</option><option value="electricista">Electricista</option><option value="diseñador_interiores">Diseñador de interiores</option><option value="constructor">Constructor</option><option value="municipalidad">Municipalidad / Alumbrado público</option><option value="empresa_industrial">Empresa industrial</option><option value="comercio">Comercio</option><option value="otro">Otro</option></select>
+                  <select id="rubroComercial"><option value="">Sin especificar</option><option value="arquitecto">Arquitecto</option><option value="ingeniero">Ingeniero</option><option value="electricista">Electricista</option><option value="diseñador_interiores">Diseñador de interiores</option><option value="constructor">Constructor</option><option value="municipalidad">Municipalidad / Alumbrado público</option><option value="empresa_industrial">Empresa industrial</option><option value="comercio">Comercio</option><option value="cliente_mostrador">Cliente mostrador</option><option value="disenador_inmobiliario">Diseñador inmobiliario</option><option value="otro">Otro</option></select>
                 </div>
               </div>
               <div class="form-fila">
@@ -140,7 +140,7 @@
               <div class="form-campo"><label>Apellido *</label><input type="text" id="apellidoAsesoramiento" required></div>
             </div>
             <div class="form-fila">
-              <div class="form-campo"><label>Email *</label><input type="email" id="emailAsesoramiento" required></div>
+              <div class="form-campo"><label>Email (opcional)</label><input type="email" id="emailAsesoramiento"></div>
               <div class="form-campo"><label>Teléfono *</label><input type="tel" id="telefonoAsesoramiento" required></div>
             </div>
             <div class="form-fila">
@@ -172,7 +172,7 @@
                   <select id="tipoClienteAsesoramiento"><option value="particular">Particular</option><option value="profesional">Profesional</option><option value="empresa">Empresa</option><option value="municipalidad">Municipalidad</option></select>
                 </div>
                 <div class="form-campo"><label>Rubro / Profesión</label>
-                  <select id="rubroAsesoramiento"><option value="">Sin especificar</option><option value="arquitecto">Arquitecto</option><option value="ingeniero">Ingeniero</option><option value="electricista">Electricista</option><option value="diseñador_interiores">Diseñador de interiores</option><option value="constructor">Constructor</option><option value="municipalidad">Municipalidad / Alumbrado público</option><option value="empresa_industrial">Empresa industrial</option><option value="comercio">Comercio</option><option value="otro">Otro</option></select>
+                  <select id="rubroAsesoramiento"><option value="">Sin especificar</option><option value="arquitecto">Arquitecto</option><option value="ingeniero">Ingeniero</option><option value="electricista">Electricista</option><option value="diseñador_interiores">Diseñador de interiores</option><option value="constructor">Constructor</option><option value="municipalidad">Municipalidad / Alumbrado público</option><option value="empresa_industrial">Empresa industrial</option><option value="comercio">Comercio</option><option value="cliente_mostrador">Cliente mostrador</option><option value="disenador_inmobiliario">Diseñador inmobiliario</option><option value="otro">Otro</option></select>
                 </div>
               </div>
               <div class="form-fila">
@@ -194,7 +194,7 @@
               <div class="form-campo"><label>Apellido *</label><input type="text" id="apellidoQueja" required></div>
             </div>
             <div class="form-fila">
-              <div class="form-campo"><label>Email *</label><input type="email" id="emailQueja" required></div>
+              <div class="form-campo"><label>Email (opcional)</label><input type="email" id="emailQueja"></div>
               <div class="form-campo"><label>Teléfono *</label><input type="tel" id="telefonoQueja" required></div>
             </div>
             <div class="form-fila">
@@ -219,7 +219,7 @@
                   <select id="tipoClienteQueja"><option value="particular">Particular</option><option value="profesional">Profesional</option><option value="empresa">Empresa</option><option value="municipalidad">Municipalidad</option></select>
                 </div>
                 <div class="form-campo"><label>Rubro / Profesión</label>
-                  <select id="rubroQueja"><option value="">Sin especificar</option><option value="arquitecto">Arquitecto</option><option value="ingeniero">Ingeniero</option><option value="electricista">Electricista</option><option value="diseñador_interiores">Diseñador de interiores</option><option value="constructor">Constructor</option><option value="municipalidad">Municipalidad / Alumbrado público</option><option value="empresa_industrial">Empresa industrial</option><option value="comercio">Comercio</option><option value="otro">Otro</option></select>
+                  <select id="rubroQueja"><option value="">Sin especificar</option><option value="arquitecto">Arquitecto</option><option value="ingeniero">Ingeniero</option><option value="electricista">Electricista</option><option value="diseñador_interiores">Diseñador de interiores</option><option value="constructor">Constructor</option><option value="municipalidad">Municipalidad / Alumbrado público</option><option value="empresa_industrial">Empresa industrial</option><option value="comercio">Comercio</option><option value="cliente_mostrador">Cliente mostrador</option><option value="disenador_inmobiliario">Diseñador inmobiliario</option><option value="otro">Otro</option></select>
                 </div>
               </div>
               <div class="form-fila">

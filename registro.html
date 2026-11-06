@@ -135,8 +135,8 @@
     <form onsubmit="registrar(event)">
       <input type="text" id="nombre" placeholder="Nombre" required>
       <input type="text" id="apellido" placeholder="Apellido">
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="tel" id="telefono" placeholder="Teléfono">
+      <input type="email" id="email" placeholder="Email (opcional — necesario para entrar al portal)">
+      <input type="tel" id="telefono" placeholder="Teléfono" required>
       <input type="text" id="ciudad" placeholder="Ciudad">
       <div class="perfil-seccion">
         <h3>Perfil comercial</h3>
@@ -157,13 +157,15 @@
           <option value="municipalidad">Municipalidad / Alumbrado público</option>
           <option value="empresa_industrial">Empresa industrial</option>
           <option value="comercio">Comercio</option>
+          <option value="cliente_mostrador">Cliente mostrador</option>
+          <option value="disenador_inmobiliario">Diseñador inmobiliario</option>
           <option value="otro">Otro</option>
         </select>
         <input type="text" id="empresaRegistro" placeholder="Empresa / estudio (opcional)">
         <label for="fechaNacimientoRegistro" class="sr-only">Fecha de nacimiento</label>
         <input type="date" id="fechaNacimientoRegistro" aria-label="Fecha de nacimiento (opcional)">
       </div>
-      <input type="password" id="password" placeholder="Contraseña (mín. 6 caracteres)" required minlength="6">
+      <input type="password" id="password" placeholder="Contraseña (solo si completás email, mín. 6)" minlength="6">
       <button type="submit">Crear cuenta</button>
     </form>
 
@@ -174,7 +176,7 @@
   </div>
 
   <script src="js/crm-public-api.js"></script>
-  <script src="js/form-perfil-comercial.js"></script>
+  <script src="js/form-perfil-comercial.js?v=3"></script>
   <script>
     async function registrar(e) {
       e.preventDefault();
@@ -184,13 +186,21 @@
         ? leerPerfilComercial("Registro")
         : {};
 
+      const emailVal = document.getElementById("email").value.trim();
+      const passwordVal = document.getElementById("password").value;
+      if (emailVal && passwordVal.length < 6) {
+        msg.className = "msg err";
+        msg.innerText = "Si completás email, la contraseña debe tener al menos 6 caracteres.";
+        return;
+      }
+
       const body = {
         nombre: document.getElementById("nombre").value,
         apellido: document.getElementById("apellido").value,
-        email: document.getElementById("email").value,
+        email: emailVal || undefined,
         telefono: document.getElementById("telefono").value,
         ciudad: document.getElementById("ciudad").value,
-        password: document.getElementById("password").value,
+        password: emailVal ? passwordVal : undefined,
         ...perfil
       };
 
@@ -209,7 +219,8 @@
         }
 
         msg.className = "msg ok";
-        msg.innerHTML = data.mensaje + ' <a href="login.html">Iniciar sesión</a>';
+        const loginLink = emailVal ? ' <a href="login.html">Iniciar sesión</a>' : "";
+        msg.innerHTML = data.mensaje + loginLink;
       } catch {
         msg.className = "msg err";
         msg.innerText = "Error de conexión con el servidor";

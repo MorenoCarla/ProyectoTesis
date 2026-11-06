@@ -33,6 +33,8 @@ const RUBROS_CLIENTE_LABEL = {
   municipalidad: "Municipalidad / Alumbrado",
   empresa_industrial: "Empresa industrial",
   comercio: "Comercios",
+  cliente_mostrador: "Cliente mostrador",
+  disenador_inmobiliario: "Diseñador inmobiliario",
   otro: "Otros"
 };
 let empleadosGlobal = [];
@@ -1831,6 +1833,8 @@ const COLORES_RUBRO_CALENDARIO = {
   municipalidad: "#00838f",
   empresa_industrial: "#455a64",
   comercio: "#6d4c41",
+  cliente_mostrador: "#c62828",
+  disenador_inmobiliario: "#5c6bc0",
   particular: "#78909c",
   otro: "#9e9e9e",
   general: "#c62828"
@@ -2433,8 +2437,15 @@ async function cargarEditorDiasCalendario() {
           <option value="arquitecto" ${d.rubro_objetivo === "arquitecto" ? "selected" : ""}>Arquitecto</option>
           <option value="electricista" ${d.rubro_objetivo === "electricista" ? "selected" : ""}>Electricista</option>
           <option value="ingeniero" ${d.rubro_objetivo === "ingeniero" ? "selected" : ""}>Ingeniero</option>
-          <option value="diseñador_interiores" ${d.rubro_objetivo === "diseñador_interiores" ? "selected" : ""}>Diseñador</option>
+          <option value="diseñador_interiores" ${d.rubro_objetivo === "diseñador_interiores" ? "selected" : ""}>Diseñador de interiores</option>
+          <option value="constructor" ${d.rubro_objetivo === "constructor" ? "selected" : ""}>Constructor</option>
+          <option value="municipalidad" ${d.rubro_objetivo === "municipalidad" ? "selected" : ""}>Municipalidad</option>
+          <option value="empresa_industrial" ${d.rubro_objetivo === "empresa_industrial" ? "selected" : ""}>Empresa industrial</option>
           <option value="comercio" ${d.rubro_objetivo === "comercio" ? "selected" : ""}>Comercio</option>
+          <option value="cliente_mostrador" ${d.rubro_objetivo === "cliente_mostrador" ? "selected" : ""}>Cliente mostrador</option>
+          <option value="disenador_inmobiliario" ${d.rubro_objetivo === "disenador_inmobiliario" ? "selected" : ""}>Diseñador inmobiliario</option>
+          <option value="particular" ${d.rubro_objetivo === "particular" ? "selected" : ""}>Particular</option>
+          <option value="otro" ${d.rubro_objetivo === "otro" ? "selected" : ""}>Otro</option>
         </select>
       </div>
       <label style="font-size:12px;color:#64748b;">Mensaje</label>

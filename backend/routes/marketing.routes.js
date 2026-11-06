@@ -4,6 +4,7 @@ const path = require("path");
 const multer = require("multer");
 const pool = require("../config/db");
 const { verificarToken, soloRoles } = require("../middleware/auth");
+const { obtenerEmpleadoId } = require("../utils/empleado");
 
 const router = express.Router();
 
@@ -566,6 +567,7 @@ router.post(
 router.post("/registrar-envio", verificarToken, soloRoles("admin", "empleado"), async (req, res) => {
   try {
     const { cliente_id, tipo_campana, mensaje, estado } = req.body;
+    const empleadoId = await obtenerEmpleadoId(pool, req.usuario);
 
     if (!cliente_id || !tipo_campana) {
       return res.status(400).json({ error: "Cliente y tipo de contacto son obligatorios" });
@@ -587,11 +589,23 @@ router.post("/registrar-envio", verificarToken, soloRoles("admin", "empleado"), 
       });
     }
 
-    await pool.query(
-      `INSERT INTO envios_marketing (cliente_id, tipo_campana, mensaje, estado, fecha_programada)
-       VALUES (?, ?, ?, ?, CURDATE())`,
-      [cliente_id, tipo_campana, mensaje, estado || "enviado"]
-    );
+    try {
+      await pool.query(
+        `INSERT INTO envios_marketing (cliente_id, empleado_id, tipo_campana, mensaje, estado, fecha_programada)
+         VALUES (?, ?, ?, ?, ?, CURDATE())`,
+        [cliente_id, empleadoId, tipo_campana, mensaje, estado || "enviado"]
+      );
+    } catch (insErr) {
+      if (insErr.code === "ER_BAD_FIELD_ERROR") {
+        await pool.query(
+          `INSERT INTO envios_marketing (cliente_id, tipo_campana, mensaje, estado, fecha_programada)
+           VALUES (?, ?, ?, ?, CURDATE())`,
+          [cliente_id, tipo_campana, mensaje, estado || "enviado"]
+        );
+      } else {
+        throw insErr;
+      }
+    }
     res.status(201).json({ mensaje: "Contacto registrado como enviado" });
   } catch (error) {
     errorSql(res, error);
@@ -608,6 +622,8 @@ router.get("/rubros", verificarToken, soloRoles("admin", "empleado"), async (req
     { valor: "municipalidad", label: "Municipalidad" },
     { valor: "empresa_industrial", label: "Empresa industrial" },
     { valor: "comercio", label: "Comercio" },
+    { valor: "cliente_mostrador", label: "Cliente mostrador" },
+    { valor: "disenador_inmobiliario", label: "Diseñador inmobiliario" },
     { valor: "particular", label: "Particular" },
     { valor: "otro", label: "Otro" }
   ]);
