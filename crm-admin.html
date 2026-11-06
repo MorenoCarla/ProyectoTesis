@@ -11,7 +11,7 @@
   <title>Panel CRM - Ituarte</title>
     <link rel="stylesheet" href="vendor/fonts/work-sans.css">
   <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
-<link rel="stylesheet" href="css/crm.css?v=home-banner1">
+<link rel="stylesheet" href="css/crm.css?v=equipo8">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -32,6 +32,7 @@
       <button class="menu-item" data-section="marketing"><i class="fa fa-bullhorn"></i> Marketing</button>
       <button class="menu-item" data-section="seguimientos"><i class="fa fa-clock"></i> Seguimientos</button>
       <button class="menu-item" data-section="empleados" id="menuEmpleados" style="display:none;"><i class="fa fa-id-badge"></i> Empleados</button>
+      <button class="menu-item" data-section="equipo" id="menuEquipo" style="display:none;"><i class="fa fa-chart-line"></i> Desempeño equipo</button>
       <button class="menu-item" data-section="reportes" id="menuReportes"><i class="fa fa-file-export"></i> Reportes</button>
       <a href="cambiar-contrasena.html" class="menu-item" style="text-decoration:none;"><i class="fa fa-key"></i> Cambiar contraseña</a>
       <button class="menu-item" onclick="cerrarSesion()"><i class="fa fa-sign-out-alt"></i> Cerrar sesión</button>
@@ -151,7 +152,15 @@
             Consultas asignadas a vos o sin asignar para que puedas tomarlas. El historial completo lo ve el gerente.
           </p>
           <div class="toolbar">
+            <button type="button" class="btn btn-primary btn-sm" id="btnNuevaConsultaMostrador">
+              <i class="fa fa-plus"></i> Registrar consulta (mostrador)
+            </button>
             <input type="text" id="buscarConsulta" placeholder="Buscar por cliente, producto, mensaje...">
+            <select id="filtroOrigenConsultaCliente" title="Origen del cliente">
+              <option value="">Cliente: todos los orígenes</option>
+              <option value="mostrador">Solo mostrador</option>
+              <option value="web">Solo web</option>
+            </select>
             <select id="filtroEstadoConsulta">
               <option value="activas" selected>Activas recientes (30 días)</option>
               <option value="pendiente">Solo pendientes</option>
@@ -191,6 +200,9 @@
         <div class="panel">
           <h2>Clientes registrados</h2>
           <div class="toolbar toolbar-clientes">
+            <button type="button" class="btn btn-alta-mostrador" id="btnAltaClienteMostrador">
+              <i class="fa fa-user-plus" aria-hidden="true"></i> Alta cliente (mostrador)
+            </button>
             <input type="text" id="buscarCliente" placeholder="Buscar por nombre, email, ciudad...">
             <input type="text" id="buscarPresupuestoGlobal" placeholder="N° presupuesto (buscar cliente)...">
             <button type="button" class="btn btn-secondary btn-sm" id="btnBuscarPresupuestoGlobal">
@@ -198,6 +210,11 @@
             </button>
             <select id="filtroRubroCliente" title="Filtrar por rubro">
               <option value="">Todos los rubros</option>
+            </select>
+            <select id="filtroOrigenCliente" title="Origen del cliente">
+              <option value="">Todos los orígenes</option>
+              <option value="mostrador">Mostrador (CRM)</option>
+              <option value="web">Sitio web (contacto / registro / próximamente)</option>
             </select>
             <select id="filtroPeriodoCliente" title="Período de alta">
               <option value="inicio" selected>Vista rápida (3 últimos)</option>
@@ -914,6 +931,47 @@
         </div>
       </section>
 
+      <!-- DESEMPEÑO EQUIPO (solo gerente) -->
+      <section id="equipo" class="section">
+        <div id="equipoVistaLista" class="equipo-page">
+          <header class="equipo-hero panel">
+            <div class="equipo-hero-texto">
+              <span class="equipo-etiqueta">Solo gerencia</span>
+              <h2>Desempeño del equipo</h2>
+              <p>Empleados comerciales (sin gerencia). Elegí una persona para ver su ficha completa.</p>
+            </div>
+            <div class="equipo-header-acciones toolbar">
+              <label for="filtroDiasEquipo" class="toolbar-label">Período</label>
+              <select id="filtroDiasEquipo">
+                <option value="7">7 días</option>
+                <option value="30" selected>30 días</option>
+                <option value="90">90 días</option>
+                <option value="365">1 año</option>
+              </select>
+              <button type="button" class="btn btn-primary btn-sm" id="btnActualizarEquipo">
+                <i class="fa fa-sync-alt"></i> Actualizar
+              </button>
+            </div>
+          </header>
+
+          <details class="equipo-ayuda panel">
+            <summary><i class="fa fa-info-circle" aria-hidden="true"></i> Cómo se calculan los indicadores</summary>
+            <ul class="equipo-ayuda-lista">
+              <li><strong>Atendida:</strong> consulta asignada con al menos un seguimiento.</li>
+              <li><strong>Finalizada:</strong> estado <em>finalizado</em> en el período.</li>
+              <li><strong>Web:</strong> consultas que entraron desde el sitio.</li>
+              <li><strong>Presupuesto:</strong> PDF cargado en el CRM.</li>
+            </ul>
+          </details>
+          <p id="equipoAvisoMigracion" class="equipo-aviso-migracion" hidden></p>
+
+          <div id="equipoErrorApi" class="equipo-alerta equipo-alerta-error panel" style="display:none;"></div>
+          <div id="equipoTotales" class="equipo-totales"></div>
+          <p id="resumenDesempenoEquipo" class="equipo-resumen"></p>
+          <div id="equipoGrid" class="equipo-lista"></div>
+        </div>
+      </section>
+
       <!-- REPORTES -->
       <section id="reportes" class="section">
         <div class="panel">
@@ -1001,6 +1059,14 @@
     </main>
   </div>
 
+  <!-- MODAL DESEMPEÑO EMPLEADO (gerencia) -->
+  <div class="modal-overlay" id="modalEquipoDesempeno">
+    <div class="modal modal-equipo">
+      <button type="button" class="modal-cerrar" onclick="cerrarModalEquipo()">&times;</button>
+      <div id="equipoDetalleContenido"></div>
+    </div>
+  </div>
+
   <!-- MODAL DETALLE CONSULTA -->
   <div class="modal-overlay" id="modalConsulta">
     <div class="modal">
@@ -1049,18 +1115,115 @@
     </div>
   </div>
 
+  <!-- MODAL ALTA CLIENTE (MOSTRADOR) -->
+  <div class="modal-overlay" id="modalAltaCliente">
+    <div class="modal">
+      <button type="button" class="modal-cerrar" onclick="cerrarModalAltaCliente()">&times;</button>
+      <h2>Alta cliente — mostrador</h2>
+      <p class="panel-intro-operativo" style="display:block;margin-bottom:16px;">
+        Teléfono obligatorio; email opcional (muchas personas del mostrador no lo tienen). Si coincide teléfono o email con un cliente existente, se actualiza la ficha.
+      </p>
+      <form id="formAltaClienteMostrador" onsubmit="guardarAltaClienteMostrador(event)">
+        <div class="detalle-grid">
+          <div class="form-grupo"><label>Nombre *</label><input type="text" id="altaNombre" required></div>
+          <div class="form-grupo"><label>Apellido</label><input type="text" id="altaApellido"></div>
+          <div class="form-grupo"><label>Teléfono *</label><input type="tel" id="altaTelefono" required placeholder="3865…"></div>
+          <div class="form-grupo"><label>Email</label><input type="email" id="altaEmail" placeholder="Opcional"></div>
+          <div class="form-grupo"><label>Ciudad</label><input type="text" id="altaCiudad"></div>
+          <div class="form-grupo"><label>Empresa</label><input type="text" id="altaEmpresa" placeholder="Estudio, comercio, etc."></div>
+          <div class="form-grupo"><label>Tipo de cliente</label>
+            <select id="altaTipoCliente">
+              <option value="particular">Particular</option>
+              <option value="profesional">Profesional</option>
+              <option value="empresa">Empresa</option>
+              <option value="municipalidad">Municipalidad</option>
+            </select>
+          </div>
+          <div class="form-grupo"><label>Rubro / Profesión</label>
+            <select id="altaRubro">
+              <option value="">Sin especificar</option>
+              <option value="arquitecto">Arquitecto</option>
+              <option value="ingeniero">Ingeniero</option>
+              <option value="electricista">Electricista</option>
+              <option value="diseñador_interiores">Diseñador de interiores</option>
+              <option value="constructor">Constructor</option>
+              <option value="municipalidad">Municipalidad / Alumbrado público</option>
+              <option value="empresa_industrial">Empresa industrial</option>
+              <option value="comercio">Comercio</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-grupo"><label>Fecha de nacimiento</label><input type="date" id="altaNacimiento"></div>
+          <div class="form-grupo"><label>Cuenta corriente</label>
+            <select id="altaCuentaCorriente">
+              <option value="0">No</option>
+              <option value="1">Sí</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grupo"><label>Notas comerciales</label>
+          <textarea id="altaNotas" rows="2" placeholder="Preferencias, obra en curso…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar cliente</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL NUEVA CONSULTA (MOSTRADOR) -->
+  <div class="modal-overlay" id="modalNuevaConsulta">
+    <div class="modal modal-consulta-mostrador">
+      <button type="button" class="modal-cerrar" onclick="cerrarModalNuevaConsulta()">&times;</button>
+      <h2>Registrar consulta — mostrador</h2>
+      <p class="panel-intro-operativo" style="display:block;margin-bottom:16px;">
+        Igual que una consulta web: queda en la bandeja con historial y seguimientos. Primero elegí o cargá el cliente.
+      </p>
+      <form id="formNuevaConsultaMostrador" onsubmit="guardarNuevaConsultaMostrador(event)">
+        <input type="hidden" id="nuevaConsultaClienteId" value="">
+        <div class="form-grupo">
+          <label>Buscar cliente *</label>
+          <input type="text" id="buscarClienteNuevaConsulta" placeholder="Nombre, email o teléfono (mín. 2 letras)" autocomplete="off">
+          <div id="resultadosClienteNuevaConsulta" class="cliente-busqueda-resultados"></div>
+          <p id="nuevaConsultaClienteElegido" class="consultas-resumen" style="margin-top:8px;"></p>
+          <button type="button" class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="abrirAltaClienteDesdeConsulta()">
+            <i class="fa fa-user-plus"></i> Cliente nuevo
+          </button>
+        </div>
+        <div class="detalle-grid">
+          <div class="form-grupo"><label>Tipo de consulta *</label>
+            <select id="nuevaConsultaTipo" required></select>
+          </div>
+          <div class="form-grupo"><label>Prioridad</label>
+            <select id="nuevaConsultaPrioridad">
+              <option value="baja">Baja</option>
+              <option value="media" selected>Media</option>
+              <option value="alta">Alta</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grupo"><label>Producto / tema de interés</label>
+          <input type="text" id="nuevaConsultaProducto" placeholder="Ej: Dicroicas, colgante Akaki, materiales para obra…">
+        </div>
+        <div class="form-grupo"><label>Mensaje / detalle *</label>
+          <textarea id="nuevaConsultaMensaje" rows="3" required placeholder="Qué necesita, cantidades, plazos…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar consulta</button>
+      </form>
+    </div>
+  </div>
+
   <!-- MODAL EDITAR CLIENTE -->
   <div class="modal-overlay" id="modalCliente">
     <div class="modal">
       <button class="modal-cerrar" onclick="cerrarModalCliente()">&times;</button>
       <h2>Perfil comercial del cliente</h2>
+      <p id="editClienteOrigenAlta" class="cliente-origen-alta" hidden></p>
       <form id="formEditarCliente" onsubmit="guardarCliente(event)">
         <input type="hidden" id="editClienteId">
         <div class="detalle-grid">
           <div class="form-grupo"><label>Nombre</label><input type="text" id="editNombre" required></div>
           <div class="form-grupo"><label>Apellido</label><input type="text" id="editApellido"></div>
-          <div class="form-grupo"><label>Email</label><input type="email" id="editEmail" required></div>
-          <div class="form-grupo"><label>Teléfono</label><input type="tel" id="editTelefono"></div>
+          <div class="form-grupo"><label>Teléfono *</label><input type="tel" id="editTelefono" required></div>
+          <div class="form-grupo"><label>Email</label><input type="email" id="editEmail" placeholder="Opcional"></div>
           <div class="form-grupo"><label>Ciudad</label><input type="text" id="editCiudad"></div>
           <div class="form-grupo"><label>Empresa</label><input type="text" id="editEmpresa" placeholder="Estudio, municipalidad, etc."></div>
           <div class="form-grupo"><label>Tipo de cliente</label>
@@ -1164,8 +1327,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="js/crm-api.js?v=cat1"></script>
+  <script src="js/crm-api.js?v=equipo3"></script>
   <script src="js/crm-responsive.js"></script>
-  <script src="js/crm-admin.js?v=cat11"></script>
+  <script src="js/crm-admin.js?v=origen1"></script>
 </body>
 </html>

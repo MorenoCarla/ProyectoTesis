@@ -1,10 +1,25 @@
 let consultasPagina = 1;
 let consultasBuscarTimer = null;
-let consultasMeta = { total: 0, pagina: 1, limite: 10, total_paginas: 1, vista: "activas" };
+let consultasMeta = {
+  total: 0,
+  pagina: 1,
+  limite: 10,
+  total_paginas: 1,
+  vista: "activas",
+  origen_cliente: null
+};
 const LIMITE_CONSULTAS_AGRUPADAS = 10;
 let clientesPagina = 1;
 let clientesBuscarTimer = null;
-let clientesMeta = { total: 0, pagina: 1, limite: 3, total_paginas: 1, rubro: null, dias: null };
+let clientesMeta = {
+  total: 0,
+  pagina: 1,
+  limite: 3,
+  total_paginas: 1,
+  rubro: null,
+  dias: null,
+  origen_alta: null
+};
 const LIMITE_CLIENTES_INICIO = 3;
 const LIMITE_CLIENTES_LISTA = 15;
 
@@ -108,6 +123,7 @@ function configurarInterfazPorRol() {
 
   if (esGerente) {
     document.getElementById("menuEmpleados").style.display = "flex";
+    document.getElementById("menuEquipo")?.style.setProperty("display", "flex");
     document.getElementById("panelCampanas").style.display = "block";
     document.getElementById("panelGestionDiasCalendario").style.display = "block";
     document.getElementById("tabPlantillasMarketing").style.display = "inline-flex";
@@ -227,7 +243,249 @@ document.querySelectorAll(".menu-item[data-section]").forEach(btn => {
       volverListaProximamente(false);
       cargarProximamenteItems();
     }
+    if (btn.dataset.section === "equipo" && esGerente) {
+      cerrarModalEquipo();
+      cargarDesempenoEquipo();
+    }
   });
+});
+
+function formatearFechaHoraCRM(iso) {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "—";
+  return d.toLocaleString("es-AR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+let equipoCache = { empleados: [], dias: 30 };
+
+const EQUIPO_PALETA = [
+  { bg: "linear-gradient(135deg,#e53935,#b71c1c)", accent: "#c62828", soft: "#ffebee" },
+  { bg: "linear-gradient(135deg,#1e88e5,#0d47a1)", accent: "#1565c0", soft: "#e3f2fd" },
+  { bg: "linear-gradient(135deg,#43a047,#1b5e20)", accent: "#2e7d32", soft: "#e8f5e9" },
+  { bg: "linear-gradient(135deg,#8e24aa,#4a148c)", accent: "#7b1fa2", soft: "#f3e5f5" },
+  { bg: "linear-gradient(135deg,#fb8c00,#e65100)", accent: "#ef6c00", soft: "#fff3e0" },
+  { bg: "linear-gradient(135deg,#00acc1,#006064)", accent: "#00838f", soft: "#e0f7fa" },
+  { bg: "linear-gradient(135deg,#d81b60,#880e4f)", accent: "#c2185b", soft: "#fce4ec" },
+  { bg: "linear-gradient(135deg,#5e35b1,#311b92)", accent: "#512da8", soft: "#ede7f6" },
+  { bg: "linear-gradient(135deg,#f4511e,#bf360c)", accent: "#e64a19", soft: "#fbe9e7" },
+  { bg: "linear-gradient(135deg,#3949ab,#1a237e)", accent: "#303f9f", soft: "#e8eaf6" }
+];
+
+function temaEquipoEmpleado(empleadoId) {
+  const i = (parseInt(empleadoId, 10) || 0) % EQUIPO_PALETA.length;
+  return EQUIPO_PALETA[i];
+}
+
+function inicialesEquipo(nombre, apellido) {
+  const a = (nombre || "").trim()[0] || "";
+  const b = (apellido || "").trim()[0] || "";
+  return (a + b).toUpperCase() || "?";
+}
+
+function metricaEquipoHtml(icono, etiqueta, valor, colorAccent) {
+  return `<div class="equipo-metrica" style="--equipo-metrica-color:${colorAccent}">
+    <span class="equipo-metrica-icono"><i class="fa ${icono}"></i></span>
+    <div class="equipo-metrica-texto">
+      <span class="equipo-metrica-valor">${valor}</span>
+      <span class="equipo-metrica-etiq">${escaparHtml(etiqueta)}</span>
+    </div>
+  </div>`;
+}
+
+function chipEquipo(valor, etiqueta, color) {
+  return `<span class="equipo-chip" style="--chip-color:${color}"><b>${valor}</b> ${escaparHtml(etiqueta)}</span>`;
+}
+
+function cerrarModalEquipo() {
+  document.getElementById("modalEquipoDesempeno")?.classList.remove("open");
+}
+
+function abrirDetalleEquipo(empleadoId) {
+  const r = equipoCache.empleados.find((e) => e.empleado_id === empleadoId);
+  if (!r) return;
+  renderDetalleEquipo(r);
+  document.getElementById("modalEquipoDesempeno")?.classList.add("open");
+}
+
+function renderFilaEquipo(r, i) {
+  const nom = `${escaparHtml(r.nombre)} ${escaparHtml(r.apellido || "")}`.trim();
+  const meta = [r.cargo, r.sucursal].filter(Boolean).join(" · ");
+  const tema = temaEquipoEmpleado(r.empleado_id);
+  const inactiva =
+    r.logins_periodo === 0 &&
+    r.presupuestos_enviados === 0 &&
+    r.consultas_atendidas === 0 &&
+    r.seguimientos === 0;
+  const badge =
+    i === 0 && !inactiva
+      ? '<span class="equipo-badge-top">Mayor actividad</span>'
+      : inactiva
+        ? '<span class="equipo-badge-muted">Sin actividad</span>'
+        : "";
+
+  return `<button type="button" class="equipo-fila${inactiva ? " equipo-fila-inactiva" : ""}"
+    data-equipo-id="${r.empleado_id}" style="--equipo-accent:${tema.accent};--equipo-soft:${tema.soft}">
+    <span class="equipo-avatar equipo-avatar-sm" style="background:${tema.bg}" aria-hidden="true">${escaparHtml(inicialesEquipo(r.nombre, r.apellido))}</span>
+    <span class="equipo-fila-main">
+      <span class="equipo-summary-nombre">${nom} ${badge}</span>
+      ${meta ? `<span class="equipo-summary-meta">${escaparHtml(meta)}</span>` : ""}
+    </span>
+    <span class="equipo-summary-chips">
+      ${chipEquipo(r.logins_periodo, "accesos", tema.accent)}
+      ${chipEquipo(r.presupuestos_enviados, "presup.", tema.accent)}
+      ${chipEquipo(r.consultas_atendidas, "atend.", tema.accent)}
+      ${chipEquipo(r.consultas_finalizadas, "fin.", tema.accent)}
+    </span>
+    <i class="fa fa-chevron-right equipo-fila-flecha" aria-hidden="true"></i>
+  </button>`;
+}
+
+function renderDetalleEquipo(r) {
+  const nom = `${escaparHtml(r.nombre)} ${escaparHtml(r.apellido || "")}`.trim();
+  const meta = [r.cargo, r.sucursal].filter(Boolean).join(" · ");
+  const tema = temaEquipoEmpleado(r.empleado_id);
+  const c = tema.accent;
+  const box = document.getElementById("equipoDetalleContenido");
+  if (!box) return;
+
+  box.innerHTML = `
+    <header class="equipo-detalle-hero panel" style="background:${tema.soft};border-color:${c}">
+      <div class="equipo-avatar equipo-avatar-lg" style="background:${tema.bg}" aria-hidden="true">${escaparHtml(inicialesEquipo(r.nombre, r.apellido))}</div>
+      <div class="equipo-detalle-hero-texto">
+        <h2>${nom}</h2>
+        ${meta ? `<p class="equipo-detalle-meta">${escaparHtml(meta)}</p>` : ""}
+        <p class="equipo-ultimo-acceso"><i class="fa fa-clock" aria-hidden="true"></i><span>Último acceso: ${formatearFechaHoraCRM(r.ultimo_acceso)} · ${r.logins_periodo} ingreso(s) en ${equipoCache.dias} días</span></p>
+      </div>
+    </header>
+    <div class="equipo-detalle-secciones">
+      <section class="panel equipo-panel-color" style="--equipo-panel:${c}">
+        <h3><i class="fa fa-chart-line"></i> Consultas y ventas</h3>
+        <div class="equipo-metricas equipo-metricas-detalle">
+          ${metricaEquipoHtml("fa-file-invoice-dollar", "Presupuestos enviados", r.presupuestos_enviados, c)}
+          ${metricaEquipoHtml("fa-headset", "Consultas atendidas", r.consultas_atendidas, c)}
+          ${metricaEquipoHtml("fa-check-circle", "Finalizadas", r.consultas_finalizadas, c)}
+          ${metricaEquipoHtml("fa-ban", "Canceladas", r.consultas_canceladas, c)}
+        </div>
+      </section>
+      <section class="panel equipo-panel-color" style="--equipo-panel:${c}">
+        <h3><i class="fa fa-globe"></i> Consultas web</h3>
+        <div class="equipo-metricas equipo-metricas-detalle">
+          ${metricaEquipoHtml("fa-inbox", "Tomadas / movidas", r.web_tomadas, c)}
+          ${metricaEquipoHtml("fa-comment-dots", "Con seguimiento", r.web_atendidas, c)}
+          ${metricaEquipoHtml("fa-flag-checkered", "Finalizadas", r.web_finalizadas, c)}
+        </div>
+      </section>
+      <section class="panel equipo-panel-color" style="--equipo-panel:${c}">
+        <h3><i class="fa fa-clipboard-list"></i> Registro en CRM</h3>
+        <div class="equipo-metricas equipo-metricas-detalle">
+          ${metricaEquipoHtml("fa-sticky-note", "Seguimientos", r.seguimientos, c)}
+          ${metricaEquipoHtml("fa-user-plus", "Clientes mostrador", r.clientes_mostrador, c)}
+          ${metricaEquipoHtml("fa-paper-plane", "Marketing enviado", r.marketing_enviados, c)}
+        </div>
+      </section>
+    </div>`;
+}
+
+async function cargarDesempenoEquipo() {
+  if (!esGerente) return;
+  const dias = document.getElementById("filtroDiasEquipo")?.value || "30";
+  const grid = document.getElementById("equipoGrid");
+  const totales = document.getElementById("equipoTotales");
+  const resumen = document.getElementById("resumenDesempenoEquipo");
+  const avisoMigracion = document.getElementById("equipoAvisoMigracion");
+  const errBox = document.getElementById("equipoErrorApi");
+  if (!grid) return;
+
+  if (errBox) errBox.style.display = "none";
+  grid.innerHTML = `<p class="equipo-cargando">Cargando desempeño del equipo…</p>`;
+  if (totales) totales.innerHTML = "";
+
+  try {
+    const data = await apiGet("/dashboard/equipo?dias=" + encodeURIComponent(dias));
+    if (avisoMigracion) {
+      if (data.migracion_pendiente) {
+        avisoMigracion.hidden = false;
+        avisoMigracion.textContent =
+          "Los contadores de accesos al CRM y marketing por persona se activan cuando el administrador del sistema aplique la actualización de base de datos en el servidor.";
+      } else {
+        avisoMigracion.hidden = true;
+        avisoMigracion.textContent = "";
+      }
+    }
+
+    const lista = (data.empleados || []).filter((r) => {
+      const cargo = String(r.cargo || "").toLowerCase();
+      const rol = String(r.rol_usuario || "empleado").toLowerCase();
+      return rol === "empleado" && !cargo.includes("gerente");
+    });
+    equipoCache = { empleados: lista, dias: data.dias };
+    cerrarModalEquipo();
+
+    if (resumen) {
+      resumen.textContent =
+        `${lista.length} empleado(s) comercial(es) · últimos ${data.dias} días · sin incluir gerencia.`;
+    }
+
+    if (totales && lista.length) {
+      const sum = (k) => lista.reduce((a, r) => a + (r[k] || 0), 0);
+      const cols = [
+        { k: "logins_periodo", label: "Accesos", cls: "t-acc" },
+        { k: "presupuestos_enviados", label: "Presupuestos", cls: "t-pres" },
+        { k: "consultas_atendidas", label: "Atendidas", cls: "t-at" },
+        { k: "consultas_finalizadas", label: "Finalizadas", cls: "t-fin" },
+        { k: "marketing_enviados", label: "Marketing", cls: "t-mkt" }
+      ];
+      totales.innerHTML = cols
+        .map(
+          (col) =>
+            `<article class="equipo-total-card ${col.cls}"><strong>${sum(col.k)}</strong><span>${col.label}</span></article>`
+        )
+        .join("");
+    }
+
+    if (!lista.length) {
+      grid.innerHTML = `<p class="equipo-vacio">No hay empleados con rol comercial. Creálos en Empleados (rol distinto de gerencia).</p>`;
+      return;
+    }
+
+    grid.innerHTML = lista.map(renderFilaEquipo).join("");
+    grid.querySelectorAll(".equipo-fila").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        abrirDetalleEquipo(parseInt(btn.dataset.equipoId, 10));
+      });
+    });
+  } catch (e) {
+    grid.innerHTML = "";
+    const msg = e.message || "Error al cargar";
+    if (errBox) {
+      errBox.style.display = "block";
+      const es404 = /no encontrada|404|npm start/i.test(msg);
+      errBox.innerHTML = es404
+        ? `<p><strong>No se pudo conectar con la API de desempeño.</strong></p>
+           <p>${escaparHtml(msg)}</p>
+           <ol style="margin:10px 0 0 18px;line-height:1.5;">
+             <li>En PowerShell: <code>cd backend</code> → <code>npm start</code> (debe decir <em>Desempeño equipo: GET /dashboard/equipo</em>).</li>
+             <li>Si ya está corriendo, cerrá otras ventanas con Node (puerto 3000 ocupado = servidor viejo).</li>
+             <li>Pulsá el botón rojo <strong>Actualizar</strong> abajo (no alcanza con F5 si no recargás datos).</li>
+           </ol>`
+        : `<p>${escaparHtml(msg)}</p>`;
+    }
+    mostrarToast(msg, true);
+  }
+}
+
+document.getElementById("btnActualizarEquipo")?.addEventListener("click", () => cargarDesempenoEquipo());
+document.getElementById("filtroDiasEquipo")?.addEventListener("change", () => cargarDesempenoEquipo());
+window.cerrarModalEquipo = cerrarModalEquipo;
+document.getElementById("modalEquipoDesempeno")?.addEventListener("click", (e) => {
+  if (e.target.id === "modalEquipoDesempeno") cerrarModalEquipo();
 });
 
 function mostrarToast(msg, esError) {
@@ -545,6 +803,9 @@ async function cargarConsultas() {
     const buscar = (document.getElementById("buscarConsulta")?.value || "").trim();
     if (buscar) params.set("buscar", buscar);
 
+    const origenCli = document.getElementById("filtroOrigenConsultaCliente")?.value || "";
+    if (origenCli) params.set("origen_cliente", origenCli);
+
     const data = await apiGet("/consultas?" + params.toString());
     consultasMeta = {
       total: data.total,
@@ -553,6 +814,7 @@ async function cargarConsultas() {
       total_paginas: data.total_paginas,
       vista: data.vista,
       dias: data.dias,
+      origen_cliente: data.origen_cliente || null,
       resumen: data.resumen
     };
     consultasPagina = data.pagina;
@@ -683,6 +945,10 @@ function renderResumenConsultas() {
   }
   texto += ".";
 
+  const org = consultasMeta.origen_cliente;
+  if (org === "mostrador") texto += " Clientes: solo mostrador.";
+  else if (org === "web") texto += " Clientes: solo web.";
+
   if (r && (filtro === "activas" || filtro === "activas_todas") && esGerente) {
     texto += ` Total en sistema: ${r.pendiente + r.en_proceso} activas, ${r.finalizado} finalizadas.`;
   }
@@ -720,6 +986,11 @@ document.getElementById("buscarConsulta").addEventListener("input", function() {
 });
 
 document.getElementById("filtroEstadoConsulta").addEventListener("change", function() {
+  consultasPagina = 1;
+  cargarConsultas();
+});
+
+document.getElementById("filtroOrigenConsultaCliente")?.addEventListener("change", function() {
   consultasPagina = 1;
   cargarConsultas();
 });
@@ -883,8 +1154,9 @@ function etiquetaRubroCliente(rubro) {
 function esVistaRapidaClientes() {
   const periodo = document.getElementById("filtroPeriodoCliente")?.value || "inicio";
   const rubro = document.getElementById("filtroRubroCliente")?.value || "";
+  const origen = document.getElementById("filtroOrigenCliente")?.value || "";
   const buscar = (document.getElementById("buscarCliente")?.value || "").trim();
-  return periodo === "inicio" && !buscar;
+  return periodo === "inicio" && !buscar && !rubro && !origen;
 }
 
 async function cargarClientes() {
@@ -893,11 +1165,13 @@ async function cargarClientes() {
     params.set("pagina", clientesPagina);
 
     const rubro = document.getElementById("filtroRubroCliente")?.value || "";
+    const origenAlta = document.getElementById("filtroOrigenCliente")?.value || "";
     const periodo = document.getElementById("filtroPeriodoCliente")?.value || "inicio";
     const buscar = (document.getElementById("buscarCliente")?.value || "").trim();
     const vistaRapida = esVistaRapidaClientes();
 
     if (rubro) params.set("rubro", rubro);
+    if (origenAlta) params.set("origen_alta", origenAlta);
     if (buscar) params.set("buscar", buscar);
 
     if (vistaRapida) {
@@ -914,7 +1188,8 @@ async function cargarClientes() {
       limite: data.limite,
       total_paginas: data.total_paginas,
       rubro: data.rubro,
-      dias: data.dias
+      dias: data.dias,
+      origen_alta: data.origen_alta || null
     };
     clientesPagina = data.pagina;
 
@@ -926,6 +1201,20 @@ async function cargarClientes() {
   }
 }
 
+function textoRegistroCliente(c) {
+  if (!c || !c.origen_alta) return "";
+  if (c.origen_alta === "mostrador") {
+    const nom = `${c.registrado_por_nombre || ""} ${c.registrado_por_apellido || ""}`.trim();
+    return nom ? `Cargado en mostrador por ${nom}` : "Alta en mostrador";
+  }
+  const labels = {
+    web_registro: "Registro en el sitio web",
+    web_contacto: "Consulta / contacto web",
+    web_proximamente: "Interés — Próximamente"
+  };
+  return labels[c.origen_alta] || "";
+}
+
 function renderClientesLista(lista) {
   const cont = document.getElementById("clientesLista");
   if (!cont) return;
@@ -935,11 +1224,17 @@ function renderClientesLista(lista) {
     return;
   }
 
-  cont.innerHTML = lista.map(c => `
+  cont.innerHTML = lista.map(c => {
+    const origenTxt = textoRegistroCliente(c);
+    const origenLine = origenTxt
+      ? `<span class="consulta-card-meta cliente-origen-line"><i class="fa fa-info-circle" aria-hidden="true"></i> ${origenTxt}</span>`
+      : "";
+    return `
     <article class="consulta-card">
       <div class="consulta-card-main">
         <strong>${c.nombre} ${c.apellido || ""}</strong>
-        <span class="consulta-card-meta">${c.email} · ${c.ciudad || "Sin ciudad"}</span>
+        <span class="consulta-card-meta">${c.email || "Sin email"} · ${c.telefono || "Sin teléfono"} · ${c.ciudad || "Sin ciudad"}</span>
+        ${origenLine}
         <span class="consulta-card-meta">
           ${etiquetaRubroCliente(c.rubro || "sin_rubro")}
           · ${c.telefono || "Sin teléfono"}
@@ -959,7 +1254,8 @@ function renderClientesLista(lista) {
         </div>
       </div>
     </article>
-  `).join("");
+  `;
+  }).join("");
 }
 
 function renderPaginacionClientes() {
@@ -981,6 +1277,7 @@ function renderResumenClientes() {
   if (!el) return;
 
   const rubro = document.getElementById("filtroRubroCliente")?.value || "";
+  const origen = document.getElementById("filtroOrigenCliente")?.value || "";
   const periodo = document.getElementById("filtroPeriodoCliente")?.value || "inicio";
   const buscar = (document.getElementById("buscarCliente")?.value || "").trim();
   const vistaRapida = esVistaRapidaClientes();
@@ -990,6 +1287,8 @@ function renderResumenClientes() {
     : `Mostrando ${clientesMeta.total} cliente${clientesMeta.total !== 1 ? "s" : ""}`;
 
   if (rubro) texto += ` · Rubro: ${etiquetaRubroCliente(rubro)}`;
+  if (origen === "mostrador") texto += " · Origen: mostrador";
+  else if (origen === "web") texto += " · Origen: web";
   if (buscar) texto += ` · Búsqueda: “${buscar}”`;
   if (!vistaRapida && periodo === "0") texto += " · Todo el historial";
   else if (!vistaRapida && periodo !== "0") texto += ` · Últimos ${periodo} días`;
@@ -1024,6 +1323,18 @@ async function editarCliente(id) {
       ? c.fecha_nacimiento.split("T")[0] : "";
     document.getElementById("editCuentaCorriente").value = c.cuenta_corriente ? "1" : "0";
     document.getElementById("editNotas").value = c.notas_comerciales || "";
+    const origenEl = document.getElementById("editClienteOrigenAlta");
+    const origenTxt = textoRegistroCliente(c);
+    if (origenEl) {
+      if (origenTxt) {
+        origenEl.textContent = origenTxt;
+        origenEl.hidden = false;
+      } else {
+        origenEl.textContent = "";
+        origenEl.hidden = true;
+      }
+    }
+    sincronizarRequeridosClienteMostrador();
     document.getElementById("modalCliente").classList.add("open");
   } catch (e) {
     mostrarToast(e.message, true);
@@ -1032,6 +1343,168 @@ async function editarCliente(id) {
 
 function cerrarModalCliente() {
   document.getElementById("modalCliente").classList.remove("open");
+}
+
+let pendingClienteParaConsulta = false;
+let buscarClienteConsultaTimer = null;
+let tiposConsultaMostrador = null;
+
+/** Teléfono obligatorio / email opcional (corrige HTML viejo en caché del navegador). */
+function sincronizarRequeridosClienteMostrador() {
+  [
+    { id: "altaTelefono", label: "Teléfono *", required: true },
+    { id: "altaEmail", label: "Email", required: false, placeholder: "Opcional" },
+    { id: "editTelefono", label: "Teléfono *", required: true },
+    { id: "editEmail", label: "Email", required: false, placeholder: "Opcional" }
+  ].forEach(({ id, label, required, placeholder }) => {
+    const input = document.getElementById(id);
+    if (!input) return;
+    input.required = required;
+    if (placeholder != null) input.placeholder = placeholder;
+    const lbl = input.closest(".form-grupo")?.querySelector("label");
+    if (lbl) lbl.textContent = label;
+  });
+}
+
+function abrirAltaClienteMostrador() {
+  sincronizarRequeridosClienteMostrador();
+  document.getElementById("formAltaClienteMostrador")?.reset();
+  document.getElementById("modalAltaCliente")?.classList.add("open");
+}
+
+function abrirAltaClienteDesdeConsulta() {
+  pendingClienteParaConsulta = true;
+  cerrarModalNuevaConsulta();
+  abrirAltaClienteMostrador();
+}
+
+function cerrarModalAltaCliente() {
+  document.getElementById("modalAltaCliente")?.classList.remove("open");
+  pendingClienteParaConsulta = false;
+}
+
+async function guardarAltaClienteMostrador(e) {
+  e.preventDefault();
+  try {
+    const data = await apiPost("/clientes", {
+      nombre: document.getElementById("altaNombre").value,
+      apellido: document.getElementById("altaApellido").value,
+      email: document.getElementById("altaEmail").value,
+      telefono: document.getElementById("altaTelefono").value,
+      ciudad: document.getElementById("altaCiudad").value,
+      empresa: document.getElementById("altaEmpresa").value,
+      tipo_cliente: document.getElementById("altaTipoCliente").value,
+      rubro: document.getElementById("altaRubro").value || null,
+      fecha_nacimiento: document.getElementById("altaNacimiento").value || null,
+      cuenta_corriente: document.getElementById("altaCuentaCorriente").value === "1",
+      notas_comerciales: document.getElementById("altaNotas").value
+    });
+    const volverAConsulta = pendingClienteParaConsulta && data.id;
+    const nomGuardado = document.getElementById("altaNombre").value;
+    const emGuardado = document.getElementById("altaEmail").value;
+    mostrarToast(data.mensaje || (data.creado ? "Cliente dado de alta" : "Cliente actualizado"));
+    cerrarModalAltaCliente();
+    await cargarRubrosClientes();
+    await cargarClientes();
+    if (volverAConsulta) {
+      await abrirNuevaConsultaMostrador();
+      seleccionarClienteNuevaConsulta(data.id, nomGuardado, emGuardado);
+    }
+  } catch (err) {
+    mostrarToast(err.message, true);
+  }
+}
+
+function cerrarModalNuevaConsulta() {
+  document.getElementById("modalNuevaConsulta")?.classList.remove("open");
+}
+
+async function cargarTiposConsultaMostrador() {
+  if (tiposConsultaMostrador) return tiposConsultaMostrador;
+  tiposConsultaMostrador = await apiGet("/consultas/tipos/lista");
+  const sel = document.getElementById("nuevaConsultaTipo");
+  if (sel) {
+    sel.innerHTML = tiposConsultaMostrador
+      .map((t) => `<option value="${t.id}">${t.nombre}</option>`)
+      .join("");
+  }
+  return tiposConsultaMostrador;
+}
+
+async function abrirNuevaConsultaMostrador() {
+  document.getElementById("formNuevaConsultaMostrador")?.reset();
+  document.getElementById("nuevaConsultaClienteId").value = "";
+  document.getElementById("nuevaConsultaClienteElegido").textContent = "";
+  document.getElementById("resultadosClienteNuevaConsulta").innerHTML = "";
+  await cargarTiposConsultaMostrador();
+  document.getElementById("modalNuevaConsulta")?.classList.add("open");
+}
+
+function seleccionarClienteNuevaConsulta(id, nombre, email) {
+  document.getElementById("nuevaConsultaClienteId").value = String(id);
+  document.getElementById("nuevaConsultaClienteElegido").textContent =
+    `Cliente seleccionado: ${nombre}${email ? " · " + email : ""}`;
+  document.getElementById("resultadosClienteNuevaConsulta").innerHTML = "";
+  document.getElementById("buscarClienteNuevaConsulta").value = "";
+}
+
+async function buscarClientesParaNuevaConsulta() {
+  const q = (document.getElementById("buscarClienteNuevaConsulta")?.value || "").trim();
+  const cont = document.getElementById("resultadosClienteNuevaConsulta");
+  if (!cont) return;
+  if (q.length < 2) {
+    cont.innerHTML = "";
+    return;
+  }
+  try {
+    const params = new URLSearchParams({ buscar: q, limite: 10, pagina: 1 });
+    const data = await apiGet("/clientes?" + params.toString());
+    const lista = data.clientes || data;
+    if (!lista.length) {
+      cont.innerHTML = `<p class="consultas-vacio">Sin resultados. Usá «Cliente nuevo».</p>`;
+      return;
+    }
+    cont.innerHTML = lista
+      .map(
+        (c) =>
+          `<button type="button" class="cliente-busqueda-item" data-id="${c.id}" data-nombre="${escAttrCatalogo(c.nombre)}" data-email="${escAttrCatalogo(c.email)}">
+            <strong>${escHtmlCatalogo(c.nombre)} ${escHtmlCatalogo(c.apellido || "")}</strong>
+            <span>${escHtmlCatalogo(c.email)} · ${escHtmlCatalogo(c.telefono || "—")}</span>
+          </button>`
+      )
+      .join("");
+    cont.querySelectorAll(".cliente-busqueda-item").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        seleccionarClienteNuevaConsulta(btn.dataset.id, btn.dataset.nombre, btn.dataset.email);
+      });
+    });
+  } catch (err) {
+    mostrarToast(err.message, true);
+  }
+}
+
+async function guardarNuevaConsultaMostrador(e) {
+  e.preventDefault();
+  const clienteId = document.getElementById("nuevaConsultaClienteId").value;
+  if (!clienteId) {
+    mostrarToast("Elegí un cliente de la búsqueda o cargá uno nuevo.", true);
+    return;
+  }
+  try {
+    const res = await apiPost("/consultas", {
+      cliente_id: parseInt(clienteId, 10),
+      tipo_consulta_id: parseInt(document.getElementById("nuevaConsultaTipo").value, 10),
+      producto_interes: document.getElementById("nuevaConsultaProducto").value.trim() || null,
+      mensaje: document.getElementById("nuevaConsultaMensaje").value,
+      prioridad: document.getElementById("nuevaConsultaPrioridad").value
+    });
+    mostrarToast(res.mensaje || "Consulta registrada");
+    cerrarModalNuevaConsulta();
+    await cargarConsultas();
+    await cargarDashboard();
+  } catch (err) {
+    mostrarToast(err.message, true);
+  }
 }
 
 async function guardarCliente(e) {
@@ -2043,6 +2516,11 @@ document.getElementById("buscarCliente").addEventListener("input", function() {
 });
 
 document.getElementById("filtroRubroCliente").addEventListener("change", function() {
+  clientesPagina = 1;
+  cargarClientes();
+});
+
+document.getElementById("filtroOrigenCliente")?.addEventListener("change", function() {
   clientesPagina = 1;
   cargarClientes();
 });
@@ -4016,6 +4494,23 @@ if (esGerente) {
 cargarDashboard();
 cargarConsultas();
 cargarRubrosClientes().then(() => cargarClientes());
+
+sincronizarRequeridosClienteMostrador();
+document.getElementById("btnAltaClienteMostrador")?.addEventListener("click", () => abrirAltaClienteMostrador());
+document.getElementById("btnNuevaConsultaMostrador")?.addEventListener("click", () => abrirNuevaConsultaMostrador());
+document.getElementById("buscarClienteNuevaConsulta")?.addEventListener("input", () => {
+  clearTimeout(buscarClienteConsultaTimer);
+  buscarClienteConsultaTimer = setTimeout(buscarClientesParaNuevaConsulta, 280);
+});
+
+window.abrirAltaClienteMostrador = abrirAltaClienteMostrador;
+window.abrirAltaClienteDesdeConsulta = abrirAltaClienteDesdeConsulta;
+window.cerrarModalAltaCliente = cerrarModalAltaCliente;
+window.guardarAltaClienteMostrador = guardarAltaClienteMostrador;
+window.abrirNuevaConsultaMostrador = abrirNuevaConsultaMostrador;
+window.cerrarModalNuevaConsulta = cerrarModalNuevaConsulta;
+window.guardarNuevaConsultaMostrador = guardarNuevaConsultaMostrador;
+window.seleccionarClienteNuevaConsulta = seleccionarClienteNuevaConsulta;
 
 window.abrirEditarCatalogo = abrirEditarCatalogo;
 window.abrirNuevoCatalogo = abrirNuevoCatalogo;

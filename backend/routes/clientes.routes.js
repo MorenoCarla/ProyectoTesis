@@ -2,13 +2,18 @@ const express = require("express");
 const pool = require("../config/db");
 const { verificarToken, soloRoles } = require("../middleware/auth");
 const { normalizarDatosPersonales } = require("../utils/texto");
+const { upsertClienteMostrador } = require("../utils/clientes-web");
+const { obtenerEmpleadoId } = require("../utils/empleado");
+const { SQL_JOIN_REGISTRO, SQL_CAMPOS_REGISTRO } = require("../utils/cliente-origen");
 
 const router = express.Router();
 
 const SQL_BASE = `
-  SELECT c.*, COUNT(DISTINCT co.id) AS total_consultas,
+  SELECT c.*, ${SQL_CAMPOS_REGISTRO},
+         COUNT(DISTINCT co.id) AS total_consultas,
          COUNT(DISTINCT p.id) AS total_presupuestos
   FROM clientes c
+  ${SQL_JOIN_REGISTRO}
   LEFT JOIN consultas co ON co.cliente_id = c.id AND co.activo = 1
   LEFT JOIN presupuestos p ON p.cliente_id = c.id AND p.activo = 1
   WHERE c.activo = 1
@@ -47,8 +52,15 @@ function armarFiltrosClientes(req) {
     params.push(dias);
   }
 
+  const origen = (req.query.origen_alta || "").trim();
+  if (origen === "mostrador") {
+    sql += " AND c.origen_alta = 'mostrador'";
+  } else if (origen === "web") {
+    sql += ` AND c.origen_alta IN ('web_contacto', 'web_registro', 'web_proximamente')`;
+  }
+
   sql += " GROUP BY c.id";
-  return { sql, params, rubro: rubro || null, buscar, dias: dias > 0 ? dias : null };
+  return { sql, params, rubro: rubro || null, buscar, dias: dias > 0 ? dias : null, origen_alta: origen || null };
 }
 
 // GET /clientes/rubros  — rubros con cantidad (para filtros)
@@ -73,7 +85,7 @@ router.get("/rubros", verificarToken, soloRoles("admin", "empleado"), async (req
 // GET /clientes?rubro=&dias=&buscar=&pagina=1&limite=15
 router.get("/", verificarToken, async (req, res) => {
   try {
-    const { sql, params, rubro, buscar, dias } = armarFiltrosClientes(req);
+    const { sql, params, rubro, buscar, dias, origen_alta } = armarFiltrosClientes(req);
 
     if (req.usuario.rol === "cliente") {
       const [filas] = await pool.query(sql + " ORDER BY c.creado_en DESC", params);
@@ -103,6 +115,7 @@ router.get("/", verificarToken, async (req, res) => {
       total_paginas: totalPaginas,
       rubro,
       dias,
+      origen_alta,
       clientes
     });
   } catch (error) {
@@ -111,11 +124,64 @@ router.get("/", verificarToken, async (req, res) => {
   }
 });
 
+// POST /clientes — alta mostrador (empleado o gerente); unifica por email
+router.post("/", verificarToken, soloRoles("admin", "empleado"), async (req, res) => {
+  try {
+    const {
+      nombre,
+      apellido,
+      email,
+      telefono,
+      ciudad,
+      tipo_cliente,
+      rubro,
+      empresa,
+      fecha_nacimiento,
+      cuenta_corriente,
+      notas_comerciales
+    } = req.body;
+
+    const empId = await obtenerEmpleadoId(pool, req.usuario);
+    const { id, creado, coincidencia } = await upsertClienteMostrador(pool, {
+      nombre,
+      apellido,
+      email,
+      telefono,
+      ciudad,
+      tipo_cliente,
+      rubro,
+      empresa,
+      fecha_nacimiento,
+      cuenta_corriente,
+      notas_comerciales,
+      registrado_por_empleado_id: empId
+    });
+
+    let msgExist = "Ya existía en la base; se actualizaron los datos.";
+    if (coincidencia === "email") msgExist = "Ya existía con ese email; se actualizaron los datos.";
+    if (coincidencia === "telefono") msgExist = "Ya existía con ese teléfono; se actualizaron los datos.";
+
+    res.status(creado ? 201 : 200).json({
+      id,
+      creado,
+      ya_existia: !creado,
+      mensaje: creado ? "Cliente dado de alta en el CRM" : msgExist
+    });
+  } catch (error) {
+    const status = error.status || 500;
+    if (status >= 500) console.error(error);
+    res.status(status).json({ error: error.message || "Error al crear cliente" });
+  }
+});
+
 // GET /clientes/:id
 router.get("/:id", verificarToken, soloRoles("admin", "empleado"), async (req, res) => {
   try {
     const [filas] = await pool.query(
-      "SELECT * FROM clientes WHERE id = ? AND activo = 1",
+      `SELECT c.*, ${SQL_CAMPOS_REGISTRO}
+       FROM clientes c
+       ${SQL_JOIN_REGISTRO}
+       WHERE c.id = ? AND c.activo = 1`,
       [req.params.id]
     );
 
@@ -139,7 +205,11 @@ router.put("/:id", verificarToken, soloRoles("admin", "empleado"), async (req, r
     } = req.body;
 
     const normalizado = normalizarDatosPersonales({ nombre, apellido, ciudad, empresa });
-    const emailNorm = (email || "").trim().toLowerCase();
+    const emailNorm = (email || "").trim().toLowerCase() || null;
+    const tel = (telefono || "").trim();
+    if (!tel) {
+      return res.status(400).json({ error: "El teléfono es obligatorio" });
+    }
 
     await pool.query(
       `UPDATE clientes SET

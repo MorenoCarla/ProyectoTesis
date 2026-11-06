@@ -81,6 +81,13 @@ async function armarFiltrosConsultas(req) {
     params.push(dias);
   }
 
+  const origenCli = (req.query.origen_cliente || "").trim();
+  if (origenCli === "mostrador") {
+    sql += " AND cl.origen_alta = 'mostrador'";
+  } else if (origenCli === "web") {
+    sql += ` AND cl.origen_alta IN ('web_contacto', 'web_registro', 'web_proximamente')`;
+  }
+
   if (req.usuario.rol === "empleado" && vista === "todas" && !estado) {
     sql += " AND co.empleado_id = ?";
     params.push(empleadoId);
@@ -92,7 +99,8 @@ async function armarFiltrosConsultas(req) {
     vista: estado ? estado : vista,
     buscar,
     dias: dias > 0 ? dias : null,
-    asignacion: asignacion || null
+    asignacion: asignacion || null,
+    origen_cliente: origenCli || null
   };
 }
 
@@ -101,7 +109,7 @@ async function armarFiltrosConsultas(req) {
 // Cliente: devuelve array simple (sus consultas, sin paginar)
 router.get("/", verificarToken, async (req, res) => {
   try {
-    const { sql, params, vista, buscar } = await armarFiltrosConsultas(req);
+    const { sql, params, vista, buscar, dias, origen_cliente } = await armarFiltrosConsultas(req);
 
     if (req.usuario.rol === "cliente") {
       const [filas] = await pool.query(
@@ -154,6 +162,11 @@ router.get("/", verificarToken, async (req, res) => {
         )`;
         paramsResumen.push(like, like, like, like, like, like, like, like);
       }
+      if (origen_cliente === "mostrador") {
+        sqlResumen += " AND cl.origen_alta = 'mostrador'";
+      } else if (origen_cliente === "web") {
+        sqlResumen += ` AND cl.origen_alta IN ('web_contacto', 'web_registro', 'web_proximamente')`;
+      }
       sqlResumen += " GROUP BY co.estado";
       const [filasResumen] = await pool.query(sqlResumen, paramsResumen);
       resumen = { pendiente: 0, en_proceso: 0, finalizado: 0, cancelado: 0 };
@@ -166,13 +179,24 @@ router.get("/", verificarToken, async (req, res) => {
       limite,
       total_paginas: totalPaginas,
       vista,
-      dias: parseInt(req.query.dias, 10) || null,
+      dias: dias || null,
+      origen_cliente,
       resumen,
       consultas
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al obtener consultas" });
+  }
+});
+
+// GET /consultas/tipos/lista — tipos para alta manual en mostrador
+router.get("/tipos/lista", verificarToken, soloRoles("admin", "empleado"), async (req, res) => {
+  try {
+    const [filas] = await pool.query("SELECT id, nombre FROM tipos_consulta ORDER BY id");
+    res.json(filas);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener tipos de consulta" });
   }
 });
 
@@ -224,20 +248,44 @@ router.post("/", verificarToken, soloRoles("admin", "empleado"), async (req, res
   try {
     const { cliente_id, tipo_consulta_id, producto_interes, mensaje, prioridad, empleado_id } = req.body;
 
+    const cid = parseInt(cliente_id, 10);
+    const tid = parseInt(tipo_consulta_id, 10);
+    if (!cid || !tid || !String(mensaje || "").trim()) {
+      return res.status(400).json({ error: "Cliente, tipo de consulta y mensaje son obligatorios" });
+    }
+
+    const [cli] = await pool.query("SELECT id FROM clientes WHERE id = ? AND activo = 1", [cid]);
+    if (!cli.length) {
+      return res.status(404).json({ error: "Cliente no encontrado" });
+    }
+
+    let empId = empleado_id ? parseInt(empleado_id, 10) : null;
+    if (!empId) {
+      empId = await obtenerEmpleadoId(pool, req.usuario);
+    }
+
     const [resultado] = await pool.query(
-      `INSERT INTO consultas (cliente_id, empleado_id, tipo_consulta_id, producto_interes, mensaje, prioridad)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [cliente_id, empleado_id || null, tipo_consulta_id, producto_interes || null, mensaje, prioridad || "media"]
+      `INSERT INTO consultas (cliente_id, empleado_id, tipo_consulta_id, producto_interes, mensaje, prioridad, estado)
+       VALUES (?, ?, ?, ?, ?, ?, 'pendiente')`,
+      [
+        cid,
+        empId || null,
+        tid,
+        producto_interes || null,
+        String(mensaje).trim(),
+        prioridad || "media"
+      ]
     );
 
     await pool.query(
       `INSERT INTO historial_estados (consulta_id, estado_anterior, estado_nuevo, observacion)
-       VALUES (?, 'nuevo', 'pendiente', 'Consulta creada manualmente')`,
+       VALUES (?, 'nuevo', 'pendiente', 'Consulta registrada en mostrador (CRM)')`,
       [resultado.insertId]
     );
 
     res.status(201).json({ id: resultado.insertId, mensaje: "Consulta creada" });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Error al crear consulta" });
   }
 });
