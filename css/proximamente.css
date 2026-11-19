@@ -1146,6 +1146,91 @@ body.pagina-proximamente {
   transform: translateX(-50%) translateY(0);
 }
 
+/* Móvil / touch: menos GPU, feedback en ficha activa (sin hover) */
+@media (max-width: 767px) {
+  .prox-hero-light--beam,
+  .prox-stage-beam,
+  .prox-stage-glow--spot-a,
+  .prox-stage-glow--spot-b,
+  .prox-stage-glow--spot-c,
+  .prox-vitrina-head::after {
+    display: none;
+  }
+
+  .prox-hero-light {
+    animation: none !important;
+    filter: blur(42px);
+    opacity: 0.85;
+  }
+
+  .prox-hero-media,
+  .prox-hero-media::before,
+  .prox-hero-photo {
+    animation: none !important;
+    will-change: auto;
+  }
+
+  .prox-marquee-track {
+    animation-duration: 48s;
+  }
+
+  .prox-stage-glow {
+    filter: blur(48px);
+    opacity: 0.75;
+  }
+
+  .prox-stage-floor {
+    filter: blur(8px);
+    opacity: 0.9;
+  }
+
+  .prox-carousel-stage::before,
+  .prox-carousel-stage::after {
+    filter: none;
+    opacity: 0.85;
+  }
+
+  .prox-swiper .swiper-slide:not(.swiper-slide-active) .prox-deck-card {
+    filter: none;
+    opacity: 0.82;
+    transform: none;
+  }
+
+  .prox-deck-card {
+    transition:
+      opacity 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .prox-swiper .swiper-slide-active .prox-deck-title {
+    color: var(--prox-red);
+  }
+
+  .prox-swiper .swiper-slide-active .prox-deck-avisame {
+    background: rgba(253, 17, 17, 0.12);
+    color: var(--prox-red);
+  }
+
+  .prox-carousel-stage--lite .prox-stage-bg {
+    opacity: 0.95;
+  }
+
+  .prox-swiper--lite {
+    touch-action: pan-y pinch-zoom;
+  }
+}
+
+@media (hover: none) {
+  .prox-swiper .swiper-slide-active .prox-deck-title {
+    color: var(--prox-red);
+  }
+
+  .prox-swiper .swiper-slide-active .prox-deck-avisame {
+    background: rgba(253, 17, 17, 0.12);
+    color: var(--prox-red);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .prox-marquee-track,
   .prox-hero-media,

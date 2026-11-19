@@ -152,11 +152,36 @@
   let proxItems = [];
   let proxSwiper = null;
 
+  function isProxMobile() {
+    return window.matchMedia("(max-width: 767px)").matches || window.matchMedia("(hover: none)").matches;
+  }
+
+  function ensureHoverImageLoaded(card) {
+    if (!card) return;
+    const hoverImg = card.querySelector(".prox-deck-img--hover");
+    if (!hoverImg) return;
+    const src = hoverImg.dataset.src;
+    if (src && !hoverImg.getAttribute("src")) hoverImg.src = src;
+  }
+
+  function preloadDeckSlide(index) {
+    if (index < 0 || index >= proxItems.length) return;
+    const slide = proxSwiper?.slides?.[index];
+    if (!slide) return;
+    slide.querySelectorAll("img[data-src]").forEach((img) => {
+      if (!img.getAttribute("src")) img.src = img.dataset.src;
+    });
+    const main = slide.querySelector(".prox-deck-img--main");
+    if (main?.dataset.src && !main.getAttribute("src")) main.src = main.dataset.src;
+  }
+
   function renderSwiperSlide(item, index) {
     const liked = likedSet().has(String(item.id));
     const imgMain = escAttr(item.imagen);
     const imgHover = escAttr(item.imagen_hover || "");
     const hasHover = Boolean(item.imagen_hover && item.imagen_hover !== item.imagen);
+    const eager = index <= 1;
+    const mainSrc = eager ? `src="${imgMain}"` : `data-src="${imgMain}" loading="lazy"`;
     const tag = item.categoria_etiqueta
       ? `<span class="prox-deck-tag">${esc(item.categoria_etiqueta)}</span>`
       : "";
@@ -168,8 +193,8 @@
       <div class="swiper-slide">
         <article class="prox-deck-card${hasHover ? " has-hover-image" : ""}">
           <div class="prox-deck-media">
-            <img class="prox-deck-img prox-deck-img--main" src="${imgMain}" alt="${escAttr(item.titulo)}" loading="${index < 4 ? "eager" : "lazy"}" decoding="async">
-            ${hasHover ? `<img class="prox-deck-img prox-deck-img--hover" src="${imgHover}" alt="" decoding="async">` : ""}
+            <img class="prox-deck-img prox-deck-img--main" ${mainSrc} alt="${escAttr(item.titulo)}" ${eager ? 'loading="eager" fetchpriority="high"' : ""} decoding="async">
+            ${hasHover ? `<img class="prox-deck-img prox-deck-img--hover" data-src="${imgHover}" alt="" decoding="async" loading="lazy">` : ""}
             ${hasHover ? `<span class="prox-deck-hint-montaje">Tocá: ver ambiente</span>` : ""}
           </div>
           <footer class="prox-deck-foot">
@@ -221,32 +246,28 @@
     if (!el || !proxItems.length) return;
 
     deckIndex = 0;
-    proxSwiper = new Swiper(el, {
-      effect: "coverflow",
+    const mobile = isProxMobile();
+    el.classList.toggle("prox-swiper--lite", mobile);
+    document.getElementById("proxCarouselStage")?.classList.toggle("prox-carousel-stage--lite", mobile);
+
+    const swiperOpts = {
+      effect: mobile ? "slide" : "coverflow",
       grabCursor: true,
       centeredSlides: true,
       slidesPerView: "auto",
-      spaceBetween: 24,
+      spaceBetween: mobile ? 16 : 24,
       loop: false,
-      speed: 480,
+      speed: mobile ? 260 : 480,
       initialSlide: 0,
-      watchSlidesProgress: true,
-      coverflowEffect: {
-        rotate: 20,
-        stretch: -6,
-        depth: 210,
-        modifier: 1.25,
-        slideShadows: false
-      },
-      breakpoints: {
-        768: {
-          spaceBetween: 30,
-          coverflowEffect: { rotate: 24, stretch: -8, depth: 250, modifier: 1.35 }
-        }
-      },
+      watchSlidesProgress: !mobile,
+      resistanceRatio: 0.82,
+      touchReleaseOnEdges: true,
+      preventInteractionOnTransition: mobile,
       on: {
         slideChange(s) {
           deckIndex = s.activeIndex;
+          preloadDeckSlide(s.activeIndex);
+          preloadDeckSlide(s.activeIndex + 1);
           el.querySelectorAll(".prox-deck-card.is-showing-montaje").forEach((card) => {
             card.classList.remove("is-showing-montaje");
             const hint = card.querySelector(".prox-deck-hint-montaje");
@@ -254,7 +275,27 @@
           });
         }
       }
-    });
+    };
+
+    if (!mobile) {
+      swiperOpts.coverflowEffect = {
+        rotate: 20,
+        stretch: -6,
+        depth: 210,
+        modifier: 1.25,
+        slideShadows: false
+      };
+      swiperOpts.breakpoints = {
+        768: {
+          spaceBetween: 30,
+          coverflowEffect: { rotate: 24, stretch: -8, depth: 250, modifier: 1.35 }
+        }
+      };
+    }
+
+    proxSwiper = new Swiper(el, swiperOpts);
+    preloadDeckSlide(0);
+    preloadDeckSlide(1);
 
     bindDeckNav();
   }
@@ -263,6 +304,10 @@
     const stage = document.getElementById("proxCarouselStage");
     if (!stage || stage.dataset.deckBound === "1") return;
     stage.dataset.deckBound = "1";
+    stage.addEventListener("mouseover", (ev) => {
+      const card = ev.target.closest(".prox-deck-card.has-hover-image");
+      if (card) ensureHoverImageLoaded(card);
+    });
     stage.addEventListener("click", (ev) => {
       const likeBtn = ev.target.closest("[data-prox-like]");
       if (likeBtn) {
@@ -273,6 +318,7 @@
       if (media) {
         const card = media.closest(".prox-deck-card.has-hover-image");
         if (card) {
+          ensureHoverImageLoaded(card);
           card.classList.toggle("is-showing-montaje");
           const hint = card.querySelector(".prox-deck-hint-montaje");
           if (hint) {
