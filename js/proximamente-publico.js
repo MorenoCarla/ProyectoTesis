@@ -59,6 +59,14 @@
     return esc(s).replace(/'/g, "&#39;");
   }
 
+  /** Rutas relativas siempre desde la raíz del sitio (evita 404 en móvil). */
+  function proxImgUrl(path) {
+    if (!path) return "";
+    const p = String(path).trim();
+    if (/^https?:\/\//i.test(p)) return p;
+    return p.startsWith("/") ? p : "/" + p.replace(/^\.\//, "");
+  }
+
   function visitorKey() {
     try {
       let k = localStorage.getItem(LS_KEY);
@@ -157,11 +165,36 @@
   }
 
   function ensureHoverImageLoaded(card) {
-    if (!card) return;
+    if (!card) return Promise.resolve(false);
     const hoverImg = card.querySelector(".prox-deck-img--hover");
-    if (!hoverImg) return;
-    const src = hoverImg.dataset.src;
-    if (src && !hoverImg.getAttribute("src")) hoverImg.src = src;
+    if (!hoverImg) return Promise.resolve(false);
+    const fromData = hoverImg.dataset.src;
+    if (fromData && !hoverImg.getAttribute("src")) {
+      hoverImg.src = proxImgUrl(fromData);
+    }
+    const src = hoverImg.getAttribute("src");
+    if (!src) return Promise.resolve(false);
+    if (hoverImg.complete && hoverImg.naturalWidth > 0) return Promise.resolve(true);
+    return new Promise((resolve) => {
+      hoverImg.addEventListener("load", () => resolve(true), { once: true });
+      hoverImg.addEventListener("error", () => resolve(false), { once: true });
+    });
+  }
+
+  function syncMontajeBotones(card) {
+    if (!card) return;
+    const on = card.classList.contains("is-showing-montaje");
+    const btn = card.querySelector("[data-prox-montaje]");
+    if (btn) {
+      btn.innerHTML = on
+        ? '<i class="fa fa-lightbulb" aria-hidden="true"></i> Ver producto'
+        : '<i class="fa fa-images" aria-hidden="true"></i> Ver ambiente';
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+    }
+    const hint = card.querySelector(".prox-deck-hint-montaje");
+    if (hint) {
+      hint.textContent = on ? "Ambiente" : "Producto";
+    }
   }
 
   function preloadDeckSlide(index) {
@@ -203,26 +236,29 @@
 
   let lastMontajeTap = 0;
 
-  function toggleMontajeOnCard(card) {
+  async function toggleMontajeOnCard(card) {
     if (!card?.classList.contains("has-hover-image")) return;
     lastMontajeTap = Date.now();
-    ensureHoverImageLoaded(card);
-    card.classList.toggle("is-showing-montaje");
-    const hint = card.querySelector(".prox-deck-hint-montaje");
-    if (hint) {
-      hint.textContent = card.classList.contains("is-showing-montaje")
-        ? "Tocá: ver producto"
-        : "Tocá: ver ambiente";
+    const mostrarMontaje = !card.classList.contains("is-showing-montaje");
+    if (mostrarMontaje) {
+      const ok = await ensureHoverImageLoaded(card);
+      if (!ok) {
+        toast("No se pudo cargar el fotomontaje. Revisá que esté subido en el CRM.");
+        return;
+      }
     }
+    card.classList.toggle("is-showing-montaje", mostrarMontaje);
+    syncMontajeBotones(card);
   }
 
   function renderSwiperSlide(item, index) {
     const liked = likedSet().has(String(item.id));
-    const imgMain = escAttr(item.imagen);
-    const imgHover = escAttr(item.imagen_hover || "");
+    const imgMain = escAttr(proxImgUrl(item.imagen));
+    const imgHover = escAttr(proxImgUrl(item.imagen_hover || ""));
     const hasHover = Boolean(item.imagen_hover && item.imagen_hover !== item.imagen);
     const eager = index <= 2;
     const mainSrc = eager ? `src="${imgMain}"` : `data-src="${imgMain}"`;
+    const hoverSrc = hasHover && eager ? `src="${imgHover}"` : hasHover ? `data-src="${imgHover}"` : "";
     const tag = item.categoria_etiqueta
       ? `<span class="prox-deck-tag">${esc(item.categoria_etiqueta)}</span>`
       : "";
@@ -235,9 +271,10 @@
         <article class="prox-deck-card${hasHover ? " has-hover-image" : ""}">
           <div class="prox-deck-media">
             <img class="prox-deck-img prox-deck-img--main" ${mainSrc} alt="${escAttr(item.titulo)}" ${eager ? 'loading="eager" fetchpriority="high"' : ""} decoding="async">
-            ${hasHover ? `<img class="prox-deck-img prox-deck-img--hover" data-src="${imgHover}" alt="" decoding="async" loading="lazy">` : ""}
-            ${hasHover ? `<span class="prox-deck-hint-montaje">Tocá: ver ambiente</span>` : ""}
+            ${hasHover ? `<img class="prox-deck-img prox-deck-img--hover" ${hoverSrc} alt="Fotomontaje — ${escAttr(item.titulo)}" decoding="async" loading="lazy">` : ""}
+            ${hasHover ? `<span class="prox-deck-hint-montaje">Producto</span>` : ""}
           </div>
+          ${hasHover ? `<button type="button" class="prox-deck-btn-montaje" data-prox-montaje aria-pressed="false"><i class="fa fa-images" aria-hidden="true"></i> Ver ambiente</button>` : ""}
           <footer class="prox-deck-foot">
             <div class="prox-deck-meta-row">
               <div class="prox-deck-text">
@@ -301,7 +338,7 @@
       watchSlidesProgress: true,
       resistanceRatio: 0.82,
       touchReleaseOnEdges: true,
-      noSwipingSelector: ".prox-deck-media, .prox-deck-like, .prox-deck-avisame",
+      noSwipingSelector: ".prox-deck-like, .prox-deck-avisame, .prox-deck-btn-montaje",
       coverflowEffect: mobile
         ? {
             rotate: 32,
@@ -332,8 +369,7 @@
           preloadDeckSlide(s.activeIndex + 2);
           el.querySelectorAll(".prox-deck-card.is-showing-montaje").forEach((card) => {
             card.classList.remove("is-showing-montaje");
-            const hint = card.querySelector(".prox-deck-hint-montaje");
-            if (hint) hint.textContent = "Tocá: ver ambiente";
+            syncMontajeBotones(card);
           });
         }
       }
@@ -377,6 +413,12 @@
       const likeBtn = ev.target.closest("[data-prox-like]");
       if (likeBtn) {
         toggleLike(likeBtn.getAttribute("data-prox-like"), likeBtn);
+        return;
+      }
+      const montajeBtn = ev.target.closest("[data-prox-montaje]");
+      if (montajeBtn) {
+        ev.preventDefault();
+        toggleMontajeOnCard(montajeBtn.closest(".prox-deck-card"));
         return;
       }
       const media = ev.target.closest(".prox-deck-media");

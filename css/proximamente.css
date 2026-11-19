@@ -674,8 +674,13 @@ body.pagina-proximamente {
   transition: opacity 0.45s ease;
 }
 
+.prox-deck-img--main {
+  z-index: 1;
+}
+
 .prox-deck-img--hover {
   opacity: 0;
+  z-index: 2;
 }
 
 /* Montaje / fotomontaje (hover en PC o clase al tocar) */
@@ -723,13 +728,48 @@ body.pagina-proximamente {
   }
 }
 
+@media (max-width: 767px), (hover: none) and (pointer: coarse) {
+  .prox-deck-card.has-hover-image .prox-deck-hint-montaje {
+    display: flex;
+  }
+}
+
+/* Botón fotomontaje: solo celular/tablet sin mouse; en PC sigue el hover */
+.prox-deck-btn-montaje {
+  width: 100%;
+  margin-top: 8px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(253, 17, 17, 0.35);
+  background: rgba(253, 17, 17, 0.08);
+  color: var(--prox-red);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+@media (max-width: 767px), (hover: none) and (pointer: coarse) {
+  .prox-deck-btn-montaje {
+    display: inline-flex;
+  }
+}
+
+.prox-deck-btn-montaje[aria-pressed="true"] {
+  background: rgba(253, 17, 17, 0.18);
+}
+
+.prox-deck-btn-montaje:active {
+  transform: scale(0.98);
+}
+
 @media (hover: none) {
   .prox-deck-media {
     cursor: pointer;
-  }
-
-  .prox-deck-hint-montaje {
-    display: flex;
   }
 }
 
