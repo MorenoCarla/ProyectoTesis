@@ -152,8 +152,8 @@
   let proxItems = [];
   let proxSwiper = null;
 
-  function isProxMobile() {
-    return window.matchMedia("(max-width: 767px)").matches || window.matchMedia("(hover: none)").matches;
+  function isNarrowViewport() {
+    return window.matchMedia("(max-width: 767px)").matches;
   }
 
   function ensureHoverImageLoaded(card) {
@@ -172,7 +172,48 @@
       if (!img.getAttribute("src")) img.src = img.dataset.src;
     });
     const main = slide.querySelector(".prox-deck-img--main");
-    if (main?.dataset.src && !main.getAttribute("src")) main.src = main.dataset.src;
+    if (main?.dataset.src && !main.getAttribute("src")) {
+      main.src = main.dataset.src;
+    }
+    const hover = slide.querySelector(".prox-deck-img--hover");
+    if (hover?.dataset.src && !hover.getAttribute("src")) {
+      hover.src = hover.dataset.src;
+    }
+  }
+
+  function markMediaLoaded(img) {
+    const media = img?.closest(".prox-deck-media");
+    if (!media) return;
+    const main = media.querySelector(".prox-deck-img--main");
+    if (main?.complete && main.naturalWidth > 0) {
+      media.classList.remove("prox-deck-media--cargando");
+      media.classList.add("prox-deck-media--listo");
+    }
+  }
+
+  function bindDeckImageLoadEvents() {
+    document.querySelectorAll(".prox-deck-media").forEach((media) => {
+      media.classList.add("prox-deck-media--cargando");
+      const main = media.querySelector(".prox-deck-img--main");
+      if (!main) return;
+      if (main.complete && main.naturalWidth > 0) markMediaLoaded(main);
+      else main.addEventListener("load", () => markMediaLoaded(main), { once: true });
+    });
+  }
+
+  let lastMontajeTap = 0;
+
+  function toggleMontajeOnCard(card) {
+    if (!card?.classList.contains("has-hover-image")) return;
+    lastMontajeTap = Date.now();
+    ensureHoverImageLoaded(card);
+    card.classList.toggle("is-showing-montaje");
+    const hint = card.querySelector(".prox-deck-hint-montaje");
+    if (hint) {
+      hint.textContent = card.classList.contains("is-showing-montaje")
+        ? "Tocá: ver producto"
+        : "Tocá: ver ambiente";
+    }
   }
 
   function renderSwiperSlide(item, index) {
@@ -180,8 +221,8 @@
     const imgMain = escAttr(item.imagen);
     const imgHover = escAttr(item.imagen_hover || "");
     const hasHover = Boolean(item.imagen_hover && item.imagen_hover !== item.imagen);
-    const eager = index <= 1;
-    const mainSrc = eager ? `src="${imgMain}"` : `data-src="${imgMain}" loading="lazy"`;
+    const eager = index <= 2;
+    const mainSrc = eager ? `src="${imgMain}"` : `data-src="${imgMain}"`;
     const tag = item.categoria_etiqueta
       ? `<span class="prox-deck-tag">${esc(item.categoria_etiqueta)}</span>`
       : "";
@@ -246,28 +287,49 @@
     if (!el || !proxItems.length) return;
 
     deckIndex = 0;
-    const mobile = isProxMobile();
-    el.classList.toggle("prox-swiper--lite", mobile);
-    document.getElementById("proxCarouselStage")?.classList.toggle("prox-carousel-stage--lite", mobile);
+    const mobile = isNarrowViewport();
 
     const swiperOpts = {
-      effect: mobile ? "slide" : "coverflow",
+      effect: "coverflow",
       grabCursor: true,
       centeredSlides: true,
       slidesPerView: "auto",
-      spaceBetween: mobile ? 16 : 24,
+      spaceBetween: mobile ? 18 : 24,
       loop: false,
-      speed: mobile ? 260 : 480,
+      speed: mobile ? 420 : 480,
       initialSlide: 0,
-      watchSlidesProgress: !mobile,
+      watchSlidesProgress: true,
       resistanceRatio: 0.82,
       touchReleaseOnEdges: true,
-      preventInteractionOnTransition: mobile,
+      noSwipingSelector: ".prox-deck-media, .prox-deck-like, .prox-deck-avisame",
+      coverflowEffect: mobile
+        ? {
+            rotate: 32,
+            stretch: -10,
+            depth: 200,
+            modifier: 1.55,
+            slideShadows: true
+          }
+        : {
+            rotate: 20,
+            stretch: -6,
+            depth: 210,
+            modifier: 1.25,
+            slideShadows: false
+          },
+      breakpoints: {
+        768: {
+          spaceBetween: 30,
+          coverflowEffect: { rotate: 26, stretch: -8, depth: 260, modifier: 1.4, slideShadows: false }
+        }
+      },
       on: {
         slideChange(s) {
           deckIndex = s.activeIndex;
           preloadDeckSlide(s.activeIndex);
           preloadDeckSlide(s.activeIndex + 1);
+          preloadDeckSlide(s.activeIndex - 1);
+          preloadDeckSlide(s.activeIndex + 2);
           el.querySelectorAll(".prox-deck-card.is-showing-montaje").forEach((card) => {
             card.classList.remove("is-showing-montaje");
             const hint = card.querySelector(".prox-deck-hint-montaje");
@@ -277,25 +339,11 @@
       }
     };
 
-    if (!mobile) {
-      swiperOpts.coverflowEffect = {
-        rotate: 20,
-        stretch: -6,
-        depth: 210,
-        modifier: 1.25,
-        slideShadows: false
-      };
-      swiperOpts.breakpoints = {
-        768: {
-          spaceBetween: 30,
-          coverflowEffect: { rotate: 24, stretch: -8, depth: 250, modifier: 1.35 }
-        }
-      };
-    }
-
     proxSwiper = new Swiper(el, swiperOpts);
     preloadDeckSlide(0);
     preloadDeckSlide(1);
+    preloadDeckSlide(2);
+    bindDeckImageLoadEvents();
 
     bindDeckNav();
   }
@@ -308,6 +356,23 @@
       const card = ev.target.closest(".prox-deck-card.has-hover-image");
       if (card) ensureHoverImageLoaded(card);
     });
+  let mediaTapX = 0;
+    stage.addEventListener(
+      "touchstart",
+      (ev) => {
+        const t = ev.target.closest(".prox-deck-media");
+        if (t) mediaTapX = ev.touches?.[0]?.clientX ?? 0;
+      },
+      { passive: true }
+    );
+    stage.addEventListener("touchend", (ev) => {
+      const media = ev.target.closest(".prox-deck-media");
+      if (!media) return;
+      const x = ev.changedTouches?.[0]?.clientX ?? 0;
+      if (Math.abs(x - mediaTapX) > 14) return;
+      const card = media.closest(".prox-deck-card");
+      if (card) toggleMontajeOnCard(card);
+    });
     stage.addEventListener("click", (ev) => {
       const likeBtn = ev.target.closest("[data-prox-like]");
       if (likeBtn) {
@@ -316,17 +381,9 @@
       }
       const media = ev.target.closest(".prox-deck-media");
       if (media) {
-        const card = media.closest(".prox-deck-card.has-hover-image");
-        if (card) {
-          ensureHoverImageLoaded(card);
-          card.classList.toggle("is-showing-montaje");
-          const hint = card.querySelector(".prox-deck-hint-montaje");
-          if (hint) {
-            hint.textContent = card.classList.contains("is-showing-montaje")
-              ? "Tocá: ver producto"
-              : "Tocá: ver ambiente";
-          }
-        }
+        if (Date.now() - lastMontajeTap < 450) return;
+        const card = media.closest(".prox-deck-card");
+        if (card) toggleMontajeOnCard(card);
         return;
       }
       const consultaBtn = ev.target.closest("[data-prox-consulta]");

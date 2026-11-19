@@ -678,6 +678,19 @@ body.pagina-proximamente {
   opacity: 0;
 }
 
+/* Montaje / fotomontaje (hover en PC o clase al tocar) */
+.prox-deck-card.has-hover-image.is-showing-montaje .prox-deck-img--main {
+  opacity: 0;
+}
+
+.prox-deck-card.has-hover-image.is-showing-montaje .prox-deck-img--hover {
+  opacity: 1;
+}
+
+.prox-deck-card.is-showing-montaje .prox-deck-title {
+  color: var(--prox-red);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .prox-deck-card.has-hover-image:hover .prox-deck-img--main {
     opacity: 0;
@@ -717,14 +730,6 @@ body.pagina-proximamente {
 
   .prox-deck-hint-montaje {
     display: flex;
-  }
-
-  .prox-deck-card.has-hover-image.is-showing-montaje .prox-deck-img--main {
-    opacity: 0;
-  }
-
-  .prox-deck-card.has-hover-image.is-showing-montaje .prox-deck-img--hover {
-    opacity: 1;
   }
 }
 
@@ -1146,81 +1151,70 @@ body.pagina-proximamente {
   transform: translateX(-50%) translateY(0);
 }
 
-/* Móvil / touch: menos GPU, feedback en ficha activa (sin hover) */
+/* Móvil: coverflow + luces visibles (blur un poco más liviano) */
 @media (max-width: 767px) {
-  .prox-hero-light--beam,
-  .prox-stage-beam,
-  .prox-stage-glow--spot-a,
-  .prox-stage-glow--spot-b,
-  .prox-stage-glow--spot-c,
-  .prox-vitrina-head::after {
-    display: none;
-  }
-
   .prox-hero-light {
-    animation: none !important;
-    filter: blur(42px);
-    opacity: 0.85;
-  }
-
-  .prox-hero-media,
-  .prox-hero-media::before,
-  .prox-hero-photo {
-    animation: none !important;
-    will-change: auto;
-  }
-
-  .prox-marquee-track {
-    animation-duration: 48s;
-  }
-
-  .prox-stage-glow {
-    filter: blur(48px);
-    opacity: 0.75;
-  }
-
-  .prox-stage-floor {
-    filter: blur(8px);
+    filter: blur(52px);
     opacity: 0.9;
   }
 
-  .prox-carousel-stage::before,
-  .prox-carousel-stage::after {
-    filter: none;
+  .prox-stage-glow {
+    filter: blur(56px);
     opacity: 0.85;
   }
 
-  .prox-swiper .swiper-slide:not(.swiper-slide-active) .prox-deck-card {
-    filter: none;
-    opacity: 0.82;
-    transform: none;
+  .prox-stage-beam {
+    opacity: 0.35;
+    filter: blur(22px);
   }
 
-  .prox-deck-card {
-    transition:
-      opacity 0.25s ease,
-      box-shadow 0.25s ease;
+  .prox-swiper .swiper-slide:not(.swiper-slide-active) .prox-deck-card {
+    filter: saturate(0.55) brightness(0.92);
+    opacity: 0.58;
+    transform: scale(0.86);
+  }
+
+  .prox-swiper .swiper-slide-active .prox-deck-card {
+    transform: scale(1.04);
+    box-shadow:
+      0 32px 64px rgba(253, 17, 17, 0.22),
+      0 0 0 2px rgba(253, 17, 17, 0.35),
+      0 0 48px rgba(253, 17, 17, 0.12);
   }
 
   .prox-swiper .swiper-slide-active .prox-deck-title {
     color: var(--prox-red);
+    transform: scale(1.04);
   }
 
   .prox-swiper .swiper-slide-active .prox-deck-avisame {
-    background: rgba(253, 17, 17, 0.12);
+    background: rgba(253, 17, 17, 0.14);
     color: var(--prox-red);
   }
 
-  .prox-carousel-stage--lite .prox-stage-bg {
-    opacity: 0.95;
+  .prox-deck-media.prox-deck-media--cargando::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, #e8ecf2 8%, #f5f7fa 18%, #e8ecf2 33%);
+    background-size: 200% 100%;
+    animation: prox-shimmer 1.2s ease-in-out infinite;
+    z-index: 0;
+    pointer-events: none;
   }
 
-  .prox-swiper--lite {
-    touch-action: pan-y pinch-zoom;
+  .prox-deck-media.prox-deck-media--listo::after {
+    display: none;
   }
 }
 
-@media (hover: none) {
+@keyframes prox-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (hover: none), (max-width: 767px) {
   .prox-swiper .swiper-slide-active .prox-deck-title {
     color: var(--prox-red);
   }
