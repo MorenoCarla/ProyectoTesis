@@ -728,48 +728,47 @@ body.pagina-proximamente {
   }
 }
 
-/* Botón fotomontaje (móvil): violeta — distinto del gris “Avisame” y del rojo Ituarte */
+/* Botón fotomontaje (móvil): gris suave — secundario frente a “Avisame” */
 .prox-deck-btn-montaje {
   width: 100%;
   margin-top: 8px;
-  padding: 11px 14px;
+  padding: 10px 14px;
   border-radius: 12px;
-  border: none;
-  background: linear-gradient(135deg, #4338ca 0%, #6366f1 48%, #8b5cf6 100%);
-  color: #fff;
-  font-size: 0.82rem;
-  font-weight: 700;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: linear-gradient(180deg, #f8fafc 0%, #e8edf3 100%);
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 600;
   cursor: pointer;
   display: none;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 0 10px 26px rgba(99, 102, 241, 0.45);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  box-shadow:
+    0 3px 0 #cbd5e1,
+    0 6px 14px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 @media (max-width: 767px), (hover: none) and (pointer: coarse) {
   .prox-deck-btn-montaje {
     display: inline-flex;
   }
-
-  .prox-deck-card.has-hover-image .prox-deck-avisame {
-    background: #e2e8f0;
-    color: #475569;
-    font-weight: 600;
-    margin-top: 6px;
-    box-shadow: none;
-  }
 }
 
 .prox-deck-btn-montaje[aria-pressed="true"] {
-  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 50%, #2dd4bf 100%);
-  box-shadow: 0 10px 26px rgba(20, 184, 166, 0.4);
+  background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%);
+  color: #475569;
+  box-shadow:
+    0 2px 0 #94a3b8,
+    0 4px 12px rgba(15, 23, 42, 0.1);
 }
 
 .prox-deck-btn-montaje:active {
-  transform: scale(0.97);
-  filter: brightness(1.05);
+  transform: translateY(2px);
+  box-shadow:
+    0 1px 0 #cbd5e1,
+    0 3px 8px rgba(15, 23, 42, 0.06);
 }
 
 @media (hover: none) {
@@ -946,6 +945,28 @@ body.pagina-proximamente {
 .prox-deck-avisame:hover {
   background: rgba(253, 17, 17, 0.1);
   color: var(--prox-red);
+}
+
+@media (max-width: 767px), (hover: none) and (pointer: coarse) {
+  .prox-deck-avisame {
+    margin-top: 8px;
+    padding: 12px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    background: linear-gradient(180deg, rgba(253, 17, 17, 0.2) 0%, rgba(253, 17, 17, 0.12) 100%);
+    color: var(--prox-red);
+    border: 1px solid rgba(253, 17, 17, 0.28);
+    box-shadow:
+      0 4px 0 rgba(185, 28, 28, 0.35),
+      0 10px 26px rgba(253, 17, 17, 0.28);
+  }
+
+  .prox-deck-avisame:active {
+    transform: translateY(3px);
+    box-shadow:
+      0 1px 0 rgba(185, 28, 28, 0.3),
+      0 5px 14px rgba(253, 17, 17, 0.22);
+  }
 }
 
 .prox-deck-nav {
@@ -1256,13 +1277,11 @@ body.pagina-proximamente {
   }
 
   .prox-swiper .swiper-slide-active .prox-deck-avisame {
-    background: rgba(253, 17, 17, 0.14);
+    background: linear-gradient(180deg, rgba(253, 17, 17, 0.24) 0%, rgba(253, 17, 17, 0.14) 100%);
     color: var(--prox-red);
-  }
-
-  .prox-swiper .swiper-slide-active .prox-deck-card.has-hover-image .prox-deck-avisame {
-    background: #e2e8f0;
-    color: #475569;
+    box-shadow:
+      0 5px 0 rgba(185, 28, 28, 0.38),
+      0 12px 30px rgba(253, 17, 17, 0.32);
   }
 
   .prox-deck-media.prox-deck-media--cargando::after {
@@ -1293,13 +1312,11 @@ body.pagina-proximamente {
   }
 
   .prox-swiper .swiper-slide-active .prox-deck-avisame {
-    background: rgba(253, 17, 17, 0.12);
+    background: linear-gradient(180deg, rgba(253, 17, 17, 0.24) 0%, rgba(253, 17, 17, 0.14) 100%);
     color: var(--prox-red);
-  }
-
-  .prox-swiper .swiper-slide-active .prox-deck-card.has-hover-image .prox-deck-avisame {
-    background: #e2e8f0;
-    color: #475569;
+    box-shadow:
+      0 5px 0 rgba(185, 28, 28, 0.38),
+      0 12px 30px rgba(253, 17, 17, 0.32);
   }
 }
 
