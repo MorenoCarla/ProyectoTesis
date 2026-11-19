@@ -108,6 +108,14 @@
     } catch (_) {}
   }
 
+  function playLikeAnimation(btn) {
+    if (!btn) return;
+    btn.classList.remove("is-animating-like");
+    void btn.offsetWidth;
+    btn.classList.add("is-animating-like");
+    setTimeout(() => btn.classList.remove("is-animating-like"), 650);
+  }
+
   function applyLikeUi(id, liked, likesCount) {
     document.querySelectorAll(`[data-prox-like="${id}"]`).forEach((b) => {
       b.classList.toggle("is-liked", liked);
@@ -484,6 +492,7 @@
       if (data.liked) markLiked(id);
       else unmarkLiked(id);
       applyLikeUi(id, Boolean(data.liked), data.likes_count);
+      if (data.liked) playLikeAnimation(btn);
       toast(data.liked ? "¡Gracias por tu interés!" : "Sacamos tu me gusta");
     } catch (e) {
       toast(e.message || "No se pudo actualizar el me gusta");
