@@ -191,10 +191,6 @@
         : '<i class="fa fa-images" aria-hidden="true"></i> Ver ambiente';
       btn.setAttribute("aria-pressed", on ? "true" : "false");
     }
-    const hint = card.querySelector(".prox-deck-hint-montaje");
-    if (hint) {
-      hint.textContent = on ? "Ambiente" : "Producto";
-    }
   }
 
   function preloadDeckSlide(index) {
@@ -272,7 +268,6 @@
           <div class="prox-deck-media">
             <img class="prox-deck-img prox-deck-img--main" ${mainSrc} alt="${escAttr(item.titulo)}" ${eager ? 'loading="eager" fetchpriority="high"' : ""} decoding="async">
             ${hasHover ? `<img class="prox-deck-img prox-deck-img--hover" ${hoverSrc} alt="Fotomontaje — ${escAttr(item.titulo)}" decoding="async" loading="lazy">` : ""}
-            ${hasHover ? `<span class="prox-deck-hint-montaje">Producto</span>` : ""}
           </div>
           ${hasHover ? `<button type="button" class="prox-deck-btn-montaje" data-prox-montaje aria-pressed="false"><i class="fa fa-images" aria-hidden="true"></i> Ver ambiente</button>` : ""}
           <footer class="prox-deck-foot">

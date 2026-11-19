@@ -728,12 +728,6 @@ body.pagina-proximamente {
   }
 }
 
-@media (max-width: 767px), (hover: none) and (pointer: coarse) {
-  .prox-deck-card.has-hover-image .prox-deck-hint-montaje {
-    display: flex;
-  }
-}
-
 /* Botón fotomontaje: solo celular/tablet sin mouse; en PC sigue el hover */
 .prox-deck-btn-montaje {
   width: 100%;
@@ -771,30 +765,6 @@ body.pagina-proximamente {
   .prox-deck-media {
     cursor: pointer;
   }
-}
-
-.prox-deck-hint-montaje {
-  display: none;
-  position: absolute;
-  left: 50%;
-  bottom: 10px;
-  transform: translateX(-50%);
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #fff;
-  background: rgba(15, 23, 42, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.prox-deck-card.is-showing-montaje .prox-deck-hint-montaje {
-  background: rgba(253, 17, 17, 0.75);
-  border-color: rgba(255, 255, 255, 0.35);
 }
 
 .prox-deck-foot {
