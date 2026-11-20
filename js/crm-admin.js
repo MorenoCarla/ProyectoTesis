@@ -1094,6 +1094,8 @@ async function verConsulta(id) {
     `).join("") || "<p style='color:#64748b;font-size:13px;'>Sin seguimientos aún</p>";
 
     actualizarModalAsignacion(c);
+    const btnEliminar = document.getElementById("btnEliminarConsulta");
+    if (btnEliminar) btnEliminar.style.display = esGerente ? "inline-flex" : "none";
     document.getElementById("modalConsulta").classList.add("open");
   } catch (e) {
     mostrarToast(e.message, true);
@@ -1102,6 +1104,26 @@ async function verConsulta(id) {
 
 function cerrarModal() {
   document.getElementById("modalConsulta").classList.remove("open");
+  consultaActualId = null;
+  consultaModalActual = null;
+}
+
+async function eliminarConsulta() {
+  if (!esGerente || !consultaActualId) return;
+  const ok = confirm(
+    "¿Eliminar esta consulta del CRM?\n\nDejará de mostrarse en listados y reportes. El cliente no se borra; los datos quedan guardados en la base (baja lógica)."
+  );
+  if (!ok) return;
+  try {
+    await apiDelete("/consultas/" + consultaActualId);
+    mostrarToast("Consulta eliminada");
+    cerrarModal();
+    await cargarConsultas();
+    await cargarDashboard();
+    await actualizarSelectConsultas();
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
 }
 
 async function guardarCambiosModal() {

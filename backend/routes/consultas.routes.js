@@ -382,14 +382,19 @@ router.put("/:id", verificarToken, soloRoles("admin", "empleado"), async (req, r
 // DELETE /consultas/:id  → SOFT DELETE
 router.delete("/:id", verificarToken, soloRoles("admin"), async (req, res) => {
   try {
-    await pool.query(
-      "UPDATE consultas SET activo = 0, eliminado_en = NOW() WHERE id = ?",
+    const [resultado] = await pool.query(
+      "UPDATE consultas SET activo = 0, eliminado_en = NOW() WHERE id = ? AND activo = 1",
       [req.params.id]
     );
 
-    res.json({ mensaje: "Consulta desactivada (soft delete)" });
+    if (!resultado.affectedRows) {
+      return res.status(404).json({ error: "Consulta no encontrada" });
+    }
+
+    res.json({ mensaje: "Consulta eliminada del panel" });
   } catch (error) {
-    res.status(500).json({ error: "Error al desactivar consulta" });
+    console.error(error);
+    res.status(500).json({ error: "Error al eliminar consulta" });
   }
 });
 
