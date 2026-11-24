@@ -1234,7 +1234,7 @@ function textoRegistroCliente(c) {
   const labels = {
     web_registro: "Registro en el sitio web",
     web_contacto: "Consulta / contacto web",
-    web_proximamente: "Interés — Próximamente"
+    web_proximamente: "Página Próximamente («Avisame cuando llegue»)"
   };
   return labels[c.origen_alta] || "";
 }
@@ -1351,7 +1351,11 @@ async function editarCliente(id) {
     const origenTxt = textoRegistroCliente(c);
     if (origenEl) {
       if (origenTxt) {
-        origenEl.textContent = origenTxt;
+        let aviso = origenTxt;
+        if (c.origen_alta === "web_proximamente") {
+          aviso += " · El formulario no pide email; el contacto es por teléfono.";
+        }
+        origenEl.textContent = aviso;
         origenEl.hidden = false;
       } else {
         origenEl.textContent = "";

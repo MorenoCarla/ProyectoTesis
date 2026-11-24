@@ -5,6 +5,7 @@ const { normalizarDatosPersonales } = require("../utils/texto");
 const { upsertClienteMostrador } = require("../utils/clientes-web");
 const { obtenerEmpleadoId } = require("../utils/empleado");
 const { SQL_JOIN_REGISTRO, SQL_CAMPOS_REGISTRO } = require("../utils/cliente-origen");
+const { sanitizarEmailCliente } = require("../utils/email-interno");
 
 const router = express.Router();
 
@@ -116,7 +117,7 @@ router.get("/", verificarToken, async (req, res) => {
       rubro,
       dias,
       origen_alta,
-      clientes
+      clientes: clientes.map(sanitizarEmailCliente)
     });
   } catch (error) {
     console.error(error);
@@ -189,7 +190,7 @@ router.get("/:id", verificarToken, soloRoles("admin", "empleado"), async (req, r
       return res.status(404).json({ error: "Cliente no encontrado" });
     }
 
-    res.json(filas[0]);
+    res.json(sanitizarEmailCliente(filas[0]));
   } catch (error) {
     res.status(500).json({ error: "Error al obtener cliente" });
   }

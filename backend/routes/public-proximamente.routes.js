@@ -32,37 +32,23 @@ async function upsertClientePorTelefono(nombre, telefono) {
   if (!digits || digits.length < 8) return null;
 
   const normalizado = normalizarDatosPersonales({ nombre, apellido: "" });
-  const emailNorm = `proximamente.${digits}@contacto.ituarte.local`;
 
   const [porTel] = await pool.query(
     "SELECT id FROM clientes WHERE telefono = ? AND activo = 1 ORDER BY id DESC LIMIT 1",
     [tel]
   );
   if (porTel.length) {
-    await pool.query("UPDATE clientes SET nombre = ? WHERE id = ?", [
-      normalizado.nombre,
-      porTel[0].id
-    ]);
+    await pool.query(
+      "UPDATE clientes SET nombre = ?, origen_alta = COALESCE(origen_alta, 'web_proximamente') WHERE id = ?",
+      [normalizado.nombre, porTel[0].id]
+    );
     return porTel[0].id;
   }
 
-  const [porMail] = await pool.query(
-    "SELECT id FROM clientes WHERE email = ? AND activo = 1 LIMIT 1",
-    [emailNorm]
-  );
-  if (porMail.length) {
-    await pool.query("UPDATE clientes SET nombre = ?, telefono = ? WHERE id = ?", [
-      normalizado.nombre,
-      tel,
-      porMail[0].id
-    ]);
-    return porMail[0].id;
-  }
-
   const [ins] = await pool.query(
-    `INSERT INTO clientes (nombre, apellido, email, telefono, ciudad, tipo_cliente)
-     VALUES (?, '', ?, ?, NULL, 'particular')`,
-    [normalizado.nombre, emailNorm, tel]
+    `INSERT INTO clientes (nombre, apellido, email, telefono, ciudad, tipo_cliente, origen_alta)
+     VALUES (?, '', NULL, ?, NULL, 'particular', 'web_proximamente')`,
+    [normalizado.nombre, tel]
   );
   return ins.insertId;
 }
