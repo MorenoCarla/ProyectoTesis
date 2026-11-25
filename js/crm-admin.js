@@ -111,6 +111,7 @@ let miEmpleadoId = null;
 let consultaModalActual = null;
 let marketingTabActiva = "calendario";
 let avisoMarketingDia = null;
+let modalMarketingMostradoEnEstaPagina = false;
 
 document.getElementById("nombreUsuario").textContent =
   usuario.nombre + " " + (usuario.apellido || "");
@@ -2003,9 +2004,15 @@ function fechaClaveDia() {
   return new Date().toISOString().split("T")[0];
 }
 
-function claveModalMarketingDia() {
+function claveModalMarketingSesion() {
   const uid = usuario?.id != null ? usuario.id : "0";
-  return `crm_modal_mkt_${fechaClaveDia()}_u${uid}`;
+  return `crm_modal_mkt_visto_u${uid}`;
+}
+
+function reabrirModalMarketingDelDia() {
+  sessionStorage.removeItem(claveModalMarketingSesion());
+  modalMarketingMostradoEnEstaPagina = false;
+  if (avisoMarketingDia?.hay_aviso) mostrarModalMarketingDelDia(avisoMarketingDia);
 }
 
 function bloquesAvisoMarketing(data) {
@@ -2076,9 +2083,14 @@ function renderBannerMarketingDia(data) {
         </div>
       </div>
       <div class="aviso-mkt-bloques aviso-mkt-bloques--banner">${htmlBloquesAvisoMarketing(bloques, true)}</div>
-      <button type="button" class="btn btn-primary btn-sm aviso-mkt-btn" onclick="irAMarketingOportunidades()">
-        <i class="fa fa-paper-plane"></i> Ir a Oportunidades
-      </button>
+      <div class="aviso-mkt-banner-actions">
+        <button type="button" class="btn btn-primary btn-sm aviso-mkt-btn" onclick="irAMarketingOportunidades()">
+          <i class="fa fa-paper-plane"></i> Ir a Oportunidades
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="reabrirModalMarketingDelDia()">
+          Ver cartel
+        </button>
+      </div>
     </div>
   `;
   el.style.display = "block";
@@ -2123,10 +2135,8 @@ function mostrarModalMarketingDelDia(data) {
 
 function cerrarModalMarketingDelDia() {
   document.getElementById("modalMarketingDelDia")?.classList.remove("open");
-  if (avisoMarketingDia?.hay_aviso) {
-    localStorage.setItem(claveModalMarketingDia(), "1");
-    renderBannerMarketingDia(avisoMarketingDia);
-  }
+  sessionStorage.setItem(claveModalMarketingSesion(), "1");
+  if (avisoMarketingDia?.hay_aviso) renderBannerMarketingDia(avisoMarketingDia);
 }
 
 function irAMarketingOportunidades() {
@@ -2159,14 +2169,17 @@ function aplicarAvisoMarketingDia(data) {
     if (elBanner) elBanner.style.display = "none";
     document.getElementById("modalMarketingDelDia")?.classList.remove("open");
     actualizarBadgeMenuMarketing(null);
-    localStorage.removeItem(claveModalMarketingDia());
+    sessionStorage.removeItem(claveModalMarketingSesion());
+    modalMarketingMostradoEnEstaPagina = false;
     return;
   }
   renderBannerMarketingDia(data);
   actualizarBadgeMenuMarketing(data);
-  const clave = claveModalMarketingDia();
-  if (localStorage.getItem(clave) !== "1") {
+
+  const yaVistoEnSesion = sessionStorage.getItem(claveModalMarketingSesion()) === "1";
+  if (!yaVistoEnSesion && !modalMarketingMostradoEnEstaPagina) {
     mostrarModalMarketingDelDia(data);
+    modalMarketingMostradoEnEstaPagina = true;
   }
 }
 
@@ -4772,3 +4785,4 @@ window.cerrarModalMarketingDelDia = cerrarModalMarketingDelDia;
 window.irAMarketingOportunidades = irAMarketingOportunidades;
 window.subirArchivosPlantilla = subirArchivosPlantilla;
 window.subirArchivosDiaEspecial = subirArchivosDiaEspecial;
+window.reabrirModalMarketingDelDia = reabrirModalMarketingDelDia;

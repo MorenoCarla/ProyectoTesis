@@ -185,6 +185,13 @@ body {
   line-height: 1.4;
 }
 
+.aviso-mkt-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
 .aviso-mkt-bloques {
   display: flex;
   flex-direction: column;
