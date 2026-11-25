@@ -138,6 +138,82 @@ body {
   padding: 0 4px;
 }
 
+.alerta-dia-especial.alerta-marketing-dia {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+  border-color: #ffa726;
+  border-left-color: #e65100;
+}
+
+.alerta-marketing-dia ul {
+  margin: 8px 0 12px;
+  padding-left: 1.1rem;
+  font-size: 14px;
+  color: #5d4037;
+}
+
+.menu-badge-marketing {
+  margin-left: 6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #e65100;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.modal-marketing-dia {
+  max-width: 520px;
+}
+
+.modal-marketing-dia-intro {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0 0 16px;
+  line-height: 1.45;
+}
+
+.modal-marketing-dia-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 50vh;
+  overflow-y: auto;
+  margin-bottom: 16px;
+}
+
+.modal-marketing-linea {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #e65100;
+}
+
+.modal-marketing-linea strong {
+  display: block;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.modal-marketing-linea p {
+  margin: 0;
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.modal-marketing-dia-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .calendario-header {
   display: flex;
   justify-content: space-between;

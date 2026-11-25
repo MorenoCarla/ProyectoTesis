@@ -11,7 +11,7 @@
   <title>Panel CRM - Ituarte</title>
     <link rel="stylesheet" href="vendor/fonts/work-sans.css">
   <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
-<link rel="stylesheet" href="css/crm.css?v=equipo8">
+<link rel="stylesheet" href="css/crm.css?v=marketing-avisos1">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -29,7 +29,7 @@
       <button class="menu-item" data-section="clientes"><i class="fa fa-users"></i> Clientes</button>
       <button class="menu-item" data-section="catalogo"><i class="fa fa-box-open"></i> Catálogo</button>
       <button class="menu-item" data-section="proximamente"><i class="fa fa-hourglass-half"></i> Próximamente</button>
-      <button class="menu-item" data-section="marketing"><i class="fa fa-bullhorn"></i> Marketing</button>
+      <button class="menu-item" data-section="marketing"><i class="fa fa-bullhorn"></i> Marketing <span id="badgeMenuMarketing" class="menu-badge-marketing" hidden></span></button>
       <button class="menu-item" data-section="seguimientos"><i class="fa fa-clock"></i> Seguimientos</button>
       <button class="menu-item" data-section="empleados" id="menuEmpleados" style="display:none;"><i class="fa fa-id-badge"></i> Empleados</button>
       <button class="menu-item" data-section="equipo" id="menuEquipo" style="display:none;"><i class="fa fa-chart-line"></i> Desempeño equipo</button>
@@ -819,6 +819,7 @@
             <p style="color:#64748b;font-size:14px;margin-bottom:16px;">
               Textos base que el sistema usa para cumpleaños, cuenta corriente y otros envíos automáticos.
               Usá <code>{{nombre}}</code>, <code>{{rubro}}</code>, <code>{{empresa}}</code>.
+              Podés subir <strong>placas e imágenes</strong> (feliz cumple, etc.) para que el equipo las descargue junto con el mensaje en Oportunidades de contacto.
             </p>
             <div id="editorPlantillas"></div>
           </div>
@@ -1072,6 +1073,20 @@
     <div class="modal modal-equipo">
       <button type="button" class="modal-cerrar" onclick="cerrarModalEquipo()">&times;</button>
       <div id="equipoDetalleContenido"></div>
+    </div>
+  </div>
+
+  <!-- MODAL OPORTUNIDADES MARKETING DEL DÍA (primer ingreso) -->
+  <div class="modal-overlay" id="modalMarketingDelDia">
+    <div class="modal modal-marketing-dia">
+      <button type="button" class="modal-cerrar" onclick="cerrarModalMarketingDelDia()">&times;</button>
+      <h2><i class="fa fa-bullhorn" aria-hidden="true"></i> Contactos sugeridos para hoy</h2>
+      <p class="modal-marketing-dia-intro">Revisá estos envíos en <strong>Marketing → Oportunidades de contacto</strong>. Copiá el mensaje, descargá la placa y mandalo por WhatsApp.</p>
+      <div id="modalMarketingDelDiaLista" class="modal-marketing-dia-lista"></div>
+      <div class="modal-marketing-dia-acciones">
+        <button type="button" class="btn btn-primary" onclick="irAMarketingOportunidades(); cerrarModalMarketingDelDia();">Ir a Oportunidades</button>
+        <button type="button" class="btn btn-secondary" onclick="cerrarModalMarketingDelDia()">Entendido</button>
+      </div>
     </div>
   </div>
 
@@ -1346,6 +1361,6 @@
 
   <script src="js/crm-api.js?v=equipo3"></script>
   <script src="js/crm-responsive.js"></script>
-  <script src="js/crm-admin.js?v=prox-origen1"></script>
+  <script src="js/crm-admin.js?v=marketing-pendiente1"></script>
 </body>
 </html>

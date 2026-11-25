@@ -110,6 +110,7 @@ const esGerente = usuario.rol === "admin";
 let miEmpleadoId = null;
 let consultaModalActual = null;
 let marketingTabActiva = "calendario";
+let avisoMarketingDia = null;
 
 document.getElementById("nombreUsuario").textContent =
   usuario.nombre + " " + (usuario.apellido || "");
@@ -1998,31 +1999,94 @@ function renderProximosDiasEspeciales(dias) {
   }).join("");
 }
 
-function mostrarAlertaDiaEspecial(diasHoy) {
+function fechaClaveDia() {
+  return new Date().toISOString().split("T")[0];
+}
+
+function renderBannerMarketingDia(data) {
   const el = document.getElementById("alertaDiaEspecial");
-  if (!el || diasHoy.length === 0) return;
+  if (!el || !data?.lineas?.length) return;
 
-  const clave = "alerta_dia_" + new Date().toISOString().split("T")[0];
-  if (sessionStorage.getItem(clave) === "cerrada") {
-    el.style.display = "none";
-    return;
-  }
+  const items = data.lineas
+    .map((l) => `<li><strong>${escaparHtml(l.titulo)}</strong> — ${escaparHtml(l.detalle)}</li>`)
+    .join("");
 
-  const nombres = diasHoy.map(d => d.nombre).join(", ");
+  el.className = "alerta-dia-especial alerta-marketing-dia";
   el.innerHTML = `
     <div>
-      <strong><i class="fa fa-bell"></i> Día especial comercial — ${escaparHtml(nombres)}</strong>
-      <p>Hoy es un día importante del calendario Ituarte. Revisá Marketing → Oportunidades de contacto para ver clientes sugeridos.</p>
+      <strong><i class="fa fa-bell"></i> Contactos automáticos pendientes</strong>
+      <p style="font-size:13px;margin:4px 0 8px;color:#6d4c41;">El aviso se quita cuando marques cada uno como <strong>Enviado</strong> en Marketing.</p>
+      <ul>${items}</ul>
+      <button type="button" class="btn btn-primary btn-sm" onclick="irAMarketingOportunidades()">
+        <i class="fa fa-address-book"></i> Ir a Marketing
+      </button>
     </div>
-    <button type="button" class="btn-cerrar-alerta" onclick="cerrarAlertaDiaEspecial()" title="Cerrar">&times;</button>
   `;
   el.style.display = "flex";
 }
 
-function cerrarAlertaDiaEspecial() {
-  const clave = "alerta_dia_" + new Date().toISOString().split("T")[0];
-  sessionStorage.setItem(clave, "cerrada");
-  document.getElementById("alertaDiaEspecial").style.display = "none";
+function actualizarBadgeMenuMarketing(data) {
+  const badge = document.getElementById("badgeMenuMarketing");
+  if (!badge) return;
+  const n = data?.total_pendientes_sugeridos || data?.lineas?.length || 0;
+  if (!data?.hay_aviso || n < 1) {
+    badge.hidden = true;
+    badge.textContent = "";
+    return;
+  }
+  badge.hidden = false;
+  badge.textContent = String(n > 99 ? "99+" : n);
+}
+
+function mostrarModalMarketingDelDia(data) {
+  const modal = document.getElementById("modalMarketingDelDia");
+  const lista = document.getElementById("modalMarketingDelDiaLista");
+  if (!modal || !lista || !data?.lineas?.length) return;
+
+  lista.innerHTML = data.lineas
+    .map(
+      (l) => `<div class="modal-marketing-linea">
+      <strong>${escaparHtml(l.titulo)}</strong>
+      <p>${escaparHtml(l.detalle)}</p>
+    </div>`
+    )
+    .join("");
+
+  modal.classList.add("open");
+}
+
+function cerrarModalMarketingDelDia() {
+  document.getElementById("modalMarketingDelDia")?.classList.remove("open");
+  if (avisoMarketingDia?.hay_aviso) {
+    localStorage.setItem("crm_modal_mkt_" + fechaClaveDia(), "1");
+    renderBannerMarketingDia(avisoMarketingDia);
+  }
+}
+
+function irAMarketingOportunidades() {
+  irASeccion("marketing", "oportunidades");
+}
+
+async function cargarAvisoMarketingDelDia() {
+  try {
+    avisoMarketingDia = await apiGet("/marketing/aviso-del-dia");
+    const elBanner = document.getElementById("alertaDiaEspecial");
+    if (!avisoMarketingDia?.hay_aviso) {
+      if (elBanner) elBanner.style.display = "none";
+      document.getElementById("modalMarketingDelDia")?.classList.remove("open");
+      actualizarBadgeMenuMarketing(null);
+      localStorage.removeItem("crm_modal_mkt_" + fechaClaveDia());
+      return;
+    }
+    renderBannerMarketingDia(avisoMarketingDia);
+    actualizarBadgeMenuMarketing(avisoMarketingDia);
+    const clave = "crm_modal_mkt_" + fechaClaveDia();
+    if (localStorage.getItem(clave) !== "1") {
+      mostrarModalMarketingDelDia(avisoMarketingDia);
+    }
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 function notificarDiaEspecialNavegador(diasHoy) {
@@ -2058,9 +2122,7 @@ function verificarDiaEspecialHoy(dias) {
   const diasHoy = dias.filter(d => d.mes === mes && d.dia === dia);
 
   if (diasHoy.length > 0) {
-    mostrarAlertaDiaEspecial(diasHoy);
     notificarDiaEspecialNavegador(diasHoy);
-    mostrarToast(`Hoy es ${diasHoy.map(d => d.nombre).join(" y ")} — revisá Marketing`);
   }
 
   return diasHoy;
@@ -2277,7 +2339,7 @@ function renderArchivosCampana(archivos) {
   return `
     <div style="margin-top:8px;padding:8px;background:#f0f9ff;border-radius:8px;">
       <small style="color:#0369a1;font-weight:600;display:block;margin-bottom:6px;">
-        <i class="fa fa-paperclip"></i> Material de la campaña (descargar para WhatsApp / Instagram):
+        <i class="fa fa-paperclip"></i> Placas / imágenes (descargá y mandá por WhatsApp):
       </small>
       ${archivos.map(a => `
         <a href="${a.url}" download="${escaparHtml(a.nombre)}" target="_blank"
@@ -2337,6 +2399,7 @@ async function marcarEnviadoEditado(index) {
         marketingFiltros.pagina--;
       }
       await cargarOportunidadesMarketing();
+      await cargarAvisoMarketingDelDia();
     }, 600);
   } catch (e) {
     if (card) card.classList.remove("oportunidad-enviada");
@@ -2427,11 +2490,45 @@ async function cargarEditorPlantillasAuto() {
   const plantillas = await apiGet("/marketing/plantillas");
   document.getElementById("editorPlantillas").innerHTML = plantillas.map(p => `
     <div style="margin-bottom:16px;padding:12px;background:#f8f9fa;border-radius:8px;">
-      <strong>${p.nombre}</strong>
+      <strong>${escaparHtml(p.nombre)}</strong>
+      <small style="display:block;color:#64748b;margin-top:4px;">Código: ${escaparHtml(p.codigo)}</small>
       <textarea id="tpl_${p.codigo}" rows="3" style="width:100%;margin-top:8px;padding:10px;border:1px solid #ddd;border-radius:8px;font-family:inherit;">${escaparHtml(p.plantilla)}</textarea>
-      <button class="btn btn-primary btn-sm" style="margin-top:8px;" onclick="guardarPlantilla('${p.codigo}')">Guardar plantilla</button>
+      ${renderArchivosCampana(p.archivos)}
+      <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+        <button type="button" class="btn btn-primary btn-sm" onclick="guardarPlantilla('${p.codigo}')">Guardar texto</button>
+        <label class="btn btn-secondary btn-sm" style="cursor:pointer;margin:0;">
+          <i class="fa fa-image"></i> Subir placa / imagen
+          <input type="file" multiple accept="image/*,.pdf" style="display:none;"
+            onchange="subirArchivosPlantilla('${p.codigo}', this)">
+        </label>
+      </div>
     </div>
   `).join("");
+}
+
+async function subirArchivosPlantilla(codigo, input) {
+  if (!input.files.length) return;
+  try {
+    await apiSubirArchivos("/marketing/plantillas/" + encodeURIComponent(codigo) + "/archivos", input.files);
+    mostrarToast("Imágenes subidas");
+    input.value = "";
+    await cargarEditorPlantillasAuto();
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
+}
+
+async function subirArchivosDiaEspecial(diaId, input) {
+  if (!input.files.length) return;
+  try {
+    await apiSubirArchivos("/marketing/dias-especiales/" + diaId + "/archivos", input.files);
+    mostrarToast("Imágenes subidas");
+    input.value = "";
+    await cargarEditorDiasCalendario();
+    await cargarCalendarioComercial();
+  } catch (e) {
+    mostrarToast(e.message, true);
+  }
 }
 
 async function cargarEditorDiasCalendario() {
@@ -2476,9 +2573,15 @@ async function cargarEditorDiasCalendario() {
       </div>
       <label style="font-size:12px;color:#64748b;">Mensaje</label>
       <textarea id="dia_${d.id}" rows="3" style="width:100%;margin-top:4px;padding:10px;border:1px solid #ddd;border-radius:8px;font-family:inherit;">${escaparHtml(d.plantilla)}</textarea>
-      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="btn btn-primary btn-sm" onclick="guardarDiaEspecial(${d.id})">Guardar cambios</button>
-        <button class="btn btn-danger btn-sm" onclick="eliminarDiaEspecial(${d.id}, '${escaparHtml(d.nombre).replace(/'/g, "\\'")}')">Quitar del calendario</button>
+      ${renderArchivosCampana(d.archivos)}
+      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <button type="button" class="btn btn-primary btn-sm" onclick="guardarDiaEspecial(${d.id})">Guardar cambios</button>
+        <label class="btn btn-secondary btn-sm" style="cursor:pointer;margin:0;">
+          <i class="fa fa-image"></i> Subir placa
+          <input type="file" multiple accept="image/*,.pdf" style="display:none;"
+            onchange="subirArchivosDiaEspecial(${d.id}, this)">
+        </label>
+        <button type="button" class="btn btn-danger btn-sm" onclick="eliminarDiaEspecial(${d.id}, '${escaparHtml(d.nombre).replace(/'/g, "\\'")}')">Quitar del calendario</button>
       </div>
     </div>
   `).join("");
@@ -4529,6 +4632,7 @@ if (esGerente) {
   cargarMarketing();
 }
 cargarDashboard();
+cargarAvisoMarketingDelDia();
 cargarConsultas();
 cargarRubrosClientes().then(() => cargarClientes());
 
@@ -4557,3 +4661,7 @@ window.guardarCatalogoProducto = guardarCatalogoProducto;
 window.alternarPublicadoCatalogo = alternarPublicadoCatalogo;
 window.desactivarProductoCatalogo = desactivarProductoCatalogo;
 window.guardarProximamenteItem = guardarProximamenteItem;
+window.cerrarModalMarketingDelDia = cerrarModalMarketingDelDia;
+window.irAMarketingOportunidades = irAMarketingOportunidades;
+window.subirArchivosPlantilla = subirArchivosPlantilla;
+window.subirArchivosDiaEspecial = subirArchivosDiaEspecial;

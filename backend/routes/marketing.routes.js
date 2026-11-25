@@ -9,7 +9,9 @@ const { obtenerEmpleadoId } = require("../utils/empleado");
 const router = express.Router();
 
 const uploadsDir = path.join(__dirname, "..", "uploads", "campanas");
+const plantillasUploadsDir = path.join(__dirname, "..", "uploads", "plantillas");
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+if (!fs.existsSync(plantillasUploadsDir)) fs.mkdirSync(plantillasUploadsDir, { recursive: true });
 
 const upload = multer({
   storage: multer.diskStorage({
@@ -29,10 +31,55 @@ const upload = multer({
   }
 });
 
+const uploadPlantillas = multer({
+  storage: multer.diskStorage({
+    destination: plantillasUploadsDir,
+    filename: (req, file, cb) => {
+      const ext = path.extname(file.originalname);
+      cb(null, Date.now() + "-" + Math.round(Math.random() * 1e6) + ext);
+    }
+  }),
+  limits: { fileSize: 25 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (/^(image\/|video\/|application\/pdf)/.test(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error("Solo imágenes, videos o PDF"));
+    }
+  }
+});
+
 function tipoDeArchivo(mimetype) {
   if (mimetype.startsWith("image/")) return "imagen";
   if (mimetype.startsWith("video/")) return "video";
   return "documento";
+}
+
+async function obtenerArchivosPlantillaMarketing() {
+  try {
+    const [filas] = await pool.query("SELECT * FROM plantilla_archivos ORDER BY id");
+    const porCodigo = {};
+    const porDiaId = {};
+    filas.forEach((a) => {
+      const item = {
+        id: a.id,
+        nombre: a.nombre_original,
+        url: "/uploads/plantillas/" + a.ruta,
+        tipo: a.tipo || "imagen"
+      };
+      if (a.tipo_entidad === "plantilla" && a.ref_codigo) {
+        if (!porCodigo[a.ref_codigo]) porCodigo[a.ref_codigo] = [];
+        porCodigo[a.ref_codigo].push(item);
+      }
+      if (a.tipo_entidad === "dia_especial" && a.ref_id) {
+        if (!porDiaId[a.ref_id]) porDiaId[a.ref_id] = [];
+        porDiaId[a.ref_id].push(item);
+      }
+    });
+    return { porCodigo, porDiaId };
+  } catch {
+    return { porCodigo: {}, porDiaId: {} };
+  }
 }
 
 async function obtenerArchivosPorCampanas(ids) {
@@ -221,13 +268,19 @@ function calcularResumen(clientes) {
   return resumen;
 }
 
-// GET /marketing/oportunidades?buscar=&categoria=todos|rubro=&pagina=1&limite=20
-router.get("/oportunidades", verificarToken, soloRoles("admin", "empleado"), async (req, res) => {
-  try {
-    const oportunidades = [];
-    const enviados = await obtenerEnviosRecientes();
-    const rubroFiltro = req.query.rubro || "";
-    const buscar = (req.query.buscar || "").toLowerCase().trim();
+function esMotivoAutomaticoDelDia(item) {
+  if (!item) return false;
+  if (item.tipo_campana === "cumpleanos") return true;
+  if (item.tipo_campana === "cuenta_corriente") return true;
+  if (item.tipo_campana?.startsWith("dia_especial_") && item.categoria === "urgente") return true;
+  return false;
+}
+
+/** Lista de oportunidades pendientes (sin los ya marcados enviado / descartado en 7 días). */
+async function armarOportunidadesMarketing({ rubroFiltro = "", buscar = "" } = {}) {
+  const oportunidades = [];
+  const enviados = await obtenerEnviosRecientes();
+  const buscarNorm = String(buscar || "").toLowerCase().trim();
 
     const tplCumpleHoy = await obtenerPlantilla("cumpleanos_hoy",
       "¡Feliz cumpleaños {{nombre}}! Desde Ituarte tenemos promociones para vos.");
@@ -235,6 +288,8 @@ router.get("/oportunidades", verificarToken, soloRoles("admin", "empleado"), asy
       "Hola {{nombre}}, feliz cumpleaños. Consultanos por promos en iluminación.");
     const tplCtaCte = await obtenerPlantilla("cuenta_corriente",
       "Hola {{nombre}}, novedades del mes en Ituarte para clientes con cuenta corriente.");
+
+    const archivosPlantilla = await obtenerArchivosPlantillaMarketing();
 
     const hoyStr = new Date().toISOString().split("T")[0];
     const diaHoy = new Date().getDate();
@@ -250,7 +305,8 @@ router.get("/oportunidades", verificarToken, soloRoles("admin", "empleado"), asy
         motivo: "Cumpleaños hoy",
         tipo_campana: "cumpleanos",
         categoria: "urgente",
-        mensaje: aplicarPlantilla(tplCumpleHoy, c)
+        mensaje: aplicarPlantilla(tplCumpleHoy, c),
+        archivos: archivosPlantilla.porCodigo.cumpleanos_hoy || []
       });
     });
 
@@ -267,7 +323,8 @@ router.get("/oportunidades", verificarToken, soloRoles("admin", "empleado"), asy
           motivo: `Cumpleaños en ${i} día(s)`,
           tipo_campana: "cumpleanos_proximo",
           categoria: "semana",
-          mensaje: aplicarPlantilla(tplCumpleProx, c)
+          mensaje: aplicarPlantilla(tplCumpleProx, c),
+          archivos: archivosPlantilla.porCodigo.cumpleanos_proximo || []
         });
       });
     }
@@ -286,7 +343,7 @@ router.get("/oportunidades", verificarToken, soloRoles("admin", "empleado"), asy
         let clientesDia;
         if (de.rubro_objetivo) {
           clientesDia = await consultarClientes(" AND rubro = ?", [de.rubro_objetivo]);
-        } else if (rubroFiltro || buscar) {
+        } else if (rubroFiltro || buscarNorm) {
           clientesDia = await consultarClientes(
             rubroFiltro ? " AND rubro = ?" : "",
             rubroFiltro ? [rubroFiltro] : []
@@ -302,7 +359,8 @@ router.get("/oportunidades", verificarToken, soloRoles("admin", "empleado"), asy
             tipo_campana: "dia_especial_" + de.id,
             categoria: i === 0 ? "urgente" : "semana",
             ref_id: de.id,
-            mensaje: aplicarPlantilla(de.plantilla, c)
+            mensaje: aplicarPlantilla(de.plantilla, c),
+            archivos: archivosPlantilla.porDiaId[de.id] || []
           });
         });
       }
@@ -319,7 +377,7 @@ router.get("/oportunidades", verificarToken, soloRoles("admin", "empleado"), asy
 
     for (const camp of campanas) {
       const rubroCamp = camp.rubro_objetivo || rubroFiltro || null;
-      if (!rubroCamp && !buscar) continue;
+      if (!rubroCamp && !buscarNorm) continue;
 
       const clientesCamp = rubroCamp
         ? await consultarClientes(" AND rubro = ?", [rubroCamp])
@@ -348,7 +406,8 @@ router.get("/oportunidades", verificarToken, soloRoles("admin", "empleado"), asy
           motivo: "Recordatorio mensual — cuenta corriente (1° del mes)",
           tipo_campana: "cuenta_corriente",
           categoria: "cuenta_corriente",
-          mensaje: aplicarPlantilla(tplCtaCte, c)
+          mensaje: aplicarPlantilla(tplCtaCte, c),
+          archivos: archivosPlantilla.porCodigo.cuenta_corriente || []
         });
       });
     }
@@ -357,14 +416,27 @@ router.get("/oportunidades", verificarToken, soloRoles("admin", "empleado"), asy
     const resumen = calcularResumen(clientesAgrupados);
     resumen.enviados_semana = await contarEnviadosSemana();
 
+    return { clientesAgrupados, resumen, buscarNorm, rubroFiltro };
+}
+
+// GET /marketing/oportunidades?buscar=&categoria=todos|rubro=&pagina=1&limite=20
+router.get("/oportunidades", verificarToken, soloRoles("admin", "empleado"), async (req, res) => {
+  try {
+    const rubroFiltro = req.query.rubro || "";
+    const buscar = req.query.buscar || "";
+    let { clientesAgrupados, resumen, buscarNorm } = await armarOportunidadesMarketing({
+      rubroFiltro,
+      buscar
+    });
+
     const categoria = req.query.categoria || "todos";
 
-    if (buscar) {
+    if (buscarNorm) {
       clientesAgrupados = clientesAgrupados.filter(c =>
-        c.cliente_nombre.toLowerCase().includes(buscar) ||
-        (c.email || "").toLowerCase().includes(buscar) ||
-        (c.telefono || "").includes(buscar) ||
-        (c.empresa || "").toLowerCase().includes(buscar)
+        c.cliente_nombre.toLowerCase().includes(buscarNorm) ||
+        (c.email || "").toLowerCase().includes(buscarNorm) ||
+        (c.telefono || "").includes(buscarNorm) ||
+        (c.empresa || "").toLowerCase().includes(buscarNorm)
       );
     }
 
@@ -408,11 +480,42 @@ router.get("/oportunidades", verificarToken, soloRoles("admin", "empleado"), asy
 router.get("/plantillas", verificarToken, soloRoles("admin", "empleado"), async (req, res) => {
   try {
     const [filas] = await pool.query("SELECT * FROM plantillas_mensajes ORDER BY id");
-    res.json(filas);
+    const { porCodigo } = await obtenerArchivosPlantillaMarketing();
+    res.json(filas.map((p) => ({ ...p, archivos: porCodigo[p.codigo] || [] })));
   } catch (error) {
     errorSql(res, error);
   }
 });
+
+router.post(
+  "/plantillas/:codigo/archivos",
+  verificarToken,
+  soloRoles("admin"),
+  uploadPlantillas.array("archivos", 10),
+  async (req, res) => {
+    try {
+      const codigo = req.params.codigo;
+      const [ex] = await pool.query(
+        "SELECT id FROM plantillas_mensajes WHERE codigo = ? LIMIT 1",
+        [codigo]
+      );
+      if (!ex.length) return res.status(404).json({ error: "Plantilla no encontrada" });
+      if (!req.files?.length) {
+        return res.status(400).json({ error: "Seleccioná al menos un archivo" });
+      }
+      for (const f of req.files) {
+        await pool.query(
+          `INSERT INTO plantilla_archivos (tipo_entidad, ref_codigo, nombre_original, ruta, tipo)
+           VALUES ('plantilla', ?, ?, ?, ?)`,
+          [codigo, f.originalname, f.filename, tipoDeArchivo(f.mimetype)]
+        );
+      }
+      res.status(201).json({ mensaje: "Placas subidas", cantidad: req.files.length });
+    } catch (error) {
+      errorSql(res, error);
+    }
+  }
+);
 
 router.put("/plantillas/:codigo", verificarToken, soloRoles("admin"), async (req, res) => {
   try {
@@ -455,7 +558,8 @@ router.get("/dias-especiales", verificarToken, soloRoles("admin", "empleado"), a
     const [filas] = await pool.query(
       "SELECT * FROM dias_especiales WHERE activo = 1 ORDER BY mes, dia"
     );
-    res.json(filas);
+    const { porDiaId } = await obtenerArchivosPlantillaMarketing();
+    res.json(filas.map((d) => ({ ...d, archivos: porDiaId[d.id] || [] })));
   } catch (error) {
     errorSql(res, error);
   }
@@ -477,6 +581,36 @@ router.put("/dias-especiales/:id", verificarToken, soloRoles("admin"), async (re
     errorSql(res, error);
   }
 });
+
+router.post(
+  "/dias-especiales/:id/archivos",
+  verificarToken,
+  soloRoles("admin"),
+  uploadPlantillas.array("archivos", 10),
+  async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      const [ex] = await pool.query(
+        "SELECT id FROM dias_especiales WHERE id = ? AND activo = 1",
+        [id]
+      );
+      if (!ex.length) return res.status(404).json({ error: "Fecha no encontrada" });
+      if (!req.files?.length) {
+        return res.status(400).json({ error: "Seleccioná al menos un archivo" });
+      }
+      for (const f of req.files) {
+        await pool.query(
+          `INSERT INTO plantilla_archivos (tipo_entidad, ref_id, nombre_original, ruta, tipo)
+           VALUES ('dia_especial', ?, ?, ?, ?)`,
+          [id, f.originalname, f.filename, tipoDeArchivo(f.mimetype)]
+        );
+      }
+      res.status(201).json({ mensaje: "Placas subidas", cantidad: req.files.length });
+    } catch (error) {
+      errorSql(res, error);
+    }
+  }
+);
 
 router.delete("/dias-especiales/:id", verificarToken, soloRoles("admin"), async (req, res) => {
   try {
@@ -609,6 +743,93 @@ router.post("/registrar-envio", verificarToken, soloRoles("admin", "empleado"), 
     res.status(201).json({ mensaje: "Contacto registrado como enviado" });
   } catch (error) {
     errorSql(res, error);
+  }
+});
+
+// Resumen para cartel al entrar al CRM (solo contactos automáticos aún no marcados como enviados)
+router.get("/aviso-del-dia", verificarToken, soloRoles("admin", "empleado"), async (req, res) => {
+  try {
+    const diaHoy = new Date().getDate();
+    const esPrimerDiaMes = diaHoy === 1;
+
+    const { clientesAgrupados } = await armarOportunidadesMarketing({});
+
+    const pendientesAuto = clientesAgrupados.filter((c) =>
+      c.items.some((it) => esMotivoAutomaticoDelDia(it))
+    );
+
+    const cumplePend = pendientesAuto.filter((c) =>
+      c.items.some((it) => it.tipo_campana === "cumpleanos")
+    );
+    const ctaPend = pendientesAuto.filter((c) =>
+      c.items.some((it) => it.tipo_campana === "cuenta_corriente")
+    );
+    const diaEspPend = pendientesAuto.filter((c) =>
+      c.items.some(
+        (it) => it.tipo_campana?.startsWith("dia_especial_") && it.categoria === "urgente"
+      )
+    );
+
+    const lineas = [];
+
+    if (cumplePend.length) {
+      const nombres = cumplePend
+        .slice(0, 8)
+        .map((c) => c.cliente_nombre)
+        .join(", ");
+      const mas = cumplePend.length > 8 ? ` y ${cumplePend.length - 8} más` : "";
+      lineas.push({
+        tipo: "cumpleanos",
+        titulo: "Cumpleaños hoy — sin enviar",
+        detalle: `Falta contactar a: ${nombres}${mas}. Marcá «Enviado» en Oportunidades para quitar el aviso.`,
+        cantidad: cumplePend.length
+      });
+    }
+
+    if (diaEspPend.length) {
+      const titulos = [
+        ...new Set(
+          diaEspPend.flatMap((c) =>
+            c.items
+              .filter(
+                (it) =>
+                  it.tipo_campana?.startsWith("dia_especial_") && it.categoria === "urgente"
+              )
+              .map((it) => String(it.motivo).replace(/\s*\(hoy\)\s*$/i, "").trim())
+          )
+        )
+      ];
+      const tituloDia = titulos.join(" / ") || "Día especial hoy";
+      lineas.push({
+        tipo: "dia_especial",
+        titulo: tituloDia,
+        detalle: `${diaEspPend.length} cliente(s) sin mensaje del día. Descargá placa y marcá como enviado.`,
+        cantidad: diaEspPend.length
+      });
+    }
+
+    if (esPrimerDiaMes && ctaPend.length) {
+      lineas.push({
+        tipo: "cuenta_corriente",
+        titulo: "1° del mes — cuenta corriente",
+        detalle: `${ctaPend.length} cliente(s) con cta. cte. sin recordatorio este mes.`,
+        cantidad: ctaPend.length
+      });
+    }
+
+    const totalPendientes = pendientesAuto.length;
+    const hayAviso = totalPendientes > 0;
+
+    res.json({
+      hay_aviso: hayAviso,
+      es_primer_dia_mes: esPrimerDiaMes,
+      cuenta_corriente_pendientes: ctaPend.length,
+      total_pendientes_sugeridos: totalPendientes,
+      lineas
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "No se pudo cargar el aviso del día" });
   }
 });
 
