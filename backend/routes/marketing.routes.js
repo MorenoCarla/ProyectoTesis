@@ -752,12 +752,16 @@ router.get("/aviso-del-dia", verificarToken, soloRoles("admin", "empleado"), asy
     const diaHoy = new Date().getDate();
     const esPrimerDiaMes = diaHoy === 1;
 
-    const { clientesAgrupados } = await armarOportunidadesMarketing({});
+    const { clientesAgrupados, resumen } = await armarOportunidadesMarketing({});
 
-    const pendientesAviso = clientesAgrupados.filter(
-      (c) =>
-        c.categorias.includes("urgente") ||
-        (esPrimerDiaMes && c.categorias.includes("cuenta_corriente"))
+    const [diasCalendarioHoy] = await pool.query(
+      `SELECT id, nombre FROM dias_especiales
+       WHERE activo = 1 AND mes = MONTH(CURDATE()) AND dia = DAY(CURDATE())`
+    );
+
+    // Mensajes automáticos + semana (excluye solo campañas promocionales)
+    const pendientesAviso = clientesAgrupados.filter((c) =>
+      c.categorias.some((cat) => cat !== "campana")
     );
 
     const cumplePend = pendientesAviso.filter((c) =>
@@ -768,7 +772,9 @@ router.get("/aviso-del-dia", verificarToken, soloRoles("admin", "empleado"), asy
     );
     const diaEspPend = pendientesAviso.filter((c) =>
       c.items.some(
-        (it) => it.tipo_campana?.startsWith("dia_especial_") && it.categoria === "urgente"
+        (it) =>
+          it.tipo_campana?.startsWith("dia_especial_") &&
+          (it.categoria === "urgente" || it.categoria === "semana")
       )
     );
 
@@ -819,11 +825,29 @@ router.get("/aviso-del-dia", verificarToken, soloRoles("admin", "empleado"), asy
       });
     }
 
+    if (resumen.semana > 0) {
+      lineas.push({
+        tipo: "semana",
+        titulo: "Cumpleaños y fechas — esta semana",
+        detalle: `${resumen.semana} cliente(s) con contacto sugerido sin marcar como enviado.`,
+        cantidad: resumen.semana
+      });
+    }
+
+    if (diasCalendarioHoy.length && diaEspPend.length === 0 && resumen.urgente > 0) {
+      lineas.push({
+        tipo: "dia_calendario",
+        titulo: diasCalendarioHoy.map((d) => d.nombre).join(" / "),
+        detalle: "Hay fechas del calendario comercial hoy. Revisá Oportunidades de contacto.",
+        cantidad: resumen.urgente
+      });
+    }
+
     if (!lineas.length && pendientesAviso.length) {
       lineas.push({
         tipo: "general",
-        titulo: "Contactos pendientes hoy",
-        detalle: `${pendientesAviso.length} cliente(s) en Marketing sin marcar como enviado.`,
+        titulo: "Contactos de marketing pendientes",
+        detalle: `${pendientesAviso.length} cliente(s) sin marcar como enviado en Marketing.`,
         cantidad: pendientesAviso.length
       });
     }
@@ -836,6 +860,8 @@ router.get("/aviso-del-dia", verificarToken, soloRoles("admin", "empleado"), asy
       es_primer_dia_mes: esPrimerDiaMes,
       cuenta_corriente_pendientes: ctaPend.length,
       total_pendientes_sugeridos: totalPendientes,
+      resumen_marketing: resumen,
+      dias_calendario_hoy: diasCalendarioHoy,
       lineas
     });
   } catch (error) {

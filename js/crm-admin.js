@@ -2080,28 +2080,63 @@ function irAMarketingOportunidades() {
   irASeccion("marketing", "oportunidades");
 }
 
+async function sintetizarAvisoDesdeOportunidades() {
+  const op = await apiGet("/marketing/oportunidades?limite=1");
+  const res = op.resumen || {};
+  const pendientes = (res.urgente || 0) + (res.semana || 0) + (res.cuenta_corriente || 0);
+  if (pendientes < 1 && (op.total || 0) < 1) return null;
+  const total = pendientes > 0 ? pendientes : op.total;
+  return {
+    hay_aviso: true,
+    total_pendientes_sugeridos: total,
+    lineas: [
+      {
+        titulo: "Marketing — contactos pendientes",
+        detalle: `${total} cliente(s) sin marcar como enviado. Abrí Marketing → Oportunidades.`,
+        cantidad: total
+      }
+    ]
+  };
+}
+
+function aplicarAvisoMarketingDia(data) {
+  const elBanner = document.getElementById("alertaDiaEspecial");
+  avisoMarketingDia = data;
+  if (!data?.hay_aviso) {
+    if (elBanner) elBanner.style.display = "none";
+    document.getElementById("modalMarketingDelDia")?.classList.remove("open");
+    actualizarBadgeMenuMarketing(null);
+    localStorage.removeItem(claveModalMarketingDia());
+    return;
+  }
+  renderBannerMarketingDia(data);
+  actualizarBadgeMenuMarketing(data);
+  const clave = claveModalMarketingDia();
+  if (localStorage.getItem(clave) !== "1") {
+    mostrarModalMarketingDelDia(data);
+  }
+}
+
 async function cargarAvisoMarketingDelDia() {
   try {
-    avisoMarketingDia = await apiGet("/marketing/aviso-del-dia");
-    const elBanner = document.getElementById("alertaDiaEspecial");
-    if (!avisoMarketingDia?.hay_aviso) {
-      if (elBanner) elBanner.style.display = "none";
-      document.getElementById("modalMarketingDelDia")?.classList.remove("open");
-      actualizarBadgeMenuMarketing(null);
-      localStorage.removeItem(claveModalMarketingDia());
-      return;
+    let data = await apiGet("/marketing/aviso-del-dia");
+    if (!data?.hay_aviso) {
+      const fallback = await sintetizarAvisoDesdeOportunidades().catch(() => null);
+      if (fallback) data = fallback;
     }
-    renderBannerMarketingDia(avisoMarketingDia);
-    actualizarBadgeMenuMarketing(avisoMarketingDia);
-    const clave = claveModalMarketingDia();
-    if (localStorage.getItem(clave) !== "1") {
-      mostrarModalMarketingDelDia(avisoMarketingDia);
-    }
+    aplicarAvisoMarketingDia(data);
   } catch (e) {
-    console.error(e);
+    console.error("cargarAvisoMarketingDelDia", e);
+    try {
+      const fallback = await sintetizarAvisoDesdeOportunidades();
+      if (fallback) {
+        aplicarAvisoMarketingDia(fallback);
+        return;
+      }
+    } catch (_) {}
     if (/404|no encontrada|aviso/i.test(String(e.message || ""))) {
       mostrarToast(
-        "Falta actualizar el CRM en el servidor (aviso marketing). Subí los archivos nuevos y reiniciá pm2.",
+        "El servidor no tiene la actualización de avisos de Marketing. Subí el código nuevo y reiniciá pm2.",
         true
       );
     }
@@ -4644,12 +4679,13 @@ cargarEmpleados().then(() => {
 actualizarFechaHeader();
 if (esGerente) {
   cargarCalendarioComercial();
-  cargarMarketing().then(() => cargarAvisoMarketingDelDia());
+  cargarMarketing().finally(() => cargarAvisoMarketingDelDia());
 } else {
   cambiarTabMarketing("oportunidades");
   cargarCalendarioComercial();
-  cargarMarketing().then(() => cargarAvisoMarketingDelDia());
+  cargarMarketing().finally(() => cargarAvisoMarketingDelDia());
 }
+setTimeout(() => cargarAvisoMarketingDelDia(), 1200);
 cargarDashboard();
 cargarConsultas();
 cargarRubrosClientes().then(() => cargarClientes());
