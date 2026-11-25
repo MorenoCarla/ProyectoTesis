@@ -2032,35 +2032,10 @@ function bloquesAvisoMarketing(data) {
   }));
 }
 
-function textoFilaBannerBloque(b, maxChip) {
-  const visibles = (b.clientes || []).slice(0, maxChip);
-  const personas = visibles
-    .map((c) => {
-      const tel = (c.telefono || "").trim();
-      return tel ? `${c.nombre} ${tel}` : c.nombre;
-    })
-    .filter(Boolean)
-    .join(" · ");
-  const partes = [b.titulo, personas, b.accion].filter(Boolean);
-  return partes.join(" — ");
-}
-
 function htmlBloquesAvisoMarketing(bloques, compacto) {
   const maxChip = compacto ? 5 : 10;
   return bloques
     .map((b) => {
-      if (compacto) {
-        const linea = textoFilaBannerBloque(b, maxChip);
-        const restantes = Math.max(0, (b.cantidad || 0) - Math.min((b.clientes || []).length, maxChip));
-        const extra =
-          restantes > 0 ? ` — y ${restantes} más en Marketing → Oportunidades` : "";
-        return `<article class="aviso-mkt-bloque aviso-mkt-bloque--fila aviso-mkt-bloque--${escaparHtml(b.tipo)}">
-          <span class="aviso-mkt-ico aviso-mkt-ico--fila"><i class="fa ${escaparHtml(b.icono || "fa-bell")}" aria-hidden="true"></i></span>
-          <p class="aviso-mkt-bloque-fila-text" title="${escaparHtml(linea + extra)}">${escaparHtml(linea + extra)}</p>
-          <span class="aviso-mkt-cantidad">${b.cantidad || 0}</span>
-        </article>`;
-      }
-
       const lista = b.clientes || [];
       const visibles = lista.slice(0, maxChip);
       const chips = visibles
@@ -2107,10 +2082,10 @@ function renderBannerMarketingDia(data) {
     <div class="aviso-mkt-banner-inner">
       <div class="aviso-mkt-banner-top">
         <span class="aviso-mkt-banner-ico"><i class="fa fa-bell" aria-hidden="true"></i></span>
-        <p class="aviso-mkt-banner-top-line">
+        <div class="aviso-mkt-banner-textos">
           <strong class="aviso-mkt-banner-titulo">Tenés ${total} contacto${total !== 1 ? "s" : ""} pendiente${total !== 1 ? "s" : ""}</strong>
-          <span class="aviso-mkt-banner-sub">Se oculta cuando marques <strong>Enviado</strong> en cada uno.</span>
-        </p>
+          <p class="aviso-mkt-banner-sub">Se oculta cuando marques <strong>Enviado</strong> en cada uno.</p>
+        </div>
       </div>
       <div class="aviso-mkt-bloques aviso-mkt-bloques--banner">${htmlBloquesAvisoMarketing(bloques, true)}</div>
       <div class="aviso-mkt-banner-actions">
