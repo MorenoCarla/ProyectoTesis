@@ -139,16 +139,177 @@ body {
 }
 
 .alerta-dia-especial.alerta-marketing-dia {
-  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-  border-color: #ffa726;
-  border-left-color: #e65100;
+  background: linear-gradient(120deg, #fff8e8 0%, #ffe8cc 45%, #fff3e0 100%);
+  border: 1px solid #ffb74d;
+  border-left: 5px solid #e65100;
+  box-shadow: 0 8px 28px rgba(230, 81, 0, 0.12);
+  padding: 16px 18px;
 }
 
-.alerta-marketing-dia ul {
-  margin: 8px 0 12px;
-  padding-left: 1.1rem;
-  font-size: 14px;
+.aviso-mkt-banner-inner {
+  width: 100%;
+}
+
+.aviso-mkt-banner-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.aviso-mkt-banner-ico {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #e65100, #ff6f00);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(230, 81, 0, 0.35);
+}
+
+.aviso-mkt-banner-titulo {
+  display: block;
+  font-size: 1.05rem;
+  color: #bf360c;
+  margin-bottom: 4px;
+}
+
+.aviso-mkt-banner-sub {
+  margin: 0;
+  font-size: 13px;
+  color: #6d4c41;
+  line-height: 1.4;
+}
+
+.aviso-mkt-bloques {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.aviso-mkt-bloques--banner .aviso-mkt-bloque {
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(230, 81, 0, 0.15);
+}
+
+.aviso-mkt-bloque-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: start;
+}
+
+.aviso-mkt-ico {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #fff;
+  color: #e65100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  border: 1px solid rgba(230, 81, 0, 0.2);
+}
+
+.aviso-mkt-bloque--cumpleanos .aviso-mkt-ico {
+  background: #fce4ec;
+  color: #c2185b;
+  border-color: #f8bbd9;
+}
+
+.aviso-mkt-bloque--dia_especial .aviso-mkt-ico {
+  background: #e3f2fd;
+  color: #1565c0;
+  border-color: #bbdefb;
+}
+
+.aviso-mkt-bloque--cuenta_corriente .aviso-mkt-ico {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-color: #c8e6c9;
+}
+
+.aviso-mkt-bloque-titulo {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #3e2723;
+  line-height: 1.25;
+}
+
+.aviso-mkt-bloque-accion {
+  margin: 0;
+  font-size: 12px;
   color: #5d4037;
+  line-height: 1.35;
+}
+
+.aviso-mkt-cantidad {
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #e65100;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aviso-mkt-lista {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.aviso-mkt-lista--compacta .aviso-mkt-persona {
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+.aviso-mkt-persona {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.aviso-mkt-nombre {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.aviso-mkt-tel {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.aviso-mkt-mas,
+.aviso-mkt-sin-nombres {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #6d4c41;
+}
+
+.aviso-mkt-btn {
+  margin-top: 4px;
 }
 
 .menu-badge-marketing {
@@ -168,7 +329,24 @@ body {
 }
 
 .modal-marketing-dia {
-  max-width: 520px;
+  max-width: 540px;
+  padding-top: 8px;
+}
+
+.modal-marketing-dia-kicker {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e65100;
+}
+
+.modal-marketing-dia-titulo {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+  color: #1e293b;
+  line-height: 1.2;
 }
 
 .modal-marketing-dia-intro {
@@ -176,6 +354,22 @@ body {
   font-size: 14px;
   margin: 0 0 16px;
   line-height: 1.45;
+}
+
+.modal-marketing-dia-lista .aviso-mkt-bloque {
+  background: #fafafa;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px;
+  border-left: 4px solid #e65100;
+}
+
+.modal-marketing-dia-lista .aviso-mkt-bloque--cumpleanos {
+  border-left-color: #c2185b;
+}
+
+.modal-marketing-dia-lista .aviso-mkt-bloque--dia_especial {
+  border-left-color: #1565c0;
 }
 
 .modal-marketing-dia-lista {

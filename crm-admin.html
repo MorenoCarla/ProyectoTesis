@@ -11,7 +11,7 @@
   <title>Panel CRM - Ituarte</title>
     <link rel="stylesheet" href="vendor/fonts/work-sans.css">
   <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
-<link rel="stylesheet" href="css/crm.css?v=marketing-avisos1">
+<link rel="stylesheet" href="css/crm.css?v=marketing-aviso-ui1">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -1080,8 +1080,9 @@
   <div class="modal-overlay" id="modalMarketingDelDia">
     <div class="modal modal-marketing-dia">
       <button type="button" class="modal-cerrar" onclick="cerrarModalMarketingDelDia()">&times;</button>
-      <h2><i class="fa fa-bullhorn" aria-hidden="true"></i> Contactos sugeridos para hoy</h2>
-      <p class="modal-marketing-dia-intro">Revisá estos envíos en <strong>Marketing → Oportunidades de contacto</strong>. Copiá el mensaje, descargá la placa y mandalo por WhatsApp.</p>
+      <p class="modal-marketing-dia-kicker">Electricidad Ituarte · Marketing</p>
+      <h2 class="modal-marketing-dia-titulo">¿A quién contactás hoy?</h2>
+      <p class="modal-marketing-dia-intro" id="modalMarketingDelDiaSub">Revisá la lista, mandá WhatsApp y marcá Enviado.</p>
       <div id="modalMarketingDelDiaLista" class="modal-marketing-dia-lista"></div>
       <div class="modal-marketing-dia-acciones">
         <button type="button" class="btn btn-primary" onclick="irAMarketingOportunidades(); cerrarModalMarketingDelDia();">Ir a Oportunidades</button>
@@ -1361,6 +1362,6 @@
 
   <script src="js/crm-api.js?v=equipo3"></script>
   <script src="js/crm-responsive.js"></script>
-  <script src="js/crm-admin.js?v=marketing-aviso2"></script>
+  <script src="js/crm-admin.js?v=marketing-aviso-ui1"></script>
 </body>
 </html>

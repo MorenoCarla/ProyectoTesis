@@ -778,79 +778,104 @@ router.get("/aviso-del-dia", verificarToken, soloRoles("admin", "empleado"), asy
       )
     );
 
-    const lineas = [];
+    const clientesLista = (lista, max = 12) =>
+      lista.slice(0, max).map((c) => ({
+        nombre: c.cliente_nombre,
+        telefono: c.telefono || null
+      }));
 
-    if (cumplePend.length) {
-      const nombres = cumplePend
-        .slice(0, 8)
-        .map((c) => c.cliente_nombre)
-        .join(", ");
-      const mas = cumplePend.length > 8 ? ` y ${cumplePend.length - 8} más` : "";
-      lineas.push({
+    const cumpleUrgentePend = pendientesAviso.filter((c) =>
+      c.items.some((it) => it.tipo_campana === "cumpleanos")
+    );
+    const cumpleSemanaPend = pendientesAviso.filter((c) =>
+      c.items.some((it) => it.tipo_campana === "cumpleanos_proximo")
+    );
+    const diaEspUrgentePend = pendientesAviso.filter((c) =>
+      c.items.some(
+        (it) => it.tipo_campana?.startsWith("dia_especial_") && it.categoria === "urgente"
+      )
+    );
+
+    const nombresDiaEsp = [
+      ...new Set(
+        diaEspUrgentePend.flatMap((c) =>
+          c.items
+            .filter(
+              (it) =>
+                it.tipo_campana?.startsWith("dia_especial_") && it.categoria === "urgente"
+            )
+            .map((it) => String(it.motivo).replace(/\s*\(hoy\)\s*$/i, "").trim())
+        )
+      )
+    ];
+    const tituloDiaCal =
+      nombresDiaEsp.join(" / ") ||
+      diasCalendarioHoy.map((d) => d.nombre).join(" / ") ||
+      "Día especial";
+
+    const bloques = [];
+
+    if (cumpleUrgentePend.length) {
+      bloques.push({
         tipo: "cumpleanos",
-        titulo: "Cumpleaños hoy — sin enviar",
-        detalle: `Falta contactar a: ${nombres}${mas}. Marcá «Enviado» en Oportunidades para quitar el aviso.`,
-        cantidad: cumplePend.length
+        icono: "fa-birthday-cake",
+        titulo: "Cumpleaños hoy",
+        accion: "Escribiles por WhatsApp, descargá la placa si hay, y marcá Enviado.",
+        cantidad: cumpleUrgentePend.length,
+        clientes: clientesLista(cumpleUrgentePend)
       });
     }
 
-    if (diaEspPend.length) {
-      const titulos = [
-        ...new Set(
-          diaEspPend.flatMap((c) =>
-            c.items
-              .filter(
-                (it) =>
-                  it.tipo_campana?.startsWith("dia_especial_") && it.categoria === "urgente"
-              )
-              .map((it) => String(it.motivo).replace(/\s*\(hoy\)\s*$/i, "").trim())
-          )
-        )
-      ];
-      const tituloDia = titulos.join(" / ") || "Día especial hoy";
-      lineas.push({
+    if (diaEspUrgentePend.length) {
+      bloques.push({
         tipo: "dia_especial",
-        titulo: tituloDia,
-        detalle: `${diaEspPend.length} cliente(s) sin mensaje del día. Descargá placa y marcá como enviado.`,
-        cantidad: diaEspPend.length
+        icono: "fa-calendar-day",
+        titulo: tituloDiaCal,
+        accion: `Hoy es ${tituloDiaCal}. Contactá a estos clientes y marcá Enviado.`,
+        cantidad: diaEspUrgentePend.length,
+        clientes: clientesLista(diaEspUrgentePend, 8)
       });
     }
 
     if (esPrimerDiaMes && ctaPend.length) {
-      lineas.push({
+      bloques.push({
         tipo: "cuenta_corriente",
+        icono: "fa-file-invoice-dollar",
         titulo: "1° del mes — cuenta corriente",
-        detalle: `${ctaPend.length} cliente(s) con cta. cte. sin recordatorio este mes.`,
-        cantidad: ctaPend.length
+        accion: "Enviá el recordatorio mensual y marcá Enviado en cada uno.",
+        cantidad: ctaPend.length,
+        clientes: clientesLista(ctaPend, 8)
       });
     }
 
-    if (resumen.semana > 0) {
-      lineas.push({
+    if (cumpleSemanaPend.length) {
+      bloques.push({
         tipo: "semana",
-        titulo: "Cumpleaños y fechas — esta semana",
-        detalle: `${resumen.semana} cliente(s) con contacto sugerido sin marcar como enviado.`,
-        cantidad: resumen.semana
+        icono: "fa-calendar-week",
+        titulo: "Cumpleaños esta semana",
+        accion: "Podés adelantar el saludo; al enviar, marcá Enviado.",
+        cantidad: cumpleSemanaPend.length,
+        clientes: clientesLista(cumpleSemanaPend, 8)
       });
     }
 
-    if (diasCalendarioHoy.length && diaEspPend.length === 0 && resumen.urgente > 0) {
-      lineas.push({
-        tipo: "dia_calendario",
-        titulo: diasCalendarioHoy.map((d) => d.nombre).join(" / "),
-        detalle: "Hay fechas del calendario comercial hoy. Revisá Oportunidades de contacto.",
-        cantidad: resumen.urgente
-      });
-    }
-
-    if (!lineas.length && pendientesAviso.length) {
-      lineas.push({
+    if (!bloques.length && pendientesAviso.length) {
+      bloques.push({
         tipo: "general",
-        titulo: "Contactos de marketing pendientes",
-        detalle: `${pendientesAviso.length} cliente(s) sin marcar como enviado en Marketing.`,
-        cantidad: pendientesAviso.length
+        icono: "fa-bullhorn",
+        titulo: "Marketing pendiente",
+        accion: "Entrá a Oportunidades, enviá los mensajes y marcá Enviado.",
+        cantidad: pendientesAviso.length,
+        clientes: clientesLista(pendientesAviso, 6)
       });
     }
+
+    const lineas = bloques.map((b) => ({
+      tipo: b.tipo,
+      titulo: b.titulo,
+      detalle: b.accion,
+      cantidad: b.cantidad
+    }));
 
     const totalPendientes = pendientesAviso.length;
     const hayAviso = totalPendientes > 0;
@@ -862,6 +887,7 @@ router.get("/aviso-del-dia", verificarToken, soloRoles("admin", "empleado"), asy
       total_pendientes_sugeridos: totalPendientes,
       resumen_marketing: resumen,
       dias_calendario_hoy: diasCalendarioHoy,
+      bloques,
       lineas
     });
   } catch (error) {

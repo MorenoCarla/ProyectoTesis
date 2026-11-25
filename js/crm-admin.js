@@ -2008,29 +2008,80 @@ function claveModalMarketingDia() {
   return `crm_modal_mkt_${fechaClaveDia()}_u${uid}`;
 }
 
+function bloquesAvisoMarketing(data) {
+  if (data?.bloques?.length) return data.bloques;
+  return (data?.lineas || []).map((l) => ({
+    tipo: l.tipo || "general",
+    icono: "fa-bell",
+    titulo: l.titulo,
+    accion: l.detalle,
+    cantidad: l.cantidad || 0,
+    clientes: []
+  }));
+}
+
+function htmlBloquesAvisoMarketing(bloques, compacto) {
+  const maxChip = compacto ? 5 : 10;
+  return bloques
+    .map((b) => {
+      const lista = b.clientes || [];
+      const visibles = lista.slice(0, maxChip);
+      const chips = visibles
+        .map((c) => {
+          const tel = c.telefono
+            ? `<span class="aviso-mkt-tel">${escaparHtml(c.telefono)}</span>`
+            : "";
+          return `<li class="aviso-mkt-persona"><span class="aviso-mkt-nombre">${escaparHtml(c.nombre)}</span>${tel}</li>`;
+        })
+        .join("");
+      const restantes = Math.max(0, (b.cantidad || 0) - visibles.length);
+      const extra =
+        restantes > 0
+          ? `<p class="aviso-mkt-mas">Y ${restantes} más en <strong>Marketing → Oportunidades</strong></p>`
+          : "";
+      const listaHtml = chips
+        ? `<ol class="aviso-mkt-lista${compacto ? " aviso-mkt-lista--compacta" : ""}">${chips}</ol>${extra}`
+        : `<p class="aviso-mkt-sin-nombres"><strong>${b.cantidad}</strong> cliente(s) — mirá el detalle en Oportunidades.</p>`;
+
+      return `<article class="aviso-mkt-bloque aviso-mkt-bloque--${escaparHtml(b.tipo)}">
+        <header class="aviso-mkt-bloque-head">
+          <span class="aviso-mkt-ico"><i class="fa ${escaparHtml(b.icono || "fa-bell")}" aria-hidden="true"></i></span>
+          <div>
+            <h3 class="aviso-mkt-bloque-titulo">${escaparHtml(b.titulo)}</h3>
+            <p class="aviso-mkt-bloque-accion">${escaparHtml(b.accion)}</p>
+          </div>
+          <span class="aviso-mkt-cantidad">${b.cantidad || 0}</span>
+        </header>
+        ${listaHtml}
+      </article>`;
+    })
+    .join("");
+}
+
 function renderBannerMarketingDia(data) {
   const el = document.getElementById("alertaDiaEspecial");
   if (!el || !data?.hay_aviso) return;
 
-  const items = (data.lineas || [])
-    .map((l) => `<li><strong>${escaparHtml(l.titulo)}</strong> — ${escaparHtml(l.detalle)}</li>`)
-    .join("");
-  const listaHtml = items
-    ? `<ul>${items}</ul>`
-    : `<p>No quedan contactos automáticos pendientes por enviar.</p>`;
+  const bloques = bloquesAvisoMarketing(data);
+  const total = data.total_pendientes_sugeridos || bloques.reduce((s, b) => s + (b.cantidad || 0), 0);
 
   el.className = "alerta-dia-especial alerta-marketing-dia";
   el.innerHTML = `
-    <div>
-      <strong><i class="fa fa-bell"></i> Contactos automáticos pendientes</strong>
-      <p style="font-size:13px;margin:4px 0 8px;color:#6d4c41;">El aviso se quita cuando marques cada uno como <strong>Enviado</strong> en Marketing.</p>
-      ${listaHtml}
-      <button type="button" class="btn btn-primary btn-sm" onclick="irAMarketingOportunidades()">
-        <i class="fa fa-address-book"></i> Ir a Marketing
+    <div class="aviso-mkt-banner-inner">
+      <div class="aviso-mkt-banner-top">
+        <span class="aviso-mkt-banner-ico"><i class="fa fa-bell" aria-hidden="true"></i></span>
+        <div>
+          <strong class="aviso-mkt-banner-titulo">Tenés ${total} contacto${total !== 1 ? "s" : ""} pendiente${total !== 1 ? "s" : ""}</strong>
+          <p class="aviso-mkt-banner-sub">Se oculta cuando marques <strong>Enviado</strong> en cada uno.</p>
+        </div>
+      </div>
+      <div class="aviso-mkt-bloques aviso-mkt-bloques--banner">${htmlBloquesAvisoMarketing(bloques, true)}</div>
+      <button type="button" class="btn btn-primary btn-sm aviso-mkt-btn" onclick="irAMarketingOportunidades()">
+        <i class="fa fa-paper-plane"></i> Ir a Oportunidades
       </button>
     </div>
   `;
-  el.style.display = "flex";
+  el.style.display = "block";
 }
 
 function actualizarBadgeMenuMarketing(data) {
@@ -2051,19 +2102,21 @@ function mostrarModalMarketingDelDia(data) {
   const lista = document.getElementById("modalMarketingDelDiaLista");
   if (!modal || !lista || !data?.hay_aviso) return;
 
-  lista.innerHTML = (data.lineas || []).length
-    ? data.lineas
-        .map(
-          (l) => `<div class="modal-marketing-linea">
-      <strong>${escaparHtml(l.titulo)}</strong>
-      <p>${escaparHtml(l.detalle)}</p>
-    </div>`
-        )
-        .join("")
-    : `<div class="modal-marketing-linea">
-      <strong>Contactos pendientes</strong>
-      <p>Tenés ${data.total_pendientes_sugeridos || 0} cliente(s) por contactar en Marketing → Oportunidades.</p>
-    </div>`;
+  const bloques = bloquesAvisoMarketing(data);
+  const total = data.total_pendientes_sugeridos || 0;
+  lista.innerHTML = bloques.length
+    ? htmlBloquesAvisoMarketing(bloques, false)
+    : `<div class="aviso-mkt-bloque">
+        <p class="aviso-mkt-bloque-accion">Tenés <strong>${total}</strong> cliente(s) por contactar en Marketing → Oportunidades.</p>
+      </div>`;
+
+  const subtit = document.getElementById("modalMarketingDelDiaSub");
+  if (subtit) {
+    subtit.textContent =
+      total > 0
+        ? `${total} pendiente${total !== 1 ? "s" : ""} — copiá el mensaje, mandá WhatsApp, marcá Enviado.`
+        : "Revisá Marketing → Oportunidades de contacto.";
+  }
 
   modal.classList.add("open");
 }
