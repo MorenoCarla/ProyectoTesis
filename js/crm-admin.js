@@ -174,6 +174,12 @@ function configurarInterfazPorRol() {
   marketingTabActiva = "oportunidades";
 }
 
+function tituloDesdeMenuItem(btn) {
+  const clone = btn.cloneNode(true);
+  clone.querySelectorAll(".menu-badge-marketing, .menu-badge").forEach((el) => el.remove());
+  return clone.textContent.replace(/\s+/g, " ").trim();
+}
+
 function irASeccion(seccion, tabMarketing) {
   const btn = document.querySelector(`.menu-item[data-section="${seccion}"]`);
   if (btn) btn.click();
@@ -236,8 +242,7 @@ document.querySelectorAll(".menu-item[data-section]").forEach(btn => {
     btn.classList.add("active");
     document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
     document.getElementById(btn.dataset.section).classList.add("active");
-    document.getElementById("tituloSeccion").textContent =
-      btn.textContent.trim();
+    document.getElementById("tituloSeccion").textContent = tituloDesdeMenuItem(btn);
     if (btn.dataset.section === "marketing") cambiarTabMarketing(marketingTabActiva || "calendario");
     if (btn.dataset.section === "catalogo") {
       volverListaCatalogo(false);
@@ -2027,10 +2032,35 @@ function bloquesAvisoMarketing(data) {
   }));
 }
 
+function textoFilaBannerBloque(b, maxChip) {
+  const visibles = (b.clientes || []).slice(0, maxChip);
+  const personas = visibles
+    .map((c) => {
+      const tel = (c.telefono || "").trim();
+      return tel ? `${c.nombre} ${tel}` : c.nombre;
+    })
+    .filter(Boolean)
+    .join(" · ");
+  const partes = [b.titulo, personas, b.accion].filter(Boolean);
+  return partes.join(" — ");
+}
+
 function htmlBloquesAvisoMarketing(bloques, compacto) {
   const maxChip = compacto ? 5 : 10;
   return bloques
     .map((b) => {
+      if (compacto) {
+        const linea = textoFilaBannerBloque(b, maxChip);
+        const restantes = Math.max(0, (b.cantidad || 0) - Math.min((b.clientes || []).length, maxChip));
+        const extra =
+          restantes > 0 ? ` — y ${restantes} más en Marketing → Oportunidades` : "";
+        return `<article class="aviso-mkt-bloque aviso-mkt-bloque--fila aviso-mkt-bloque--${escaparHtml(b.tipo)}">
+          <span class="aviso-mkt-ico aviso-mkt-ico--fila"><i class="fa ${escaparHtml(b.icono || "fa-bell")}" aria-hidden="true"></i></span>
+          <p class="aviso-mkt-bloque-fila-text" title="${escaparHtml(linea + extra)}">${escaparHtml(linea + extra)}</p>
+          <span class="aviso-mkt-cantidad">${b.cantidad || 0}</span>
+        </article>`;
+      }
+
       const lista = b.clientes || [];
       const visibles = lista.slice(0, maxChip);
       const chips = visibles
@@ -2077,10 +2107,10 @@ function renderBannerMarketingDia(data) {
     <div class="aviso-mkt-banner-inner">
       <div class="aviso-mkt-banner-top">
         <span class="aviso-mkt-banner-ico"><i class="fa fa-bell" aria-hidden="true"></i></span>
-        <div>
+        <p class="aviso-mkt-banner-top-line">
           <strong class="aviso-mkt-banner-titulo">Tenés ${total} contacto${total !== 1 ? "s" : ""} pendiente${total !== 1 ? "s" : ""}</strong>
-          <p class="aviso-mkt-banner-sub">Se oculta cuando marques <strong>Enviado</strong> en cada uno.</p>
-        </div>
+          <span class="aviso-mkt-banner-sub">Se oculta cuando marques <strong>Enviado</strong> en cada uno.</span>
+        </p>
       </div>
       <div class="aviso-mkt-bloques aviso-mkt-bloques--banner">${htmlBloquesAvisoMarketing(bloques, true)}</div>
       <div class="aviso-mkt-banner-actions">

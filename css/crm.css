@@ -171,18 +171,52 @@ body {
   box-shadow: 0 4px 14px rgba(230, 81, 0, 0.35);
 }
 
+.aviso-mkt-banner-top-line {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+  line-height: 1.35;
+}
+
 .aviso-mkt-banner-titulo {
-  display: block;
   font-size: 1.05rem;
   color: #bf360c;
-  margin-bottom: 4px;
 }
 
 .aviso-mkt-banner-sub {
   margin: 0;
   font-size: 13px;
   color: #6d4c41;
-  line-height: 1.4;
+  line-height: 1.35;
+}
+
+.aviso-mkt-bloque--fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+}
+
+.aviso-mkt-ico--fila {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.aviso-mkt-bloque-fila-text {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  color: #4e342e;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .aviso-mkt-banner-actions {
