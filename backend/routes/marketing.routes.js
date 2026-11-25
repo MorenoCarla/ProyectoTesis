@@ -754,17 +754,19 @@ router.get("/aviso-del-dia", verificarToken, soloRoles("admin", "empleado"), asy
 
     const { clientesAgrupados } = await armarOportunidadesMarketing({});
 
-    const pendientesAuto = clientesAgrupados.filter((c) =>
-      c.items.some((it) => esMotivoAutomaticoDelDia(it))
+    const pendientesAviso = clientesAgrupados.filter(
+      (c) =>
+        c.categorias.includes("urgente") ||
+        (esPrimerDiaMes && c.categorias.includes("cuenta_corriente"))
     );
 
-    const cumplePend = pendientesAuto.filter((c) =>
+    const cumplePend = pendientesAviso.filter((c) =>
       c.items.some((it) => it.tipo_campana === "cumpleanos")
     );
-    const ctaPend = pendientesAuto.filter((c) =>
+    const ctaPend = pendientesAviso.filter((c) =>
       c.items.some((it) => it.tipo_campana === "cuenta_corriente")
     );
-    const diaEspPend = pendientesAuto.filter((c) =>
+    const diaEspPend = pendientesAviso.filter((c) =>
       c.items.some(
         (it) => it.tipo_campana?.startsWith("dia_especial_") && it.categoria === "urgente"
       )
@@ -817,7 +819,16 @@ router.get("/aviso-del-dia", verificarToken, soloRoles("admin", "empleado"), asy
       });
     }
 
-    const totalPendientes = pendientesAuto.length;
+    if (!lineas.length && pendientesAviso.length) {
+      lineas.push({
+        tipo: "general",
+        titulo: "Contactos pendientes hoy",
+        detalle: `${pendientesAviso.length} cliente(s) en Marketing sin marcar como enviado.`,
+        cantidad: pendientesAviso.length
+      });
+    }
+
+    const totalPendientes = pendientesAviso.length;
     const hayAviso = totalPendientes > 0;
 
     res.json({

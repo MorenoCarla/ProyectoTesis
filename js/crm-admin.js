@@ -2003,20 +2003,28 @@ function fechaClaveDia() {
   return new Date().toISOString().split("T")[0];
 }
 
+function claveModalMarketingDia() {
+  const uid = usuario?.id != null ? usuario.id : "0";
+  return `crm_modal_mkt_${fechaClaveDia()}_u${uid}`;
+}
+
 function renderBannerMarketingDia(data) {
   const el = document.getElementById("alertaDiaEspecial");
-  if (!el || !data?.lineas?.length) return;
+  if (!el || !data?.hay_aviso) return;
 
-  const items = data.lineas
+  const items = (data.lineas || [])
     .map((l) => `<li><strong>${escaparHtml(l.titulo)}</strong> — ${escaparHtml(l.detalle)}</li>`)
     .join("");
+  const listaHtml = items
+    ? `<ul>${items}</ul>`
+    : `<p>No quedan contactos automáticos pendientes por enviar.</p>`;
 
   el.className = "alerta-dia-especial alerta-marketing-dia";
   el.innerHTML = `
     <div>
       <strong><i class="fa fa-bell"></i> Contactos automáticos pendientes</strong>
       <p style="font-size:13px;margin:4px 0 8px;color:#6d4c41;">El aviso se quita cuando marques cada uno como <strong>Enviado</strong> en Marketing.</p>
-      <ul>${items}</ul>
+      ${listaHtml}
       <button type="button" class="btn btn-primary btn-sm" onclick="irAMarketingOportunidades()">
         <i class="fa fa-address-book"></i> Ir a Marketing
       </button>
@@ -2041,16 +2049,21 @@ function actualizarBadgeMenuMarketing(data) {
 function mostrarModalMarketingDelDia(data) {
   const modal = document.getElementById("modalMarketingDelDia");
   const lista = document.getElementById("modalMarketingDelDiaLista");
-  if (!modal || !lista || !data?.lineas?.length) return;
+  if (!modal || !lista || !data?.hay_aviso) return;
 
-  lista.innerHTML = data.lineas
-    .map(
-      (l) => `<div class="modal-marketing-linea">
+  lista.innerHTML = (data.lineas || []).length
+    ? data.lineas
+        .map(
+          (l) => `<div class="modal-marketing-linea">
       <strong>${escaparHtml(l.titulo)}</strong>
       <p>${escaparHtml(l.detalle)}</p>
     </div>`
-    )
-    .join("");
+        )
+        .join("")
+    : `<div class="modal-marketing-linea">
+      <strong>Contactos pendientes</strong>
+      <p>Tenés ${data.total_pendientes_sugeridos || 0} cliente(s) por contactar en Marketing → Oportunidades.</p>
+    </div>`;
 
   modal.classList.add("open");
 }
@@ -2058,7 +2071,7 @@ function mostrarModalMarketingDelDia(data) {
 function cerrarModalMarketingDelDia() {
   document.getElementById("modalMarketingDelDia")?.classList.remove("open");
   if (avisoMarketingDia?.hay_aviso) {
-    localStorage.setItem("crm_modal_mkt_" + fechaClaveDia(), "1");
+    localStorage.setItem(claveModalMarketingDia(), "1");
     renderBannerMarketingDia(avisoMarketingDia);
   }
 }
@@ -2075,17 +2088,23 @@ async function cargarAvisoMarketingDelDia() {
       if (elBanner) elBanner.style.display = "none";
       document.getElementById("modalMarketingDelDia")?.classList.remove("open");
       actualizarBadgeMenuMarketing(null);
-      localStorage.removeItem("crm_modal_mkt_" + fechaClaveDia());
+      localStorage.removeItem(claveModalMarketingDia());
       return;
     }
     renderBannerMarketingDia(avisoMarketingDia);
     actualizarBadgeMenuMarketing(avisoMarketingDia);
-    const clave = "crm_modal_mkt_" + fechaClaveDia();
+    const clave = claveModalMarketingDia();
     if (localStorage.getItem(clave) !== "1") {
       mostrarModalMarketingDelDia(avisoMarketingDia);
     }
   } catch (e) {
     console.error(e);
+    if (/404|no encontrada|aviso/i.test(String(e.message || ""))) {
+      mostrarToast(
+        "Falta actualizar el CRM en el servidor (aviso marketing). Subí los archivos nuevos y reiniciá pm2.",
+        true
+      );
+    }
   }
 }
 
@@ -4625,14 +4644,13 @@ cargarEmpleados().then(() => {
 actualizarFechaHeader();
 if (esGerente) {
   cargarCalendarioComercial();
-  cargarMarketing();
+  cargarMarketing().then(() => cargarAvisoMarketingDelDia());
 } else {
   cambiarTabMarketing("oportunidades");
   cargarCalendarioComercial();
-  cargarMarketing();
+  cargarMarketing().then(() => cargarAvisoMarketingDelDia());
 }
 cargarDashboard();
-cargarAvisoMarketingDelDia();
 cargarConsultas();
 cargarRubrosClientes().then(() => cargarClientes());
 
